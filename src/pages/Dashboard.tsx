@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -140,8 +139,8 @@ const claims = [
   },
 ];
 
-// Status badge component
-const StatusBadge = ({ status }: { status: string }) => {
+// Updated StatusBadge component to accept className prop
+const StatusBadge = ({ status, className }: { status: string; className?: string }) => {
   const variants: Record<string, { variant: "default" | "outline" | "secondary" | "destructive", icon: React.ReactNode }> = {
     completed: {
       variant: "default",
@@ -164,7 +163,7 @@ const StatusBadge = ({ status }: { status: string }) => {
   const { variant, icon } = variants[status] || variants.review;
 
   return (
-    <Badge variant={variant} className="flex items-center">
+    <Badge variant={variant} className={cn("flex items-center", className)}>
       {icon}
       {status === "completed" && "Completed"}
       {status === "in_progress" && "In Progress"}
@@ -652,3 +651,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

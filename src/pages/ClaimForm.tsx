@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -79,12 +78,11 @@ const paymentDetailsSchema = z.object({
   routingNumber: z.string().optional(),
   iban: z.string().optional(),
   paypalEmail: z.string().email().optional(),
-  termsAgreed: z.literal(true, {
-    errorMap: () => ({ message: "You must agree to the terms and conditions" }),
+  termsAgreed: z.boolean().refine(val => val === true, {
+    message: "You must agree to the terms and conditions",
   }),
 });
 
-// Sample airlines data
 const airlines = [
   { value: "ryanair", label: "Ryanair" },
   { value: "easyjet", label: "EasyJet" },
@@ -111,7 +109,6 @@ const ClaimForm = () => {
   });
   const navigate = useNavigate();
 
-  // Forms for each step
   const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
     resolver: zodResolver(flightDetailsSchema),
     defaultValues: {
@@ -161,56 +158,45 @@ const ClaimForm = () => {
     },
   });
 
-  // Handler for flight details submission and eligibility check
   const onFlightDetailsSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
     setIsChecking(true);
     setFormData({ ...formData, flightDetails: data });
     
-    // Simulate API check with a delay
     setTimeout(() => {
-      // For demo purposes, always eligible. In a real app, this would be an API call
       setIsEligible(true);
       setIsChecking(false);
     }, 2000);
   };
 
-  // Handler for passenger details submission
   const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
     setFormData({ ...formData, passengerDetails: data });
     setStep(3);
   };
   
-  // Handler for disruption details submission
   const onDisruptionDetailsSubmit = (data: z.infer<typeof disruptionDetailsSchema>) => {
     setFormData({ ...formData, disruptionDetails: data });
     setStep(4);
   };
   
-  // Handler for payment details submission and final submission
   const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
     setFormData({ ...formData, paymentDetails: data });
     
-    // Submit the complete form data
     console.log("Complete form data:", {
       ...formData,
       paymentDetails: data,
     });
     
-    // Show success toast
     toast.success("Claim submitted successfully", {
       description: "We'll process your claim and keep you updated.",
     });
     
-    // Navigate to dashboard
     navigate("/dashboard");
   };
 
-  // Function to proceed to next step after eligibility check
   const proceedToNextStep = () => {
     setStep(2);
   };
 
-  // Common transition properties for animations
   const transitions = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -218,7 +204,6 @@ const ClaimForm = () => {
     transition: { duration: 0.3 },
   };
 
-  // Render appropriate form based on current step
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -929,7 +914,6 @@ const ClaimForm = () => {
     <div className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
         <div className="max-w-4xl mx-auto">
-          {/* Progress bar */}
           <div className="mb-12">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium text-primary">Step {step} of 4</span>
@@ -943,7 +927,6 @@ const ClaimForm = () => {
             </div>
           </div>
           
-          {/* Form steps */}
           <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
             <div className="p-6 md:p-8">
               {renderStep()}
