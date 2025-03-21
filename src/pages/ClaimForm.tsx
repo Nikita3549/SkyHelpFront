@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { v4 as uuidv4 } from "uuid";
 import { 
   Plane, 
   Calendar, 
@@ -39,7 +40,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// Form schemas for each step
 const flightDetailsSchema = z.object({
   flightNumber: z.string().min(3, "Flight number must be at least 3 characters"),
   airline: z.string().min(2, "Please select an airline"),
@@ -181,7 +181,10 @@ const ClaimForm = () => {
   const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
     setFormData({ ...formData, paymentDetails: data });
     
+    const claimId = uuidv4();
+    
     console.log("Complete form data:", {
+      id: claimId,
       ...formData,
       paymentDetails: data,
     });
