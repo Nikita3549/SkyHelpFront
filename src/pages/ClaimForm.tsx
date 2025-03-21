@@ -29,7 +29,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
-import { userService } from "@/services/userService";
 
 // Define the form schema
 const formSchema = z.object({
@@ -72,14 +71,14 @@ const ClaimForm = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      // Step 1: Create the claim ID
+      // Create the claim ID
       const claimId = `CLM-${Math.floor(1000 + Math.random() * 9000)}`;
       setClaimId(claimId);
       
       // Format data for the database
       const claimData = {
         id: claimId,
-        customer: `${values.firstName} ${values.lastName}`, // Will be updated with user ID later
+        customer: `${values.firstName} ${values.lastName}`,
         email: values.email,
         phone: values.phone,
         flightnumber: values.flightNumber,
@@ -95,7 +94,7 @@ const ClaimForm = () => {
         lastupdated: format(new Date(), "yyyy-MM-dd"),
       };
 
-      // Step 2: Insert the claim into the database
+      // Insert the claim into the database
       const { error: insertError } = await supabase
         .from("claims")
         .insert([claimData]);
@@ -105,27 +104,11 @@ const ClaimForm = () => {
         throw new Error("Failed to submit claim. Please try again.");
       }
 
-      // Step 3: Create a user account for this claim
-      try {
-        await userService.createUserFromClaim(
-          values.email, 
-          values.firstName, 
-          values.lastName,
-          claimId
-        );
-        
-        // Success notification
-        toast.success("Claim submitted successfully! Check your email for account details.");
-        
-        // Move to confirmation step
-        setSubmissionStep(2);
-      } catch (userError) {
-        console.error("Error creating user account:", userError);
-        // We still created the claim, so show a partial success
-        toast.success("Claim submitted successfully!");
-        toast.error("Could not create user account. Please contact support.");
-        setSubmissionStep(2);
-      }
+      // Success notification
+      toast.success("Claim submitted successfully!");
+      
+      // Move to confirmation step
+      setSubmissionStep(2);
     } catch (error) {
       console.error("Form submission error:", error);
       toast.error(error instanceof Error ? error.message : "An unknown error occurred");
@@ -365,14 +348,13 @@ const ClaimForm = () => {
             <CardContent>
               <div className="mb-6">
                 <p className="mb-4">
-                  We've created an account for you to track the progress of your claim.
+                  Thank you for submitting your flight compensation claim.
                 </p>
                 <p className="mb-4">
-                  <strong>Please check your email</strong> for your login details and temporary password.
+                  Our team will review your case and contact you via email with updates.
                 </p>
                 <p>
-                  After logging in, you'll be able to view the status of your claim and
-                  submit any additional information.
+                  Please keep your claim reference number for future correspondence.
                 </p>
               </div>
             </CardContent>
