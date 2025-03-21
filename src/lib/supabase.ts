@@ -20,15 +20,15 @@ export type Claim = {
   amount: string;
   lastupdated: string;
   created_at?: string;
-  // Additional fields
+  // Additional fields with lowercase names to match database columns
   phone?: string;
   address?: string;
-  numberOfPassengers?: string;
-  departureAirport?: string;
-  arrivalAirport?: string;
-  flightIssue?: string;
-  reasonGivenByAirline?: string;
-  additionalInformation?: string;
-  paymentMethod?: string;
-  paymentDetails?: any;
+  numberofpassengers?: string;
+  departureairport?: string;
+  arrivalairport?: string;
+  flightissue?: string;
+  reasongivenbyairline?: string;
+  additionalinformation?: string;
+  paymentmethod?: string;
+  paymentdetails?: any;
 };

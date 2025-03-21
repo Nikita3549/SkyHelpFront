@@ -90,20 +90,21 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         };
       }
 
-      // Create object with the new claim data
+      // Create object with the new claim data - ensuring field names match database expectations
       const newClaim = {
         id: claimId,
         customer,
         email: formData.email,
         phone: formData.phone,
         address: formData.address,
+        // Match the database column names (lowercase)
         numberOfPassengers: formData.numberOfPassengers,
-        airline: formData.airline,
-        flightnumber: formData.flightnumber,
         departureAirport: formData.departureAirport,
         arrivalAirport: formData.arrivalAirport,
         flightIssue: formData.flightIssue,
         reasonGivenByAirline: formData.reasonGivenByAirline,
+        airline: formData.airline,
+        flightnumber: formData.flightnumber,
         date: format(formData.date, "yyyy-MM-dd"),
         status: "pending",
         stage: "initial_review",

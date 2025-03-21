@@ -32,10 +32,35 @@ export const claimsService = {
   }): Promise<Claim> {
     console.log('Creating claim with data:', claim);
     
-    // Make sure the object properties match the database column names
+    // Convert camelCase fields to lowercase to match database column names
+    const formattedClaim = {
+      id: claim.id,
+      customer: claim.customer,
+      email: claim.email,
+      airline: claim.airline,
+      flightnumber: claim.flightnumber,
+      date: claim.date,
+      status: claim.status,
+      stage: claim.stage,
+      amount: claim.amount,
+      lastupdated: claim.lastupdated,
+      // Convert camelCase to lowercase for all the new fields
+      phone: claim.phone,
+      address: claim.address,
+      numberofpassengers: claim.numberOfPassengers,
+      departureairport: claim.departureAirport,
+      arrivalairport: claim.arrivalAirport,
+      flightissue: claim.flightIssue,
+      reasongivenbyairline: claim.reasonGivenByAirline,
+      additionalinformation: claim.additionalInformation,
+      paymentmethod: claim.paymentMethod,
+      paymentdetails: claim.paymentDetails
+    };
+    
+    // Insert the formatted claim
     const { data, error } = await supabase
       .from('claims')
-      .insert(claim)
+      .insert(formattedClaim)
       .select()
       .single();
     
