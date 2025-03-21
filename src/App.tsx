@@ -11,10 +11,6 @@ import ClaimForm from "./pages/ClaimForm";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
-import { AuthProvider } from "./context/AuthContext";
-import Login from "./pages/Login";
-import UserDashboard from "./pages/UserDashboard";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -29,32 +25,25 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow pt-16">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/claim" element={<ClaimForm />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/dashboard" element={
-                  <ProtectedRoute>
-                    <UserDashboard />
-                  </ProtectedRoute>
-                } />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow pt-16">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/claim" element={<ClaimForm />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 
