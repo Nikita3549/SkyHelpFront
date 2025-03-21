@@ -3,8 +3,10 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { authService } from '@/services/authService';
+import { userService } from '@/services/userService';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import PasswordChangePrompt from '@/components/auth/PasswordChangePrompt';
 
 interface AuthContextType {
   session: Session | null;
@@ -22,22 +24,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
+        
+        // Check if this is a first-time login that needs password change
+        if (session?.user && event === 'SIGNED_IN') {
+          const isFirstLogin = await userService.checkIfFirstLogin();
+          if (isFirstLogin) {
+            setShowPasswordPrompt(true);
+          }
+        }
+        
         setLoading(false);
       }
     );
 
     // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      
+      // Check if existing session needs password change
+      if (session?.user) {
+        const isFirstLogin = await userService.checkIfFirstLogin();
+        if (isFirstLogin) {
+          setShowPasswordPrompt(true);
+        }
+      }
+      
       setLoading(false);
     });
 
@@ -90,6 +111,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const handlePasswordChangeSuccess = () => {
+    setShowPasswordPrompt(false);
+    toast.success('Your password has been updated. You can now use your account.');
+    navigate('/dashboard');
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -103,6 +130,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }}
     >
       {children}
+      <PasswordChangePrompt 
+        open={showPasswordPrompt} 
+        onSuccess={handlePasswordChangeSuccess} 
+      />
     </AuthContext.Provider>
   );
 };

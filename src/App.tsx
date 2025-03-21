@@ -45,11 +45,8 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route 
                   path="/claim" 
-                  element={
-                    <ProtectedRoute>
-                      <ClaimForm />
-                    </ProtectedRoute>
-                  } 
+                  element={<ClaimForm />} 
+                  // Removed ProtectedRoute to allow non-authenticated users to access the claim form
                 />
                 <Route 
                   path="/dashboard" 

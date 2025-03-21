@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +8,7 @@ import { z } from "zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { claimsService } from "@/services/claimsService";
+import { userService } from "@/services/userService";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -49,7 +49,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/contexts/AuthContext"; // Import useAuth
+import { useAuth } from "@/contexts/AuthContext";
 
 const formSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters."),
@@ -83,7 +83,6 @@ const formSchema = z.object({
   wiseEmail: z.string().email("Please enter a valid email address.").optional(),
 });
 
-// For TypeScript
 type FormValues = z.infer<typeof formSchema>;
 
 const ClaimForm = () => {
@@ -91,14 +90,14 @@ const ClaimForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { user } = useAuth(); // Get the authenticated user
+  const { user } = useAuth();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
-      email: user?.email || "", // Pre-fill email if user is logged in
+      email: user?.email || "",
       phone: "",
       address: "",
       airline: "",
@@ -122,7 +121,6 @@ const ClaimForm = () => {
     },
   });
 
-  // Update form if user changes
   useEffect(() => {
     if (user?.email) {
       form.setValue('email', user.email);
@@ -132,7 +130,6 @@ const ClaimForm = () => {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     
-    // Create payment details based on the selected payment method
     let paymentDetails = {};
     if (data.paymentMethod === "bank_transfer") {
       paymentDetails = {
@@ -153,13 +150,12 @@ const ClaimForm = () => {
       };
     }
 
-    // Create a unique claim ID
     const claimId = `CLM-${Math.floor(1000 + Math.random() * 9000)}`;
     
     try {
-      await claimsService.createClaim({
+      const claim = await claimsService.createClaim({
         id: claimId,
-        customer: user?.id || "", // Use the authenticated user's ID
+        customer: user?.id || "pending",
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
@@ -170,7 +166,7 @@ const ClaimForm = () => {
         date: format(data.date, "yyyy-MM-dd"),
         status: "pending",
         stage: "initial_review",
-        amount: "€0", // Initial amount, will be determined later
+        amount: "€0",
         lastupdated: format(new Date(), "yyyy-MM-dd"),
         numberOfPassengers: data.numberOfPassengers,
         departureAirport: data.departureAirport,
@@ -182,10 +178,29 @@ const ClaimForm = () => {
         paymentDetails: paymentDetails,
       });
 
-      toast.success("Your claim has been submitted successfully!");
+      if (!user) {
+        try {
+          await userService.createUserFromClaim(
+            data.email,
+            data.firstName,
+            data.lastName,
+            claimId
+          );
+          
+          toast.success(
+            "Your claim has been submitted successfully! We've created an account for you and sent login details to your email."
+          );
+        } catch (error) {
+          console.error("Error creating user account:", error);
+          toast.success(
+            "Your claim has been submitted, but we encountered an issue creating your account. Please contact support."
+          );
+        }
+      } else {
+        toast.success("Your claim has been submitted successfully!");
+      }
       
-      // Navigate to user dashboard
-      navigate("/dashboard");
+      navigate(user ? "/dashboard" : "/");
       
     } catch (error) {
       console.error("Error submitting claim:", error);
@@ -195,16 +210,13 @@ const ClaimForm = () => {
     }
   };
 
-  // Handle tabs
   const handleTabChange = (value: string) => {
     const currentTabNum = parseInt(currentTab);
     const nextTabNum = parseInt(value);
 
-    // Only validate when moving forward
     if (nextTabNum > currentTabNum) {
       const fieldsToValidate: (keyof FormValues)[] = [];
 
-      // Add fields to validate based on current tab
       if (currentTabNum === 1) {
         fieldsToValidate.push("firstName", "lastName", "email", "phone", "address");
       } else if (currentTabNum === 2) {
@@ -213,7 +225,6 @@ const ClaimForm = () => {
         fieldsToValidate.push("flightIssue", "reasonGivenByAirline");
       }
 
-      // Validate fields
       const isValid = fieldsToValidate.every(field => {
         const result = form.trigger(field);
         return result;
@@ -225,13 +236,11 @@ const ClaimForm = () => {
     setCurrentTab(value);
   };
 
-  // Update payment method
   const handlePaymentMethodChange = (value: string) => {
     setPaymentMethod(value);
     form.setValue("paymentMethod", value);
   };
 
-  // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -269,7 +278,6 @@ const ClaimForm = () => {
                   <TabsTrigger value="5">Review</TabsTrigger>
                 </TabsList>
 
-                {/* Personal Information Tab */}
                 <TabsContent value="1" className="mt-4 space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <FormField
@@ -311,7 +319,7 @@ const ClaimForm = () => {
                             {...field}
                             type="email"
                             placeholder="john.doe@example.com"
-                            disabled={!!user} // Disable if user is logged in
+                            disabled={!!user}
                           />
                         </FormControl>
                         <FormMessage />
@@ -358,7 +366,6 @@ const ClaimForm = () => {
                   </div>
                 </TabsContent>
 
-                {/* Flight Information Tab */}
                 <TabsContent value="2" className="mt-4 space-y-6">
                   <FormField
                     control={form.control}
@@ -524,7 +531,6 @@ const ClaimForm = () => {
                   </div>
                 </TabsContent>
 
-                {/* Issue Information Tab */}
                 <TabsContent value="3" className="mt-4 space-y-6">
                   <FormField
                     control={form.control}
@@ -618,7 +624,6 @@ const ClaimForm = () => {
                   </div>
                 </TabsContent>
 
-                {/* Payment Information Tab */}
                 <TabsContent value="4" className="mt-4 space-y-6">
                   <FormField
                     control={form.control}
@@ -650,7 +655,6 @@ const ClaimForm = () => {
                     )}
                   />
 
-                  {/* Bank Transfer Fields */}
                   {paymentMethod === "bank_transfer" && (
                     <div className="space-y-4">
                       <FormField
@@ -713,7 +717,6 @@ const ClaimForm = () => {
                     </div>
                   )}
 
-                  {/* PayPal Fields */}
                   {paymentMethod === "paypal" && (
                     <FormField
                       control={form.control}
@@ -738,7 +741,6 @@ const ClaimForm = () => {
                     />
                   )}
 
-                  {/* Wise Fields */}
                   {paymentMethod === "wise" && (
                     <div className="space-y-4">
                       <FormField
@@ -806,7 +808,6 @@ const ClaimForm = () => {
                   </div>
                 </TabsContent>
 
-                {/* Review & Submit Tab */}
                 <TabsContent value="5" className="mt-4 space-y-6">
                   <Card>
                     <CardHeader>
