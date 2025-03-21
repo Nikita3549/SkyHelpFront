@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Leaf } from "lucide-react"; // Import the Leaf icon
+import { PlaneTakeoff } from "lucide-react"; // Changed to PlaneTakeoff icon for aviation theme
 
 interface LogoProps {
   className?: string;
@@ -25,7 +25,7 @@ const Logo = ({ className, size = "md", withLink = true }: LogoProps) => {
 
   const logo = (
     <div className={cn("flex items-center", className)}>
-      <Leaf 
+      <PlaneTakeoff 
         className={cn(
           "mr-1.5 text-primary",
           size === "sm" ? "mt-0.5" : size === "md" ? "mt-1" : "mt-1.5"
