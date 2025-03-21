@@ -6,7 +6,9 @@ import { toast } from "sonner";
 import { newClaimSchema, type ClaimFormData } from "@/utils/formValidation";
 import CustomerInfoSection from "./form-sections/CustomerInfoSection";
 import FlightInfoSection from "./form-sections/FlightInfoSection";
+import FlightDetailsSection from "./form-sections/FlightDetailsSection";
 import DateAndAmountSection from "./form-sections/DateAndAmountSection";
+import PaymentDetailsSection from "./form-sections/PaymentDetailsSection";
 import FormActions from "./form-sections/FormActions";
 
 type NewClaimFormProps = {
@@ -16,12 +18,30 @@ type NewClaimFormProps = {
 
 const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
   const [formData, setFormData] = useState<ClaimFormData>({
-    customer: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    phone: "",
+    address: "",
+    numberOfPassengers: "",
     airline: "",
     flightnumber: "",
+    departureAirport: "",
+    arrivalAirport: "",
+    flightIssue: "",
+    reasonGivenByAirline: "",
     date: new Date(),
     amount: "",
+    additionalInformation: "",
+    paymentMethod: "",
+    bankName: "",
+    accountHolderName: "",
+    iban: "",
+    accountNumber: "",
+    paypalEmail: "",
+    wiseAccountHolder: "",
+    wiseIbanOrAccount: "",
+    wiseEmail: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [datePickerOpen, setDatePickerOpen] = useState(false);
@@ -46,17 +66,45 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
       // Create ID for the new claim
       const claimId = `CLM-${Math.floor(1000 + Math.random() * 9000)}`;
       
+      // Construct the customer name from first and last
+      const customer = `${formData.firstName} ${formData.lastName}`;
+
       // Create object with the new claim data
       const newClaim = {
         id: claimId,
-        customer: formData.customer,
+        customer,
         email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        numberOfPassengers: formData.numberOfPassengers,
         airline: formData.airline,
         flightnumber: formData.flightnumber,
+        departureAirport: formData.departureAirport,
+        arrivalAirport: formData.arrivalAirport,
+        flightIssue: formData.flightIssue,
+        reasonGivenByAirline: formData.reasonGivenByAirline,
         date: format(formData.date, "yyyy-MM-dd"),
         status: "pending",
         stage: "initial_review",
         amount: formData.amount.startsWith("€") ? formData.amount : `€${formData.amount}`,
+        additionalInformation: formData.additionalInformation,
+        paymentMethod: formData.paymentMethod,
+        paymentDetails: formData.paymentMethod === "bank_transfer" 
+          ? {
+              bankName: formData.bankName,
+              accountHolderName: formData.accountHolderName,
+              iban: formData.iban,
+              accountNumber: formData.accountNumber,
+            }
+          : formData.paymentMethod === "paypal"
+          ? {
+              paypalEmail: formData.paypalEmail,
+            }
+          : {
+              accountHolderName: formData.wiseAccountHolder,
+              ibanOrAccount: formData.wiseIbanOrAccount,
+              email: formData.wiseEmail,
+            },
         lastupdated: format(new Date(), "yyyy-MM-dd"),
       };
 
@@ -79,13 +127,20 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <CustomerInfoSection
-        customer={formData.customer}
+        firstName={formData.firstName}
+        lastName={formData.lastName}
         email={formData.email}
+        phone={formData.phone}
+        address={formData.address}
+        numberOfPassengers={formData.numberOfPassengers}
+        additionalInformation={formData.additionalInformation}
         errors={errors}
         handleChange={handleChange}
       />
+      
+      <hr className="my-6" />
       
       <FlightInfoSection
         airline={formData.airline}
@@ -94,6 +149,17 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         handleChange={handleChange}
       />
       
+      <FlightDetailsSection
+        departureAirport={formData.departureAirport}
+        arrivalAirport={formData.arrivalAirport}
+        flightIssue={formData.flightIssue}
+        reasonGivenByAirline={formData.reasonGivenByAirline}
+        errors={errors}
+        handleChange={handleChange}
+      />
+      
+      <hr className="my-6" />
+      
       <DateAndAmountSection
         date={formData.date}
         amount={formData.amount}
@@ -101,6 +167,22 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         handleChange={handleChange}
         datePickerOpen={datePickerOpen}
         setDatePickerOpen={setDatePickerOpen}
+      />
+      
+      <hr className="my-6" />
+      
+      <PaymentDetailsSection
+        paymentMethod={formData.paymentMethod}
+        bankName={formData.bankName}
+        accountHolderName={formData.accountHolderName}
+        iban={formData.iban}
+        accountNumber={formData.accountNumber}
+        paypalEmail={formData.paypalEmail}
+        wiseAccountHolder={formData.wiseAccountHolder}
+        wiseIbanOrAccount={formData.wiseIbanOrAccount}
+        wiseEmail={formData.wiseEmail}
+        errors={errors}
+        handleChange={handleChange}
       />
       
       <FormActions onCancel={onCancel} />
