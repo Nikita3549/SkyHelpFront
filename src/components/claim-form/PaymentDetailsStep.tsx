@@ -1,16 +1,21 @@
+
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Check } from "lucide-react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Form } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
-// Schema definition moved to a separate file
+// Schema definition and types
 import { paymentDetailsSchema } from "@/components/claim-form/schemas";
 import { AnimationTransitions } from "@/components/claim-form/types";
+
+// Component imports
+import PaymentMethodSelector from "./payment-details/PaymentMethodSelector";
+import BankTransferFields from "./payment-details/BankTransferFields";
+import PayPalFields from "./payment-details/PayPalFields";
+import TermsAgreement from "./payment-details/TermsAgreement";
+import InfoBox from "./payment-details/InfoBox";
+import PaymentNavigationButtons from "./payment-details/PaymentNavigationButtons";
 
 interface PaymentDetailsStepProps {
   form: UseFormReturn<z.infer<typeof paymentDetailsSchema>>;
@@ -42,176 +47,21 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="paymentMethod"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Payment Method</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-4"
-                  >
-                    <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-                        <label htmlFor="bank_transfer" className="cursor-pointer font-medium">Bank Transfer</label>
-                      </div>
-                    </div>
+          {/* Payment method selector component */}
+          <PaymentMethodSelector form={form} />
 
-                    <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="paypal" id="paypal" />
-                        <label htmlFor="paypal" className="cursor-pointer font-medium">PayPal</label>
-                      </div>
-                    </div>
+          {/* Conditional rendering based on payment method */}
+          {form.watch("paymentMethod") === "bank_transfer" && <BankTransferFields form={form} />}
+          {form.watch("paymentMethod") === "paypal" && <PayPalFields form={form} />}
 
-                    <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="wise" id="wise" />
-                        <label htmlFor="wise" className="cursor-pointer font-medium">Wise / TransferWise</label>
-                      </div>
-                    </div>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* Terms agreement component */}
+          <TermsAgreement form={form} />
 
-          {form.watch("paymentMethod") === "bank_transfer" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="bankName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Bank Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter bank name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          {/* Info box component */}
+          <InfoBox />
 
-              <FormField
-                control={form.control}
-                name="accountName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Account Holder Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter account holder name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="iban"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>IBAN</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter IBAN" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="accountNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Account Number</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter account number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          )}
-
-          {form.watch("paymentMethod") === "paypal" && (
-            <FormField
-              control={form.control}
-              name="paypalEmail"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>PayPal Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter PayPal email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
-
-          <FormField
-            control={form.control}
-            name="termsAgreed"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-6">
-                <FormControl>
-                  <div className="mt-1">
-                    <input
-                      type="checkbox"
-                      checked={field.value}
-                      onChange={field.onChange}
-                      className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                    />
-                  </div>
-                </FormControl>
-                <div className="leading-tight">
-                  <FormLabel className="font-normal text-sm text-gray-700">
-                    I agree to the{" "}
-                    <a href="#" className="text-primary underline hover:text-blue-600">
-                      terms and conditions
-                    </a>{" "}
-                    and authorize FlightEaseClaim to act on my behalf to claim compensation from the airline.
-                  </FormLabel>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-
-          <div className="bg-blue-50 rounded-lg p-4 text-sm text-blue-700">
-            <p className="font-medium mb-2">Here's what happens next:</p>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>We'll review your claim details and may contact you for additional information.</li>
-              <li>We'll submit your claim to the airline and negotiate on your behalf.</li>
-              <li>Once compensation is received, we'll transfer it to your specified payment method.</li>
-              <li>Our service fee (25% + VAT) will be deducted from the compensation amount.</li>
-            </ul>
-          </div>
-
-          <div className="pt-4 flex justify-between items-center">
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={onBack}
-              className="flex items-center"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
-            </Button>
-
-            <Button type="submit">
-              Submit Claim
-              <Check className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+          {/* Navigation buttons component */}
+          <PaymentNavigationButtons onBack={onBack} />
         </form>
       </Form>
     </motion.div>
@@ -219,4 +69,3 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
 };
 
 export default PaymentDetailsStep;
-
