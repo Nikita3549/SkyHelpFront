@@ -71,10 +71,8 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
                   mode="single"
                   selected={field.value ? new Date(field.value) : undefined}
                   onSelect={(date) => {
-                    if (date) {
-                      field.onChange(format(date, "yyyy-MM-dd"));
-                      setDatePickerOpen(false);
-                    }
+                    field.onChange(date ? format(date, "yyyy-MM-dd") : "");
+                    if (date) setDatePickerOpen(false);
                   }}
                   initialFocus
                   className="touch-manipulation"

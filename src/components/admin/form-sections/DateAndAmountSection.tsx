@@ -51,9 +51,9 @@ const DateAndAmountSection = ({
             <Calendar
               mode="single"
               selected={date}
-              onSelect={(date) => {
-                if (date) {
-                  handleChange("date", date);
+              onSelect={(newDate) => {
+                if (newDate) {
+                  handleChange("date", newDate);
                   setDatePickerOpen(false);
                 }
               }}

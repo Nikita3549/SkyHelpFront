@@ -58,10 +58,8 @@ const HeroForm = () => {
                     mode="single"
                     selected={date}
                     onSelect={(newDate) => {
-                      if (newDate) {
-                        setDate(newDate);
-                        setDatePickerOpen(false);
-                      }
+                      setDate(newDate);
+                      if (newDate) setDatePickerOpen(false);
                     }}
                     initialFocus
                     className="touch-manipulation"
