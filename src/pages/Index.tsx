@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Hero from "@/components/home/Hero";
+import BenefitsMarquee from "@/components/home/BenefitsMarquee";
 import Stats from "@/components/home/Stats";
 import QuickEligibilityCheck from "@/components/home/QuickEligibilityCheck";
 import HowItWorks from "@/components/home/HowItWorks";
@@ -77,6 +78,7 @@ const Index = () => {
   return (
     <>
       <Hero />
+      <BenefitsMarquee />
       <Stats />
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
