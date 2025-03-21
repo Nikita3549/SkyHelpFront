@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, Plane } from "lucide-react";
+import { Plane } from "lucide-react";
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gradient-to-br from-white to-blue-50 pt-16">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1595674617530-78147adbb393?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2670')] bg-cover bg-center opacity-[0.03]"></div>
       
-      {/* Airplane Vector Graphic */}
       <div className="absolute right-0 top-[10%] text-blue-100/20 transform -rotate-12">
         <Plane size={280} strokeWidth={1} />
       </div>
@@ -77,33 +76,31 @@ const Hero = () => {
               className="pt-8"
             >
               <p className="text-sm text-gray-500 mb-3">Trusted by thousands of passengers</p>
-              <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-                <div className="bg-white rounded-lg shadow-sm px-3 py-2 text-gray-400">
-                  <span className="sr-only">Airline 1</span>
-                  <svg className="h-6 sm:h-8" viewBox="0 0 84 24" fill="currentColor">
-                    <path d="M12.4 2L2 22h5.6l2.4-5h9.6l2.4 5h5.6L18 2h-5.6zm3.2 11H11l2.4-6 2.4 6H15.6zM33 22l-9-20h-2L13 22h2.8l1.8-4h6.8l1.8 4H33zm-7.6-7h-4.8L23 9l2.4 6z" />
-                    <path d="M47 9c0-2.8-2.2-5-5-5h-8v18h2v-8h6c2.8 0 5-2.2 5-5zm-4 0c0 1.1-.9 2-2 2h-5V7h5c1.1 0 2 .9 2 2zM55 22h-8V4h8c2.8 0 5 2.2 5 5v8c0 2.8-2.2 5-5 5zm2-13c0-1.1-.9-2-2-2h-5v12h5c1.1 0 2-.9 2-2V9z" />
-                    <path d="M67 22h-8V4h8c2.8 0 5 2.2 5 5v8c0 2.8-2.2 5-5 5zm2-13c0-1.1-.9-2-2-2h-5v12h5c1.1 0 2-.9 2-2V9z" />
-                  </svg>
-                </div>
-                <div className="bg-white rounded-lg shadow-sm px-3 py-2 text-gray-400">
-                  <span className="sr-only">Airline 2</span>
-                  <svg className="h-6 sm:h-8" viewBox="0 0 100 24" fill="currentColor">
-                    <path d="M14 2C7.4 2 2 7.4 2 14s5.4 12 12 12 12-5.4 12-12S20.6 2 14 2zm0 21c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />
-                    <path d="M14 7v7h7v-3h-4V7h-3zM35 2c-6.6 0-12 5.4-12 12s5.4 12 12 12 12-5.4 12-12S41.6 2 35 2zm0 21c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />
-                    <path d="M42 11h-4V7h-3v7h7v-3zM56 2c-6.6 0-12 5.4-12 12s5.4 12 12 12 12-5.4 12-12S62.6 2 56 2zm0 21c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />
-                    <path d="M63 11h-4V7h-3v7h7v-3zM77 2c-6.6 0-12 5.4-12 12s5.4 12 12 12 12-5.4 12-12S83.6 2 77 2zm0 21c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />
-                    <path d="M84 11h-4V7h-3v7h7v-3z" />
-                  </svg>
-                </div>
-                <div className="bg-white rounded-lg shadow-sm px-3 py-2 text-gray-400">
-                  <span className="sr-only">Airline 3</span>
-                  <svg className="h-6 sm:h-8" viewBox="0 0 84 24" fill="currentColor">
-                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" />
-                    <path d="M12 6v6h6v-2h-4V6h-2zM34 2H24v20h10c5.5 0 10-4.5 10-10S39.5 2 34 2zm0 18h-8V4h8c4.4 0 8 3.6 8 8s-3.6 8-8 8z" />
-                    <path d="M58 12l-6-8h-4v16h2V8l6 8 6-8v12h2V4h-4l-6 8z" />
-                  </svg>
-                </div>
+              <div className="flex flex-wrap items-center gap-4">
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7, duration: 0.5 }}
+                  className="bg-white rounded-lg shadow-sm px-4 py-3 text-gray-600 hover:text-primary transition-colors"
+                >
+                  <span className="font-medium">British Airways</span>
+                </motion.div>
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, duration: 0.5 }}
+                  className="bg-white rounded-lg shadow-sm px-4 py-3 text-gray-600 hover:text-primary transition-colors"
+                >
+                  <span className="font-medium">Lufthansa</span>
+                </motion.div>
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9, duration: 0.5 }}
+                  className="bg-white rounded-lg shadow-sm px-4 py-3 text-gray-600 hover:text-primary transition-colors"
+                >
+                  <span className="font-medium">Air France</span>
+                </motion.div>
               </div>
             </motion.div>
           </motion.div>
