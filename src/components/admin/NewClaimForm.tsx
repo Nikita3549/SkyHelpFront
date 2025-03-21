@@ -47,6 +47,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
     amount: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const handleChange = (field: string, value: any) => {
     setFormData({ ...formData, [field]: value });
@@ -163,7 +164,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Flight Date</Label>
-          <Popover>
+          <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -180,7 +181,10 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
               <Calendar
                 mode="single"
                 selected={formData.date}
-                onSelect={(date) => handleChange("date", date || new Date())}
+                onSelect={(date) => {
+                  handleChange("date", date || new Date());
+                  setDatePickerOpen(false);
+                }}
                 initialFocus
               />
             </PopoverContent>
