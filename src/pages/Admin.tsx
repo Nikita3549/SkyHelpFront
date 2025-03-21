@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -68,9 +67,10 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { toast } from "sonner";
+import NewClaimModal from "@/components/admin/NewClaimModal";
 
 // Sample admin data
-const claimsData = [
+const initialClaimsData = [
   {
     id: "CLM-1001",
     customer: "John Smith",
@@ -219,6 +219,8 @@ const Admin = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedClaim, setSelectedClaim] = useState<string | null>(null);
+  const [claimsData, setClaimsData] = useState(initialClaimsData);
+  const [isNewClaimModalOpen, setIsNewClaimModalOpen] = useState(false);
 
   // Filter claims based on search term and status
   const filteredClaims = claimsData.filter((claim) => {
@@ -242,6 +244,11 @@ const Admin = () => {
   };
 
   const handleUpdateStatus = (claimId: string, newStatus: string) => {
+    const updatedClaims = claimsData.map(claim => 
+      claim.id === claimId ? {...claim, status: newStatus} : claim
+    );
+    setClaimsData(updatedClaims);
+    
     toast.success("Status updated", {
       description: `Claim ${claimId} status changed to ${newStatus}`,
     });
@@ -250,6 +257,22 @@ const Admin = () => {
   const handleExportClaims = () => {
     toast.success("Export initiated", {
       description: "Claims data is being exported to CSV",
+    });
+  };
+
+  const handleNewClaimSubmit = (claimData: any) => {
+    setClaimsData([claimData, ...claimsData]);
+    
+    const newActivity = {
+      id: Math.max(...recentActivities.map(a => a.id)) + 1,
+      action: "Claim submitted",
+      claimId: claimData.id,
+      user: "Admin",
+      time: "Just now"
+    };
+    
+    toast.success("New claim created", {
+      description: `Claim ${claimData.id} has been created successfully`,
     });
   };
 
@@ -278,7 +301,6 @@ const Admin = () => {
           {/* Dashboard Tab */}
           <TabsContent value="dashboard">
             <div className="space-y-8">
-              {/* Stats Overview */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -306,7 +328,6 @@ const Admin = () => {
               </motion.div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Recent Activity */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -347,7 +368,6 @@ const Admin = () => {
                   </Card>
                 </motion.div>
 
-                {/* Charts and Performance Metrics */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -388,7 +408,6 @@ const Admin = () => {
                 </motion.div>
               </div>
 
-              {/* Quick Actions */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -425,7 +444,6 @@ const Admin = () => {
           {/* Claims Management Tab */}
           <TabsContent value="claims">
             <div className="space-y-6">
-              {/* Filters and Search */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -472,14 +490,13 @@ const Admin = () => {
                     <Download className="mr-2 h-4 w-4" />
                     Export
                   </Button>
-                  <Button size="sm">
+                  <Button size="sm" onClick={() => setIsNewClaimModalOpen(true)}>
                     <PlusCircle className="mr-2 h-4 w-4" />
                     New Claim
                   </Button>
                 </div>
               </motion.div>
 
-              {/* Claims Table */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -583,7 +600,6 @@ const Admin = () => {
                 </Card>
               </motion.div>
 
-              {/* Selected Claim Details */}
               {selectedClaim && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -712,7 +728,6 @@ const Admin = () => {
                 transition={{ duration: 0.5 }}
                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
               >
-                {/* Email Templates */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg">Email Templates</CardTitle>
@@ -763,7 +778,6 @@ const Admin = () => {
                   </CardFooter>
                 </Card>
 
-                {/* Communication Log */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg">Recent Communications</CardTitle>
@@ -832,7 +846,6 @@ const Admin = () => {
                 </Card>
               </motion.div>
 
-              {/* Bulk Email */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -903,6 +916,12 @@ const Admin = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      <NewClaimModal 
+        isOpen={isNewClaimModalOpen}
+        onClose={() => setIsNewClaimModalOpen(false)}
+        onSubmit={handleNewClaimSubmit}
+      />
     </div>
   );
 };
