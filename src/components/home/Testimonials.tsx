@@ -1,6 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const Testimonials = () => {
   // Animation variants for staggered animations
@@ -53,9 +54,10 @@ const Testimonials = () => {
         >
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
-              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <span className="text-primary font-medium">JD</span>
-              </div>
+              <Avatar className="h-12 w-12 border-2 border-primary/10">
+                <AvatarImage src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1470" alt="James Davis" />
+                <AvatarFallback className="bg-blue-100 text-primary font-medium">JD</AvatarFallback>
+              </Avatar>
               <div className="ml-3">
                 <h4 className="font-medium">James Davis</h4>
                 <p className="text-sm text-gray-500">London to Rome</p>
@@ -75,9 +77,10 @@ const Testimonials = () => {
           
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
-              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <span className="text-primary font-medium">SM</span>
-              </div>
+              <Avatar className="h-12 w-12 border-2 border-primary/10">
+                <AvatarImage src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1470" alt="Sophie Martinez" />
+                <AvatarFallback className="bg-blue-100 text-primary font-medium">SM</AvatarFallback>
+              </Avatar>
               <div className="ml-3">
                 <h4 className="font-medium">Sophie Martinez</h4>
                 <p className="text-sm text-gray-500">Berlin to Madrid</p>
@@ -97,9 +100,10 @@ const Testimonials = () => {
           
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
-              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <span className="text-primary font-medium">AK</span>
-              </div>
+              <Avatar className="h-12 w-12 border-2 border-primary/10">
+                <AvatarImage src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1470" alt="Alexander Kruger" />
+                <AvatarFallback className="bg-blue-100 text-primary font-medium">AK</AvatarFallback>
+              </Avatar>
               <div className="ml-3">
                 <h4 className="font-medium">Alexander Kruger</h4>
                 <p className="text-sm text-gray-500">Paris to Stockholm</p>
