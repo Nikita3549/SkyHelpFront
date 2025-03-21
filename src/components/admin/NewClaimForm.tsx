@@ -1,36 +1,13 @@
 
 import React, { useState } from "react";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { toast } from "sonner";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-
-// Schema validation for the form
-const newClaimSchema = z.object({
-  customer: z.string().min(3, "Customer name is required"),
-  email: z.string().email("Valid email is required"),
-  airline: z.string().min(1, "Airline is required"),
-  flightnumber: z.string().min(1, "Flight number is required"),
-  date: z.date(),
-  amount: z.string().min(1, "Amount is required"),
-});
+import { toast } from "sonner";
+import { newClaimSchema, type ClaimFormData } from "@/utils/formValidation";
+import CustomerInfoSection from "./form-sections/CustomerInfoSection";
+import FlightInfoSection from "./form-sections/FlightInfoSection";
+import DateAndAmountSection from "./form-sections/DateAndAmountSection";
+import FormActions from "./form-sections/FormActions";
 
 type NewClaimFormProps = {
   onSubmit: (claimData: any) => void;
@@ -38,7 +15,7 @@ type NewClaimFormProps = {
 };
 
 const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ClaimFormData>({
     customer: "",
     email: "",
     airline: "",
@@ -103,115 +80,30 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="customer">Customer Name</Label>
-        <Input
-          id="customer"
-          value={formData.customer}
-          onChange={(e) => handleChange("customer", e.target.value)}
-          placeholder="Enter customer name"
-        />
-        {errors.customer && <p className="text-sm text-red-500">{errors.customer}</p>}
-      </div>
+      <CustomerInfoSection
+        customer={formData.customer}
+        email={formData.email}
+        errors={errors}
+        handleChange={handleChange}
+      />
       
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          value={formData.email}
-          onChange={(e) => handleChange("email", e.target.value)}
-          placeholder="customer@example.com"
-        />
-        {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
-      </div>
+      <FlightInfoSection
+        airline={formData.airline}
+        flightnumber={formData.flightnumber}
+        errors={errors}
+        handleChange={handleChange}
+      />
       
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="airline">Airline</Label>
-          <Select
-            value={formData.airline}
-            onValueChange={(value) => handleChange("airline", value)}
-          >
-            <SelectTrigger id="airline">
-              <SelectValue placeholder="Select airline" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Lufthansa">Lufthansa</SelectItem>
-              <SelectItem value="British Airways">British Airways</SelectItem>
-              <SelectItem value="Air France">Air France</SelectItem>
-              <SelectItem value="Ryanair">Ryanair</SelectItem>
-              <SelectItem value="EasyJet">EasyJet</SelectItem>
-              <SelectItem value="Eurowings">Eurowings</SelectItem>
-              <SelectItem value="KLM">KLM</SelectItem>
-            </SelectContent>
-          </Select>
-          {errors.airline && <p className="text-sm text-red-500">{errors.airline}</p>}
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="flightnumber">Flight Number</Label>
-          <Input
-            id="flightnumber"
-            value={formData.flightnumber}
-            onChange={(e) => handleChange("flightnumber", e.target.value)}
-            placeholder="e.g. LH1234"
-          />
-          {errors.flightnumber && <p className="text-sm text-red-500">{errors.flightnumber}</p>}
-        </div>
-      </div>
+      <DateAndAmountSection
+        date={formData.date}
+        amount={formData.amount}
+        errors={errors}
+        handleChange={handleChange}
+        datePickerOpen={datePickerOpen}
+        setDatePickerOpen={setDatePickerOpen}
+      />
       
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Flight Date</Label>
-          <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !formData.date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {formData.date ? format(formData.date, "PPP") : <span>Pick a date</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 z-50">
-              <Calendar
-                mode="single"
-                selected={formData.date}
-                onSelect={(date) => {
-                  handleChange("date", date || new Date());
-                  setDatePickerOpen(false);
-                }}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-          {errors.date && <p className="text-sm text-red-500">{errors.date}</p>}
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="amount">Compensation Amount</Label>
-          <Input
-            id="amount"
-            value={formData.amount}
-            onChange={(e) => handleChange("amount", e.target.value)}
-            placeholder="e.g. 400"
-          />
-          {errors.amount && <p className="text-sm text-red-500">{errors.amount}</p>}
-        </div>
-      </div>
-      
-      <div className="flex justify-end gap-2 pt-4">
-        <Button variant="outline" type="button" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button type="submit">
-          Create Claim
-        </Button>
-      </div>
+      <FormActions onCancel={onCancel} />
     </form>
   );
 };
