@@ -1,63 +1,26 @@
 
 import React from "react";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Plane } from "lucide-react";
 
 type FlightDetailsSectionProps = {
-  departureAirport: string;
-  arrivalAirport: string;
   flightIssue: string;
   reasonGivenByAirline: string;
+  departureAirport: string;
+  arrivalAirport: string;
   errors: Record<string, string>;
   handleChange: (field: string, value: any) => void;
 };
 
 const FlightDetailsSection = ({
-  departureAirport,
-  arrivalAirport,
   flightIssue,
   reasonGivenByAirline,
   errors,
   handleChange,
 }: FlightDetailsSectionProps) => {
   return (
-    <div className="space-y-4 pt-2">
-      <h3 className="text-lg font-medium">Flight Details</h3>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="departureAirport">Departure Airport</Label>
-          <div className="relative">
-            <Input
-              id="departureAirport"
-              value={departureAirport}
-              onChange={(e) => handleChange("departureAirport", e.target.value)}
-              placeholder="e.g. LHR"
-              className="pr-10"
-            />
-            <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          </div>
-          {errors.departureAirport && <p className="text-sm text-red-500">{errors.departureAirport}</p>}
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="arrivalAirport">Arrival Airport</Label>
-          <div className="relative">
-            <Input
-              id="arrivalAirport"
-              value={arrivalAirport}
-              onChange={(e) => handleChange("arrivalAirport", e.target.value)}
-              placeholder="e.g. CDG"
-              className="pr-10"
-            />
-            <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 rotate-90 h-4 w-4 text-gray-400" />
-          </div>
-          {errors.arrivalAirport && <p className="text-sm text-red-500">{errors.arrivalAirport}</p>}
-        </div>
-      </div>
-      
+    <div className="space-y-4">
       <div className="space-y-2">
         <Label>What happened with the flight?</Label>
         <RadioGroup

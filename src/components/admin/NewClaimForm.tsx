@@ -1,9 +1,11 @@
-
 import React, { useState } from "react";
 import { z } from "zod";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { newClaimSchema, type ClaimFormData } from "@/utils/formValidation";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Plane } from "lucide-react";
 import CustomerInfoSection from "./form-sections/CustomerInfoSection";
 import FlightInfoSection from "./form-sections/FlightInfoSection";
 import FlightDetailsSection from "./form-sections/FlightDetailsSection";
@@ -151,14 +153,43 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
       
       <hr className="my-6" />
       
-      <FlightDetailsSection
-        departureAirport={formData.departureAirport}
-        arrivalAirport={formData.arrivalAirport}
-        flightIssue={formData.flightIssue}
-        reasonGivenByAirline={formData.reasonGivenByAirline}
-        errors={errors}
-        handleChange={handleChange}
-      />
+      {/* Now rendering the Departure/Arrival fields first by placing FlightDetailsSection first */}
+      <div className="space-y-4 pt-2">
+        <h3 className="text-lg font-medium">Flight Details</h3>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Departure and Arrival Airport fields */}
+          <div className="space-y-2">
+            <Label htmlFor="departureAirport">Departure Airport</Label>
+            <div className="relative">
+              <Input
+                id="departureAirport"
+                value={formData.departureAirport}
+                onChange={(e) => handleChange("departureAirport", e.target.value)}
+                placeholder="e.g. LHR"
+                className="pr-10"
+              />
+              <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            </div>
+            {errors.departureAirport && <p className="text-sm text-red-500">{errors.departureAirport}</p>}
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="arrivalAirport">Arrival Airport</Label>
+            <div className="relative">
+              <Input
+                id="arrivalAirport"
+                value={formData.arrivalAirport}
+                onChange={(e) => handleChange("arrivalAirport", e.target.value)}
+                placeholder="e.g. CDG"
+                className="pr-10"
+              />
+              <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 rotate-90 h-4 w-4 text-gray-400" />
+            </div>
+            {errors.arrivalAirport && <p className="text-sm text-red-500">{errors.arrivalAirport}</p>}
+          </div>
+        </div>
+      </div>
       
       <FlightInfoSection
         airline={formData.airline}
@@ -167,7 +198,14 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         handleChange={handleChange}
       />
       
-      <hr className="my-6" />
+      <FlightDetailsSection
+        flightIssue={formData.flightIssue}
+        reasonGivenByAirline={formData.reasonGivenByAirline}
+        departureAirport={formData.departureAirport}
+        arrivalAirport={formData.arrivalAirport}
+        errors={errors}
+        handleChange={handleChange}
+      />
       
       <DateAndAmountSection
         date={formData.date}
