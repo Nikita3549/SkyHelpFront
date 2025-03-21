@@ -77,10 +77,10 @@ const Index = () => {
   return (
     <>
       <Hero />
-      <QuickEligibilityCheck />
       <Stats />
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
+      <QuickEligibilityCheck />
       <Testimonials />
       <Faq faqRef={faqRef} faqs={faqs} />
       <Cta />
