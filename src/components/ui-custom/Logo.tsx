@@ -12,9 +12,9 @@ interface LogoProps {
 
 const Logo = ({ className, size = "md", withLink = true }: LogoProps) => {
   const sizeClasses = {
-    sm: "text-xl",
-    md: "text-2xl md:text-3xl",
-    lg: "text-3xl md:text-4xl"
+    sm: "text-lg",
+    md: "text-xl md:text-2xl",
+    lg: "text-2xl md:text-3xl"
   };
   
   const iconSizes = {
