@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
@@ -72,6 +73,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { claimsService } from "@/services/claimsService";
 import { Claim } from "@/lib/supabase";
 
+// Dashboard statistics
 const dashboardStats = [
   { title: "Total Claims", value: "156", icon: <FileText className="h-5 w-5 text-blue-500" />, change: "+12%" },
   { title: "Active Claims", value: "87", icon: <Clock className="h-5 w-5 text-orange-500" />, change: "+5%" },
@@ -79,6 +81,7 @@ const dashboardStats = [
   { title: "Total Compensation", value: "€53,250", icon: <Banknote className="h-5 w-5 text-emerald-500" />, change: "+15%" },
 ];
 
+// Recent activities
 const recentActivities = [
   { id: 1, action: "Claim submitted", claimId: "CLM-1007", user: "David Wilson", time: "Today, 09:45 AM" },
   { id: 2, action: "Airline responded", claimId: "CLM-1002", user: "System", time: "Today, 08:30 AM" },
@@ -87,6 +90,7 @@ const recentActivities = [
   { id: 5, action: "Claim rejected", claimId: "CLM-1005", user: "System", time: "2 days ago, 11:30 AM" },
 ];
 
+// Status badge component for admin
 const StatusBadge = ({ status }: { status: string }) => {
   const statusConfig: Record<string, { label: string, variant: "default" | "outline" | "secondary" | "destructive", icon: React.ReactNode }> = {
     pending: {
@@ -135,11 +139,13 @@ const Admin = () => {
   
   const queryClient = useQueryClient();
   
+  // Fetch claims data from Supabase
   const { data: claimsData = [], isLoading, error } = useQuery({
     queryKey: ['claims'],
     queryFn: claimsService.getClaims,
   });
   
+  // Mutation for updating claim status
   const updateClaimMutation = useMutation({
     mutationFn: ({ claimId, newStatus }: { claimId: string, newStatus: string }) => 
       claimsService.updateClaim(claimId, { status: newStatus as any }),
@@ -153,6 +159,7 @@ const Admin = () => {
     },
   });
   
+  // Mutation for creating a new claim
   const createClaimMutation = useMutation({
     mutationFn: (claimData: Omit<Claim, 'created_at'>) => 
       claimsService.createClaim(claimData),
@@ -166,6 +173,7 @@ const Admin = () => {
     },
   });
 
+  // Filter claims based on search term and status
   const filteredClaims = claimsData.filter((claim) => {
     const matchesSearch = 
       claim.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -179,6 +187,7 @@ const Admin = () => {
     return matchesSearch && matchesStatus;
   });
 
+  // Actions
   const handleSendEmail = (claimId: string) => {
     toast.success("Email sent successfully", {
       description: `Notification email sent for claim ${claimId}`,
@@ -194,6 +203,7 @@ const Admin = () => {
   };
 
   const handleExportClaims = () => {
+    // Create CSV content
     const headers = ["ID", "Customer", "Email", "Airline", "Flight Number", "Date", "Status", "Stage", "Amount", "Last Updated"];
     const csvRows = [headers];
     
@@ -214,6 +224,7 @@ const Admin = () => {
     
     const csvContent = csvRows.map(row => row.join(",")).join("\n");
     
+    // Create and trigger download
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -285,6 +296,7 @@ const Admin = () => {
             <TabsTrigger value="communications">Communications</TabsTrigger>
           </TabsList>
 
+          {/* Dashboard Tab */}
           <TabsContent value="dashboard">
             <div className="space-y-8">
               <motion.div
@@ -427,6 +439,7 @@ const Admin = () => {
             </div>
           </TabsContent>
 
+          {/* Claims Management Tab */}
           <TabsContent value="claims">
             <div className="space-y-6">
               <motion.div
@@ -624,18 +637,6 @@ const Admin = () => {
                                 {claimsData.find((claim) => claim.id === selectedClaim)?.email}
                               </span>
                             </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Phone:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.phone || "Not provided"}
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Address:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.address || "Not provided"}
-                              </span>
-                            </div>
                           </div>
                         </div>
 
@@ -660,24 +661,6 @@ const Admin = () => {
                                 {new Date(
                                   claimsData.find((claim) => claim.id === selectedClaim)?.date || ""
                                 ).toLocaleDateString()}
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Departure Airport:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.departureairport || "Not provided"}
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Arrival Airport:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.arrivalairport || "Not provided"}
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Passengers:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.numberofpassengers || "Not provided"}
                               </span>
                             </div>
                           </div>
@@ -707,65 +690,6 @@ const Admin = () => {
                                 {claimsData.find((claim) => claim.id === selectedClaim)?.amount}
                               </span>
                             </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Last Updated:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.lastupdated}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <Separator className="my-6" />
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <h3 className="text-sm font-medium text-gray-500 mb-2">Issue Details</h3>
-                          <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Flight Issue:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.flightissue || "Not provided"}
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Reason Given:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.reasongivenbyairline || "Not provided"}
-                              </span>
-                            </div>
-                            <div className="space-y-1">
-                              <span className="text-sm text-gray-500">Additional Information:</span>
-                              <p className="text-sm mt-1 bg-white p-2 rounded border">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.additionalinformation || "No additional information provided"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <h3 className="text-sm font-medium text-gray-500 mb-2">Payment Information</h3>
-                          <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-500">Payment Method:</span>
-                              <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.paymentmethod || "Not specified"}
-                              </span>
-                            </div>
-                            {claimsData.find((claim) => claim.id === selectedClaim)?.paymentdetails && (
-                              <div className="space-y-1">
-                                <span className="text-sm text-gray-500">Payment Details:</span>
-                                <div className="text-sm mt-1 bg-white p-2 rounded border">
-                                  {Object.entries(claimsData.find((claim) => claim.id === selectedClaim)?.paymentdetails || {}).map(([key, value]) => (
-                                    <div key={key} className="flex justify-between border-b last:border-0 py-1">
-                                      <span className="capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
-                                      <span>{String(value)}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
                           </div>
                         </div>
                       </div>
@@ -793,6 +717,7 @@ const Admin = () => {
             </div>
           </TabsContent>
 
+          {/* Communications Tab */}
           <TabsContent value="communications">
             <div className="space-y-6">
               <motion.div
@@ -936,6 +861,7 @@ const Admin = () => {
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
                     <div className="rounded-md border">
+                      {/* Rich text editor would go here */}
                       <div className="p-3 text-sm text-gray-500">
                         (Rich text editor would be implemented here)
                       </div>
