@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Check, Plane, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import Marquee from "@/components/ui-custom/Marquee";
 
 const Hero = () => {
   return (
@@ -49,6 +50,34 @@ const Hero = () => {
             >
               No paperwork. No hassle. We handle your flight compensation claim from start to finish on a no-win, no-fee basis.
             </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="mt-2 mb-4"
+            >
+              <Marquee 
+                className="h-10 bg-blue-50/80 backdrop-blur-sm rounded-lg border border-blue-100 shadow-sm" 
+                speed={40}
+                pauseDuration={3000}
+              >
+                <div className="flex items-center space-x-6 py-2 px-4 text-gray-700 font-medium">
+                  <span className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-2" />
+                    Claim old flights up to 3 years
+                  </span>
+                  <span className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-2" />
+                    No fees for checking eligibility
+                  </span>
+                  <span className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-2" />
+                    Quick and free eligibility check
+                  </span>
+                </div>
+              </Marquee>
+            </motion.div>
             
             <motion.div
               initial={{ opacity: 0 }}
