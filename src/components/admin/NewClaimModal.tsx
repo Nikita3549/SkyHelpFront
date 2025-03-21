@@ -8,29 +8,34 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import NewClaimForm from "./NewClaimForm";
+import { Claim } from "@/hooks/use-claims";
 
 type NewClaimModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (claimData: any) => void;
+  onSubmit: (claimData: Omit<Claim, 'id' | 'created_at' | 'last_updated' | 'status' | 'stage'>) => void;
+  isSubmitting?: boolean;
 };
 
-const NewClaimModal = ({ isOpen, onClose, onSubmit }: NewClaimModalProps) => {
-  const handleSubmit = (claimData: any) => {
+const NewClaimModal = ({ isOpen, onClose, onSubmit, isSubmitting }: NewClaimModalProps) => {
+  const handleSubmit = (claimData: Omit<Claim, 'id' | 'created_at' | 'last_updated' | 'status' | 'stage'>) => {
     onSubmit(claimData);
-    onClose();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Create New Claim</DialogTitle>
+          <DialogTitle>Создать новую заявку</DialogTitle>
           <DialogDescription>
-            Fill in the details to create a new compensation claim.
+            Заполните детали для создания новой заявки на компенсацию.
           </DialogDescription>
         </DialogHeader>
-        <NewClaimForm onSubmit={handleSubmit} onCancel={onClose} />
+        <NewClaimForm 
+          onSubmit={handleSubmit} 
+          onCancel={onClose} 
+          isSubmitting={isSubmitting}
+        />
       </DialogContent>
     </Dialog>
   );
