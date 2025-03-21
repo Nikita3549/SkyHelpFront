@@ -2,7 +2,6 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plane } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -25,7 +24,7 @@ const FlightInfoSection = ({
   handleChange,
 }: FlightInfoSectionProps) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4">
       <div className="space-y-2">
         <Label htmlFor="airline">Airline</Label>
         <Select
@@ -50,16 +49,12 @@ const FlightInfoSection = ({
       
       <div className="space-y-2">
         <Label htmlFor="flightnumber">Flight Number</Label>
-        <div className="relative">
-          <Input
-            id="flightnumber"
-            value={flightnumber}
-            onChange={(e) => handleChange("flightnumber", e.target.value)}
-            placeholder="e.g. BA1234"
-            className="pr-10"
-          />
-          <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-        </div>
+        <Input
+          id="flightnumber"
+          value={flightnumber}
+          onChange={(e) => handleChange("flightnumber", e.target.value)}
+          placeholder="e.g. LH1234"
+        />
         {errors.flightnumber && <p className="text-sm text-red-500">{errors.flightnumber}</p>}
       </div>
     </div>
