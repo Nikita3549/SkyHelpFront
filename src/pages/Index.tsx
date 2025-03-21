@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import Hero from "@/components/home/Hero";
 import Stats from "@/components/home/Stats";
 import HowItWorks from "@/components/home/HowItWorks";
@@ -12,15 +13,33 @@ const Index = () => {
   // Create refs for scroll targets
   const howItWorksRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
-  // Handle hash navigation on load
+  // Handle hash navigation on load and when location changes
   useEffect(() => {
-    if (window.location.hash === "#how-it-works" && howItWorksRef.current) {
-      howItWorksRef.current.scrollIntoView({ behavior: "smooth" });
-    } else if (window.location.hash === "#faq" && faqRef.current) {
-      faqRef.current.scrollIntoView({ behavior: "smooth" });
+    const handleScroll = () => {
+      const hash = window.location.hash;
+      if (hash === "#how-it-works" && howItWorksRef.current) {
+        howItWorksRef.current.scrollIntoView({ behavior: "smooth" });
+      } else if (hash === "#faq" && faqRef.current) {
+        faqRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    // Check for hash in URL
+    handleScroll();
+
+    // Check for scrollTo in location state (from navigation)
+    if (location.state && location.state.scrollTo) {
+      const elementId = location.state.scrollTo;
+      setTimeout(() => {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);  // Небольшая задержка для уверенности, что компоненты отрендерились
     }
-  }, []);
+  }, [location]);
 
   // FAQs data
   const faqs = [

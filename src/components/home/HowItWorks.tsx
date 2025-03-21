@@ -23,7 +23,12 @@ const HowItWorks = ({ howItWorksRef }: { howItWorksRef: React.RefObject<HTMLDivE
   };
 
   return (
-    <section ref={howItWorksRef} id="how-it-works" className="py-20 bg-white">
+    <section 
+      ref={howItWorksRef} 
+      id="how-it-works" 
+      className="py-20 bg-white relative scroll-mt-20"
+      tabIndex={-1}
+    >
       <div className="container-custom">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.h2 

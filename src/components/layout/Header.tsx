@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Menu, X, ChevronDown } from "lucide-react";
 
@@ -8,6 +7,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -32,6 +32,24 @@ const Header = () => {
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.includes('#')) {
+      e.preventDefault();
+      
+      const isOnHomePage = location.pathname === '/';
+      const elementId = href.split('#')[1];
+      const element = document.getElementById(elementId);
+      
+      if (isOnHomePage && element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        navigate('/', { state: { scrollTo: elementId } });
+      }
+      
+      setIsOpen(false);
+    }
+  };
 
   return (
     <header
@@ -58,9 +76,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className={cn(
                   "relative font-medium text-sm transition-colors duration-300",
-                  location.pathname === item.href && item.href !== "/#how-it-works" && item.href !== "/#faq"
+                  location.pathname === item.href && !item.href.includes('#')
                     ? "text-primary"
                     : "text-gray-600 hover:text-primary"
                 )}
@@ -70,7 +89,7 @@ const Header = () => {
                   <span
                     className={cn(
                       "absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300",
-                      location.pathname === item.href && item.href !== "/#how-it-works" && item.href !== "/#faq"
+                      location.pathname === item.href && !item.href.includes('#')
                         ? "w-full"
                         : "group-hover:w-full"
                     )}
@@ -110,7 +129,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile menu */}
         <div
           className={cn(
             "md:hidden absolute left-0 right-0 top-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-hidden",
@@ -122,9 +140,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className={cn(
                   "block py-2 px-3 rounded-lg font-medium transition-colors",
-                  location.pathname === item.href && item.href !== "/#how-it-works" && item.href !== "/#faq"
+                  location.pathname === item.href && !item.href.includes('#')
                     ? "text-primary bg-blue-50"
                     : "text-gray-600 hover:text-primary hover:bg-blue-50"
                 )}
