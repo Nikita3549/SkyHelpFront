@@ -2,7 +2,7 @@
 import { supabase, Claim } from '@/lib/supabase';
 
 export const claimsService = {
-  // Fetch all claims for admin
+  // Fetch all claims
   async getClaims(): Promise<Claim[]> {
     const { data, error } = await supabase
       .from('claims')
@@ -17,45 +17,7 @@ export const claimsService = {
     return data || [];
   },
   
-  // Fetch claims for the current user
-  async getUserClaims(): Promise<Claim[]> {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      throw new Error('No authenticated user found');
-    }
-    
-    const { data, error } = await supabase
-      .from('claims')
-      .select('*')
-      .eq('customer', user.id)
-      .order('created_at', { ascending: false });
-    
-    if (error) {
-      console.error('Error fetching user claims:', error);
-      throw error;
-    }
-    
-    return data || [];
-  },
-  
-  // Fetch a single claim
-  async getClaim(id: string): Promise<Claim> {
-    const { data, error } = await supabase
-      .from('claims')
-      .select('*')
-      .eq('id', id)
-      .single();
-    
-    if (error) {
-      console.error('Error fetching claim:', error);
-      throw error;
-    }
-    
-    return data;
-  },
-  
-  // Create a new claim for authenticated user
+  // Create a new claim
   async createClaim(claim: Omit<Claim, 'created_at'> & { 
     phone?: string; 
     address?: string;
@@ -67,28 +29,14 @@ export const claimsService = {
     additionalInformation?: string;
     paymentMethod?: string;
     paymentDetails?: any;
-    firstName?: string;
-    lastName?: string;
   }): Promise<Claim> {
     console.log('Creating claim with data:', claim);
-    
-    // Get the current user
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      throw new Error('No authenticated user found');
-    }
-    
-    // Construct the customer name from first and last name if provided, otherwise use email
-    const customerName = claim.firstName && claim.lastName 
-      ? `${claim.firstName} ${claim.lastName}`
-      : user.email?.split('@')[0] || 'Unknown';
     
     // Convert camelCase fields to lowercase to match database column names
     const formattedClaim = {
       id: claim.id,
-      customer: user.id, // Store user ID for RLS
-      email: claim.email || user.email,
+      customer: claim.customer,
+      email: claim.email,
       airline: claim.airline,
       flightnumber: claim.flightnumber,
       date: claim.date,

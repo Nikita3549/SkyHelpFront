@@ -1,224 +1,172 @@
-
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
-import { Menu, X, ChevronDown, User } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  // Handle scroll effect
+  const navigation = [
+    { name: "Home", href: "/" },
+    { name: "How It Works", href: "/#how-it-works" },
+    { name: "Check Eligibility", href: "/claim" },
+    { name: "FAQ", href: "/#faq" },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (window.scrollY > 10) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
   useEffect(() => {
-    setIsMenuOpen(false);
+    setIsOpen(false);
   }, [location.pathname]);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.includes('#')) {
+      e.preventDefault();
+      
+      const isOnHomePage = location.pathname === '/';
+      const elementId = href.split('#')[1];
+      const element = document.getElementById(elementId);
+      
+      if (isOnHomePage && element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        navigate('/', { state: { scrollTo: elementId } });
+      }
+      
+      setIsOpen(false);
+    }
+  };
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
-      }`}
+      className={cn(
+        "fixed top-0 w-full z-50 transition-all duration-300 ease-in-out",
+        scrolled
+          ? "bg-white/80 backdrop-blur-md shadow-sm py-2"
+          : "bg-transparent py-4"
+      )}
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="text-xl font-bold text-gray-900 flex items-center">
-            <span className="text-primary">Flight</span>Claim
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            <Link to="/">
-              <Button variant="ghost">Home</Button>
+      <div className="container-custom">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <Link
+              to="/"
+              className="text-xl md:text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 animate-fade-in"
+            >
+              CleverClaim
             </Link>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-1">
-                  Services <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <Link to="/claim" className="w-full">
-                    Flight Compensation
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/claim" className="w-full">
-                    Delayed Flights
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/claim" className="w-full">
-                    Cancelled Flights
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Link to="/claim">
-              <Button variant="ghost">File a Claim</Button>
-            </Link>
-            
-            {/* Show Dashboard link if logged in */}
-            {user && (
-              <Link to="/dashboard">
-                <Button variant="ghost">My Dashboard</Button>
-              </Link>
-            )}
+          </div>
 
-            {/* Show admin button if admin user */}
-            {user && user.email?.includes('admin') && (
-              <Link to="/admin">
-                <Button variant="ghost">Admin</Button>
+          <nav className="hidden md:flex space-x-8">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={cn(
+                  "relative font-medium text-sm transition-colors duration-300",
+                  location.pathname === item.href && !item.href.includes('#')
+                    ? "text-primary"
+                    : "text-gray-600 hover:text-primary"
+                )}
+              >
+                <span className="relative">
+                  {item.name}
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300",
+                      location.pathname === item.href && !item.href.includes('#')
+                        ? "w-full"
+                        : "group-hover:w-full"
+                    )}
+                  />
+                </span>
               </Link>
-            )}
-
-            {/* Authentication buttons */}
-            {!user ? (
-              <>
-                <Link to="/login">
-                  <Button variant="ghost">Sign In</Button>
-                </Link>
-                <Link to="/register">
-                  <Button>Create Account</Button>
-                </Link>
-              </>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    {user.email?.split('@')[0]}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>
-                    <Link to="/dashboard" className="w-full">
-                      My Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => logout()}>
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+            ))}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden flex items-center text-gray-900"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <motion.div
-        className={`md:hidden ${isMenuOpen ? "block" : "hidden"}`}
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: isMenuOpen ? 1 : 0, height: isMenuOpen ? "auto" : 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="container mx-auto px-4 py-4 bg-white shadow-lg rounded-b-lg">
-          <div className="flex flex-col space-y-3">
-            <Link to="/" className="px-4 py-2 hover:bg-gray-100 rounded-md">
-              Home
+          <div className="hidden md:flex items-center space-x-4">
+            <Link
+              to="/dashboard"
+              className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+            >
+              My Claims
             </Link>
-            <div className="px-4 py-2 hover:bg-gray-100 rounded-md">
-              <details>
-                <summary className="list-none flex justify-between items-center cursor-pointer">
-                  Services
-                  <ChevronDown className="h-4 w-4" />
-                </summary>
-                <div className="mt-2 ml-2 space-y-2">
-                  <Link
-                    to="/claim"
-                    className="block px-2 py-1 hover:text-primary text-sm"
-                  >
-                    Flight Compensation
-                  </Link>
-                  <Link
-                    to="/claim"
-                    className="block px-2 py-1 hover:text-primary text-sm"
-                  >
-                    Delayed Flights
-                  </Link>
-                  <Link
-                    to="/claim"
-                    className="block px-2 py-1 hover:text-primary text-sm"
-                  >
-                    Cancelled Flights
-                  </Link>
-                </div>
-              </details>
-            </div>
-            <Link to="/claim" className="px-4 py-2 hover:bg-gray-100 rounded-md">
-              File a Claim
+            <Link
+              to="/claim"
+              className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-full hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            >
+              Start Your Claim
             </Link>
-            
-            {/* Authenticated mobile nav links */}
-            {user && (
-              <Link to="/dashboard" className="px-4 py-2 hover:bg-gray-100 rounded-md">
-                My Dashboard
-              </Link>
-            )}
-            
-            {user && user.email?.includes('admin') && (
-              <Link to="/admin" className="px-4 py-2 hover:bg-gray-100 rounded-md">
-                Admin Panel
-              </Link>
-            )}
+          </div>
 
-            {/* Auth links for mobile */}
-            {!user ? (
-              <>
-                <Link to="/login" className="px-4 py-2 hover:bg-gray-100 rounded-md">
-                  Sign In
-                </Link>
-                <Link to="/register" className="px-4 py-2 bg-primary text-white rounded-md text-center">
-                  Create Account
-                </Link>
-              </>
-            ) : (
-              <button 
-                onClick={() => logout()} 
-                className="px-4 py-2 text-left hover:bg-gray-100 rounded-md text-red-600"
-              >
-                Sign Out
-              </button>
-            )}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-700 hover:text-primary transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
           </div>
         </div>
-      </motion.div>
+
+        <div
+          className={cn(
+            "md:hidden absolute left-0 right-0 top-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-hidden",
+            isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          )}
+        >
+          <div className="px-4 py-6 space-y-3">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={cn(
+                  "block py-2 px-3 rounded-lg font-medium transition-colors",
+                  location.pathname === item.href && !item.href.includes('#')
+                    ? "text-primary bg-blue-50"
+                    : "text-gray-600 hover:text-primary hover:bg-blue-50"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <hr className="my-2 border-gray-100" />
+            <Link
+              to="/dashboard"
+              className="block py-2 px-3 rounded-lg font-medium text-gray-600 hover:text-primary hover:bg-blue-50 transition-colors"
+            >
+              My Claims
+            </Link>
+            <Link
+              to="/claim"
+              className="block py-2 px-3 rounded-lg text-center font-medium text-white bg-primary hover:bg-blue-600 transition-colors"
+            >
+              Start Your Claim
+            </Link>
+          </div>
+        </div>
+      </div>
     </header>
   );
 };
