@@ -22,12 +22,12 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-// Схема валидации для формы
+// Schema validation for the form
 const newClaimSchema = z.object({
   customer: z.string().min(3, "Customer name is required"),
   email: z.string().email("Valid email is required"),
   airline: z.string().min(1, "Airline is required"),
-  flightNumber: z.string().min(1, "Flight number is required"),
+  flightnumber: z.string().min(1, "Flight number is required"), // Changed from flightNumber to flightnumber
   date: z.date(),
   amount: z.string().min(1, "Amount is required"),
 });
@@ -42,7 +42,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
     customer: "",
     email: "",
     airline: "",
-    flightNumber: "",
+    flightnumber: "", // Changed from flightNumber to flightnumber
     date: new Date(),
     amount: "",
   });
@@ -62,24 +62,24 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
     e.preventDefault();
 
     try {
-      // Валидируем данные
+      // Validate the data
       newClaimSchema.parse(formData);
       
-      // Создаем ID для нового запроса
+      // Create ID for the new claim
       const claimId = `CLM-${Math.floor(1000 + Math.random() * 9000)}`;
       
-      // Создаем объект с данными нового запроса
+      // Create object with the new claim data
       const newClaim = {
         id: claimId,
         customer: formData.customer,
         email: formData.email,
         airline: formData.airline,
-        flightNumber: formData.flightNumber,
+        flightnumber: formData.flightnumber, // Changed from flightNumber to flightnumber
         date: format(formData.date, "yyyy-MM-dd"),
         status: "pending",
         stage: "initial_review",
         amount: formData.amount.startsWith("€") ? formData.amount : `€${formData.amount}`,
-        lastUpdated: format(new Date(), "yyyy-MM-dd"),
+        lastupdated: format(new Date(), "yyyy-MM-dd"), // Changed from lastUpdated to lastupdated
       };
 
       onSubmit(newClaim);
@@ -149,14 +149,14 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="flightNumber">Flight Number</Label>
+          <Label htmlFor="flightnumber">Flight Number</Label>
           <Input
-            id="flightNumber"
-            value={formData.flightNumber}
-            onChange={(e) => handleChange("flightNumber", e.target.value)}
+            id="flightnumber"
+            value={formData.flightnumber}  // Changed from flightNumber to flightnumber
+            onChange={(e) => handleChange("flightnumber", e.target.value)}  // Changed from flightNumber to flightnumber
             placeholder="e.g. LH1234"
           />
-          {errors.flightNumber && <p className="text-sm text-red-500">{errors.flightNumber}</p>}
+          {errors.flightnumber && <p className="text-sm text-red-500">{errors.flightnumber}</p>}  // Changed from flightNumber to flightnumber
         </div>
       </div>
       

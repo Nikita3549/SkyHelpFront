@@ -13,11 +13,11 @@ export type Claim = {
   customer: string;
   email: string;
   airline: string;
-  flightNumber: string;
+  flightnumber: string; // Changed from flightNumber to flightnumber to match database
   date: string;
   status: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected';
   stage: string;
   amount: string;
-  lastUpdated: string;
+  lastupdated: string; // Changed from lastUpdated to lastupdated to match database
   created_at?: string;
 };

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
@@ -180,7 +179,7 @@ const Admin = () => {
       claim.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       claim.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       claim.airline.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      claim.flightNumber.toLowerCase().includes(searchTerm.toLowerCase());
+      claim.flightnumber.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = statusFilter === "all" || claim.status === statusFilter;
     
@@ -213,12 +212,12 @@ const Admin = () => {
         claim.customer,
         claim.email,
         claim.airline,
-        claim.flightNumber,
+        claim.flightnumber,
         claim.date,
         claim.status,
         claim.stage,
         claim.amount,
-        claim.lastUpdated
+        claim.lastupdated
       ]);
     });
     
@@ -527,7 +526,7 @@ const Admin = () => {
                             <TableCell>
                               <div>
                                 <div className="font-medium">{claim.airline}</div>
-                                <div className="text-xs text-gray-500">{claim.flightNumber}</div>
+                                <div className="text-xs text-gray-500">{claim.flightnumber}</div>
                               </div>
                             </TableCell>
                             <TableCell>{new Date(claim.date).toLocaleDateString()}</TableCell>
@@ -652,7 +651,7 @@ const Admin = () => {
                             <div className="flex justify-between text-sm">
                               <span className="text-gray-500">Flight Number:</span>
                               <span className="font-medium">
-                                {claimsData.find((claim) => claim.id === selectedClaim)?.flightNumber}
+                                {claimsData.find((claim) => claim.id === selectedClaim)?.flightnumber}
                               </span>
                             </div>
                             <div className="flex justify-between text-sm">
@@ -786,91 +785,4 @@ const Admin = () => {
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h3 className="font-medium">Claim Update Notification</h3>
-                          <p className="text-xs text-gray-500">Sent to John Smith regarding claim CLM-1001</p>
-                        </div>
-                        <Badge variant="outline">Sent</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-1">Your claim has been updated to "In Progress"</p>
-                      <p className="text-xs text-gray-400">Today, 14:25 PM</p>
-                    </div>
-                    <div className="rounded-lg border p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-medium">Airline Follow-up</h3>
-                          <p className="text-xs text-gray-500">Sent to Lufthansa regarding claim CLM-1004</p>
-                        </div>
-                        <Badge variant="outline">Sent</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-1">Follow-up on compensation request</p>
-                      <p className="text-xs text-gray-400">Yesterday, 09:10 AM</p>
-                    </div>
-                    <div className="rounded-lg border p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-medium">Document Request</h3>
-                          <p className="text-xs text-gray-500">Sent to Emma Johnson regarding claim CLM-1006</p>
-                        </div>
-                        <Badge variant="outline">Sent</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-1">Requesting boarding pass and ID document</p>
-                      <p className="text-xs text-gray-400">Yesterday, 16:45 PM</p>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="border-t pt-4">
-                    <Button variant="outline" className="w-full">
-                      <Mail className="mr-2 h-4 w-4" />
-                      Send New Email
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </motion.div>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Email Analytics</CardTitle>
-                  <CardDescription>Email campaign performance and metrics</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[200px] flex items-center justify-center">
-                    <div className="text-center text-gray-500">
-                      <BarChart4 className="h-12 w-12 mx-auto opacity-30" />
-                      <p className="mt-2">Email analytics visualization</p>
-                      <p className="text-sm">(Actual charts would be implemented here)</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-4 mt-4">
-                    <div className="rounded-lg border p-4 text-center">
-                      <p className="text-2xl font-bold">89%</p>
-                      <p className="text-xs text-gray-500">Open Rate</p>
-                    </div>
-                    <div className="rounded-lg border p-4 text-center">
-                      <p className="text-2xl font-bold">64%</p>
-                      <p className="text-xs text-gray-500">Click Rate</p>
-                    </div>
-                    <div className="rounded-lg border p-4 text-center">
-                      <p className="text-2xl font-bold">156</p>
-                      <p className="text-xs text-gray-500">Sent Today</p>
-                    </div>
-                    <div className="rounded-lg border p-4 text-center">
-                      <p className="text-2xl font-bold">3.2%</p>
-                      <p className="text-xs text-gray-500">Bounce Rate</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-
-      {/* New Claim Modal */}
-      <NewClaimModal 
-        isOpen={isNewClaimModalOpen} 
-        onClose={() => setIsNewClaimModalOpen(false)}
-        onSubmit={handleNewClaimSubmit} 
-      />
-    </div>
-  );
-};
-
-export default Admin;
+                          <p className="text-xs text-gray-500">Sent
