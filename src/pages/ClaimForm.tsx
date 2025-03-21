@@ -1,382 +1,533 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { 
-  Plane, 
-  Calendar, 
-  MapPin, 
-  Clock, 
-  Users, 
-  ArrowRight, 
-  Check, 
-  CheckCircle2, 
-  ArrowLeft,
-  AlertCircle,
-  Loader2
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { toast } from "sonner";
-import { 
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useForm } from "react-hook-form";
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { claimsService } from "@/services/claimsService";
 import { v4 as uuidv4 } from 'uuid';
-import { useAuth } from "@/context/AuthContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { ArrowRight, Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Calendar } from "@/components/ui/calendar";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { claimsService } from "@/services/claimsService";
+import { newClaimSchema, ClaimFormData } from "@/utils/formValidation";
 
-// Form schemas for each step
-const flightDetailsSchema = z.object({
-  flightNumber: z.string().min(3, "Flight number must be at least 3 characters"),
-  airline: z.string().min(2, "Please select an airline"),
-  departureDate: z.string().min(1, "Please select a departure date"),
-  departureAirport: z.string().min(2, "Please enter the departure airport"),
-  arrivalAirport: z.string().min(2, "Please enter the arrival airport"),
-  disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection"], {
-    required_error: "Please select the type of disruption",
-  }),
-});
+const airlineOptions = [
+  { label: "Lufthansa", value: "lufthansa" },
+  { label: "British Airways", value: "british_airways" },
+  { label: "Air France", value: "air_france" },
+  { label: "KLM", value: "klm" },
+  { label: "Ryanair", value: "ryanair" },
+  { label: "EasyJet", value: "easyjet" },
+  { label: "Vueling", value: "vueling" },
+  { label: "Iberia", value: "iberia" },
+  { label: "Wizz Air", value: "wizz_air" },
+  { label: "Turkish Airlines", value: "turkish_airlines" },
+];
 
-const passengerDetailsSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(6, "Please enter a valid phone number"),
-  passengers: z.string().min(1, "Please select the number of passengers"),
-  address: z.string().min(5, "Please enter your address"),
-});
+const flightIssueOptions = [
+  { label: "Flight was delayed", value: "delayed" },
+  { label: "Flight was cancelled", value: "cancelled" },
+  { label: "I was denied boarding", value: "denied_boarding" },
+  { label: "Flight was overbooked", value: "overbooked" },
+  { label: "I missed a connecting flight", value: "missed_connection" },
+  { label: "My luggage was lost/damaged", value: "luggage_issue" },
+  { label: "Flight was diverted to another airport", value: "diverted" },
+  { label: "Other issue", value: "other" },
+];
 
-const disruptionDetailsSchema = z.object({
-  delayDuration: z.string().optional(),
-  actualDepartureTime: z.string().optional(),
-  originalDepartureTime: z.string().optional(),
-  reasonGiven: z.string().optional(),
-  additionalInfo: z.string().optional(),
-});
-
-const paymentDetailsSchema = z.object({
-  paymentMethod: z.enum(["bank_transfer", "paypal", "wise"], {
-    required_error: "Please select a payment method",
-  }),
-  bankName: z.string().optional(),
-  accountName: z.string().optional(),
-  accountNumber: z.string().optional(),
-  routingNumber: z.string().optional(),
-  iban: z.string().optional(),
-  paypalEmail: z.string().email().optional(),
-  termsAgreed: z.boolean().refine(val => val === true, {
-    message: "You must agree to the terms and conditions",
-  }),
-});
-
-const airlines = [
-  { value: "ryanair", label: "Ryanair" },
-  { value: "easyjet", label: "EasyJet" },
-  { value: "ba", label: "British Airways" },
-  { value: "lufthansa", label: "Lufthansa" },
-  { value: "airfrance", label: "Air France" },
-  { value: "klm", label: "KLM" },
-  { value: "iberia", label: "Iberia" },
-  { value: "vueling", label: "Vueling" },
-  { value: "wizz", label: "Wizz Air" },
-  { value: "norwegian", label: "Norwegian" },
-  { value: "other", label: "Other" },
+const steps = [
+  {
+    id: "Step 1",
+    name: "Personal Information",
+    fields: ["firstName", "lastName", "email", "phone", "address"]
+  },
+  {
+    id: "Step 2",
+    name: "Flight Details",
+    fields: ["airline", "flightnumber", "departureAirport", "arrivalAirport", "flightIssue", "reasonGivenByAirline", "numberOfPassengers"]
+  },
+  {
+    id: "Step 3",
+    name: "Claim Details",
+    fields: ["date", "amount", "additionalInformation"]
+  },
+  {
+    id: "Step 4",
+    name: "Payment Information",
+    fields: ["paymentMethod", "bankName", "accountHolderName", "iban", "accountNumber", "paypalEmail", "wiseAccountHolder", "wiseIbanOrAccount", "wiseEmail"]
+  }
 ];
 
 const ClaimForm = () => {
-  const [step, setStep] = useState(1);
-  const [isEligible, setIsEligible] = useState<boolean | null>(null);
-  const [isChecking, setIsChecking] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    flightDetails: {},
-    passengerDetails: {},
-    disruptionDetails: {},
-    paymentDetails: {},
-  });
   const navigate = useNavigate();
-  const { user, signIn } = useAuth();
-
-  const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
-    resolver: zodResolver(flightDetailsSchema),
-    defaultValues: {
-      flightNumber: "",
-      airline: "",
-      departureDate: "",
-      departureAirport: "",
-      arrivalAirport: "",
-      disruptionType: "delay",
-    },
-  });
-
-  const passengerDetailsForm = useForm<z.infer<typeof passengerDetailsSchema>>({
-    resolver: zodResolver(passengerDetailsSchema),
+  const [previousStep, setPreviousStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const form = useForm<ClaimFormData>({
+    resolver: zodResolver(newClaimSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       phone: "",
-      passengers: "1",
       address: "",
-    },
-  });
-
-  const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
-    resolver: zodResolver(disruptionDetailsSchema),
-    defaultValues: {
-      delayDuration: "",
-      actualDepartureTime: "",
-      originalDepartureTime: "",
-      reasonGiven: "",
-      additionalInfo: "",
-    },
-  });
-
-  const paymentDetailsForm = useForm<z.infer<typeof paymentDetailsSchema>>({
-    resolver: zodResolver(paymentDetailsSchema),
-    defaultValues: {
-      paymentMethod: "bank_transfer",
+      airline: "",
+      flightnumber: "",
+      departureAirport: "",
+      arrivalAirport: "",
+      flightIssue: "",
+      reasonGivenByAirline: "",
+      numberOfPassengers: "",
+      date: new Date(),
+      amount: "",
+      additionalInformation: "",
+      paymentMethod: "",
+      // Bank Transfer fields
       bankName: "",
-      accountName: "",
-      accountNumber: "",
-      routingNumber: "",
+      accountHolderName: "",
       iban: "",
+      accountNumber: "",
+      // PayPal field
       paypalEmail: "",
-      termsAgreed: false,
+      // Wise fields
+      wiseAccountHolder: "",
+      wiseIbanOrAccount: "",
+      wiseEmail: "",
     },
   });
-
-  const onFlightDetailsSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
-    setIsChecking(true);
-    setFormData({ ...formData, flightDetails: data });
-    
-    setTimeout(() => {
-      setIsEligible(true);
-      setIsChecking(false);
-    }, 2000);
-  };
-
-  const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
-    setFormData({ ...formData, passengerDetails: data });
-    setStep(3);
+  
+  const { trigger, getValues, setValue, watch } = form;
+  
+  const paymentMethod = watch("paymentMethod");
+  
+  // Check if the fields in the current step are valid
+  const processStep = async (direction: "next" | "previous") => {
+    if (direction === "next") {
+      const fields = steps[currentStep].fields;
+      const output = await trigger(fields as any, { shouldFocus: true });
+      
+      if (!output) return;
+      
+      if (currentStep < steps.length - 1) {
+        setPreviousStep(currentStep);
+        setCurrentStep(step => step + 1);
+      }
+    } else {
+      setPreviousStep(currentStep);
+      setCurrentStep(step => step - 1);
+    }
   };
   
-  const onDisruptionDetailsSubmit = (data: z.infer<typeof disruptionDetailsSchema>) => {
-    setFormData({ ...formData, disruptionDetails: data });
-    setStep(4);
+  // Animation variants for step transitions
+  const variants = {
+    rightToLeft: {
+      initial: { x: 50, opacity: 0 },
+      animate: { x: 0, opacity: 1 },
+      exit: { x: -50, opacity: 0 }
+    },
+    leftToRight: {
+      initial: { x: -50, opacity: 0 },
+      animate: { x: 0, opacity: 1 },
+      exit: { x: 50, opacity: 0 }
+    }
   };
   
-  const onPaymentDetailsSubmit = async (data: z.infer<typeof paymentDetailsSchema>) => {
+  // Determine which animation to use based on step direction
+  const getAnimationVariant = () => {
+    if (previousStep < currentStep) {
+      return variants.rightToLeft;
+    }
+    return variants.leftToRight;
+  };
+  
+  // Submit the form
+  const onSubmit = async (data: ClaimFormData) => {
     setIsSubmitting(true);
-    const allFormData = {
-      ...formData,
-      paymentDetails: data,
-    };
-    
-    const flightData = allFormData.flightDetails as z.infer<typeof flightDetailsSchema>;
-    const passengerData = allFormData.passengerDetails as z.infer<typeof passengerDetailsSchema>;
-    const disruptionData = allFormData.disruptionDetails as z.infer<typeof disruptionDetailsSchema>;
     
     try {
-      // Prepare claim data
-      const claimData = {
-        id: uuidv4(),
-        customer: `${passengerData.firstName} ${passengerData.lastName}`,
-        email: passengerData.email,
-        airline: flightData.airline,
-        flightnumber: flightData.flightNumber,
-        date: flightData.departureDate,
-        status: 'pending',
-        stage: 'initial_review',
-        amount: '300', // Default amount or calculate based on criteria
-        lastupdated: new Date().toISOString().split('T')[0],
-        phone: passengerData.phone,
-        address: passengerData.address,
-        numberOfPassengers: passengerData.passengers,
-        departureAirport: flightData.departureAirport,
-        arrivalAirport: flightData.arrivalAirport,
-        flightIssue: flightData.disruptionType,
-        reasonGivenByAirline: disruptionData.reasonGiven,
-        additionalInformation: disruptionData.additionalInfo,
-        paymentMethod: data.paymentMethod,
-        paymentDetails: {
+      console.log("Form data submitted:", data);
+      
+      // Format and prepare the claim data
+      const claimId = uuidv4();
+      const today = new Date().toISOString().split('T')[0];
+      
+      const formattedDate = format(data.date, "yyyy-MM-dd");
+      
+      // Prepare payment details based on the selected payment method
+      let paymentDetails: any = {};
+      
+      if (data.paymentMethod === "bank_transfer") {
+        paymentDetails = {
           bankName: data.bankName,
-          accountName: data.accountName,
-          accountNumber: data.accountNumber,
+          accountHolderName: data.accountHolderName,
           iban: data.iban,
+          accountNumber: data.accountNumber
+        };
+      } else if (data.paymentMethod === "paypal") {
+        paymentDetails = {
           paypalEmail: data.paypalEmail
-        }
-      };
-      
-      // Create claim in the database
-      await claimsService.createClaim(claimData);
-      
-      // Send magic link for login if user is not already logged in
-      if (!user) {
-        try {
-          await signIn(passengerData.email);
-          toast.success("Claim submitted successfully", {
-            description: "We've sent a link to access your dashboard to your email.",
-          });
-        } catch (error) {
-          console.error("Error sending login link:", error);
-          toast.success("Claim submitted successfully", {
-            description: "Your claim has been submitted, but we couldn't send a login link. Please try logging in later.",
-          });
-        }
-      } else {
-        toast.success("Claim submitted successfully", {
-          description: "We'll process your claim and keep you updated.",
-        });
+        };
+      } else if (data.paymentMethod === "wise") {
+        paymentDetails = {
+          accountHolderName: data.wiseAccountHolder,
+          ibanOrAccount: data.wiseIbanOrAccount,
+          email: data.wiseEmail
+        };
       }
       
-      // Redirect to dashboard
-      navigate("/dashboard");
+      // Create the claim object
+      const claimData = {
+        id: claimId,
+        customer: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        airline: data.airline,
+        flightnumber: data.flightnumber,
+        date: formattedDate,
+        status: 'pending' as const,
+        stage: 'documentation_collection',
+        amount: data.amount,
+        lastupdated: today,
+        
+        // Additional fields
+        phone: data.phone,
+        address: data.address,
+        numberOfPassengers: data.numberOfPassengers,
+        departureAirport: data.departureAirport,
+        arrivalAirport: data.arrivalAirport,
+        flightIssue: data.flightIssue,
+        reasonGivenByAirline: data.reasonGivenByAirline,
+        additionalInformation: data.additionalInformation,
+        paymentMethod: data.paymentMethod,
+        paymentDetails: paymentDetails
+      };
+      
+      console.log("Prepared claim data:", claimData);
+      
+      // Submit the claim to the database
+      await claimsService.createClaim(claimData);
+      
+      // Create or sign-in user with the provided email
+      await claimsService.createOrSignInUser(data.email);
+      
+      // Show success message
+      toast.success("Claim submitted successfully!", {
+        description: "We've sent you an email with your login details to track your claim.",
+        duration: 5000,
+      });
+      
+      // Redirect to confirmation page or dashboard login
+      navigate("/login", { 
+        state: { 
+          message: "Your claim has been submitted! Please check your email for a login link to track your claim." 
+        } 
+      });
+      
     } catch (error) {
       console.error("Error submitting claim:", error);
-      toast.error("Submission failed", {
-        description: "There was an error submitting your claim. Please try again.",
+      toast.error("There was an error submitting your claim", {
+        description: error instanceof Error ? error.message : "Please try again later.",
       });
+    } finally {
       setIsSubmitting(false);
     }
   };
-
-  const proceedToNextStep = () => {
-    setStep(2);
-  };
-
-  const transitions = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
-    transition: { duration: 0.3 },
-  };
-
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return (
-          <motion.div 
-            key="step1"
-            initial={transitions.initial}
-            animate={transitions.animate}
-            exit={transitions.exit}
-            transition={transitions.transition}
-          >
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-2">Flight Details</h2>
-              <p className="text-gray-600">
-                Enter your flight information to check eligibility for compensation.
-              </p>
-            </div>
-            
-            <Form {...flightDetailsForm}>
-              <form onSubmit={flightDetailsForm.handleSubmit(onFlightDetailsSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  
+  return (
+    <div className="py-12 md:py-20 bg-gray-50 min-h-screen">
+      <div className="container max-w-3xl mx-auto px-4">
+        <div className="mb-10 text-center">
+          <h1 className="text-3xl font-bold mb-2">Submit Your Claim</h1>
+          <p className="text-gray-600">
+            We'll help you get the compensation you deserve for your flight disruption
+          </p>
+        </div>
+        
+        {/* Progress Steps */}
+        <nav aria-label="Progress" className="mb-8">
+          <ol role="list" className="flex items-center">
+            {steps.map((step, index) => (
+              <li key={step.id} className={cn(
+                "relative flex items-center justify-center flex-1",
+                index !== steps.length - 1 ? "pr-8" : "",
+                index !== 0 ? "pl-8" : ""
+              )}>
+                {index < currentStep ? (
+                  // Completed step
+                  <>
+                    <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div className="h-0.5 w-full bg-primary"></div>
+                    </div>
+                    <div 
+                      className="relative flex h-8 w-8 items-center justify-center rounded-full bg-primary">
+                      <Check className="h-5 w-5 text-white" aria-hidden="true" />
+                      <span className="sr-only">{step.name}</span>
+                    </div>
+                  </>
+                ) : index === currentStep ? (
+                  // Current step
+                  <>
+                    <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div className="h-0.5 w-full bg-gray-200"></div>
+                    </div>
+                    <div
+                      className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary bg-white"
+                      aria-current="step"
+                    >
+                      <span className="h-2.5 w-2.5 rounded-full bg-primary" aria-hidden="true"></span>
+                      <span className="sr-only">{step.name}</span>
+                    </div>
+                  </>
+                ) : (
+                  // Upcoming step
+                  <>
+                    <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div className="h-0.5 w-full bg-gray-200"></div>
+                    </div>
+                    <div className="group relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white">
+                      <span className="h-2.5 w-2.5 rounded-full bg-transparent" aria-hidden="true"></span>
+                      <span className="sr-only">{step.name}</span>
+                    </div>
+                  </>
+                )}
+                
+                <div className={cn(
+                  "hidden absolute mt-16 text-sm font-medium sm:block",
+                  index === currentStep ? "text-primary" : "text-gray-500"
+                )}>
+                  {step.name}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        
+        {/* Form */}
+        <motion.div
+          className="bg-white p-6 md:p-8 rounded-lg shadow-sm"
+          initial={getAnimationVariant().initial}
+          animate={getAnimationVariant().animate}
+          exit={getAnimationVariant().exit}
+          transition={{ duration: 0.3 }}
+        >
+          <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Step 1: Personal Information */}
+              {currentStep === 0 && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold">Personal Information</h2>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>First Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="John" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Doe" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
                   <FormField
-                    control={flightDetailsForm.control}
-                    name="flightNumber"
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Address</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="john.doe@example.com" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          We'll use this to send you updates about your claim
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="+1234567890" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Enter your full address" 
+                            className="resize-none" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+              
+              {/* Step 2: Flight Details */}
+              {currentStep === 1 && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold">Flight Details</h2>
+                  
+                  <FormField
+                    control={form.control}
+                    name="airline"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Airline</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-full justify-between",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value
+                                  ? airlineOptions.find(
+                                      (airline) => airline.value === field.value
+                                    )?.label
+                                  : "Select airline"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-full p-0">
+                            <Command>
+                              <CommandInput placeholder="Search airline..." />
+                              <CommandEmpty>No airline found.</CommandEmpty>
+                              <CommandGroup>
+                                {airlineOptions.map((airline) => (
+                                  <CommandItem
+                                    value={airline.label}
+                                    key={airline.value}
+                                    onSelect={() => {
+                                      setValue("airline", airline.value)
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        airline.value === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {airline.label}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="flightnumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Flight Number</FormLabel>
                         <FormControl>
-                          <div className="relative">
-                            <Input placeholder="e.g. BA1234" {...field} />
-                            <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                          </div>
+                          <Input placeholder="e.g. LH1234" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          Usually a combination of letters and numbers (e.g. LH1234)
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   
-                  <FormField
-                    control={flightDetailsForm.control}
-                    name="airline"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Airline</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="departureAirport"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Departure Airport</FormLabel>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select airline" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {airlines.map((airline) => (
-                              <SelectItem key={airline.value} value={airline.value}>
-                                {airline.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={flightDetailsForm.control}
-                    name="departureDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Departure Date</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input type="date" {...field} />
-                            <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={flightDetailsForm.control}
-                    name="departureAirport"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Departure Airport</FormLabel>
-                        <FormControl>
-                          <div className="relative">
                             <Input placeholder="e.g. LHR" {...field} />
-                            <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="arrivalAirport"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Arrival Airport</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g. JFK" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   
                   <FormField
-                    control={flightDetailsForm.control}
-                    name="arrivalAirport"
+                    control={form.control}
+                    name="numberOfPassengers"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Arrival Airport</FormLabel>
+                        <FormLabel>Number of Passengers</FormLabel>
                         <FormControl>
-                          <div className="relative">
-                            <Input placeholder="e.g. CDG" {...field} />
-                            <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                          </div>
+                          <Input type="number" min="1" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -384,556 +535,375 @@ const ClaimForm = () => {
                   />
                   
                   <FormField
-                    control={flightDetailsForm.control}
-                    name="disruptionType"
+                    control={form.control}
+                    name="flightIssue"
                     render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>What happened to your flight?</FormLabel>
+                      <FormItem className="flex flex-col">
+                        <FormLabel>What happened with your flight?</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-full justify-between",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value
+                                  ? flightIssueOptions.find(
+                                      (issue) => issue.value === field.value
+                                    )?.label
+                                  : "Select issue"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-full p-0">
+                            <Command>
+                              <CommandInput placeholder="Search issues..." />
+                              <CommandEmpty>No issue found.</CommandEmpty>
+                              <CommandGroup>
+                                {flightIssueOptions.map((issue) => (
+                                  <CommandItem
+                                    value={issue.label}
+                                    key={issue.value}
+                                    onSelect={() => {
+                                      setValue("flightIssue", issue.value)
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        issue.value === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {issue.label}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="reasonGivenByAirline"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Reason Given by Airline (if any)</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="What explanation did the airline provide?" 
+                            className="resize-none" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+              
+              {/* Step 3: Claim Details */}
+              {currentStep === 2 && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold">Claim Details</h2>
+                  
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Date of Flight</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "PPP")
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Claim Amount (€)</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="e.g. 250" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Enter the amount you're claiming in Euros
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="additionalInformation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Additional Information</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Any other details that might help your claim" 
+                            className="resize-none" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+              
+              {/* Step 4: Payment Information */}
+              {currentStep === 3 && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold">Payment Information</h2>
+                  <p className="text-gray-600 mb-4">
+                    Let us know how you would like to receive your compensation
+                  </p>
+                  
+                  <FormField
+                    control={form.control}
+                    name="paymentMethod"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel>Payment Method</FormLabel>
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
                             defaultValue={field.value}
-                            className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2"
+                            className="flex flex-col space-y-1"
                           >
-                            <div className="flex items-center space-x-2 rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                              <RadioGroupItem value="delay" id="delay" />
-                              <label htmlFor="delay" className="flex items-center cursor-pointer">
-                                <Clock className="h-4 w-4 mr-2 text-primary" />
-                                <span>Flight was delayed</span>
-                              </label>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                              <RadioGroupItem value="cancellation" id="cancellation" />
-                              <label htmlFor="cancellation" className="flex items-center cursor-pointer">
-                                <AlertCircle className="h-4 w-4 mr-2 text-red-500" />
-                                <span>Flight was cancelled</span>
-                              </label>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                              <RadioGroupItem value="denied_boarding" id="denied_boarding" />
-                              <label htmlFor="denied_boarding" className="flex items-center cursor-pointer">
-                                <Users className="h-4 w-4 mr-2 text-orange-500" />
-                                <span>Denied boarding (overbooking)</span>
-                              </label>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                              <RadioGroupItem value="missed_connection" id="missed_connection" />
-                              <label htmlFor="missed_connection" className="flex items-center cursor-pointer">
-                                <Plane className="h-4 w-4 mr-2 text-blue-500" />
-                                <span>Missed connecting flight</span>
-                              </label>
-                            </div>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="bank_transfer" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Bank Transfer
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="paypal" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                PayPal
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="wise" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Wise Transfer
+                              </FormLabel>
+                            </FormItem>
                           </RadioGroup>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+                  
+                  {/* Conditional fields based on payment method */}
+                  {paymentMethod === "bank_transfer" && (
+                    <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="bankName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Bank Name</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="accountHolderName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Account Holder Name</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="iban"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>IBAN</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="accountNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Account Number</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )}
+                  
+                  {paymentMethod === "paypal" && (
+                    <FormField
+                      control={form.control}
+                      name="paypalEmail"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>PayPal Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                  
+                  {paymentMethod === "wise" && (
+                    <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="wiseAccountHolder"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Account Holder Name</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="wiseIbanOrAccount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>IBAN or Account Number</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="wiseEmail"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email Address</FormLabel>
+                            <FormControl>
+                              <Input type="email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )}
                 </div>
+              )}
+              
+              {/* Navigation buttons */}
+              <div className="mt-8 flex justify-between">
+                <Button
+                  type="button"
+                  onClick={() => processStep("previous")}
+                  disabled={currentStep === 0}
+                  variant="outline"
+                >
+                  Previous
+                </Button>
                 
-                <div className="pt-4">
-                  <Button 
-                    type="submit" 
-                    className="w-full sm:w-auto"
-                    disabled={isChecking}
-                  >
-                    {isChecking ? (
+                {currentStep < steps.length - 1 ? (
+                  <Button type="button" onClick={() => processStep("next")}>
+                    Next Step
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Checking Eligibility
+                        Submitting...
                       </>
                     ) : (
-                      <>
-                        Check Eligibility
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </>
+                      <>Submit Claim</>
                     )}
                   </Button>
-                </div>
-              </form>
-            </Form>
-            
-            {isEligible !== null && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                transition={{ duration: 0.3 }}
-                className="mt-8"
-              >
-                {isEligible ? (
-                  <div className="bg-green-50 border border-green-100 rounded-lg p-4">
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
-                      </div>
-                      <div className="ml-3">
-                        <h3 className="text-lg font-medium text-green-800">Good news! You are eligible for compensation</h3>
-                        <div className="mt-2 text-sm text-green-700">
-                          <p>Based on your flight details, you could be entitled to compensation under EU Regulation 261/2004.</p>
-                          <div className="mt-4">
-                            <Button onClick={proceedToNextStep} className="bg-green-600 hover:bg-green-700">
-                              Continue with your claim
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="bg-yellow-50 border border-yellow-100 rounded-lg p-4">
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <AlertCircle className="h-5 w-5 text-yellow-500" />
-                      </div>
-                      <div className="ml-3">
-                        <h3 className="text-lg font-medium text-yellow-800">We need more information</h3>
-                        <div className="mt-2 text-sm text-yellow-700">
-                          <p>Based on the information provided, we need additional details to determine your eligibility.</p>
-                          <div className="mt-4">
-                            <Button onClick={proceedToNextStep} variant="outline" className="border-yellow-300 text-yellow-700 hover:bg-yellow-50">
-                              Continue anyway
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 )}
-              </motion.div>
-            )}
-          </motion.div>
-        );
-      
-      case 2:
-        return (
-          <motion.div 
-            key="step2"
-            initial={transitions.initial}
-            animate={transitions.animate}
-            exit={transitions.exit}
-            transition={transitions.transition}
-          >
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-2">Passenger Details</h2>
-              <p className="text-gray-600">
-                Please provide your contact information so we can process your claim.
-              </p>
-            </div>
-            
-            <Form {...passengerDetailsForm}>
-              <form onSubmit={passengerDetailsForm.handleSubmit(onPassengerDetailsSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <FormField
-                    control={passengerDetailsForm.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>First Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your first name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={passengerDetailsForm.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Last Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your last name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={passengerDetailsForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="Enter your email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={passengerDetailsForm.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone Number</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your phone number" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={passengerDetailsForm.control}
-                    name="passengers"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Number of Passengers</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select number of passengers" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {[1, 2, 3, 4, 5, 6].map((num) => (
-                              <SelectItem key={num} value={num.toString()}>
-                                {num} {num === 1 ? 'passenger' : 'passengers'}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={passengerDetailsForm.control}
-                    name="address"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Address</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Enter your address" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                <div className="pt-4 flex justify-between items-center">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setStep(1)}
-                    className="flex items-center"
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back
-                  </Button>
-                  
-                  <Button type="submit">
-                    Continue
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </motion.div>
-        );
-      
-      case 3:
-        return (
-          <motion.div 
-            key="step3"
-            initial={transitions.initial}
-            animate={transitions.animate}
-            exit={transitions.exit}
-            transition={transitions.transition}
-          >
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-2">Disruption Details</h2>
-              <p className="text-gray-600">
-                Please provide more details about the flight disruption you experienced.
-              </p>
-            </div>
-            
-            <Form {...disruptionDetailsForm}>
-              <form onSubmit={disruptionDetailsForm.handleSubmit(onDisruptionDetailsSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {flightDetailsForm.getValues().disruptionType === "delay" && (
-                    <>
-                      <FormField
-                        control={disruptionDetailsForm.control}
-                        name="delayDuration"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Delay Duration (hours)</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select delay duration" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {["Less than 2 hours", "2-3 hours", "3-4 hours", "More than 4 hours"].map((duration) => (
-                                  <SelectItem key={duration} value={duration}>
-                                    {duration}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={disruptionDetailsForm.control}
-                        name="actualDepartureTime"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Actual Departure Time</FormLabel>
-                            <FormControl>
-                              <Input type="time" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={disruptionDetailsForm.control}
-                        name="originalDepartureTime"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Original Scheduled Departure Time</FormLabel>
-                            <FormControl>
-                              <Input type="time" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </>
-                  )}
-                  
-                  <FormField
-                    control={disruptionDetailsForm.control}
-                    name="reasonGiven"
-                    render={({ field }) => (
-                      <FormItem className={cn(
-                        flightDetailsForm.getValues().disruptionType === "delay" ? "md:col-span-1" : "md:col-span-2"
-                      )}>
-                        <FormLabel>Reason Given by Airline</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. Technical issues, weather conditions" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={disruptionDetailsForm.control}
-                    name="additionalInfo"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Additional Information</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Provide any additional details about the disruption that might be relevant to your claim" 
-                            {...field} 
-                            className="min-h-[120px]"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                <div className="pt-4 flex justify-between items-center">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setStep(2)}
-                    className="flex items-center"
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back
-                  </Button>
-                  
-                  <Button type="submit">
-                    Continue
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </motion.div>
-        );
-      
-      case 4:
-        return (
-          <motion.div 
-            key="step4"
-            initial={transitions.initial}
-            animate={transitions.animate}
-            exit={transitions.exit}
-            transition={transitions.transition}
-          >
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-2">Payment Details</h2>
-              <p className="text-gray-600">
-                Please provide your payment details for receiving the compensation.
-              </p>
-            </div>
-            
-            <Form {...paymentDetailsForm}>
-              <form onSubmit={paymentDetailsForm.handleSubmit(onPaymentDetailsSubmit)} className="space-y-6">
-                <FormField
-                  control={paymentDetailsForm.control}
-                  name="paymentMethod"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel>Payment Method</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="grid grid-cols-1 md:grid-cols-3 gap-4"
-                        >
-                          <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-                              <label htmlFor="bank_transfer" className="cursor-pointer font-medium">Bank Transfer</label>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="paypal" id="paypal" />
-                              <label htmlFor="paypal" className="cursor-pointer font-medium">PayPal</label>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="wise" id="wise" />
-                              <label htmlFor="wise" className="cursor-pointer font-medium">Wise / TransferWise</label>
-                            </div>
-                          </div>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                {paymentDetailsForm.watch("paymentMethod") === "bank_transfer" && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={paymentDetailsForm.control}
-                      name="bankName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Bank Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter bank name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={paymentDetailsForm.control}
-                      name="accountName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Account Holder Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter account holder name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={paymentDetailsForm.control}
-                      name="iban"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>IBAN</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter IBAN" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={paymentDetailsForm.control}
-                      name="accountNumber"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Account Number</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter account number" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                )}
-                
-                {paymentDetailsForm.watch("paymentMethod") === "paypal" && (
-                  <FormField
-                    control={paymentDetailsForm.control}
-                    name="paypalEmail"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>PayPal Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter PayPal email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-                
-                <FormField
-                  control={paymentDetailsForm.control}
-                  name="termsAgreed"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-6">
-                      <FormControl>
-                        <div className="mt-1">
-                          <input
-                            type="checkbox"
-                            checked={field.value}
-                            onChange={field.onChange}
-                            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                          />
-                        </div>
-                      </FormControl>
-                      <div className="leading-tight">
-                        <FormLabel className="font-normal text-sm text-gray-700">
-                          I agree to the{" "}
-                          <a href="#" className="text-primary underline hover:text-blue-600">
-                            terms and conditions
-                          </a>{" "}
-                          and authorize FlightEaseClaim to act on my behalf to claim compensation from the airline.
-                        </FormLabel>
-                        <FormMessage />
-                      </div>
-                    </FormItem>
-                  )}
+              </div>
+            </form>
+          </FormProvider>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default ClaimForm;
