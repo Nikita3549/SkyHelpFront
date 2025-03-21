@@ -22,8 +22,8 @@ const Marquee = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   
-  // Adjust speed for mobile
-  const adjustedSpeed = isMobile ? speed * 0.7 : speed;
+  // Increase speed for mobile - changed from 0.7 multiplier to 1.2 multiplier
+  const adjustedSpeed = isMobile ? speed * 1.2 : speed;
 
   useEffect(() => {
     if (!scrollRef.current || !contentRef.current) return;
