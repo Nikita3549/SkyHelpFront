@@ -13,6 +13,7 @@ import { AnimationTransitions } from "@/components/claim-form/types";
 import PaymentMethodSelector from "./payment-details/PaymentMethodSelector";
 import BankTransferFields from "./payment-details/BankTransferFields";
 import PayPalFields from "./payment-details/PayPalFields";
+import WiseFields from "./payment-details/WiseFields";
 import TermsAgreement from "./payment-details/TermsAgreement";
 import InfoBox from "./payment-details/InfoBox";
 import PaymentNavigationButtons from "./payment-details/PaymentNavigationButtons";
@@ -53,6 +54,7 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
           {/* Conditional rendering based on payment method */}
           {form.watch("paymentMethod") === "bank_transfer" && <BankTransferFields form={form} />}
           {form.watch("paymentMethod") === "paypal" && <PayPalFields form={form} />}
+          {form.watch("paymentMethod") === "wise" && <WiseFields form={form} />}
 
           {/* Terms agreement component */}
           <TermsAgreement form={form} />

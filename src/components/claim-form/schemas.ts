@@ -39,6 +39,7 @@ export const paymentDetailsSchema = z.object({
   routingNumber: z.string().optional(),
   iban: z.string().optional(),
   paypalEmail: z.string().email().optional(),
+  email: z.string().email().optional(),
   termsAgreed: z.boolean().refine(val => val === true, {
     message: "You must agree to the terms and conditions",
   }),
