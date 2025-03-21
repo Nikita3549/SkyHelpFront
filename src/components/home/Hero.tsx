@@ -83,14 +83,13 @@ const Hero = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.5 }}
-                  className="bg-white rounded-lg shadow-sm px-6 py-4 flex flex-col items-center"
+                  className="bg-white rounded-lg shadow-sm px-6 py-4 flex items-center"
                 >
-                  <div className="flex items-center mb-2">
-                    <Badge variant="default" className="bg-[#00b67a] hover:bg-[#00b67a]/90 flex items-center gap-1 px-3 py-1">
-                      <span className="font-bold">Trustpilot</span>
-                    </Badge>
-                  </div>
-                  <div className="flex items-center gap-1 mb-1">
+                  <Badge variant="default" className="bg-[#00b67a] hover:bg-[#00b67a]/90 flex items-center gap-1 px-3 py-1">
+                    <span className="font-bold">Trustpilot</span>
+                  </Badge>
+                  
+                  <div className="flex items-center gap-1 mx-3">
                     {[...Array(5)].map((_, i) => (
                       <Star 
                         key={i} 
@@ -101,9 +100,10 @@ const Hero = () => {
                       />
                     ))}
                   </div>
-                  <div className="text-center">
-                    <span className="font-bold text-gray-800">Rated 4.8/5</span>
-                    <p className="text-sm text-gray-600">Based on 1,200+ reviews</p>
+                  
+                  <div className="ml-1">
+                    <span className="font-bold text-gray-800">4.8/5</span>
+                    <p className="text-xs text-gray-600">1,200+ reviews</p>
                   </div>
                 </motion.div>
               </div>
