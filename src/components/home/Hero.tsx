@@ -2,12 +2,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, Plane } from "lucide-react";
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gradient-to-br from-white to-blue-50 pt-16">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1595674617530-78147adbb393?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2670')] bg-cover bg-center opacity-[0.03]"></div>
+      
+      {/* Airplane Vector Graphics */}
+      <div className="absolute left-[5%] top-[15%] text-blue-100/30 transform -rotate-12">
+        <Plane size={180} strokeWidth={1} />
+      </div>
+      <div className="absolute right-[8%] bottom-[10%] text-primary/10 transform rotate-45">
+        <Plane size={120} strokeWidth={1} />
+      </div>
+      <div className="absolute left-[20%] bottom-[25%] text-blue-200/20 transform rotate-12">
+        <Plane size={100} strokeWidth={1} />
+      </div>
       
       <div className="container-custom relative z-10 py-20 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
