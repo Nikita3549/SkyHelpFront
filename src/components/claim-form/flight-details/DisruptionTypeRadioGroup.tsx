@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -53,28 +52,27 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                 "rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
                 disruptionType === "delay" ? "bg-blue-50 border-primary" : ""
               )}>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="delay" id="delay" className="mt-0.5" />
-                  <label htmlFor="delay" className="flex items-center cursor-pointer">
-                    <Clock className="h-4 w-4 mr-2 text-primary" />
-                    <span>Flight was delayed</span>
-                  </label>
-                </div>
-                
-                {disruptionType === "delay" && (
-                  <div className="mt-3 ml-7">
+                <div className="flex items-center justify-between space-x-2">
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="delay" id="delay" className="mt-0.5" />
+                    <label htmlFor="delay" className="flex items-center cursor-pointer">
+                      <span>Flight was delayed</span>
+                    </label>
+                  </div>
+                  
+                  {disruptionType === "delay" && (
                     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
                       <DropdownMenuTrigger asChild>
                         <Button 
                           variant="outline" 
-                          className="flex justify-between w-full md:w-48 text-sm font-normal"
+                          className="flex justify-between items-center w-32 text-sm font-normal"
                           onClick={(e) => e.preventDefault()}
                         >
                           <span>{delayDuration || "Select duration"}</span>
-                          <ChevronDown className="h-4 w-4 opacity-50" />
+                          <Clock className="h-4 w-4 ml-2 opacity-50" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-48">
+                      <DropdownMenuContent className="w-32">
                         {["1 hour", "2 hours", "3 hours", "4+ hours"].map((duration) => (
                           <DropdownMenuItem 
                             key={duration} 
@@ -86,8 +84,8 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                         ))}
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
               <div className={cn(
