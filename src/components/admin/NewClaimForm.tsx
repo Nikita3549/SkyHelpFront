@@ -151,18 +151,18 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
       
       <hr className="my-6" />
       
-      <FlightInfoSection
-        airline={formData.airline}
-        flightnumber={formData.flightnumber}
-        errors={errors}
-        handleChange={handleChange}
-      />
-      
       <FlightDetailsSection
         departureAirport={formData.departureAirport}
         arrivalAirport={formData.arrivalAirport}
         flightIssue={formData.flightIssue}
         reasonGivenByAirline={formData.reasonGivenByAirline}
+        errors={errors}
+        handleChange={handleChange}
+      />
+      
+      <FlightInfoSection
+        airline={formData.airline}
+        flightnumber={formData.flightnumber}
         errors={errors}
         handleChange={handleChange}
       />
