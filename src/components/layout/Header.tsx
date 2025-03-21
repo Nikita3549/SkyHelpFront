@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Logo from "@/components/ui-custom/Logo";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,12 +64,7 @@ const Header = () => {
       <div className="container-custom">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Link
-              to="/"
-              className="text-xl md:text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 animate-fade-in"
-            >
-              CleverClaim
-            </Link>
+            <Logo />
           </div>
 
           <nav className="hidden md:flex space-x-8">

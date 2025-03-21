@@ -1,7 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import Logo from "@/components/ui-custom/Logo";
 
 const Footer = () => {
   const navigation = {
@@ -47,9 +47,7 @@ const Footer = () => {
         <div className="py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="space-y-6">
-              <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
-                CleverClaim
-              </h3>
+              <Logo size="lg" withLink={false} />
               <p className="text-gray-500 text-sm max-w-xs">
                 Helping air passengers get the compensation they deserve when flights are delayed or canceled.
               </p>
