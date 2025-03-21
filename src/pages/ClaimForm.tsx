@@ -38,6 +38,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { claimsService } from "@/services/claimsService";
+import { v4 as uuidv4 } from 'uuid';
+import { useAuth } from "@/context/AuthContext";
 
 // Form schemas for each step
 const flightDetailsSchema = z.object({
@@ -101,6 +104,7 @@ const ClaimForm = () => {
   const [step, setStep] = useState(1);
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     flightDetails: {},
     passengerDetails: {},
@@ -108,6 +112,7 @@ const ClaimForm = () => {
     paymentDetails: {},
   });
   const navigate = useNavigate();
+  const { user, signIn } = useAuth();
 
   const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
     resolver: zodResolver(flightDetailsSchema),
@@ -178,19 +183,79 @@ const ClaimForm = () => {
     setStep(4);
   };
   
-  const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
-    setFormData({ ...formData, paymentDetails: data });
-    
-    console.log("Complete form data:", {
+  const onPaymentDetailsSubmit = async (data: z.infer<typeof paymentDetailsSchema>) => {
+    setIsSubmitting(true);
+    const allFormData = {
       ...formData,
       paymentDetails: data,
-    });
+    };
     
-    toast.success("Claim submitted successfully", {
-      description: "We'll process your claim and keep you updated.",
-    });
+    const flightData = allFormData.flightDetails as z.infer<typeof flightDetailsSchema>;
+    const passengerData = allFormData.passengerDetails as z.infer<typeof passengerDetailsSchema>;
+    const disruptionData = allFormData.disruptionDetails as z.infer<typeof disruptionDetailsSchema>;
     
-    navigate("/dashboard");
+    try {
+      // Prepare claim data
+      const claimData = {
+        id: uuidv4(),
+        customer: `${passengerData.firstName} ${passengerData.lastName}`,
+        email: passengerData.email,
+        airline: flightData.airline,
+        flightnumber: flightData.flightNumber,
+        date: flightData.departureDate,
+        status: 'pending',
+        stage: 'initial_review',
+        amount: '300', // Default amount or calculate based on criteria
+        lastupdated: new Date().toISOString().split('T')[0],
+        phone: passengerData.phone,
+        address: passengerData.address,
+        numberOfPassengers: passengerData.passengers,
+        departureAirport: flightData.departureAirport,
+        arrivalAirport: flightData.arrivalAirport,
+        flightIssue: flightData.disruptionType,
+        reasonGivenByAirline: disruptionData.reasonGiven,
+        additionalInformation: disruptionData.additionalInfo,
+        paymentMethod: data.paymentMethod,
+        paymentDetails: {
+          bankName: data.bankName,
+          accountName: data.accountName,
+          accountNumber: data.accountNumber,
+          iban: data.iban,
+          paypalEmail: data.paypalEmail
+        }
+      };
+      
+      // Create claim in the database
+      await claimsService.createClaim(claimData);
+      
+      // Send magic link for login if user is not already logged in
+      if (!user) {
+        try {
+          await signIn(passengerData.email);
+          toast.success("Claim submitted successfully", {
+            description: "We've sent a link to access your dashboard to your email.",
+          });
+        } catch (error) {
+          console.error("Error sending login link:", error);
+          toast.success("Claim submitted successfully", {
+            description: "Your claim has been submitted, but we couldn't send a login link. Please try logging in later.",
+          });
+        }
+      } else {
+        toast.success("Claim submitted successfully", {
+          description: "We'll process your claim and keep you updated.",
+        });
+      }
+      
+      // Redirect to dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error submitting claim:", error);
+      toast.error("Submission failed", {
+        description: "There was an error submitting your claim. Please try again.",
+      });
+      setIsSubmitting(false);
+    }
   };
 
   const proceedToNextStep = () => {
@@ -872,70 +937,3 @@ const ClaimForm = () => {
                       </div>
                     </FormItem>
                   )}
-                />
-                
-                <div className="bg-blue-50 rounded-lg p-4 text-sm text-blue-700">
-                  <p className="font-medium mb-2">Here's what happens next:</p>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>We'll review your claim details and may contact you for additional information.</li>
-                    <li>We'll submit your claim to the airline and negotiate on your behalf.</li>
-                    <li>Once compensation is received, we'll transfer it to your specified payment method.</li>
-                    <li>Our service fee (25% + VAT) will be deducted from the compensation amount.</li>
-                  </ul>
-                </div>
-                
-                <div className="pt-4 flex justify-between items-center">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setStep(3)}
-                    className="flex items-center"
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back
-                  </Button>
-                  
-                  <Button type="submit">
-                    Submit Claim
-                    <Check className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </motion.div>
-        );
-      
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container-custom">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-12">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-primary">Step {step} of 4</span>
-              <span className="text-sm text-gray-500">{Math.round((step / 4) * 100)}% complete</span>
-            </div>
-            <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all duration-300 ease-in-out rounded-full"
-                style={{ width: `${(step / 4) * 100}%` }}
-              ></div>
-            </div>
-          </div>
-          
-          <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
-            <div className="p-6 md:p-8">
-              {renderStep()}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ClaimForm;

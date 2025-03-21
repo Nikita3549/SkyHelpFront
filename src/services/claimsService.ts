@@ -1,5 +1,6 @@
 
 import { supabase, Claim } from '@/lib/supabase';
+import { toast } from "sonner";
 
 export const claimsService = {
   // Fetch all claims
@@ -17,7 +18,23 @@ export const claimsService = {
     return data || [];
   },
   
-  // Create a new claim
+  // Fetch claims for a specific user
+  async getUserClaims(email: string): Promise<Claim[]> {
+    const { data, error } = await supabase
+      .from('claims')
+      .select('*')
+      .eq('email', email)
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error fetching user claims:', error);
+      throw error;
+    }
+    
+    return data || [];
+  },
+
+  // Create a new claim and link to user account
   async createClaim(claim: Omit<Claim, 'created_at'> & { 
     phone?: string; 
     address?: string;
@@ -106,5 +123,37 @@ export const claimsService = {
       console.error('Error deleting claim:', error);
       throw error;
     }
+  },
+
+  // Create an account or get magic link for existing account
+  async createOrSignInUser(email: string): Promise<void> {
+    // Check if user already exists
+    const { data: existingUsers, error: checkError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single();
+    
+    if (checkError && checkError.code !== 'PGRST116') { // PGRST116 = not found
+      console.error('Error checking for existing user:', checkError);
+      throw checkError;
+    }
+
+    // Send magic link to user's email
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+
+    if (error) {
+      console.error('Error sending magic link:', error);
+      throw error;
+    }
+
+    toast.success("Sign-in link sent", {
+      description: `We've sent a login link to ${email}. Check your inbox to sign in.`,
+    });
   }
 };
