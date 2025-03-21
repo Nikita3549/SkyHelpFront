@@ -25,7 +25,7 @@ const FlightDetailsSection = ({
     <div className="space-y-4 pt-2">
       <h3 className="text-lg font-medium">Flight Details</h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="departureAirport">Departure Airport</Label>
           <Input
