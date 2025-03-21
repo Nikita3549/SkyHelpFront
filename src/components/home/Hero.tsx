@@ -1,7 +1,9 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, Plane } from "lucide-react";
+import { Check, Plane, Star } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const Hero = () => {
   return (
@@ -76,30 +78,33 @@ const Hero = () => {
               className="pt-8"
             >
               <p className="text-sm text-gray-500 mb-3">Trusted by thousands of passengers</p>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center">
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.5 }}
-                  className="bg-white rounded-lg shadow-sm px-4 py-3 text-gray-600 hover:text-primary transition-colors"
+                  className="bg-white rounded-lg shadow-sm px-6 py-4 flex flex-col items-center"
                 >
-                  <span className="font-medium">British Airways</span>
-                </motion.div>
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8, duration: 0.5 }}
-                  className="bg-white rounded-lg shadow-sm px-4 py-3 text-gray-600 hover:text-primary transition-colors"
-                >
-                  <span className="font-medium">Lufthansa</span>
-                </motion.div>
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9, duration: 0.5 }}
-                  className="bg-white rounded-lg shadow-sm px-4 py-3 text-gray-600 hover:text-primary transition-colors"
-                >
-                  <span className="font-medium">Air France</span>
+                  <div className="flex items-center mb-2">
+                    <Badge variant="default" className="bg-[#00b67a] hover:bg-[#00b67a]/90 flex items-center gap-1 px-3 py-1">
+                      <span className="font-bold">Trustpilot</span>
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-1 mb-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star 
+                        key={i} 
+                        size={18} 
+                        fill={i < 5 ? "#00b67a" : "none"} 
+                        color={i < 5 ? "#00b67a" : "#d1d5db"} 
+                        className="flex-shrink-0"
+                      />
+                    ))}
+                  </div>
+                  <div className="text-center">
+                    <span className="font-bold text-gray-800">Rated 4.8/5</span>
+                    <p className="text-sm text-gray-600">Based on 1,200+ reviews</p>
+                  </div>
                 </motion.div>
               </div>
             </motion.div>
@@ -146,7 +151,7 @@ const Hero = () => {
                   </p>
                   <p className="flex items-start">
                     <Check className="h-4 w-4 text-primary flex-shrink-0 mr-1.5 mt-0.5" />
-                    <span>No-win, no-fee ��� only pay if we win your case</span>
+                    <span>No-win, no-fee — only pay if we win your case</span>
                   </p>
                   <p className="flex items-start">
                     <Check className="h-4 w-4 text-primary flex-shrink-0 mr-1.5 mt-0.5" />
