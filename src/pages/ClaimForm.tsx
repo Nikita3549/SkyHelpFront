@@ -126,6 +126,43 @@ const ClaimForm = () => {
     },
   });
 
+  const passengerDetailsForm = useForm<z.infer<typeof passengerDetailsSchema>>({
+    resolver: zodResolver(passengerDetailsSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      passengers: "1",
+      address: "",
+    },
+  });
+
+  const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
+    resolver: zodResolver(disruptionDetailsSchema),
+    defaultValues: {
+      delayDuration: "",
+      actualDepartureTime: "",
+      originalDepartureTime: "",
+      reasonGiven: "",
+      additionalInfo: "",
+    },
+  });
+
+  const paymentDetailsForm = useForm<z.infer<typeof paymentDetailsSchema>>({
+    resolver: zodResolver(paymentDetailsSchema),
+    defaultValues: {
+      paymentMethod: "bank_transfer",
+      bankName: "",
+      accountName: "",
+      accountNumber: "",
+      routingNumber: "",
+      iban: "",
+      paypalEmail: "",
+      termsAgreed: false,
+    },
+  });
+
   // Update form values when location state changes
   useEffect(() => {
     if (preFilledDepartureAirport) {
@@ -897,23 +934,4 @@ const ClaimForm = () => {
               <span className="text-sm font-medium text-primary">Step {step} of 4</span>
               <span className="text-sm text-gray-500">{Math.round((step / 4) * 100)}% complete</span>
             </div>
-            <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all duration-300 ease-in-out rounded-full"
-                style={{ width: `${(step / 4) * 100}%` }}
-              ></div>
-            </div>
-          </div>
-          
-          <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
-            <div className="p-6 md:p-8">
-              {renderStep()}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ClaimForm;
+            <div className="h-2 w-full bg-gray-100
