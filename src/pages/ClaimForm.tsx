@@ -295,8 +295,10 @@ const ClaimForm = () => {
                         <FormLabel>Departure Airport</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Input placeholder="e.g. LHR" {...field} />
-                            <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <Input placeholder="e.g. LHR" className="pl-10" {...field} />
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                              <Plane className="h-5 w-5 text-gray-400" />
+                            </div>
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -312,8 +314,10 @@ const ClaimForm = () => {
                         <FormLabel>Arrival Airport</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Input placeholder="e.g. CDG" {...field} />
-                            <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <Input placeholder="e.g. CDG" className="pl-10" {...field} />
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                              <Plane className="h-5 w-5 text-gray-400 transform rotate-90" />
+                            </div>
                           </div>
                         </FormControl>
                         <FormMessage />
