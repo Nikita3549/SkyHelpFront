@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 
 export const flightDetailsSchema = z.object({
@@ -22,6 +23,7 @@ export const passengerDetailsSchema = z.object({
 });
 
 export const disruptionDetailsSchema = z.object({
+  delayDuration: z.string().optional(),
   actualDepartureTime: z.string().optional(),
   originalDepartureTime: z.string().optional(),
   reasonGiven: z.string().optional(),
