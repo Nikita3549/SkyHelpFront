@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -13,18 +12,14 @@ import { cn } from "@/lib/utils";
 
 // Schema definition moved to a separate file
 import { disruptionDetailsSchema } from "@/components/claim-form/schemas";
+import { AnimationTransitions } from "@/components/claim-form/types";
 
 interface DisruptionDetailsStepProps {
   form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
   onSubmit: (data: z.infer<typeof disruptionDetailsSchema>) => void;
   onBack: () => void;
   disruptionType: string;
-  transitions: {
-    initial: object;
-    animate: object;
-    exit: object;
-    transition: object;
-  };
+  transitions: AnimationTransitions;
 }
 
 const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({

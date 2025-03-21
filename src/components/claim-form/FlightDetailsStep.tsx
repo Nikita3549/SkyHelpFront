@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, MapPin, Clock, Users, ArrowRight, Loader2 } from "lucide-react";
@@ -13,6 +12,7 @@ import { CheckCircle2, AlertCircle } from "lucide-react";
 
 // Schema definition moved to a separate file
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
+import { AnimationTransitions } from "@/components/claim-form/types";
 
 export const airlines = [
   { value: "ryanair", label: "Ryanair" },
@@ -34,12 +34,7 @@ interface FlightDetailsStepProps {
   isChecking: boolean;
   isEligible: boolean | null;
   onContinue: () => void;
-  transitions: {
-    initial: object;
-    animate: object;
-    exit: object;
-    transition: object;
-  };
+  transitions: AnimationTransitions;
 }
 
 const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({

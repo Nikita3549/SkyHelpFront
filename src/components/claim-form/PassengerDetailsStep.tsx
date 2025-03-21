@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -12,17 +11,13 @@ import { z } from "zod";
 
 // Schema definition moved to a separate file
 import { passengerDetailsSchema } from "@/components/claim-form/schemas";
+import { AnimationTransitions } from "@/components/claim-form/types";
 
 interface PassengerDetailsStepProps {
   form: UseFormReturn<z.infer<typeof passengerDetailsSchema>>;
   onSubmit: (data: z.infer<typeof passengerDetailsSchema>) => void;
   onBack: () => void;
-  transitions: {
-    initial: object;
-    animate: object;
-    exit: object;
-    transition: object;
-  };
+  transitions: AnimationTransitions;
 }
 
 const PassengerDetailsStep: React.FC<PassengerDetailsStepProps> = ({

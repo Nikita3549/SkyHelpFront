@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Check } from "lucide-react";
@@ -11,17 +10,13 @@ import { z } from "zod";
 
 // Schema definition moved to a separate file
 import { paymentDetailsSchema } from "@/components/claim-form/schemas";
+import { AnimationTransitions } from "@/components/claim-form/types";
 
 interface PaymentDetailsStepProps {
   form: UseFormReturn<z.infer<typeof paymentDetailsSchema>>;
   onSubmit: (data: z.infer<typeof paymentDetailsSchema>) => void;
   onBack: () => void;
-  transitions: {
-    initial: object;
-    animate: object;
-    exit: object;
-    transition: object;
-  };
+  transitions: AnimationTransitions;
 }
 
 const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
@@ -224,3 +219,4 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
 };
 
 export default PaymentDetailsStep;
+

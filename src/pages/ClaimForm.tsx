@@ -12,6 +12,7 @@ import FlightDetailsStep from "@/components/claim-form/FlightDetailsStep";
 import PassengerDetailsStep from "@/components/claim-form/PassengerDetailsStep";
 import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep";
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
+import { AnimationTransitions } from "@/components/claim-form/types";
 
 // Schema imports
 import { 
@@ -141,7 +142,7 @@ const ClaimForm = () => {
   };
 
   // Animation transitions
-  const transitions = {
+  const transitions: AnimationTransitions = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -20 },
