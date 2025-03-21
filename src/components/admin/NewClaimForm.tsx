@@ -27,7 +27,7 @@ const newClaimSchema = z.object({
   customer: z.string().min(3, "Customer name is required"),
   email: z.string().email("Valid email is required"),
   airline: z.string().min(1, "Airline is required"),
-  flightnumber: z.string().min(1, "Flight number is required"), // Changed from flightNumber to flightnumber
+  flightnumber: z.string().min(1, "Flight number is required"),
   date: z.date(),
   amount: z.string().min(1, "Amount is required"),
 });
@@ -42,7 +42,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
     customer: "",
     email: "",
     airline: "",
-    flightnumber: "", // Changed from flightNumber to flightnumber
+    flightnumber: "",
     date: new Date(),
     amount: "",
   });
@@ -74,12 +74,12 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         customer: formData.customer,
         email: formData.email,
         airline: formData.airline,
-        flightnumber: formData.flightnumber, // Changed from flightNumber to flightnumber
+        flightnumber: formData.flightnumber,
         date: format(formData.date, "yyyy-MM-dd"),
         status: "pending",
         stage: "initial_review",
         amount: formData.amount.startsWith("€") ? formData.amount : `€${formData.amount}`,
-        lastupdated: format(new Date(), "yyyy-MM-dd"), // Changed from lastUpdated to lastupdated
+        lastupdated: format(new Date(), "yyyy-MM-dd"),
       };
 
       onSubmit(newClaim);
@@ -152,11 +152,11 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
           <Label htmlFor="flightnumber">Flight Number</Label>
           <Input
             id="flightnumber"
-            value={formData.flightnumber}  // Changed from flightNumber to flightnumber
-            onChange={(e) => handleChange("flightnumber", e.target.value)}  // Changed from flightNumber to flightnumber
+            value={formData.flightnumber}
+            onChange={(e) => handleChange("flightnumber", e.target.value)}
             placeholder="e.g. LH1234"
           />
-          {errors.flightnumber && <p className="text-sm text-red-500">{errors.flightnumber}</p>}  // Changed from flightNumber to flightnumber
+          {errors.flightnumber && <p className="text-sm text-red-500">{errors.flightnumber}</p>}
         </div>
       </div>
       
