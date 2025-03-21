@@ -18,7 +18,20 @@ export const claimsService = {
   },
   
   // Create a new claim
-  async createClaim(claim: Omit<Claim, 'created_at'>): Promise<Claim> {
+  async createClaim(claim: Omit<Claim, 'created_at'> & { 
+    phone?: string; 
+    address?: string;
+    numberOfPassengers?: string;
+    departureAirport?: string;
+    arrivalAirport?: string;
+    flightIssue?: string;
+    reasonGivenByAirline?: string;
+    additionalInformation?: string;
+    paymentMethod?: string;
+    paymentDetails?: any;
+  }): Promise<Claim> {
+    console.log('Creating claim with data:', claim);
+    
     // Make sure the object properties match the database column names
     const { data, error } = await supabase
       .from('claims')

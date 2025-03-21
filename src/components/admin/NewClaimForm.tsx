@@ -69,6 +69,27 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
       // Construct the customer name from first and last
       const customer = `${formData.firstName} ${formData.lastName}`;
 
+      // Create payment details object based on payment method
+      let paymentDetails = {};
+      if (formData.paymentMethod === "bank_transfer") {
+        paymentDetails = {
+          bankName: formData.bankName,
+          accountHolderName: formData.accountHolderName,
+          iban: formData.iban,
+          accountNumber: formData.accountNumber,
+        };
+      } else if (formData.paymentMethod === "paypal") {
+        paymentDetails = {
+          paypalEmail: formData.paypalEmail,
+        };
+      } else if (formData.paymentMethod === "wise") {
+        paymentDetails = {
+          accountHolderName: formData.wiseAccountHolder,
+          ibanOrAccount: formData.wiseIbanOrAccount,
+          email: formData.wiseEmail,
+        };
+      }
+
       // Create object with the new claim data
       const newClaim = {
         id: claimId,
@@ -87,27 +108,13 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         status: "pending",
         stage: "initial_review",
         amount: formData.amount.startsWith("€") ? formData.amount : `€${formData.amount}`,
-        additionalInformation: formData.additionalInformation,
+        additionalInformation: formData.additionalInformation || "",
         paymentMethod: formData.paymentMethod,
-        paymentDetails: formData.paymentMethod === "bank_transfer" 
-          ? {
-              bankName: formData.bankName,
-              accountHolderName: formData.accountHolderName,
-              iban: formData.iban,
-              accountNumber: formData.accountNumber,
-            }
-          : formData.paymentMethod === "paypal"
-          ? {
-              paypalEmail: formData.paypalEmail,
-            }
-          : {
-              accountHolderName: formData.wiseAccountHolder,
-              ibanOrAccount: formData.wiseIbanOrAccount,
-              email: formData.wiseEmail,
-            },
+        paymentDetails,
         lastupdated: format(new Date(), "yyyy-MM-dd"),
       };
 
+      console.log("Submitting new claim data:", newClaim);
       onSubmit(newClaim);
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -121,6 +128,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         
         toast.error("Please fix the form errors");
       } else {
+        console.error("Form submission error:", err);
         toast.error("An error occurred while creating the claim");
       }
     }

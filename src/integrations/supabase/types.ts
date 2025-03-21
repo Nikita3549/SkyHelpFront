@@ -11,41 +11,71 @@ export type Database = {
     Tables: {
       claims: {
         Row: {
+          additionalinformation: string | null
+          address: string | null
           airline: string
           amount: string
+          arrivalairport: string | null
           created_at: string | null
           customer: string
           date: string
+          departureairport: string | null
           email: string
+          flightissue: string | null
           flightnumber: string
           id: string
           lastupdated: string
+          numberofpassengers: string | null
+          paymentdetails: Json | null
+          paymentmethod: string | null
+          phone: string | null
+          reasongivenbyairline: string | null
           stage: string
           status: string
         }
         Insert: {
+          additionalinformation?: string | null
+          address?: string | null
           airline: string
           amount: string
+          arrivalairport?: string | null
           created_at?: string | null
           customer: string
           date: string
+          departureairport?: string | null
           email: string
+          flightissue?: string | null
           flightnumber: string
           id: string
           lastupdated: string
+          numberofpassengers?: string | null
+          paymentdetails?: Json | null
+          paymentmethod?: string | null
+          phone?: string | null
+          reasongivenbyairline?: string | null
           stage: string
           status: string
         }
         Update: {
+          additionalinformation?: string | null
+          address?: string | null
           airline?: string
           amount?: string
+          arrivalairport?: string | null
           created_at?: string | null
           customer?: string
           date?: string
+          departureairport?: string | null
           email?: string
+          flightissue?: string | null
           flightnumber?: string
           id?: string
           lastupdated?: string
+          numberofpassengers?: string | null
+          paymentdetails?: Json | null
+          paymentmethod?: string | null
+          phone?: string | null
+          reasongivenbyairline?: string | null
           stage?: string
           status?: string
         }
