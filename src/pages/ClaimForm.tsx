@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
   Plane, 
@@ -108,6 +108,11 @@ const ClaimForm = () => {
     paymentDetails: {},
   });
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get pre-filled values from location state
+  const preFilledDepartureAirport = location.state?.departureAirport || "";
+  const preFilledArrivalAirport = location.state?.arrivalAirport || "";
 
   const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
     resolver: zodResolver(flightDetailsSchema),
@@ -115,48 +120,21 @@ const ClaimForm = () => {
       flightNumber: "",
       airline: "",
       departureDate: "",
-      departureAirport: "",
-      arrivalAirport: "",
+      departureAirport: preFilledDepartureAirport,
+      arrivalAirport: preFilledArrivalAirport,
       disruptionType: "delay",
     },
   });
 
-  const passengerDetailsForm = useForm<z.infer<typeof passengerDetailsSchema>>({
-    resolver: zodResolver(passengerDetailsSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      passengers: "1",
-      address: "",
-    },
-  });
-
-  const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
-    resolver: zodResolver(disruptionDetailsSchema),
-    defaultValues: {
-      delayDuration: "",
-      actualDepartureTime: "",
-      originalDepartureTime: "",
-      reasonGiven: "",
-      additionalInfo: "",
-    },
-  });
-
-  const paymentDetailsForm = useForm<z.infer<typeof paymentDetailsSchema>>({
-    resolver: zodResolver(paymentDetailsSchema),
-    defaultValues: {
-      paymentMethod: "bank_transfer",
-      bankName: "",
-      accountName: "",
-      accountNumber: "",
-      routingNumber: "",
-      iban: "",
-      paypalEmail: "",
-      termsAgreed: false,
-    },
-  });
+  // Update form values when location state changes
+  useEffect(() => {
+    if (preFilledDepartureAirport) {
+      flightDetailsForm.setValue('departureAirport', preFilledDepartureAirport);
+    }
+    if (preFilledArrivalAirport) {
+      flightDetailsForm.setValue('arrivalAirport', preFilledArrivalAirport);
+    }
+  }, [location.state, flightDetailsForm]);
 
   const onFlightDetailsSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
     setIsChecking(true);
