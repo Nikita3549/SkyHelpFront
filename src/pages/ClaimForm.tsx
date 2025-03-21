@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { v4 as uuidv4 } from "uuid";
 import { 
   Plane, 
   Calendar, 
@@ -40,6 +39,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+// Form schemas for each step
 const flightDetailsSchema = z.object({
   flightNumber: z.string().min(3, "Flight number must be at least 3 characters"),
   airline: z.string().min(2, "Please select an airline"),
@@ -181,10 +181,7 @@ const ClaimForm = () => {
   const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
     setFormData({ ...formData, paymentDetails: data });
     
-    const claimId = uuidv4();
-    
     console.log("Complete form data:", {
-      id: claimId,
       ...formData,
       paymentDetails: data,
     });
@@ -295,10 +292,8 @@ const ClaimForm = () => {
                         <FormLabel>Departure Airport</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Input placeholder="e.g. LHR" className="pl-10" {...field} />
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                              <Plane className="h-5 w-5 text-gray-400" />
-                            </div>
+                            <Input placeholder="e.g. LHR" {...field} />
+                            <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -314,10 +309,8 @@ const ClaimForm = () => {
                         <FormLabel>Arrival Airport</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Input placeholder="e.g. CDG" className="pl-10" {...field} />
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                              <Plane className="h-5 w-5 text-gray-400 transform rotate-90" />
-                            </div>
+                            <Input placeholder="e.g. CDG" {...field} />
+                            <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                           </div>
                         </FormControl>
                         <FormMessage />
