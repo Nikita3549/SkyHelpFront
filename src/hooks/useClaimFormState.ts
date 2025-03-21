@@ -1,0 +1,102 @@
+
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { 
+  flightDetailsSchema,
+  passengerDetailsSchema,
+  disruptionDetailsSchema,
+  paymentDetailsSchema
+} from "@/components/claim-form/schemas";
+
+export const useClaimFormState = () => {
+  const [step, setStep] = useState(1);
+  const [isEligible, setIsEligible] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const [formData, setFormData] = useState({
+    flightDetails: {},
+    passengerDetails: {},
+    disruptionDetails: {},
+    paymentDetails: {},
+  });
+
+  const location = useLocation();
+
+  // Get pre-filled values from location state
+  const preFilledDepartureAirport = location.state?.departureAirport || "";
+  const preFilledArrivalAirport = location.state?.arrivalAirport || "";
+  const preFilledFlightNumber = location.state?.flightNumber || "";
+  const preFilledDepartureDate = location.state?.departureDate || "";
+
+  // Initialize form hooks
+  const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
+    resolver: zodResolver(flightDetailsSchema),
+    defaultValues: {
+      flightNumber: preFilledFlightNumber,
+      airline: "",
+      departureDate: preFilledDepartureDate,
+      departureAirport: preFilledDepartureAirport,
+      arrivalAirport: preFilledArrivalAirport,
+      disruptionType: "delay",
+    },
+  });
+
+  const passengerDetailsForm = useForm<z.infer<typeof passengerDetailsSchema>>({
+    resolver: zodResolver(passengerDetailsSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      passengers: "1",
+      address: "",
+    },
+  });
+
+  const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
+    resolver: zodResolver(disruptionDetailsSchema),
+    defaultValues: {
+      delayDuration: "",
+      actualDepartureTime: "",
+      originalDepartureTime: "",
+      reasonGiven: "",
+      additionalInfo: "",
+    },
+  });
+
+  const paymentDetailsForm = useForm<z.infer<typeof paymentDetailsSchema>>({
+    resolver: zodResolver(paymentDetailsSchema),
+    defaultValues: {
+      paymentMethod: "bank_transfer",
+      bankName: "",
+      accountName: "",
+      accountNumber: "",
+      routingNumber: "",
+      iban: "",
+      paypalEmail: "",
+      termsAgreed: false,
+    },
+  });
+
+  return {
+    step,
+    setStep,
+    isEligible,
+    setIsEligible,
+    isChecking,
+    setIsChecking,
+    formData,
+    setFormData,
+    location,
+    preFilledDepartureAirport,
+    preFilledArrivalAirport,
+    preFilledFlightNumber,
+    preFilledDepartureDate,
+    flightDetailsForm,
+    passengerDetailsForm,
+    disruptionDetailsForm,
+    paymentDetailsForm,
+  };
+};

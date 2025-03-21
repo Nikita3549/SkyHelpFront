@@ -1,10 +1,7 @@
 
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { toast } from "sonner";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
+import { useEffect } from "react";
+import { AnimationTransitions } from "@/components/claim-form/types";
 
 // Component imports
 import ProgressBar from "@/components/claim-form/ProgressBar";
@@ -12,142 +9,46 @@ import FlightDetailsStep from "@/components/claim-form/FlightDetailsStep";
 import PassengerDetailsStep from "@/components/claim-form/PassengerDetailsStep";
 import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep";
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
-import { AnimationTransitions } from "@/components/claim-form/types";
+import PreFilledValuesSyncer from "@/components/claim-form/PreFilledValuesSyncer";
 
-// Schema imports
-import { 
-  flightDetailsSchema,
-  passengerDetailsSchema,
-  disruptionDetailsSchema,
-  paymentDetailsSchema
-} from "@/components/claim-form/schemas";
+// Custom hooks
+import { useClaimFormState } from "@/hooks/useClaimFormState";
+import { useClaimFormHandlers } from "@/hooks/useClaimFormHandlers";
 
 const ClaimForm = () => {
-  const [step, setStep] = useState(1);
-  const [isEligible, setIsEligible] = useState<boolean | null>(null);
-  const [isChecking, setIsChecking] = useState(false);
-  const [formData, setFormData] = useState({
-    flightDetails: {},
-    passengerDetails: {},
-    disruptionDetails: {},
-    paymentDetails: {},
+  const {
+    step,
+    setStep,
+    isEligible,
+    setIsEligible,
+    isChecking,
+    setIsChecking,
+    formData,
+    setFormData,
+    location,
+    preFilledDepartureAirport,
+    preFilledArrivalAirport,
+    preFilledFlightNumber,
+    preFilledDepartureDate,
+    flightDetailsForm,
+    passengerDetailsForm,
+    disruptionDetailsForm,
+    paymentDetailsForm,
+  } = useClaimFormState();
+
+  const {
+    onFlightDetailsSubmit,
+    onPassengerDetailsSubmit,
+    onDisruptionDetailsSubmit,
+    onPaymentDetailsSubmit,
+    proceedToNextStep,
+  } = useClaimFormHandlers({
+    setFormData,
+    formData,
+    setStep,
+    setIsEligible,
+    setIsChecking,
   });
-  
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  // Get pre-filled values from location state
-  const preFilledDepartureAirport = location.state?.departureAirport || "";
-  const preFilledArrivalAirport = location.state?.arrivalAirport || "";
-  const preFilledFlightNumber = location.state?.flightNumber || "";
-  const preFilledDepartureDate = location.state?.departureDate || "";
-
-  // Initialize form hooks
-  const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
-    resolver: zodResolver(flightDetailsSchema),
-    defaultValues: {
-      flightNumber: preFilledFlightNumber,
-      airline: "",
-      departureDate: preFilledDepartureDate,
-      departureAirport: preFilledDepartureAirport,
-      arrivalAirport: preFilledArrivalAirport,
-      disruptionType: "delay",
-    },
-  });
-
-  const passengerDetailsForm = useForm<z.infer<typeof passengerDetailsSchema>>({
-    resolver: zodResolver(passengerDetailsSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      passengers: "1",
-      address: "",
-    },
-  });
-
-  const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
-    resolver: zodResolver(disruptionDetailsSchema),
-    defaultValues: {
-      delayDuration: "",
-      actualDepartureTime: "",
-      originalDepartureTime: "",
-      reasonGiven: "",
-      additionalInfo: "",
-    },
-  });
-
-  const paymentDetailsForm = useForm<z.infer<typeof paymentDetailsSchema>>({
-    resolver: zodResolver(paymentDetailsSchema),
-    defaultValues: {
-      paymentMethod: "bank_transfer",
-      bankName: "",
-      accountName: "",
-      accountNumber: "",
-      routingNumber: "",
-      iban: "",
-      paypalEmail: "",
-      termsAgreed: false,
-    },
-  });
-
-  // Update form values when location state changes
-  useEffect(() => {
-    if (preFilledDepartureAirport) {
-      flightDetailsForm.setValue('departureAirport', preFilledDepartureAirport);
-    }
-    if (preFilledArrivalAirport) {
-      flightDetailsForm.setValue('arrivalAirport', preFilledArrivalAirport);
-    }
-    if (preFilledFlightNumber) {
-      flightDetailsForm.setValue('flightNumber', preFilledFlightNumber);
-    }
-    if (preFilledDepartureDate) {
-      flightDetailsForm.setValue('departureDate', preFilledDepartureDate);
-    }
-  }, [location.state, flightDetailsForm]);
-
-  // Form submission handlers
-  const onFlightDetailsSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
-    setIsChecking(true);
-    setFormData({ ...formData, flightDetails: data });
-    
-    setTimeout(() => {
-      setIsEligible(true);
-      setIsChecking(false);
-    }, 2000);
-  };
-
-  const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
-    setFormData({ ...formData, passengerDetails: data });
-    setStep(3);
-  };
-  
-  const onDisruptionDetailsSubmit = (data: z.infer<typeof disruptionDetailsSchema>) => {
-    setFormData({ ...formData, disruptionDetails: data });
-    setStep(4);
-  };
-  
-  const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
-    setFormData({ ...formData, paymentDetails: data });
-    
-    console.log("Complete form data:", {
-      ...formData,
-      paymentDetails: data,
-    });
-    
-    toast.success("Claim submitted successfully", {
-      description: "We'll process your claim and keep you updated.",
-    });
-    
-    navigate("/dashboard");
-  };
-
-  // Navigation handlers
-  const proceedToNextStep = () => {
-    setStep(2);
-  };
 
   // Animation transitions
   const transitions: AnimationTransitions = {
@@ -209,6 +110,14 @@ const ClaimForm = () => {
       <div className="container-custom">
         <div className="max-w-4xl mx-auto">
           <ProgressBar step={step} totalSteps={4} />
+          <PreFilledValuesSyncer
+            form={flightDetailsForm}
+            preFilledDepartureAirport={preFilledDepartureAirport}
+            preFilledArrivalAirport={preFilledArrivalAirport}
+            preFilledFlightNumber={preFilledFlightNumber}
+            preFilledDepartureDate={preFilledDepartureDate}
+            locationState={location.state}
+          />
           {renderStep()}
         </div>
       </div>
