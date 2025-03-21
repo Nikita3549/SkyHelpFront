@@ -1,10 +1,18 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check } from "lucide-react";
+import { Check, Calendar as CalendarIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
 
 const HeroForm = () => {
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -26,10 +34,34 @@ const HeroForm = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Flight Date</label>
-              <input 
-                type="date"
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
-              />
+              <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Select a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(newDate) => {
+                      if (newDate) {
+                        setDate(newDate);
+                        setDatePickerOpen(false);
+                      }
+                    }}
+                    initialFocus
+                    className="touch-manipulation"
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
           

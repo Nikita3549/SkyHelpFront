@@ -47,15 +47,18 @@ const DateAndAmountSection = ({
               {date ? format(date, "PPP") : <span>Pick a date</span>}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0 z-50">
+          <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
             <Calendar
               mode="single"
               selected={date}
               onSelect={(date) => {
-                handleChange("date", date || new Date());
-                setDatePickerOpen(false);
+                if (date) {
+                  handleChange("date", date);
+                  setDatePickerOpen(false);
+                }
               }}
               initialFocus
+              className="touch-manipulation"
             />
           </PopoverContent>
         </Popover>
