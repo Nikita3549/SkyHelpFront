@@ -43,7 +43,7 @@ export const useClaims = () => {
 
   // Создать новую заявку
   const createClaimMutation = useMutation({
-    mutationFn: async (newClaim: Omit<Claim, 'id' | 'created_at' | 'last_updated'>) => {
+    mutationFn: async (newClaim: Omit<Claim, 'id' | 'created_at' | 'last_updated' | 'status' | 'stage'>) => {
       const { data, error } = await supabase
         .from('claims')
         .insert({
