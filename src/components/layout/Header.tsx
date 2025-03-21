@@ -49,7 +49,7 @@ const Header = () => {
               to="/"
               className="text-xl md:text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 animate-fade-in"
             >
-              FlightEaseClaim
+              CleverClaim
             </Link>
           </div>
 

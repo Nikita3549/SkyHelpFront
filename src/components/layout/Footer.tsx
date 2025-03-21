@@ -48,7 +48,7 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="space-y-6">
               <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
-                FlightEaseClaim
+                CleverClaim
               </h3>
               <p className="text-gray-500 text-sm max-w-xs">
                 Helping air passengers get the compensation they deserve when flights are delayed or canceled.
@@ -111,10 +111,10 @@ const Footer = () => {
                 Have questions or need help with your claim?
               </p>
               <a
-                href="mailto:support@flighteaseclaim.com"
+                href="mailto:support@cleverclaim.com"
                 className="text-sm text-primary hover:text-blue-600 transition-colors"
               >
-                support@flighteaseclaim.com
+                support@cleverclaim.com
               </a>
               <p className="text-sm text-gray-500 mt-4">
                 1234 Airport Avenue<br />
@@ -127,7 +127,7 @@ const Footer = () => {
         
         <div className="py-6 border-t border-gray-100">
           <p className="text-sm text-gray-400 text-center">
-            &copy; {new Date().getFullYear()} FlightEaseClaim. All rights reserved.
+            &copy; {new Date().getFullYear()} CleverClaim. All rights reserved.
           </p>
         </div>
       </div>
