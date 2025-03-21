@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Tabs,
@@ -68,94 +68,9 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import NewClaimModal from "@/components/admin/NewClaimModal";
-
-// Sample admin data
-const initialClaimsData = [
-  {
-    id: "CLM-1001",
-    customer: "John Smith",
-    email: "john.smith@example.com",
-    airline: "Lufthansa",
-    flightNumber: "LH1234",
-    date: "2023-12-10",
-    status: "pending",
-    stage: "document_verification",
-    amount: "€400",
-    lastUpdated: "2023-12-15",
-  },
-  {
-    id: "CLM-1002",
-    customer: "Sarah Johnson",
-    email: "sarah.j@example.com",
-    airline: "British Airways",
-    flightNumber: "BA0934",
-    date: "2023-11-28",
-    status: "in_progress",
-    stage: "airline_communication",
-    amount: "€250",
-    lastUpdated: "2023-12-14",
-  },
-  {
-    id: "CLM-1003",
-    customer: "Michael Chen",
-    email: "m.chen@example.com",
-    airline: "Air France",
-    flightNumber: "AF1234",
-    date: "2023-12-05",
-    status: "escalated",
-    stage: "regulator_appeal",
-    amount: "€600",
-    lastUpdated: "2023-12-13",
-  },
-  {
-    id: "CLM-1004",
-    customer: "Emma Williams",
-    email: "emma.w@example.com",
-    airline: "Ryanair",
-    flightNumber: "FR7892",
-    date: "2023-11-15",
-    status: "completed",
-    stage: "payment_processed",
-    amount: "€250",
-    lastUpdated: "2023-12-10",
-  },
-  {
-    id: "CLM-1005",
-    customer: "Robert Garcia",
-    email: "r.garcia@example.com",
-    airline: "EasyJet",
-    flightNumber: "EZY6790",
-    date: "2023-12-01",
-    status: "rejected",
-    stage: "claim_rejected",
-    amount: "€0",
-    lastUpdated: "2023-12-12",
-  },
-  {
-    id: "CLM-1006",
-    customer: "Lisa Müller",
-    email: "l.mueller@example.com",
-    airline: "Eurowings",
-    flightNumber: "EW1820",
-    date: "2023-12-08",
-    status: "pending",
-    stage: "initial_review",
-    amount: "€400",
-    lastUpdated: "2023-12-15",
-  },
-  {
-    id: "CLM-1007",
-    customer: "David Wilson",
-    email: "d.wilson@example.com",
-    airline: "KLM",
-    flightNumber: "KL1345",
-    date: "2023-11-30",
-    status: "in_progress",
-    stage: "airline_communication",
-    amount: "€400",
-    lastUpdated: "2023-12-14",
-  },
-];
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { claimsService } from "@/services/claimsService";
+import { Claim } from "@/lib/supabase";
 
 // Dashboard statistics
 const dashboardStats = [
@@ -219,8 +134,43 @@ const Admin = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedClaim, setSelectedClaim] = useState<string | null>(null);
-  const [claimsData, setClaimsData] = useState(initialClaimsData);
   const [isNewClaimModalOpen, setIsNewClaimModalOpen] = useState(false);
+  
+  const queryClient = useQueryClient();
+  
+  // Fetch claims data from Supabase
+  const { data: claimsData = [], isLoading, error } = useQuery({
+    queryKey: ['claims'],
+    queryFn: claimsService.getClaims,
+  });
+  
+  // Mutation for updating claim status
+  const updateClaimMutation = useMutation({
+    mutationFn: ({ claimId, newStatus }: { claimId: string, newStatus: string }) => 
+      claimsService.updateClaim(claimId, { status: newStatus as any }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['claims'] });
+    },
+    onError: (error) => {
+      toast.error("Failed to update status", {
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+      });
+    },
+  });
+  
+  // Mutation for creating a new claim
+  const createClaimMutation = useMutation({
+    mutationFn: (claimData: Omit<Claim, 'created_at'>) => 
+      claimsService.createClaim(claimData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['claims'] });
+    },
+    onError: (error) => {
+      toast.error("Failed to create claim", {
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+      });
+    },
+  });
 
   // Filter claims based on search term and status
   const filteredClaims = claimsData.filter((claim) => {
@@ -244,10 +194,7 @@ const Admin = () => {
   };
 
   const handleUpdateStatus = (claimId: string, newStatus: string) => {
-    const updatedClaims = claimsData.map(claim => 
-      claim.id === claimId ? {...claim, status: newStatus} : claim
-    );
-    setClaimsData(updatedClaims);
+    updateClaimMutation.mutate({ claimId, newStatus });
     
     toast.success("Status updated", {
       description: `Claim ${claimId} status changed to ${newStatus}`,
@@ -255,26 +202,76 @@ const Admin = () => {
   };
 
   const handleExportClaims = () => {
-    toast.success("Export initiated", {
-      description: "Claims data is being exported to CSV",
+    // Create CSV content
+    const headers = ["ID", "Customer", "Email", "Airline", "Flight Number", "Date", "Status", "Stage", "Amount", "Last Updated"];
+    const csvRows = [headers];
+    
+    filteredClaims.forEach(claim => {
+      csvRows.push([
+        claim.id,
+        claim.customer,
+        claim.email,
+        claim.airline,
+        claim.flightNumber,
+        claim.date,
+        claim.status,
+        claim.stage,
+        claim.amount,
+        claim.lastUpdated
+      ]);
+    });
+    
+    const csvContent = csvRows.map(row => row.join(",")).join("\n");
+    
+    // Create and trigger download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `flight-claims-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success("Export completed", {
+      description: "Claims data has been exported to CSV",
     });
   };
 
   const handleNewClaimSubmit = (claimData: any) => {
-    setClaimsData([claimData, ...claimsData]);
-    
-    const newActivity = {
-      id: Math.max(...recentActivities.map(a => a.id)) + 1,
-      action: "Claim submitted",
-      claimId: claimData.id,
-      user: "Admin",
-      time: "Just now"
-    };
+    createClaimMutation.mutate(claimData);
     
     toast.success("New claim created", {
       description: `Claim ${claimData.id} has been created successfully`,
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading claims data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto">
+          <XCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold mb-2">Error Loading Data</h2>
+          <p className="text-gray-600 mb-4">
+            {error instanceof Error ? error.message : "Failed to load claims data. Please try again."}
+          </p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -788,142 +785,4 @@ const Admin = () => {
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h3 className="font-medium">Claim Update Notification</h3>
-                          <p className="text-xs text-gray-500">To: john.smith@example.com</p>
-                        </div>
-                        <Badge>Sent</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-2">
-                        Update on claim CLM-1001 status change to document verification
-                      </p>
-                      <p className="text-xs text-gray-400">Today, 10:45 AM</p>
-                    </div>
-                    <div className="rounded-lg border p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-medium">Document Request</h3>
-                          <p className="text-xs text-gray-500">To: m.chen@example.com</p>
-                        </div>
-                        <Badge>Sent</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-2">
-                        Request for additional documentation for claim CLM-1003
-                      </p>
-                      <p className="text-xs text-gray-400">Today, 09:30 AM</p>
-                    </div>
-                    <div className="rounded-lg border p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-medium">Airline Appeal</h3>
-                          <p className="text-xs text-gray-500">To: claims@lufthansa.com</p>
-                        </div>
-                        <Badge>Sent</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-2">
-                        Appeal for claim CLM-1001 with additional evidence
-                      </p>
-                      <p className="text-xs text-gray-400">Yesterday, 04:15 PM</p>
-                    </div>
-                    <div className="rounded-lg border p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-medium">Payment Confirmation</h3>
-                          <p className="text-xs text-gray-500">To: emma.w@example.com</p>
-                        </div>
-                        <Badge>Sent</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-2">
-                        Confirmation of compensation payment for claim CLM-1004
-                      </p>
-                      <p className="text-xs text-gray-400">Yesterday, 02:30 PM</p>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="border-t pt-4">
-                    <Button variant="ghost" className="w-full text-sm" size="sm">
-                      View All Communications
-                      <ChevronRight className="ml-1 h-4 w-4" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Bulk Email Campaign</CardTitle>
-                    <CardDescription>Send mass communications to customers</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="email-template">Email Template</Label>
-                          <Select>
-                            <SelectTrigger id="email-template">
-                              <SelectValue placeholder="Select template" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="status_update">Status Update</SelectItem>
-                              <SelectItem value="document_request">Document Request</SelectItem>
-                              <SelectItem value="payment_notification">Payment Notification</SelectItem>
-                              <SelectItem value="custom">Custom Message</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="subject">Subject Line</Label>
-                          <Input id="subject" placeholder="Enter email subject" />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="recipient-filter">Recipient Filter</Label>
-                          <Select>
-                            <SelectTrigger id="recipient-filter">
-                              <SelectValue placeholder="Select filter" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="all">All Customers</SelectItem>
-                              <SelectItem value="pending">Pending Claims</SelectItem>
-                              <SelectItem value="in_progress">In Progress Claims</SelectItem>
-                              <SelectItem value="completed">Completed Claims</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="message">Message Content</Label>
-                        <textarea
-                          id="message"
-                          placeholder="Enter your message"
-                          className="min-h-[200px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                        ></textarea>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="border-t pt-4 flex justify-between">
-                    <Button variant="outline">Preview Email</Button>
-                    <Button>
-                      <Mail className="mr-2 h-4 w-4" />
-                      Send Campaign
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </motion.div>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-
-      <NewClaimModal 
-        isOpen={isNewClaimModalOpen}
-        onClose={() => setIsNewClaimModalOpen(false)}
-        onSubmit={handleNewClaimSubmit}
-      />
-    </div>
-  );
-};
-
-export default Admin;
+                          <p className="text-xs text-gray-50
