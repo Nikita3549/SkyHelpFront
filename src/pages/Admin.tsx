@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
@@ -785,4 +786,110 @@ const Admin = () => {
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h3 className="font-medium">Claim Update Notification</h3>
-                          <p className="text-xs text-gray-500">Sent
+                          <p className="text-xs text-gray-500">Sent to customer@example.com</p>
+                        </div>
+                        <Badge>2 hours ago</Badge>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Notification about claim CLM-1002 status change to "In Progress"
+                      </p>
+                    </div>
+                    <div className="rounded-lg border p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="font-medium">Airline Response</h3>
+                          <p className="text-xs text-gray-500">To airline@example.com</p>
+                        </div>
+                        <Badge>Yesterday</Badge>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Follow-up request for compensation for claim CLM-1003
+                      </p>
+                    </div>
+                    <div className="rounded-lg border p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="font-medium">Document Request</h3>
+                          <p className="text-xs text-gray-500">Sent to customer@example.com</p>
+                        </div>
+                        <Badge>3 days ago</Badge>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Request for boarding pass and ID for claim CLM-1008
+                      </p>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="border-t pt-4">
+                    <Button variant="ghost" className="w-full text-sm">
+                      View Communication History
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </motion.div>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">New Email</CardTitle>
+                  <CardDescription>Send an email to a customer or airline</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="recipient">Recipient</Label>
+                      <Input id="recipient" placeholder="Email address" type="email" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="template">Template</Label>
+                      <Select>
+                        <SelectTrigger id="template">
+                          <SelectValue placeholder="Select a template" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">No template</SelectItem>
+                          <SelectItem value="update">Status Update</SelectItem>
+                          <SelectItem value="document">Document Request</SelectItem>
+                          <SelectItem value="compensation">Compensation Info</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subject">Subject</Label>
+                    <Input id="subject" placeholder="Email subject" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Message</Label>
+                    <div className="rounded-md border">
+                      {/* Rich text editor would go here */}
+                      <div className="p-3 text-sm text-gray-500">
+                        (Rich text editor would be implemented here)
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="justify-end space-x-2">
+                  <Button variant="outline">Save Draft</Button>
+                  <Button>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Send Email
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+      
+      {isNewClaimModalOpen && (
+        <NewClaimModal
+          isOpen={isNewClaimModalOpen}
+          onClose={() => setIsNewClaimModalOpen(false)}
+          onSubmit={handleNewClaimSubmit}
+        />
+      )}
+    </div>
+  );
+};
+
+export default Admin;
