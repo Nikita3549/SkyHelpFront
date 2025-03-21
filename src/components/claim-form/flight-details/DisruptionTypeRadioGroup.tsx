@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -65,11 +66,11 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                       <DropdownMenuTrigger asChild>
                         <Button 
                           variant="outline" 
-                          className="flex justify-between items-center w-32 text-sm font-normal"
+                          className="flex items-center space-x-2 h-9 px-3 text-sm font-normal"
                           onClick={(e) => e.preventDefault()}
                         >
                           <span>{delayDuration || "Select duration"}</span>
-                          <Clock className="h-4 w-4 ml-2 opacity-50" />
+                          <Clock className="h-4 w-4 text-gray-500" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-32">
