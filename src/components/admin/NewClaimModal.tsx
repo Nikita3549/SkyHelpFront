@@ -25,7 +25,7 @@ const NewClaimModal = ({ isOpen, onClose, onSubmit }: NewClaimModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Create New Claim</DialogTitle>
+          <DialogTitle>Create New Flight Compensation Claim</DialogTitle>
           <DialogDescription>
             Fill in the details to create a new compensation claim.
           </DialogDescription>
