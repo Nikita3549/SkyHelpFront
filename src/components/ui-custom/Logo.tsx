@@ -33,12 +33,14 @@ const Logo = ({ className, size = "md", withLink = true }: LogoProps) => {
         size={iconSizes[size]} 
         strokeWidth={2.5}
       />
-      <span className={cn(
-        sizeClasses[size],
-        "font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600"
-      )}>
-        CleverClaim
-      </span>
+      <div className={cn(sizeClasses[size], "font-semibold flex")}>
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
+          Clever
+        </span>
+        <span className="text-black">
+          Claim
+        </span>
+      </div>
     </div>
   );
 
