@@ -3,12 +3,14 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type FlightDetailsSectionProps = {
   departureAirport: string;
   arrivalAirport: string;
   flightIssue: string;
   reasonGivenByAirline: string;
+  delayDuration?: string;
   errors: Record<string, string>;
   handleChange: (field: string, value: any) => void;
 };
@@ -18,6 +20,7 @@ const FlightDetailsSection = ({
   arrivalAirport,
   flightIssue,
   reasonGivenByAirline,
+  delayDuration,
   errors,
   handleChange,
 }: FlightDetailsSectionProps) => {
@@ -75,6 +78,27 @@ const FlightDetailsSection = ({
         </RadioGroup>
         {errors.flightIssue && <p className="text-sm text-red-500">{errors.flightIssue}</p>}
       </div>
+      
+      {flightIssue === "delayed" && (
+        <div className="space-y-2">
+          <Label htmlFor="delayDuration">Delay Duration</Label>
+          <Select 
+            value={delayDuration} 
+            onValueChange={(value) => handleChange("delayDuration", value)}
+          >
+            <SelectTrigger className="w-full md:w-1/2">
+              <SelectValue placeholder="Select delay duration" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1 hour">1 hour</SelectItem>
+              <SelectItem value="2 hours">2 hours</SelectItem>
+              <SelectItem value="3 hours">3 hours</SelectItem>
+              <SelectItem value="4+ hours">4+ hours</SelectItem>
+            </SelectContent>
+          </Select>
+          {errors.delayDuration && <p className="text-sm text-red-500">{errors.delayDuration}</p>}
+        </div>
+      )}
       
       <div className="space-y-2">
         <Label htmlFor="reasonGivenByAirline">Reason Given by Airline</Label>

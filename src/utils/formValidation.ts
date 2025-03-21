@@ -15,6 +15,7 @@ export const newClaimSchema = z.object({
   arrivalAirport: z.string().min(1, "Arrival airport is required"),
   flightIssue: z.string().min(1, "Please select what happened with the flight"),
   reasonGivenByAirline: z.string().optional(),
+  delayDuration: z.string().optional(),
   
   date: z.date(),
   amount: z.string().min(1, "Amount is required"),

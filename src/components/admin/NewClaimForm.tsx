@@ -30,6 +30,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
     arrivalAirport: "",
     flightIssue: "",
     reasonGivenByAirline: "",
+    delayDuration: "",
     date: new Date(),
     amount: "",
     additionalInformation: "",
@@ -102,6 +103,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         departureAirport: formData.departureAirport,
         arrivalAirport: formData.arrivalAirport,
         flightIssue: formData.flightIssue,
+        delayDuration: formData.flightIssue === "delayed" ? formData.delayDuration : null,
         reasonGivenByAirline: formData.reasonGivenByAirline,
         airline: formData.airline,
         flightnumber: formData.flightnumber,
@@ -163,6 +165,7 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         arrivalAirport={formData.arrivalAirport}
         flightIssue={formData.flightIssue}
         reasonGivenByAirline={formData.reasonGivenByAirline}
+        delayDuration={formData.delayDuration}
         errors={errors}
         handleChange={handleChange}
       />

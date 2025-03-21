@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 export const flightDetailsSchema = z.object({
@@ -10,6 +9,7 @@ export const flightDetailsSchema = z.object({
   disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection"], {
     required_error: "Please select the type of disruption",
   }),
+  delayDuration: z.string().optional(),
 });
 
 export const passengerDetailsSchema = z.object({
@@ -22,7 +22,6 @@ export const passengerDetailsSchema = z.object({
 });
 
 export const disruptionDetailsSchema = z.object({
-  delayDuration: z.string().optional(),
   actualDepartureTime: z.string().optional(),
   originalDepartureTime: z.string().optional(),
   reasonGiven: z.string().optional(),
