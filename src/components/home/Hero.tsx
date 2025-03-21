@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Plane } from "lucide-react";
+import { Check, Plane } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -146,7 +146,7 @@ const Hero = () => {
                   </p>
                   <p className="flex items-start">
                     <Check className="h-4 w-4 text-primary flex-shrink-0 mr-1.5 mt-0.5" />
-                    <span>No-win, no-fee — only pay if we win your case</span>
+                    <span>No-win, no-fee ��� only pay if we win your case</span>
                   </p>
                   <p className="flex items-start">
                     <Check className="h-4 w-4 text-primary flex-shrink-0 mr-1.5 mt-0.5" />
