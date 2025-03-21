@@ -39,14 +39,16 @@ const ClaimForm = () => {
   // Get pre-filled values from location state
   const preFilledDepartureAirport = location.state?.departureAirport || "";
   const preFilledArrivalAirport = location.state?.arrivalAirport || "";
+  const preFilledFlightNumber = location.state?.flightNumber || "";
+  const preFilledDepartureDate = location.state?.departureDate || "";
 
   // Initialize form hooks
   const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
     resolver: zodResolver(flightDetailsSchema),
     defaultValues: {
-      flightNumber: "",
+      flightNumber: preFilledFlightNumber,
       airline: "",
-      departureDate: "",
+      departureDate: preFilledDepartureDate,
       departureAirport: preFilledDepartureAirport,
       arrivalAirport: preFilledArrivalAirport,
       disruptionType: "delay",
@@ -97,6 +99,12 @@ const ClaimForm = () => {
     }
     if (preFilledArrivalAirport) {
       flightDetailsForm.setValue('arrivalAirport', preFilledArrivalAirport);
+    }
+    if (preFilledFlightNumber) {
+      flightDetailsForm.setValue('flightNumber', preFilledFlightNumber);
+    }
+    if (preFilledDepartureDate) {
+      flightDetailsForm.setValue('departureDate', preFilledDepartureDate);
     }
   }, [location.state, flightDetailsForm]);
 

@@ -10,8 +10,12 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 
 const HeroForm = () => {
+  const [flightNumber, setFlightNumber] = useState("");
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
+
+  // Format the date as required by the flight details form
+  const formattedDate = date ? format(date, "yyyy-MM-dd") : "";
 
   return (
     <motion.div
@@ -30,6 +34,8 @@ const HeroForm = () => {
                 type="text" 
                 placeholder="e.g., BA1234" 
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                value={flightNumber}
+                onChange={(e) => setFlightNumber(e.target.value)}
               />
             </div>
             <div>
@@ -67,6 +73,10 @@ const HeroForm = () => {
           
           <Link 
             to="/claim" 
+            state={{ 
+              flightNumber, 
+              departureDate: formattedDate
+            }}
             className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-center"
           >
             Check Now
