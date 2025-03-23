@@ -36,8 +36,6 @@ import {
   CheckCircle2,
   MoreHorizontal,
   User,
-  XCircle,
-  Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -48,9 +46,100 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { claimsService } from "@/services/claimsService";
-import { useQuery } from "@tanstack/react-query";
-import { Claim } from "@/lib/supabase";
+
+// Sample claims data
+const claims = [
+  {
+    id: "CLM-1234",
+    airline: "Lufthansa",
+    flightNumber: "LH1234",
+    departureDate: "2023-11-15",
+    route: "London (LHR) to Frankfurt (FRA)",
+    status: "in_progress",
+    statusText: "In Progress",
+    compensation: "€400",
+    progress: 60,
+    lastUpdate: "2023-12-10",
+    estimatedCompletion: "2024-01-20",
+    documents: [
+      { name: "Boarding Pass", status: "uploaded" },
+      { name: "Flight Ticket", status: "uploaded" },
+      { name: "ID Document", status: "requested" },
+    ],
+    messages: [
+      {
+        date: "2023-12-10",
+        content: "We've submitted your claim to Lufthansa and are awaiting their response.",
+        isFromTeam: true,
+      },
+      {
+        date: "2023-12-05",
+        content: "Your claim has been reviewed and is valid for compensation. We'll now contact the airline.",
+        isFromTeam: true,
+      },
+    ],
+  },
+  {
+    id: "CLM-5678",
+    airline: "British Airways",
+    flightNumber: "BA2160",
+    departureDate: "2023-10-20",
+    route: "Madrid (MAD) to London (LHR)",
+    status: "completed",
+    statusText: "Completed",
+    compensation: "€250",
+    progress: 100,
+    lastUpdate: "2023-11-30",
+    paymentDate: "2023-11-30",
+    documents: [
+      { name: "Boarding Pass", status: "uploaded" },
+      { name: "Flight Ticket", status: "uploaded" },
+      { name: "ID Document", status: "uploaded" },
+    ],
+    messages: [
+      {
+        date: "2023-11-30",
+        content: "Your compensation of €250 has been transferred to your account. Thank you for using our service!",
+        isFromTeam: true,
+      },
+      {
+        date: "2023-11-25",
+        content: "Good news! British Airways has approved your claim and agreed to pay compensation.",
+        isFromTeam: true,
+      },
+    ],
+  },
+  {
+    id: "CLM-9012",
+    airline: "Ryanair",
+    flightNumber: "FR8012",
+    departureDate: "2023-12-05",
+    route: "Barcelona (BCN) to Paris (ORY)",
+    status: "review",
+    statusText: "Under Review",
+    compensation: "€250 (estimated)",
+    progress: 30,
+    lastUpdate: "2023-12-12",
+    estimatedCompletion: "2024-02-15",
+    documents: [
+      { name: "Boarding Pass", status: "uploaded" },
+      { name: "Flight Ticket", status: "requested" },
+      { name: "ID Document", status: "requested" },
+    ],
+    messages: [
+      {
+        date: "2023-12-12",
+        content: "We need your flight ticket to proceed with the claim. Please upload it as soon as possible.",
+        isFromTeam: true,
+      },
+      {
+        date: "2023-12-08",
+        content: "Your claim has been received and is currently under initial review.",
+        isFromTeam: true,
+      },
+    ],
+  },
+];
 
 // Updated StatusBadge component to accept className prop
 const StatusBadge = ({ status, className }: { status: string; className?: string }) => {
@@ -63,20 +152,12 @@ const StatusBadge = ({ status, className }: { status: string; className?: string
       variant: "secondary",
       icon: <Clock className="h-3 w-3 mr-1" />,
     },
-    pending: {
-      variant: "outline", 
-      icon: <FileText className="h-3 w-3 mr-1" />,
-    },
     review: {
       variant: "outline",
       icon: <FileText className="h-3 w-3 mr-1" />,
     },
     rejected: {
       variant: "destructive",
-      icon: <AlertCircle className="h-3 w-3 mr-1" />,
-    },
-    escalated: {
-      variant: "secondary",
       icon: <AlertCircle className="h-3 w-3 mr-1" />,
     },
   };
@@ -88,32 +169,15 @@ const StatusBadge = ({ status, className }: { status: string; className?: string
       {icon}
       {status === "completed" && "Completed"}
       {status === "in_progress" && "In Progress"}
-      {status === "pending" && "Pending"}
       {status === "review" && "Under Review"}
       {status === "rejected" && "Rejected"}
-      {status === "escalated" && "Escalated"}
     </Badge>
   );
 };
 
 const Dashboard = () => {
-  // Fetch claims from Supabase
-  const { data: claims = [], isLoading, error } = useQuery({
-    queryKey: ['user-claims'],
-    queryFn: claimsService.getClaims,
-  });
-
-  const [selectedClaimId, setSelectedClaimId] = useState<string | null>(null);
-  const selectedClaim = claims.length > 0 
-    ? claims.find((claim) => claim.id === selectedClaimId) || claims[0]
-    : null;
-
-  // If claims are loaded but none are selected, select the first one
-  React.useEffect(() => {
-    if (claims.length > 0 && !selectedClaimId) {
-      setSelectedClaimId(claims[0].id);
-    }
-  }, [claims, selectedClaimId]);
+  const [selectedClaimId, setSelectedClaimId] = useState(claims[0].id);
+  const selectedClaim = claims.find((claim) => claim.id === selectedClaimId);
 
   // Animation variants
   const container = {
@@ -142,69 +206,6 @@ const Dashboard = () => {
     console.log("Document upload triggered");
     // In a real app, this would open a file upload UI
   };
-
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-gray-600">Loading your claims...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto">
-          <XCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-2">Error Loading Data</h2>
-          <p className="text-gray-600 mb-4">
-            {error instanceof Error ? error.message : "Failed to load claims data. Please try again."}
-          </p>
-          <Button onClick={() => window.location.reload()}>Retry</Button>
-        </div>
-      </div>
-    );
-  }
-
-  // Empty state - no claims
-  if (claims.length === 0) {
-    return (
-      <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <h1 className="text-3xl font-bold mb-2">My Claims Dashboard</h1>
-            <p className="text-gray-600">
-              Track and manage your flight compensation claims
-            </p>
-          </motion.div>
-
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <FileText className="h-16 w-16 text-gray-300 mb-6" />
-            <h2 className="text-2xl font-bold mb-2">No Claims Yet</h2>
-            <p className="text-gray-600 mb-8 max-w-md">
-              You haven't submitted any claims yet. Start your first claim to get compensation for your disrupted flight.
-            </p>
-            <Link to="/claim">
-              <Button size="lg">
-                Start New Claim
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -283,23 +284,23 @@ const Dashboard = () => {
                           <div className="space-y-2">
                             <div className="flex justify-between">
                               <span className="text-sm text-gray-500">Flight</span>
-                              <span className="text-sm font-medium">{claim.flightnumber}</span>
+                              <span className="text-sm font-medium">{claim.flightNumber}</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-sm text-gray-500">Date</span>
-                              <span className="text-sm font-medium">{new Date(claim.date).toLocaleDateString()}</span>
+                              <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-sm text-gray-500">Compensation</span>
-                              <span className="text-sm font-medium">{claim.amount}</span>
+                              <span className="text-sm font-medium">{claim.compensation}</span>
                             </div>
                           </div>
                           <div className="mt-3">
                             <div className="flex justify-between text-xs mb-1">
                               <span>Progress</span>
-                              <span>{claim.status === "completed" ? "100" : claim.status === "in_progress" ? "60" : claim.status === "pending" ? "30" : "50"}%</span>
+                              <span>{claim.progress}%</span>
                             </div>
-                            <Progress value={claim.status === "completed" ? 100 : claim.status === "in_progress" ? 60 : claim.status === "pending" ? 30 : 50} className="h-1.5" />
+                            <Progress value={claim.progress} className="h-1.5" />
                           </div>
                         </CardContent>
                       </Card>
@@ -327,7 +328,7 @@ const Dashboard = () => {
                         <StatusBadge status={selectedClaim.status} className="ml-3" />
                       </CardTitle>
                       <CardDescription className="mt-1">
-                        {selectedClaim.airline} · {selectedClaim.flightnumber} · {new Date(selectedClaim.date).toLocaleDateString()}
+                        {selectedClaim.airline} · {selectedClaim.flightNumber} · {new Date(selectedClaim.departureDate).toLocaleDateString()}
                       </CardDescription>
                     </div>
                     <DropdownMenu>
@@ -371,24 +372,16 @@ const Dashboard = () => {
                             <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Route</span>
-                                <span className="text-sm font-medium">
-                                  {selectedClaim.departureairport || "N/A"} to {selectedClaim.arrivalairport || "N/A"}
-                                </span>
+                                <span className="text-sm font-medium">{selectedClaim.route}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Flight Number</span>
-                                <span className="text-sm font-medium">{selectedClaim.flightnumber}</span>
+                                <span className="text-sm font-medium">{selectedClaim.flightNumber}</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Date</span>
-                                <span className="text-sm font-medium">{new Date(selectedClaim.date).toLocaleDateString()}</span>
+                                <span className="text-sm font-medium">{new Date(selectedClaim.departureDate).toLocaleDateString()}</span>
                               </div>
-                              {selectedClaim.flightissue && (
-                                <div className="flex justify-between">
-                                  <span className="text-sm text-gray-500">Issue</span>
-                                  <span className="text-sm font-medium capitalize">{selectedClaim.flightissue}</span>
-                                </div>
-                              )}
                             </div>
                           </div>
                           
@@ -398,29 +391,24 @@ const Dashboard = () => {
                               <div>
                                 <div className="flex justify-between text-sm mb-1">
                                   <span>Status</span>
-                                  <span className="font-medium capitalize">{selectedClaim.status.replace('_', ' ')}</span>
+                                  <span className="font-medium">{selectedClaim.statusText}</span>
                                 </div>
-                                <Progress value={selectedClaim.status === "completed" ? 100 : selectedClaim.status === "in_progress" ? 60 : selectedClaim.status === "pending" ? 30 : 50} className="h-2" />
+                                <Progress value={selectedClaim.progress} className="h-2" />
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Last Update</span>
-                                <span className="text-sm font-medium">{new Date(selectedClaim.lastupdated).toLocaleDateString()}</span>
+                                <span className="text-sm font-medium">{new Date(selectedClaim.lastUpdate).toLocaleDateString()}</span>
                               </div>
                               {selectedClaim.status !== "completed" && (
                                 <div className="flex justify-between">
                                   <span className="text-sm text-gray-500">Estimated Completion</span>
-                                  <span className="text-sm font-medium">
-                                    {new Date(
-                                      new Date(selectedClaim.date).getTime() + 
-                                      (selectedClaim.status === "in_progress" ? 30 : 60) * 24 * 60 * 60 * 1000
-                                    ).toLocaleDateString()}
-                                  </span>
+                                  <span className="text-sm font-medium">{new Date(selectedClaim.estimatedCompletion || "").toLocaleDateString()}</span>
                                 </div>
                               )}
-                              {selectedClaim.status === "completed" && (
+                              {selectedClaim.status === "completed" && selectedClaim.paymentDate && (
                                 <div className="flex justify-between">
                                   <span className="text-sm text-gray-500">Payment Date</span>
-                                  <span className="text-sm font-medium">{new Date(selectedClaim.lastupdated).toLocaleDateString()}</span>
+                                  <span className="text-sm font-medium">{new Date(selectedClaim.paymentDate).toLocaleDateString()}</span>
                                 </div>
                               )}
                             </div>
@@ -433,50 +421,44 @@ const Dashboard = () => {
                             <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Amount</span>
-                                <span className="text-lg font-semibold text-primary">{selectedClaim.amount}</span>
+                                <span className="text-lg font-semibold text-primary">{selectedClaim.compensation}</span>
                               </div>
                               <Separator />
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Our Fee (25%)</span>
                                 <span className="text-sm font-medium">
-                                  {selectedClaim.amount.startsWith("€") 
-                                    ? "€" + (parseFloat(selectedClaim.amount.substring(1)) * 0.25).toFixed(2)
+                                  {selectedClaim.compensation.startsWith("€") 
+                                    ? "€" + (parseFloat(selectedClaim.compensation.substring(1)) * 0.25).toFixed(2)
                                     : "Calculated on settlement"}
                                 </span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">You Receive</span>
                                 <span className="text-sm font-medium">
-                                  {selectedClaim.amount.startsWith("€") 
-                                    ? "€" + (parseFloat(selectedClaim.amount.substring(1)) * 0.75).toFixed(2)
+                                  {selectedClaim.compensation.startsWith("€") 
+                                    ? "€" + (parseFloat(selectedClaim.compensation.substring(1)) * 0.75).toFixed(2)
                                     : "Calculated on settlement"}
                                 </span>
                               </div>
-                              {selectedClaim.paymentmethod && (
-                                <div className="flex justify-between">
-                                  <span className="text-sm text-gray-500">Payment Method</span>
-                                  <span className="text-sm font-medium capitalize">{selectedClaim.paymentmethod.replace('_', ' ')}</span>
-                                </div>
-                              )}
                             </div>
                           </div>
                           
                           <div>
                             <h3 className="text-sm font-medium text-gray-500 mb-2">Next Steps</h3>
                             <div className="bg-gray-50 rounded-lg p-4">
-                              {selectedClaim.status === "pending" && (
+                              {selectedClaim.status === "review" && (
                                 <div className="flex items-start space-x-3">
                                   <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
                                     <FileText className="h-3 w-3 text-primary" />
                                   </div>
                                   <div>
-                                    <p className="text-sm font-medium">Claim Under Initial Review</p>
+                                    <p className="text-sm font-medium">Documents Required</p>
                                     <p className="text-xs text-gray-500 mt-1">
-                                      Our team is reviewing your claim details. We'll update you once we begin processing with the airline.
+                                      Please upload the requested documents to proceed with your claim.
                                     </p>
-                                    <Button onClick={generateNewMessage} variant="outline" size="sm" className="mt-3">
-                                      <MessageSquare className="mr-2 h-3 w-3" />
-                                      Contact Support
+                                    <Button onClick={uploadDocument} variant="outline" size="sm" className="mt-3">
+                                      <Upload className="mr-2 h-3 w-3" />
+                                      Upload Documents
                                     </Button>
                                   </div>
                                 </div>
@@ -517,42 +499,6 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               )}
-                              
-                              {selectedClaim.status === "rejected" && (
-                                <div className="flex items-start space-x-3">
-                                  <div className="flex-shrink-0 h-6 w-6 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
-                                    <AlertCircle className="h-3 w-3 text-red-600" />
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-medium">Claim Rejected</p>
-                                    <p className="text-xs text-gray-500 mt-1">
-                                      Unfortunately, your claim has been rejected. Please contact our support team for more information.
-                                    </p>
-                                    <Button onClick={generateNewMessage} variant="outline" size="sm" className="mt-3">
-                                      <MessageSquare className="mr-2 h-3 w-3" />
-                                      Contact Support
-                                    </Button>
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {selectedClaim.status === "escalated" && (
-                                <div className="flex items-start space-x-3">
-                                  <div className="flex-shrink-0 h-6 w-6 rounded-full bg-amber-100 flex items-center justify-center mt-0.5">
-                                    <AlertCircle className="h-3 w-3 text-amber-600" />
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-medium">Claim Escalated</p>
-                                    <p className="text-xs text-gray-500 mt-1">
-                                      Your claim has been escalated for further review. Our legal team is now handling your case.
-                                    </p>
-                                    <Button onClick={generateNewMessage} variant="outline" size="sm" className="mt-3">
-                                      <MessageSquare className="mr-2 h-3 w-3" />
-                                      Contact Support
-                                    </Button>
-                                  </div>
-                                </div>
-                              )}
                             </div>
                           </div>
                         </div>
@@ -564,11 +510,7 @@ const Dashboard = () => {
                         <div>
                           <h3 className="text-sm font-medium text-gray-500 mb-4">Required Documents</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {[
-                              { name: "Boarding Pass", status: "requested" },
-                              { name: "Flight Ticket", status: "requested" },
-                              { name: "ID Document", status: "requested" }
-                            ].map((doc, index) => (
+                            {selectedClaim.documents.map((doc, index) => (
                               <Card key={index} className="overflow-hidden">
                                 <CardContent className="p-0">
                                   <div className="flex items-center justify-between p-4">
@@ -638,17 +580,49 @@ const Dashboard = () => {
                           </Button>
                         </div>
                         
-                        <div className="text-center py-8">
-                          <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                          <p className="text-gray-500">No messages yet</p>
-                          <p className="text-sm text-gray-400 mt-1">
-                            Send a message to our support team if you have any questions
-                          </p>
-                          <Button onClick={generateNewMessage} size="sm" variant="outline" className="mt-4">
-                            <MessageSquare className="mr-2 h-4 w-4" />
-                            Start Conversation
-                          </Button>
+                        <div className="space-y-4">
+                          {selectedClaim.messages.map((message, index) => (
+                            <div
+                              key={index}
+                              className={`flex ${message.isFromTeam ? "justify-start" : "justify-end"}`}
+                            >
+                              <div
+                                className={`max-w-[80%] rounded-lg p-4 ${
+                                  message.isFromTeam
+                                    ? "bg-white border shadow-sm"
+                                    : "bg-primary text-white"
+                                }`}
+                              >
+                                <div className="flex items-center mb-2">
+                                  {message.isFromTeam ? (
+                                    <>
+                                      <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+                                        <User className="h-3 w-3 text-primary" />
+                                      </div>
+                                      <span className="text-xs font-medium">
+                                        Support Team
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <span className="text-xs font-medium">You</span>
+                                  )}
+                                  <span className="text-xs ml-auto opacity-70">
+                                    {new Date(message.date).toLocaleDateString()}
+                                  </span>
+                                </div>
+                                <p className={`text-sm ${message.isFromTeam ? "text-gray-700" : "text-white"}`}>
+                                  {message.content}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
+                        
+                        {selectedClaim.messages.length === 0 && (
+                          <div className="text-center py-8">
+                            <p className="text-gray-500">No messages yet</p>
+                          </div>
+                        )}
                       </div>
                     </TabsContent>
                   </Tabs>
@@ -658,7 +632,7 @@ const Dashboard = () => {
                   <div className="text-sm text-gray-500">
                     <span className="flex items-center">
                       <Calendar className="h-4 w-4 mr-1" />
-                      Claim opened: {new Date(selectedClaim.date).toLocaleDateString()}
+                      Claim opened: {new Date(selectedClaim.departureDate).toLocaleDateString()}
                     </span>
                   </div>
                   
@@ -679,3 +653,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
