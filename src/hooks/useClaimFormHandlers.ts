@@ -79,7 +79,7 @@ export const useClaimFormHandlers = ({
     if (paymentDetails.paymentMethod === "bank_transfer") {
       paymentDetailsFormatted = {
         bankName: paymentDetails.bankName,
-        accountHolderName: paymentDetails.accountHolderName,
+        accountHolderName: paymentDetails.accountName, // Changed from accountHolderName to accountName
         iban: paymentDetails.iban,
       };
     } else if (paymentDetails.paymentMethod === "paypal") {
@@ -88,7 +88,7 @@ export const useClaimFormHandlers = ({
       };
     } else if (paymentDetails.paymentMethod === "wise") {
       paymentDetailsFormatted = {
-        accountHolderName: paymentDetails.accountHolderName,
+        accountHolderName: paymentDetails.accountName, // Changed from accountHolderName to accountName
         iban: paymentDetails.iban,
         email: paymentDetails.email,
       };
