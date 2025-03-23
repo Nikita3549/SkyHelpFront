@@ -2,15 +2,12 @@
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
-import { v4 as uuidv4 } from "uuid";
-import { claimsService } from "@/services/claimsService";
 import { 
   flightDetailsSchema,
   passengerDetailsSchema,
   disruptionDetailsSchema,
   paymentDetailsSchema
 } from "@/components/claim-form/schemas";
-import { Claim } from "@/lib/supabase";
 
 interface UseClaimFormHandlersProps {
   setFormData: React.Dispatch<React.SetStateAction<{
@@ -59,7 +56,7 @@ export const useClaimFormHandlers = ({
     setStep(4);
   };
   
-  const onPaymentDetailsSubmit = async (data: z.infer<typeof paymentDetailsSchema>) => {
+  const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
     const finalFormData = {
       ...formData,
       paymentDetails: data,
@@ -67,68 +64,13 @@ export const useClaimFormHandlers = ({
     
     setFormData(finalFormData);
     
-    // Create a claim ID
-    const claimId = `CLM-${Math.floor(1000 + Math.random() * 9000)}`;
+    console.log("Complete form data:", finalFormData);
     
-    // Format data for the database
-    const claimData = {
-      id: claimId,
-      customer: `${finalFormData.passengerDetails.firstName} ${finalFormData.passengerDetails.lastName}`,
-      email: finalFormData.passengerDetails.email,
-      phone: finalFormData.passengerDetails.phone,
-      address: finalFormData.passengerDetails.address,
-      numberOfPassengers: finalFormData.passengerDetails.passengers,
-      airline: finalFormData.flightDetails.airline,
-      flightnumber: finalFormData.flightDetails.flightNumber,
-      departureAirport: finalFormData.flightDetails.departureAirport,
-      arrivalAirport: finalFormData.flightDetails.arrivalAirport,
-      flightIssue: finalFormData.flightDetails.disruptionType,
-      date: finalFormData.flightDetails.departureDate,
-      reasonGivenByAirline: finalFormData.disruptionDetails.reasonGiven,
-      additionalInformation: finalFormData.disruptionDetails.additionalInfo,
-      delayDuration: finalFormData.flightDetails.disruptionType === 'delay' ? finalFormData.flightDetails.delayDuration : '',
-      status: "pending" as Claim['status'], // Explicitly cast to the correct type
-      stage: "initial_review",
-      amount: "€0", // Will be calculated/updated by admin
-      lastupdated: new Date().toISOString().split('T')[0],
-      paymentMethod: finalFormData.paymentDetails.paymentMethod,
-      paymentDetails: formatPaymentDetails(finalFormData.paymentDetails),
-    };
+    toast.success("Claim submitted successfully", {
+      description: "We'll process your claim and keep you updated.",
+    });
     
-    try {
-      console.log("Submitting claim data:", claimData);
-      await claimsService.createClaim(claimData);
-      
-      toast.success("Claim submitted successfully", {
-        description: "We'll process your claim and keep you updated.",
-      });
-      
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error submitting claim:", error);
-      toast.error("Failed to submit claim", {
-        description: "Please try again or contact support.",
-      });
-    }
-  };
-  
-  // Format payment details based on payment method
-  const formatPaymentDetails = (paymentDetails: z.infer<typeof paymentDetailsSchema>) => {
-    if (paymentDetails.paymentMethod === "bank_transfer") {
-      return {
-        bankName: paymentDetails.bankName,
-        accountHolderName: paymentDetails.accountName,
-        iban: paymentDetails.iban,
-        accountNumber: paymentDetails.accountNumber,
-      };
-    } else if (paymentDetails.paymentMethod === "paypal") {
-      return {
-        paypalEmail: paymentDetails.paypalEmail,
-      };
-    } else {
-      // For other methods like Wise
-      return {};
-    }
+    navigate("/dashboard");
   };
 
   // Navigation handlers

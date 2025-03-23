@@ -29,7 +29,6 @@ export const claimsService = {
     additionalInformation?: string;
     paymentMethod?: string;
     paymentDetails?: any;
-    delayDuration?: string;
   }): Promise<Claim> {
     console.log('Creating claim with data:', claim);
     
