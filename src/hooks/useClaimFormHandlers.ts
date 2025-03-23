@@ -10,6 +10,7 @@ import {
   disruptionDetailsSchema,
   paymentDetailsSchema
 } from "@/components/claim-form/schemas";
+import { Claim } from "@/lib/supabase";
 
 interface UseClaimFormHandlersProps {
   setFormData: React.Dispatch<React.SetStateAction<{
@@ -86,7 +87,7 @@ export const useClaimFormHandlers = ({
       reasonGivenByAirline: finalFormData.disruptionDetails.reasonGiven,
       additionalInformation: finalFormData.disruptionDetails.additionalInfo,
       delayDuration: finalFormData.flightDetails.disruptionType === 'delay' ? finalFormData.flightDetails.delayDuration : '',
-      status: "pending",
+      status: "pending" as Claim['status'], // Explicitly cast to the correct type
       stage: "initial_review",
       amount: "€0", // Will be calculated/updated by admin
       lastupdated: new Date().toISOString().split('T')[0],
