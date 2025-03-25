@@ -102,9 +102,11 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             </div>
           </div>
           
-          <Alert className="mb-6 bg-blue-50 border-blue-100 text-blue-800">
-            <Info className="h-5 w-5 text-blue-500" />
-            <AlertDescription className="text-blue-700">
+          <Alert className="mb-6 bg-blue-50 border-blue-100 text-blue-800 flex items-center">
+            <div className="opacity-70 flex-shrink-0">
+              <Info className="h-4 w-4 text-blue-500" />
+            </div>
+            <AlertDescription className="text-blue-700 ml-2">
               No risk. Checking compensation is absolutely free of charge.
             </AlertDescription>
           </Alert>
