@@ -10,8 +10,8 @@ export const flightDetailsSchema = z.object({
   flightNumber: z.string().min(3, "Flight number must be at least 3 characters"),
   airline: z.string().min(2, "Please select an airline"),
   departureDate: z.string().min(1, "Please select a departure date"),
-  departureAirport: z.string().min(2, "Please enter the departure airport"),
-  arrivalAirport: z.string().min(2, "Please enter the arrival airport"),
+  departureAirport: z.string().optional(),
+  arrivalAirport: z.string().optional(),
   disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection"], {
     required_error: "Please select the type of disruption",
   }),

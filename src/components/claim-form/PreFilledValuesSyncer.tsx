@@ -25,17 +25,11 @@ const PreFilledValuesSyncer: React.FC<PreFilledValuesSyncerProps> = ({
 }) => {
   // Update form values when location state changes
   useEffect(() => {
-    if (preFilledDepartureAirport) {
-      form.setValue('departureAirport', preFilledDepartureAirport);
-      if (flightRouteForm) {
-        flightRouteForm.setValue('departureAirport', preFilledDepartureAirport);
-      }
+    if (preFilledDepartureAirport && flightRouteForm) {
+      flightRouteForm.setValue('departureAirport', preFilledDepartureAirport);
     }
-    if (preFilledArrivalAirport) {
-      form.setValue('arrivalAirport', preFilledArrivalAirport);
-      if (flightRouteForm) {
-        flightRouteForm.setValue('arrivalAirport', preFilledArrivalAirport);
-      }
+    if (preFilledArrivalAirport && flightRouteForm) {
+      flightRouteForm.setValue('arrivalAirport', preFilledArrivalAirport);
     }
     if (preFilledFlightNumber) {
       form.setValue('flightNumber', preFilledFlightNumber);
@@ -45,7 +39,7 @@ const PreFilledValuesSyncer: React.FC<PreFilledValuesSyncerProps> = ({
     }
   }, [locationState, form, flightRouteForm, preFilledDepartureAirport, preFilledArrivalAirport, preFilledFlightNumber, preFilledDepartureDate]);
 
-  // Sync values between flight route and flight details forms
+  // Sync values from flight route to flight details
   useEffect(() => {
     if (flightRouteForm) {
       const subscription = flightRouteForm.watch((value) => {
