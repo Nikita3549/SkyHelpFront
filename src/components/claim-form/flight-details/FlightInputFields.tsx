@@ -76,6 +76,7 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
                   }}
                   initialFocus
                   className="touch-manipulation"
+                  captionLayout="dropdown-buttons"
                 />
               </PopoverContent>
             </Popover>
