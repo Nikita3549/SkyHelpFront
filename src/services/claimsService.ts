@@ -1,31 +1,20 @@
+
 import { supabase, Claim } from '@/lib/supabase';
 
 export const claimsService = {
   // Fetch all claims
   async getClaims(): Promise<Claim[]> {
-    console.log("Fetching claims from Supabase...");
+    const { data, error } = await supabase
+      .from('claims')
+      .select('*')
+      .order('created_at', { ascending: false });
     
-    try {
-      // Add a small delay to ensure any recent inserts are visible
-      // This is a workaround for potential eventual consistency issues
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      const { data, error } = await supabase
-        .from('claims')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error('Error fetching claims:', error);
-        throw error;
-      }
-      
-      console.log(`Retrieved ${data?.length || 0} claims from database:`, data);
-      return data || [];
-    } catch (error) {
-      console.error('Failed to fetch claims:', error);
+    if (error) {
+      console.error('Error fetching claims:', error);
       throw error;
     }
+    
+    return data || [];
   },
   
   // Create a new claim
@@ -43,22 +32,6 @@ export const claimsService = {
   }): Promise<Claim> {
     console.log('Creating claim with data:', claim);
     
-    // Ensure date is properly formatted for DB
-    let formattedDate = claim.date;
-    if (formattedDate && !formattedDate.includes('.')) {
-      // Convert YYYY-MM-DD to DD.MM.YY
-      try {
-        const dateObj = new Date(formattedDate);
-        const day = dateObj.getDate().toString().padStart(2, '0');
-        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-        const year = dateObj.getFullYear().toString().slice(2);
-        formattedDate = `${day}.${month}.${year}`;
-      } catch (err) {
-        console.error('Error formatting date:', err);
-        // Keep original date if formatting fails
-      }
-    }
-    
     // Convert camelCase fields to lowercase to match database column names
     const formattedClaim = {
       id: claim.id,
@@ -66,11 +39,11 @@ export const claimsService = {
       email: claim.email,
       airline: claim.airline,
       flightnumber: claim.flightnumber,
-      date: formattedDate,
-      status: claim.status || 'pending', // Set default status if not provided
-      stage: claim.stage || 'initial_review', // Set default stage if not provided
+      date: claim.date,
+      status: claim.status,
+      stage: claim.stage,
       amount: claim.amount,
-      lastupdated: claim.lastupdated || new Date().toISOString().split('T')[0], // Set current date if not provided
+      lastupdated: claim.lastupdated,
       // Convert camelCase to lowercase for all the new fields
       phone: claim.phone,
       address: claim.address,
@@ -84,31 +57,19 @@ export const claimsService = {
       paymentdetails: claim.paymentDetails
     };
     
-    console.log('Formatted claim for database:', formattedClaim);
+    // Insert the formatted claim
+    const { data, error } = await supabase
+      .from('claims')
+      .insert(formattedClaim)
+      .select()
+      .single();
     
-    try {
-      // Insert the formatted claim
-      const { data, error } = await supabase
-        .from('claims')
-        .insert(formattedClaim)
-        .select()
-        .single();
-      
-      if (error) {
-        console.error('Error creating claim:', error);
-        throw error;
-      }
-      
-      console.log('Claim created successfully:', data);
-      
-      // Force a refetch of claims after creating a new one
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      return data;
-    } catch (error) {
-      console.error('Failed to create claim:', error);
+    if (error) {
+      console.error('Error creating claim:', error);
       throw error;
     }
+    
+    return data;
   },
   
   // Update a claim
@@ -121,45 +82,30 @@ export const claimsService = {
       lastupdated: updates.lastupdated || new Date().toISOString().split('T')[0]
     };
     
-    try {
-      const { data, error } = await supabase
-        .from('claims')
-        .update(updatedData)
-        .eq('id', id)
-        .select()
-        .single();
-      
-      if (error) {
-        console.error('Error updating claim:', error);
-        throw error;
-      }
-      
-      console.log('Claim updated successfully:', data);
-      return data;
-    } catch (error) {
-      console.error('Failed to update claim:', error);
+    const { data, error } = await supabase
+      .from('claims')
+      .update(updatedData)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error updating claim:', error);
       throw error;
     }
+    
+    return data;
   },
   
   // Delete a claim
   async deleteClaim(id: string): Promise<void> {
-    console.log('Deleting claim with ID:', id);
+    const { error } = await supabase
+      .from('claims')
+      .delete()
+      .eq('id', id);
     
-    try {
-      const { error } = await supabase
-        .from('claims')
-        .delete()
-        .eq('id', id);
-      
-      if (error) {
-        console.error('Error deleting claim:', error);
-        throw error;
-      }
-      
-      console.log('Claim deleted successfully');
-    } catch (error) {
-      console.error('Failed to delete claim:', error);
+    if (error) {
+      console.error('Error deleting claim:', error);
       throw error;
     }
   }

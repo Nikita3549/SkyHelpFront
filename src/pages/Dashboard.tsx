@@ -1,362 +1,656 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, CheckCircle2, Clock, ArrowRight, Plane } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
-import { Claim } from "@/lib/supabase";
+
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Progress } from "@/components/ui/progress";
+import {
+  Clock,
+  Plane,
+  FileText,
+  Upload,
+  Download,
+  MessageSquare,
+  Check,
+  AlertCircle,
+  Calendar,
+  CreditCard,
+  ExternalLink,
+  ChevronRight,
+  CheckCircle2,
+  MoreHorizontal,
+  User,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+// Sample claims data
+const claims = [
+  {
+    id: "CLM-1234",
+    airline: "Lufthansa",
+    flightNumber: "LH1234",
+    departureDate: "2023-11-15",
+    route: "London (LHR) to Frankfurt (FRA)",
+    status: "in_progress",
+    statusText: "In Progress",
+    compensation: "€400",
+    progress: 60,
+    lastUpdate: "2023-12-10",
+    estimatedCompletion: "2024-01-20",
+    documents: [
+      { name: "Boarding Pass", status: "uploaded" },
+      { name: "Flight Ticket", status: "uploaded" },
+      { name: "ID Document", status: "requested" },
+    ],
+    messages: [
+      {
+        date: "2023-12-10",
+        content: "We've submitted your claim to Lufthansa and are awaiting their response.",
+        isFromTeam: true,
+      },
+      {
+        date: "2023-12-05",
+        content: "Your claim has been reviewed and is valid for compensation. We'll now contact the airline.",
+        isFromTeam: true,
+      },
+    ],
+  },
+  {
+    id: "CLM-5678",
+    airline: "British Airways",
+    flightNumber: "BA2160",
+    departureDate: "2023-10-20",
+    route: "Madrid (MAD) to London (LHR)",
+    status: "completed",
+    statusText: "Completed",
+    compensation: "€250",
+    progress: 100,
+    lastUpdate: "2023-11-30",
+    paymentDate: "2023-11-30",
+    documents: [
+      { name: "Boarding Pass", status: "uploaded" },
+      { name: "Flight Ticket", status: "uploaded" },
+      { name: "ID Document", status: "uploaded" },
+    ],
+    messages: [
+      {
+        date: "2023-11-30",
+        content: "Your compensation of €250 has been transferred to your account. Thank you for using our service!",
+        isFromTeam: true,
+      },
+      {
+        date: "2023-11-25",
+        content: "Good news! British Airways has approved your claim and agreed to pay compensation.",
+        isFromTeam: true,
+      },
+    ],
+  },
+  {
+    id: "CLM-9012",
+    airline: "Ryanair",
+    flightNumber: "FR8012",
+    departureDate: "2023-12-05",
+    route: "Barcelona (BCN) to Paris (ORY)",
+    status: "review",
+    statusText: "Under Review",
+    compensation: "€250 (estimated)",
+    progress: 30,
+    lastUpdate: "2023-12-12",
+    estimatedCompletion: "2024-02-15",
+    documents: [
+      { name: "Boarding Pass", status: "uploaded" },
+      { name: "Flight Ticket", status: "requested" },
+      { name: "ID Document", status: "requested" },
+    ],
+    messages: [
+      {
+        date: "2023-12-12",
+        content: "We need your flight ticket to proceed with the claim. Please upload it as soon as possible.",
+        isFromTeam: true,
+      },
+      {
+        date: "2023-12-08",
+        content: "Your claim has been received and is currently under initial review.",
+        isFromTeam: true,
+      },
+    ],
+  },
+];
+
+// Updated StatusBadge component to accept className prop
+const StatusBadge = ({ status, className }: { status: string; className?: string }) => {
+  const variants: Record<string, { variant: "default" | "outline" | "secondary" | "destructive", icon: React.ReactNode }> = {
+    completed: {
+      variant: "default",
+      icon: <CheckCircle2 className="h-3 w-3 mr-1" />,
+    },
+    in_progress: {
+      variant: "secondary",
+      icon: <Clock className="h-3 w-3 mr-1" />,
+    },
+    review: {
+      variant: "outline",
+      icon: <FileText className="h-3 w-3 mr-1" />,
+    },
+    rejected: {
+      variant: "destructive",
+      icon: <AlertCircle className="h-3 w-3 mr-1" />,
+    },
+  };
+
+  const { variant, icon } = variants[status] || variants.review;
+
+  return (
+    <Badge variant={variant} className={cn("flex items-center", className)}>
+      {icon}
+      {status === "completed" && "Completed"}
+      {status === "in_progress" && "In Progress"}
+      {status === "review" && "Under Review"}
+      {status === "rejected" && "Rejected"}
+    </Badge>
+  );
+};
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("overview");
+  const [selectedClaimId, setSelectedClaimId] = useState(claims[0].id);
+  const selectedClaim = claims.find((claim) => claim.id === selectedClaimId);
 
-  const { data: userClaims = [], isLoading, error, refetch } = useQuery({
-    queryKey: ['userClaims'],
-    queryFn: async () => {
-      console.log("Fetching user claims...");
-      
-      try {
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        const { data, error } = await supabase
-          .from('claims')
-          .select('*')
-          .order('created_at', { ascending: false });
-          
-        if (error) {
-          console.error('Error fetching user claims:', error);
-          throw error;
-        }
-
-        console.log(`Retrieved ${data?.length || 0} user claims:`, data);
-        return data || [];
-      } catch (err) {
-        console.error("Failed to fetch claims:", err);
-        toast.error("Could not load your claims");
-        throw err;
-      }
+  // Animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
     },
-    refetchOnWindowFocus: true,
-    refetchInterval: 5000,
-    staleTime: 1000,
-  });
-
-  useEffect(() => {
-    console.log("Dashboard mounted - refreshing claims");
-    refetch();
-    
-    return () => {
-      console.log("Dashboard unmounted");
-    };
-  }, [refetch]);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'in_progress':
-        return 'bg-blue-100 text-blue-800';
-      case 'escalated':
-        return 'bg-orange-100 text-orange-800';
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return <Clock className="h-4 w-4 text-yellow-600" />;
-      case 'in_progress':
-        return <Clock className="h-4 w-4 text-blue-600" />;
-      case 'completed':
-        return <CheckCircle2 className="h-4 w-4 text-green-600" />;
-      default:
-        return <AlertCircle className="h-4 w-4 text-gray-600" />;
-    }
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
   };
 
-  const formatLastUpdated = (dateStr: string) => {
-    if (!dateStr) return "Unknown";
-    
-    try {
-      if (dateStr.includes('.')) {
-        const [day, month, year] = dateStr.split('.');
-        const date = new Date(`20${year}-${month}-${day}`);
-        return formatDistanceToNow(date, { addSuffix: true });
-      }
-      
-      return formatDistanceToNow(new Date(dateStr), { addSuffix: true });
-    } catch (err) {
-      console.error("Error formatting date:", dateStr, err);
-      return dateStr;
-    }
+  // Function to generate message
+  const generateNewMessage = () => {
+    console.log("New message generated");
+    // In a real app, this would open a message compose UI
+  };
+
+  // Function to upload document
+  const uploadDocument = () => {
+    console.log("Document upload triggered");
+    // In a real app, this would open a file upload UI
   };
 
   return (
-    <div className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+    <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <h1 className="text-3xl font-bold mb-2">Your Dashboard</h1>
-          <p className="text-gray-600">
-            Track and manage your flight compensation claims
-          </p>
-        </motion.div>
-        
-        <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="myClaims">My Claims</TabsTrigger>
-            <TabsTrigger value="resources">Resources</TabsTrigger>
-          </TabsList>
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-3xl font-bold mb-2">My Claims Dashboard</h1>
+            <p className="text-gray-600">
+              Track and manage your flight compensation claims
+            </p>
+          </motion.div>
 
-          <TabsContent value="overview">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg font-medium">Total Claims</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold">{userClaims.length}</p>
-                  <p className="text-sm text-gray-500 mt-1">Active claims</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg font-medium">Pending Review</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold">
-                    {userClaims.filter(claim => claim.status === 'pending').length}
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">Awaiting processing</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg font-medium">Completed</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold">
-                    {userClaims.filter(claim => claim.status === 'completed').length}
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">Successfully processed</p>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <div className="grid grid-cols-1 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {isLoading ? (
-                    <div className="text-center py-6">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-800 mx-auto"></div>
-                      <p className="mt-2 text-gray-600">Loading your claims...</p>
-                    </div>
-                  ) : error ? (
-                    <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertTitle>Error</AlertTitle>
-                      <AlertDescription>
-                        Failed to load your claims. Please try again later.
-                      </AlertDescription>
-                    </Alert>
-                  ) : userClaims.length === 0 ? (
-                    <div className="text-center py-8">
-                      <Plane className="h-12 w-12 mx-auto text-gray-400 mb-3" />
-                      <h3 className="text-lg font-medium mb-2">No claims yet</h3>
-                      <p className="text-gray-500 mb-4">
-                        You haven't submitted any flight compensation claims yet.
-                      </p>
-                      <Button onClick={() => navigate("/claim")}>
-                        Start a New Claim
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {userClaims.slice(0, 5).map((claim: Claim) => (
-                        <div
-                          key={claim.id}
-                          className="flex items-center justify-between border-b border-gray-100 pb-4 last:border-0 last:pb-0"
-                        >
-                          <div>
-                            <div className="flex items-center">
-                              {getStatusIcon(claim.status)}
-                              <p className="font-medium ml-2">{claim.airline} {claim.flightnumber}</p>
-                            </div>
-                            <p className="text-sm text-gray-500 mt-1">
-                              {claim.departureairport} to {claim.arrivalairport} • {claim.date}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <Badge className={`${getStatusColor(claim.status)}`}>
-                              {claim.status.replace('_', ' ')}
-                            </Badge>
-                            <p className="text-xs text-gray-500 mt-1">
-                              Updated {formatLastUpdated(claim.lastupdated)}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                      
-                      {userClaims.length > 5 && (
-                        <div className="text-center pt-2">
-                          <Button variant="outline" onClick={() => setActiveTab("myClaims")}>
-                            View All Claims
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-4 md:mt-0"
+          >
+            <Link to="/claim">
+              <Button>
+                Start New Claim
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
 
-          <TabsContent value="myClaims">
-            <Card>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Claims List */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-1"
+          >
+            <Card className="shadow-md">
               <CardHeader>
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <CardTitle>My Claims</CardTitle>
-                  <Button onClick={() => navigate("/claim")}>
-                    New Claim
-                  </Button>
-                </div>
+                <CardTitle>My Claims</CardTitle>
+                <CardDescription>
+                  {claims.length} {claims.length === 1 ? "claim" : "claims"} in total
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                {isLoading ? (
-                  <div className="text-center py-6">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-800 mx-auto"></div>
-                    <p className="mt-2 text-gray-600">Loading your claims...</p>
-                  </div>
-                ) : error ? (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>
-                      Failed to load your claims. Please try again later.
-                    </AlertDescription>
-                  </Alert>
-                ) : userClaims.length === 0 ? (
-                  <div className="text-center py-8">
-                    <Plane className="h-12 w-12 mx-auto text-gray-400 mb-3" />
-                    <h3 className="text-lg font-medium mb-2">No claims yet</h3>
-                    <p className="text-gray-500 mb-4">
-                      You haven't submitted any flight compensation claims yet.
-                    </p>
-                    <Button onClick={() => navigate("/claim")}>
-                      Start a New Claim
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-gray-200">
-                          <th className="text-left py-3 px-4 font-medium">ID</th>
-                          <th className="text-left py-3 px-4 font-medium">Flight</th>
-                          <th className="text-left py-3 px-4 font-medium">Date</th>
-                          <th className="text-left py-3 px-4 font-medium">Amount</th>
-                          <th className="text-left py-3 px-4 font-medium">Status</th>
-                          <th className="text-left py-3 px-4 font-medium">Last Update</th>
-                          <th className="text-right py-3 px-4 font-medium">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {userClaims.map((claim: Claim) => (
-                          <tr key={claim.id} className="border-b border-gray-100">
-                            <td className="py-3 px-4 text-gray-700">{claim.id}</td>
-                            <td className="py-3 px-4">
-                              <div className="font-medium">{claim.airline} {claim.flightnumber}</div>
-                              <div className="text-xs text-gray-500">{claim.departureairport} - {claim.arrivalairport}</div>
-                            </td>
-                            <td className="py-3 px-4">{claim.date}</td>
-                            <td className="py-3 px-4">{claim.amount}</td>
-                            <td className="py-3 px-4">
-                              <Badge className={`${getStatusColor(claim.status)}`}>
-                                {claim.status.replace('_', ' ')}
-                              </Badge>
-                            </td>
-                            <td className="py-3 px-4 text-sm">
-                              {formatLastUpdated(claim.lastupdated)}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              <Button variant="outline" size="sm">
-                                Details
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                <motion.div
+                  variants={container}
+                  initial="hidden"
+                  animate="show"
+                  className="space-y-4"
+                >
+                  {claims.map((claim) => (
+                    <motion.div
+                      key={claim.id}
+                      variants={item}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Card
+                        className={`cursor-pointer hover:shadow-md transition-shadow ${
+                          selectedClaimId === claim.id
+                            ? "border-primary shadow-md"
+                            : ""
+                        }`}
+                        onClick={() => setSelectedClaimId(claim.id)}
+                      >
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center">
+                              <Plane className="h-4 w-4 text-primary mr-2" />
+                              <span className="font-medium">{claim.airline}</span>
+                            </div>
+                            <StatusBadge status={claim.status} />
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex justify-between">
+                              <span className="text-sm text-gray-500">Flight</span>
+                              <span className="text-sm font-medium">{claim.flightNumber}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-sm text-gray-500">Date</span>
+                              <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-sm text-gray-500">Compensation</span>
+                              <span className="text-sm font-medium">{claim.compensation}</span>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-between text-xs mb-1">
+                              <span>Progress</span>
+                              <span>{claim.progress}%</span>
+                            </div>
+                            <Progress value={claim.progress} className="h-1.5" />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </motion.div>
               </CardContent>
             </Card>
-          </TabsContent>
-          
-          <TabsContent value="resources">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>EU Regulation 261/2004</CardTitle>
+          </motion.div>
+
+          {/* Claim Details */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-2"
+          >
+            {selectedClaim && (
+              <Card className="shadow-md h-full">
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="flex items-center">
+                        Claim {selectedClaim.id}
+                        <StatusBadge status={selectedClaim.status} className="ml-3" />
+                      </CardTitle>
+                      <CardDescription className="mt-1">
+                        {selectedClaim.airline} · {selectedClaim.flightNumber} · {new Date(selectedClaim.departureDate).toLocaleDateString()}
+                      </CardDescription>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreHorizontal className="h-5 w-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Options</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className="cursor-pointer">
+                          <Download className="mr-2 h-4 w-4" /> Export claim details
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer" onClick={generateNewMessage}>
+                          <MessageSquare className="mr-2 h-4 w-4" /> Contact support
+                        </DropdownMenuItem>
+                        {selectedClaim.status !== "completed" && (
+                          <DropdownMenuItem className="cursor-pointer text-destructive">
+                            <AlertCircle className="mr-2 h-4 w-4" /> Cancel claim
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4">
-                    Learn about your rights under EU Regulation 261/2004 for flight compensation.
-                  </p>
-                  <Button variant="outline" asChild>
-                    <Link to="/resources/eu-regulation">
-                      Read More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+
+                <CardContent className="p-0">
+                  <Tabs defaultValue="overview">
+                    <TabsList className="mx-6 mb-2">
+                      <TabsTrigger value="overview">Overview</TabsTrigger>
+                      <TabsTrigger value="documents">Documents</TabsTrigger>
+                      <TabsTrigger value="messages">Messages</TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="overview" className="p-6 pt-2">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-6">
+                          <div>
+                            <h3 className="text-sm font-medium text-gray-500 mb-2">Flight Details</h3>
+                            <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Route</span>
+                                <span className="text-sm font-medium">{selectedClaim.route}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Flight Number</span>
+                                <span className="text-sm font-medium">{selectedClaim.flightNumber}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Date</span>
+                                <span className="text-sm font-medium">{new Date(selectedClaim.departureDate).toLocaleDateString()}</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <h3 className="text-sm font-medium text-gray-500 mb-2">Claim Progress</h3>
+                            <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+                              <div>
+                                <div className="flex justify-between text-sm mb-1">
+                                  <span>Status</span>
+                                  <span className="font-medium">{selectedClaim.statusText}</span>
+                                </div>
+                                <Progress value={selectedClaim.progress} className="h-2" />
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Last Update</span>
+                                <span className="text-sm font-medium">{new Date(selectedClaim.lastUpdate).toLocaleDateString()}</span>
+                              </div>
+                              {selectedClaim.status !== "completed" && (
+                                <div className="flex justify-between">
+                                  <span className="text-sm text-gray-500">Estimated Completion</span>
+                                  <span className="text-sm font-medium">{new Date(selectedClaim.estimatedCompletion || "").toLocaleDateString()}</span>
+                                </div>
+                              )}
+                              {selectedClaim.status === "completed" && selectedClaim.paymentDate && (
+                                <div className="flex justify-between">
+                                  <span className="text-sm text-gray-500">Payment Date</span>
+                                  <span className="text-sm font-medium">{new Date(selectedClaim.paymentDate).toLocaleDateString()}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-6">
+                          <div>
+                            <h3 className="text-sm font-medium text-gray-500 mb-2">Compensation Details</h3>
+                            <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Amount</span>
+                                <span className="text-lg font-semibold text-primary">{selectedClaim.compensation}</span>
+                              </div>
+                              <Separator />
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Our Fee (25%)</span>
+                                <span className="text-sm font-medium">
+                                  {selectedClaim.compensation.startsWith("€") 
+                                    ? "€" + (parseFloat(selectedClaim.compensation.substring(1)) * 0.25).toFixed(2)
+                                    : "Calculated on settlement"}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">You Receive</span>
+                                <span className="text-sm font-medium">
+                                  {selectedClaim.compensation.startsWith("€") 
+                                    ? "€" + (parseFloat(selectedClaim.compensation.substring(1)) * 0.75).toFixed(2)
+                                    : "Calculated on settlement"}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <h3 className="text-sm font-medium text-gray-500 mb-2">Next Steps</h3>
+                            <div className="bg-gray-50 rounded-lg p-4">
+                              {selectedClaim.status === "review" && (
+                                <div className="flex items-start space-x-3">
+                                  <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
+                                    <FileText className="h-3 w-3 text-primary" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium">Documents Required</p>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                      Please upload the requested documents to proceed with your claim.
+                                    </p>
+                                    <Button onClick={uploadDocument} variant="outline" size="sm" className="mt-3">
+                                      <Upload className="mr-2 h-3 w-3" />
+                                      Upload Documents
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {selectedClaim.status === "in_progress" && (
+                                <div className="flex items-start space-x-3">
+                                  <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
+                                    <Clock className="h-3 w-3 text-primary" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium">Claim in Progress</p>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                      We're working with the airline to process your claim. We'll update you on any developments.
+                                    </p>
+                                    <Button onClick={generateNewMessage} variant="outline" size="sm" className="mt-3">
+                                      <MessageSquare className="mr-2 h-3 w-3" />
+                                      Contact Support
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {selectedClaim.status === "completed" && (
+                                <div className="flex items-start space-x-3">
+                                  <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                                    <Check className="h-3 w-3 text-green-600" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium">Claim Completed</p>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                      Your claim has been successfully processed and payment has been made.
+                                    </p>
+                                    <Button variant="outline" size="sm" className="mt-3">
+                                      <Download className="mr-2 h-3 w-3" />
+                                      Download Receipt
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="documents" className="p-6 pt-2">
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-500 mb-4">Required Documents</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {selectedClaim.documents.map((doc, index) => (
+                              <Card key={index} className="overflow-hidden">
+                                <CardContent className="p-0">
+                                  <div className="flex items-center justify-between p-4">
+                                    <div className="flex items-center">
+                                      <FileText className="h-5 w-5 text-gray-400 mr-3" />
+                                      <div>
+                                        <p className="font-medium">{doc.name}</p>
+                                        <p className="text-xs text-gray-500 mt-0.5">
+                                          {doc.status === "uploaded" ? "Uploaded" : "Required"}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    
+                                    {doc.status === "uploaded" ? (
+                                      <Badge variant="outline" className="text-green-600 bg-green-50 border-green-200">
+                                        <Check className="h-3 w-3 mr-1" />
+                                        Uploaded
+                                      </Badge>
+                                    ) : (
+                                      <Button onClick={uploadDocument} size="sm" variant="outline">
+                                        <Upload className="h-3 w-3 mr-1" />
+                                        Upload
+                                      </Button>
+                                    )}
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-500 mb-4">Document Guidelines</h3>
+                          <Card>
+                            <CardContent className="p-4 text-sm">
+                              <ul className="space-y-2 text-gray-600">
+                                <li className="flex items-start">
+                                  <Check className="h-4 w-4 text-primary mt-0.5 mr-2 flex-shrink-0" />
+                                  <span>Please upload documents in PDF, JPG, or PNG format</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <Check className="h-4 w-4 text-primary mt-0.5 mr-2 flex-shrink-0" />
+                                  <span>Maximum file size is 10MB per document</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <Check className="h-4 w-4 text-primary mt-0.5 mr-2 flex-shrink-0" />
+                                  <span>Ensure all documents are clearly legible</span>
+                                </li>
+                                <li className="flex items-start">
+                                  <Check className="h-4 w-4 text-primary mt-0.5 mr-2 flex-shrink-0" />
+                                  <span>ID documents must match the passenger name in the claim</span>
+                                </li>
+                              </ul>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="messages" className="p-6 pt-2">
+                      <div className="space-y-6">
+                        <div className="flex justify-between items-center">
+                          <h3 className="text-sm font-medium text-gray-500">Communication History</h3>
+                          <Button onClick={generateNewMessage} size="sm" variant="outline">
+                            <MessageSquare className="mr-2 h-4 w-4" />
+                            New Message
+                          </Button>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          {selectedClaim.messages.map((message, index) => (
+                            <div
+                              key={index}
+                              className={`flex ${message.isFromTeam ? "justify-start" : "justify-end"}`}
+                            >
+                              <div
+                                className={`max-w-[80%] rounded-lg p-4 ${
+                                  message.isFromTeam
+                                    ? "bg-white border shadow-sm"
+                                    : "bg-primary text-white"
+                                }`}
+                              >
+                                <div className="flex items-center mb-2">
+                                  {message.isFromTeam ? (
+                                    <>
+                                      <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+                                        <User className="h-3 w-3 text-primary" />
+                                      </div>
+                                      <span className="text-xs font-medium">
+                                        Support Team
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <span className="text-xs font-medium">You</span>
+                                  )}
+                                  <span className="text-xs ml-auto opacity-70">
+                                    {new Date(message.date).toLocaleDateString()}
+                                  </span>
+                                </div>
+                                <p className={`text-sm ${message.isFromTeam ? "text-gray-700" : "text-white"}`}>
+                                  {message.content}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {selectedClaim.messages.length === 0 && (
+                          <div className="text-center py-8">
+                            <p className="text-gray-500">No messages yet</p>
+                          </div>
+                        )}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
                 </CardContent>
+
+                <CardFooter className="flex justify-between border-t p-6">
+                  <div className="text-sm text-gray-500">
+                    <span className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      Claim opened: {new Date(selectedClaim.departureDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                  
+                  <div>
+                    <Button variant="outline" size="sm" onClick={generateNewMessage}>
+                      <MessageSquare className="mr-2 h-4 w-4" />
+                      Contact Support
+                    </Button>
+                  </div>
+                </CardFooter>
               </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle>Claim Process FAQ</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4">
-                    Frequently asked questions about the flight compensation claim process.
-                  </p>
-                  <Button variant="outline" asChild>
-                    <Link to="/resources/faq">
-                      View FAQ <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
+            )}
+          </motion.div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Dashboard;
+

@@ -1,8 +1,6 @@
-
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
 import { 
   flightDetailsSchema,
   passengerDetailsSchema,
@@ -10,7 +8,6 @@ import {
   paymentDetailsSchema,
   flightRouteSchema
 } from "@/components/claim-form/schemas";
-import { format } from "date-fns";
 
 interface UseClaimFormHandlersProps {
   setFormData: React.Dispatch<React.SetStateAction<{
@@ -84,109 +81,21 @@ export const useClaimFormHandlers = ({
     setStep(5);
   };
   
-  const onPaymentDetailsSubmit = async (data: z.infer<typeof paymentDetailsSchema>) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      paymentDetails: data,
-    }));
-    
-    const completeFormData = {
+  const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
+    const finalFormData = {
       ...formData,
       paymentDetails: data,
     };
     
-    console.log("Complete form data:", completeFormData);
+    setFormData(finalFormData);
     
-    // Prepare data for Supabase
-    try {
-      // Generate a claim ID
-      const claimId = `CLM-${Math.floor(1000 + Math.random() * 9000)}`;
-      
-      // Format the date correctly (DD.MM.YY)
-      const departureDate = completeFormData.flightDetails.departureDate;
-      const dateObj = new Date(departureDate);
-      const formattedDate = format(dateObj, "dd.MM.yy");
-      
-      // Prepare payment details object based on selected payment method
-      let paymentDetails = {};
-      switch (data.paymentMethod) {
-        case "bank_transfer":
-          paymentDetails = {
-            bankName: data.bankName,
-            accountHolderName: data.accountName,
-            iban: data.iban,
-            accountNumber: data.accountNumber
-          };
-          break;
-        case "paypal":
-          paymentDetails = {
-            paypalEmail: data.paypalEmail
-          };
-          break;
-        case "wise":
-          paymentDetails = {
-            accountHolderName: data.accountName,
-            ibanOrAccount: data.iban,
-            email: data.email
-          };
-          break;
-      }
-      
-      // Create new claim object
-      const newClaim = {
-        id: claimId,
-        customer: `${completeFormData.passengerDetails.firstName} ${completeFormData.passengerDetails.lastName}`,
-        email: completeFormData.passengerDetails.email,
-        phone: completeFormData.passengerDetails.phone,
-        address: completeFormData.passengerDetails.address,
-        numberofpassengers: completeFormData.passengerDetails.passengers,
-        airline: completeFormData.flightDetails.airline,
-        flightnumber: completeFormData.flightDetails.flightNumber,
-        date: formattedDate,
-        departureairport: completeFormData.flightRoute.departureAirport,
-        arrivalairport: completeFormData.flightRoute.arrivalAirport,
-        flightissue: completeFormData.flightDetails.disruptionType,
-        reasongivenbyairline: completeFormData.disruptionDetails.reasonGiven,
-        additionalinformation: completeFormData.disruptionDetails.additionalInfo,
-        status: "pending",
-        stage: "initial_review",
-        amount: "€250 (estimated)", // Default estimated amount
-        lastupdated: format(new Date(), "dd.MM.yy"),
-        paymentmethod: data.paymentMethod,
-        paymentdetails: paymentDetails
-      };
-      
-      console.log("Submitting new claim to Supabase:", newClaim);
-      
-      // Insert claim into Supabase
-      const { data: savedClaim, error } = await supabase
-        .from('claims')
-        .insert(newClaim)
-        .select()
-        .single();
-      
-      if (error) {
-        console.error("Error submitting claim:", error);
-        toast.error("Failed to submit claim", {
-          description: error.message,
-        });
-        return;
-      }
-      
-      console.log("Claim submitted successfully:", savedClaim);
-      
-      toast.success("Claim submitted successfully", {
-        description: "We'll process your claim and keep you updated.",
-      });
-      
-      // Navigate to dashboard
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error in claim submission:", error);
-      toast.error("Failed to submit claim", {
-        description: "An unexpected error occurred. Please try again.",
-      });
-    }
+    console.log("Complete form data:", finalFormData);
+    
+    toast.success("Claim submitted successfully", {
+      description: "We'll process your claim and keep you updated.",
+    });
+    
+    navigate("/dashboard");
   };
 
   // Navigation handlers
