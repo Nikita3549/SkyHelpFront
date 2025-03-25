@@ -75,7 +75,7 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
                     if (date) setDatePickerOpen(false);
                   }}
                   initialFocus
-                  className="touch-manipulation pointer-events-auto"
+                  className="touch-manipulation"
                 />
               </PopoverContent>
             </Popover>

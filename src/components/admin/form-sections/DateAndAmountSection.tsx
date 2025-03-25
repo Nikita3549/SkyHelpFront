@@ -30,9 +30,6 @@ const DateAndAmountSection = ({
   datePickerOpen,
   setDatePickerOpen,
 }: DateAndAmountSectionProps) => {
-  // Format date for display
-  const formattedDate = date ? format(date, "PPP") : "Pick a date";
-
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="space-y-2">
@@ -47,7 +44,7 @@ const DateAndAmountSection = ({
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {formattedDate}
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
@@ -62,7 +59,6 @@ const DateAndAmountSection = ({
               }}
               initialFocus
               className="touch-manipulation pointer-events-auto"
-              // The updated Calendar component will handle year navigation internally
             />
           </PopoverContent>
         </Popover>

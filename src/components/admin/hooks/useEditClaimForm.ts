@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 import { Claim } from "@/lib/supabase";
 import { prepareClaimDataForSubmission } from "../utils/claimDataProcessor";
 
@@ -16,24 +16,12 @@ export function useEditClaimForm({ claim, onSubmit, onClose }: UseEditClaimFormP
   const initialFirstName = fullName[0] || "";
   const initialLastName = fullName.slice(1).join(" ") || "";
 
-  // Parse date string to Date object, handling both YY and YYYY formats
+  // Parse date string to Date object
   const dateStr = claim.date;
   const dateParts = dateStr.split(".");
-  
-  let initialDate = new Date();
-  
-  if (dateParts.length === 3) {
-    // Check if year is in YY or YYYY format
-    const yearPart = dateParts[2];
-    
-    if (yearPart.length === 2) {
-      // YY format, convert to full year (assuming 20xx for simplicity)
-      initialDate = new Date(Number(`20${yearPart}`), Number(dateParts[1]) - 1, Number(dateParts[0]));
-    } else {
-      // YYYY format
-      initialDate = new Date(Number(yearPart), Number(dateParts[1]) - 1, Number(dateParts[0]));
-    }
-  }
+  const initialDate = dateParts.length === 3 
+    ? new Date(Number(`20${dateParts[2]}`), Number(dateParts[1]) - 1, Number(dateParts[0]))
+    : new Date();
 
   // Initialize payment details based on claim data
   const paymentDetails = claim.paymentdetails || {};
