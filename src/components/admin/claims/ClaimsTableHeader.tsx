@@ -47,14 +47,14 @@ const ClaimsTableHeader = ({
         </svg>
       </div>
       <Select
-        value={statusFilter || ""}
-        onValueChange={(value) => setStatusFilter(value === "" ? null : value)}
+        value={statusFilter || "all"}
+        onValueChange={(value) => setStatusFilter(value === "all" ? null : value)}
       >
         <SelectTrigger className="w-full sm:w-44">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">All statuses</SelectItem>
+          <SelectItem value="all">All statuses</SelectItem>
           <SelectItem value="pending">Pending</SelectItem>
           <SelectItem value="in_progress">In Progress</SelectItem>
           <SelectItem value="escalated">Escalated</SelectItem>
