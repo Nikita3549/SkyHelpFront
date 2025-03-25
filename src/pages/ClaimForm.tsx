@@ -11,7 +11,6 @@ import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
 import PreFilledValuesSyncer from "@/components/claim-form/PreFilledValuesSyncer";
 import Timeline from "@/components/claim-form/Timeline";
-import AssistantWidget from "@/components/claim-form/AssistantWidget";
 
 // Custom hooks
 import { useClaimFormState } from "@/hooks/useClaimFormState";
@@ -135,7 +134,6 @@ const ClaimForm = () => {
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Timeline sidebar */}
           <div className="md:col-span-1 pt-6">
-            <AssistantWidget />
             <Timeline items={getTimelineItems()} />
           </div>
           
