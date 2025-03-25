@@ -41,13 +41,6 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
           Enter your departure and destination airports to start your claim
         </p>
       </div>
-      
-      <Alert className="mb-6 bg-blue-50 border-blue-100 text-blue-800">
-        <Info className="h-5 w-5 text-blue-500" />
-        <AlertDescription className="text-blue-700">
-          No risk. Checking compensation is absolutely free of charge.
-        </AlertDescription>
-      </Alert>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -108,6 +101,13 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
               />
             </div>
           </div>
+          
+          <Alert className="mb-6 bg-blue-50 border-blue-100 text-blue-800">
+            <Info className="h-5 w-5 text-blue-500" />
+            <AlertDescription className="text-blue-700">
+              No risk. Checking compensation is absolutely free of charge.
+            </AlertDescription>
+          </Alert>
 
           <NavigationButtons 
             onBack={onBack || (() => {})} 
