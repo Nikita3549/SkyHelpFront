@@ -58,7 +58,7 @@ const DateAndAmountSection = ({
                 }
               }}
               initialFocus
-              className="touch-manipulation"
+              className="touch-manipulation pointer-events-auto"
             />
           </PopoverContent>
         </Popover>

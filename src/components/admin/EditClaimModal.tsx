@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -142,8 +141,9 @@ const EditClaimModal = ({ isOpen, onClose, onSubmit, claim }: EditClaimModalProp
       return;
     }
     
-    // Format date for submission
+    // Format date for submission in the correct format: DD.MM.YY
     const formattedDate = format(formState.date, "dd.MM.yy");
+    console.log("Submitting with formatted date:", formattedDate);
     
     // Prepare payment details based on payment method
     let paymentDetails = {};
