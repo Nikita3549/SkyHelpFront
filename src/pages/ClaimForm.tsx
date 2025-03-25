@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useEffect } from "react";
 import { AnimationTransitions } from "@/components/claim-form/types";
@@ -17,8 +16,11 @@ import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
 // Custom hooks
 import { useClaimFormState } from "@/hooks/useClaimFormState";
 import { useClaimFormHandlers } from "@/hooks/useClaimFormHandlers";
+import { useNavigate } from "react-router-dom";
 
 const ClaimForm = () => {
+  const navigate = useNavigate();
+  
   const {
     step,
     setStep,
@@ -89,6 +91,11 @@ const ClaimForm = () => {
     transition: { duration: 0.3 },
   };
 
+  // Function to handle going back to the home page
+  const goBackToHomePage = () => {
+    navigate('/');
+  };
+
   // Render the current step
   const renderStep = () => {
     switch (step) {
@@ -98,6 +105,7 @@ const ClaimForm = () => {
             form={flightRouteForm}
             onSubmit={onFlightRouteSubmit}
             transitions={transitions}
+            onBack={goBackToHomePage}
           />
         );
       case 2:
@@ -109,6 +117,7 @@ const ClaimForm = () => {
             isEligible={isEligible}
             onContinue={proceedToNextStep}
             transitions={transitions}
+            onBack={() => setStep(1)}
           />
         );
       case 3:
@@ -126,7 +135,6 @@ const ClaimForm = () => {
             form={disruptionDetailsForm}
             onSubmit={onDisruptionDetailsSubmit}
             onBack={() => setStep(3)}
-            disruptionType={flightDetailsForm.getValues().disruptionType}
             transitions={transitions}
           />
         );

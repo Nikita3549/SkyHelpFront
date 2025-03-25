@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, ArrowLeft } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
@@ -26,6 +26,7 @@ interface FlightDetailsStepProps {
   isEligible: boolean | null;
   onContinue: () => void;
   transitions: AnimationTransitions;
+  onBack?: () => void;
 }
 
 const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
@@ -35,6 +36,7 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
   isEligible,
   onContinue,
   transitions,
+  onBack,
 }) => {
   return (
     <motion.div
@@ -59,24 +61,38 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
 
-          <div className="pt-4">
-            <Button 
-              type="submit" 
-              className="w-full sm:w-auto"
-              disabled={isChecking}
-            >
-              {isChecking ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Checking Eligibility
-                </>
-              ) : (
-                <>
-                  Check Eligibility
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </Button>
+          <div className="pt-4 flex justify-between items-center">
+            {onBack && (
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={onBack}
+                className="flex items-center"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
+              </Button>
+            )}
+            
+            <div className={onBack ? "" : "ml-auto"}>
+              <Button 
+                type="submit" 
+                className="w-full sm:w-auto"
+                disabled={isChecking}
+              >
+                {isChecking ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Checking Eligibility
+                  </>
+                ) : (
+                  <>
+                    Check Eligibility
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

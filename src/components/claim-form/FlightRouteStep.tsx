@@ -1,9 +1,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Plane } from "lucide-react";
+import { Plane } from "lucide-react";
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
@@ -12,17 +11,20 @@ import { flightRouteSchema } from "@/components/claim-form/schemas";
 import { AnimationTransitions } from "@/components/claim-form/types";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import NavigationButtons from "./passenger-details/NavigationButtons";
 
 interface FlightRouteStepProps {
   form: UseFormReturn<z.infer<typeof flightRouteSchema>>;
   onSubmit: (data: z.infer<typeof flightRouteSchema>) => void;
   transitions: AnimationTransitions;
+  onBack?: () => void;
 }
 
 const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
   form,
   onSubmit,
   transitions,
+  onBack,
 }) => {
   return (
     <motion.div
@@ -99,12 +101,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             </div>
           </div>
 
-          <div className="pt-4">
-            <Button type="submit" className="w-full sm:w-auto">
-              Continue to Flight Details
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+          <NavigationButtons onBack={onBack || (() => {})} showBackButton={!!onBack} />
         </form>
       </Form>
     </motion.div>

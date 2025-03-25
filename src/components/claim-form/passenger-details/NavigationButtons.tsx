@@ -5,20 +5,28 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface NavigationButtonsProps {
   onBack: () => void;
+  showBackButton?: boolean;
 }
 
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({ onBack }) => {
+const NavigationButtons: React.FC<NavigationButtonsProps> = ({ 
+  onBack,
+  showBackButton = true 
+}) => {
   return (
     <div className="pt-4 flex justify-between items-center">
-      <Button 
-        type="button" 
-        variant="outline" 
-        onClick={onBack}
-        className="flex items-center"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back
-      </Button>
+      {showBackButton ? (
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={onBack}
+          className="flex items-center"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+      ) : (
+        <div></div> // Empty div to maintain flex spacing when back button is hidden
+      )}
 
       <Button type="submit">
         Continue
