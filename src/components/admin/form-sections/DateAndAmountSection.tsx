@@ -52,10 +52,8 @@ const DateAndAmountSection = ({
               mode="single"
               selected={date}
               onSelect={(newDate) => {
-                if (newDate) {
-                  handleChange("date", newDate);
-                  setDatePickerOpen(false);
-                }
+                handleChange("date", newDate);
+                setDatePickerOpen(false);
               }}
               initialFocus
               className="touch-manipulation pointer-events-auto"
