@@ -81,10 +81,12 @@ const Stats = () => {
                 </motion.div>
               </CardContent>
               
+              {/* Only render TrendingUp when actually hovering */}
               {hoveredStat === index && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   className="absolute -bottom-2 left-0 right-0 flex justify-center"
                 >
                   <TrendingUp className="text-primary/70 h-5 w-5" />
