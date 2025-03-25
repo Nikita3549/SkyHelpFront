@@ -10,6 +10,7 @@ import PassengerDetailsStep from "@/components/claim-form/PassengerDetailsStep";
 import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep";
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
 import PreFilledValuesSyncer from "@/components/claim-form/PreFilledValuesSyncer";
+import Timeline from "@/components/claim-form/Timeline";
 
 // Custom hooks
 import { useClaimFormState } from "@/hooks/useClaimFormState";
@@ -49,6 +50,28 @@ const ClaimForm = () => {
     setIsEligible,
     setIsChecking,
   });
+
+  // Mapping step numbers to timeline status
+  const getTimelineItems = () => {
+    return [
+      {
+        label: "Eligibility Check",
+        status: step >= 1 && isEligible ? "completed" : step === 1 ? "active" : "pending"
+      },
+      {
+        label: "Passenger Details",
+        status: step > 2 ? "completed" : step === 2 ? "active" : "pending"
+      },
+      {
+        label: "Disruption Details",
+        status: step > 3 ? "completed" : step === 3 ? "active" : "pending"
+      },
+      {
+        label: "Payment",
+        status: step === 4 ? "active" : "pending"
+      }
+    ];
+  };
 
   // Animation transitions
   const transitions: AnimationTransitions = {
@@ -108,17 +131,25 @@ const ClaimForm = () => {
   return (
     <div className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
-        <div className="max-w-4xl mx-auto">
-          <ProgressBar step={step} totalSteps={4} />
-          <PreFilledValuesSyncer
-            form={flightDetailsForm}
-            preFilledDepartureAirport={preFilledDepartureAirport}
-            preFilledArrivalAirport={preFilledArrivalAirport}
-            preFilledFlightNumber={preFilledFlightNumber}
-            preFilledDepartureDate={preFilledDepartureDate}
-            locationState={location.state}
-          />
-          {renderStep()}
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Timeline sidebar */}
+          <div className="md:col-span-1 pt-6">
+            <Timeline items={getTimelineItems()} />
+          </div>
+          
+          {/* Main form content */}
+          <div className="md:col-span-3">
+            <ProgressBar step={step} totalSteps={4} />
+            <PreFilledValuesSyncer
+              form={flightDetailsForm}
+              preFilledDepartureAirport={preFilledDepartureAirport}
+              preFilledArrivalAirport={preFilledArrivalAirport}
+              preFilledFlightNumber={preFilledFlightNumber}
+              preFilledDepartureDate={preFilledDepartureDate}
+              locationState={location.state}
+            />
+            {renderStep()}
+          </div>
         </div>
       </div>
     </div>
