@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Clock, AlertCircle, Users, Plane, ChevronDown } from "lucide-react";
+import { Clock, AlertCircle, Users, Plane } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";

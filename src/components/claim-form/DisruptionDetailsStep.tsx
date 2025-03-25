@@ -62,10 +62,10 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="Less than 2 hours">Less than 2 hours</SelectItem>
-                          <SelectItem value="2-3 hours">2-3 hours</SelectItem>
-                          <SelectItem value="3-4 hours">3-4 hours (eligible for compensation)</SelectItem>
-                          <SelectItem value="More than 4 hours">More than 4 hours (eligible for compensation)</SelectItem>
+                          <SelectItem value="1 hour">1 hour</SelectItem>
+                          <SelectItem value="2 hours">2 hours</SelectItem>
+                          <SelectItem value="3 hours">3 hours (eligible for compensation)</SelectItem>
+                          <SelectItem value="4+ hours">4+ hours (eligible for compensation)</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
