@@ -64,7 +64,7 @@ export function useEditClaimForm({ claim, onSubmit, onClose }: UseEditClaimFormP
     wiseEmail: paymentDetails.email || "",
     
     // Status
-    status: claim.status || "pending",
+    status: claim.status || "pending" as 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected',
     stage: claim.stage || "initial_review",
   });
 

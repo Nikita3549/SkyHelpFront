@@ -11,6 +11,7 @@ type FormState = {
   accountHolderName: string;
   paypalEmail: string;
   wiseAccountHolder: string;
+  status?: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected';
   [key: string]: any;
 };
 

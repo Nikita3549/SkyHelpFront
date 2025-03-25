@@ -29,7 +29,7 @@ type FormStateWithId = {
   wiseAccountHolder: string;
   wiseIbanOrAccount: string;
   wiseEmail: string;
-  status: string;
+  status: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected';
   stage: string;
 };
 
