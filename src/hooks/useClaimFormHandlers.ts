@@ -48,8 +48,25 @@ export const useClaimFormHandlers = ({
     setIsChecking(true);
     setFormData({ ...formData, flightDetails: data });
     
+    // Simulate checking eligibility based on the EU regulation
     setTimeout(() => {
-      setIsEligible(true);
+      // Check for eligibility based on flight disruption type and duration
+      let isEligible = false;
+      
+      if (data.disruptionType === "delay") {
+        // Only eligible if delay is 3 hours or more (EU Regulation 261/2004)
+        const delayDuration = data.delayDuration;
+        isEligible = delayDuration === "3-4 hours" || delayDuration === "More than 4 hours";
+      } else if (data.disruptionType === "cancellation" || 
+                data.disruptionType === "denied_boarding") {
+        // Cancellations and denied boarding are generally eligible
+        isEligible = true;
+      } else if (data.disruptionType === "missed_connection") {
+        // Missed connections might be eligible depending on the total delay
+        isEligible = true;
+      }
+      
+      setIsEligible(isEligible);
       setIsChecking(false);
     }, 2000);
   };

@@ -54,7 +54,7 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
                   name="delayDuration"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Delay Duration (hours)</FormLabel>
+                      <FormLabel>Delay Duration</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
@@ -62,11 +62,10 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {["Less than 2 hours", "2-3 hours", "3-4 hours", "More than 4 hours"].map((duration) => (
-                            <SelectItem key={duration} value={duration}>
-                              {duration}
-                            </SelectItem>
-                          ))}
+                          <SelectItem value="Less than 2 hours">Less than 2 hours</SelectItem>
+                          <SelectItem value="2-3 hours">2-3 hours</SelectItem>
+                          <SelectItem value="3-4 hours">3-4 hours (eligible for compensation)</SelectItem>
+                          <SelectItem value="More than 4 hours">More than 4 hours (eligible for compensation)</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
