@@ -9,10 +9,23 @@ import { useQueryClient } from "@tanstack/react-query";
 const Admin = () => {
   const queryClient = useQueryClient();
   
-  // Force refresh claims data when the admin page loads
+  // Force refresh claims data when the admin page loads and periodically
   useEffect(() => {
     console.log("Admin page mounted - invalidating claims query");
+    
+    // Initial refresh
     queryClient.invalidateQueries({ queryKey: ['claims'] });
+    
+    // Set up periodic refresh
+    const interval = setInterval(() => {
+      console.log("Periodic claims refresh");
+      queryClient.invalidateQueries({ queryKey: ['claims'] });
+    }, 10000); // Refresh every 10 seconds
+    
+    return () => {
+      clearInterval(interval);
+      console.log("Admin page unmounted - clearing interval");
+    };
   }, [queryClient]);
 
   const {

@@ -12,13 +12,14 @@ export function useClaimsOperations() {
   
   const queryClient = useQueryClient();
   
+  // Improved query configuration with more aggressive refreshing
   const { data: claimsData = [], isLoading, error } = useQuery({
     queryKey: ['claims'],
     queryFn: claimsService.getClaims,
-    refetchOnMount: true,
+    refetchOnMount: 'always',
     refetchOnWindowFocus: true,
-    staleTime: 5000, // 5 seconds - make data stale more quickly
-    refetchInterval: 30000, // 30 seconds - auto refresh every 30 seconds
+    staleTime: 1000, // 1 second - make data stale very quickly
+    refetchInterval: 5000, // 5 seconds - auto refresh more frequently
   });
   
   console.log("Claims data from useClaimsOperations:", claimsData);
@@ -108,8 +109,16 @@ export function useClaimsOperations() {
 
   const handleNewClaimSubmit = (claimData: any) => {
     console.log("Submitting new claim:", claimData);
-    createClaimMutation.mutate(claimData);
     
+    // Ensure the claim has all required fields
+    const formattedClaimData = {
+      ...claimData,
+      status: claimData.status || 'pending',
+      stage: claimData.stage || 'initial_review',
+      lastupdated: new Date().toISOString().split('T')[0]
+    };
+    
+    createClaimMutation.mutate(formattedClaimData);
     setIsNewClaimModalOpen(false);
   };
 

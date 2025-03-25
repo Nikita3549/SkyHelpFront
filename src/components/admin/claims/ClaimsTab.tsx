@@ -5,6 +5,7 @@ import ClaimsTableHeader from "./ClaimsTableHeader";
 import ClaimsTable from "./ClaimsTable";
 import ClaimDetailsSection from "./ClaimDetailsSection";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 type ClaimsTabProps = {
   claimsData: Claim[];
@@ -31,12 +32,18 @@ const ClaimsTab = ({
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedClaim, setSelectedClaim] = useState<string | null>(null);
 
-  // Force refresh on tab mount/unmount
+  // Force refresh on tab mount and periodically
   useEffect(() => {
     console.log("Claims tab mounted - refreshing claims data");
     queryClient.invalidateQueries({ queryKey: ['claims'] });
     
+    // Set up periodic refresh for real-time updates
+    const interval = setInterval(() => {
+      queryClient.invalidateQueries({ queryKey: ['claims'] });
+    }, 5000); // Refresh every 5 seconds
+    
     return () => {
+      clearInterval(interval);
       console.log("Claims tab unmounted");
     };
   }, [queryClient]);
@@ -44,7 +51,17 @@ const ClaimsTab = ({
   // Log claims data for debugging
   useEffect(() => {
     console.log("Claims data in ClaimsTab:", claimsData);
+    if (claimsData.length === 0) {
+      console.log("No claims data available!");
+    }
   }, [claimsData]);
+
+  // Notify when claims are updated
+  useEffect(() => {
+    if (claimsData.length > 0) {
+      console.log("Claims data received, total items:", claimsData.length);
+    }
+  }, [claimsData.length]);
 
   const filteredClaims = claimsData.filter((claim) => {
     const matchesSearch = 
@@ -59,11 +76,23 @@ const ClaimsTab = ({
     return matchesSearch && matchesStatus;
   });
 
+  // Reset page when filters change
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, statusFilter]);
+
   // Calculate pagination
   const itemsPerPage = 10;
   const startIndex = (page - 1) * itemsPerPage;
   const paginatedClaims = filteredClaims.slice(startIndex, startIndex + itemsPerPage);
-  const totalPages = Math.ceil(filteredClaims.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredClaims.length / itemsPerPage));
+
+  // Force page reset if the current page is beyond available pages
+  useEffect(() => {
+    if (page > totalPages && totalPages > 0) {
+      setPage(totalPages);
+    }
+  }, [totalPages, page]);
 
   return (
     <div className="space-y-6">

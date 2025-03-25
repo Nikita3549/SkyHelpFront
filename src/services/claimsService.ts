@@ -7,6 +7,10 @@ export const claimsService = {
     console.log("Fetching claims from Supabase...");
     
     try {
+      // Add a small delay to ensure any recent inserts are visible
+      // This is a workaround for potential eventual consistency issues
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       const { data, error } = await supabase
         .from('claims')
         .select('*')
@@ -40,6 +44,17 @@ export const claimsService = {
   }): Promise<Claim> {
     console.log('Creating claim with data:', claim);
     
+    // Ensure date is properly formatted for DB
+    let formattedDate = claim.date;
+    if (formattedDate && !formattedDate.includes('.')) {
+      // Convert YYYY-MM-DD to DD.MM.YY
+      const dateObj = new Date(formattedDate);
+      const day = dateObj.getDate().toString().padStart(2, '0');
+      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+      const year = dateObj.getFullYear().toString().slice(2);
+      formattedDate = `${day}.${month}.${year}`;
+    }
+    
     // Convert camelCase fields to lowercase to match database column names
     const formattedClaim = {
       id: claim.id,
@@ -47,7 +62,7 @@ export const claimsService = {
       email: claim.email,
       airline: claim.airline,
       flightnumber: claim.flightnumber,
-      date: claim.date,
+      date: formattedDate,
       status: claim.status || 'pending', // Set default status if not provided
       stage: claim.stage || 'initial_review', // Set default stage if not provided
       amount: claim.amount,
