@@ -18,7 +18,6 @@ type ClaimsTableProps = {
   setPage: (page: number) => void;
   handleSendEmail: (claimId: string) => void;
   handleUpdateStatus: (claimId: string, newStatus: string) => void;
-  onEditClaim?: (claim: Claim) => void;
 };
 
 const ClaimsTable = ({
@@ -30,7 +29,6 @@ const ClaimsTable = ({
   setPage,
   handleSendEmail,
   handleUpdateStatus,
-  onEditClaim,
 }: ClaimsTableProps) => {
   return (
     <motion.div
@@ -89,11 +87,6 @@ const ClaimsTable = ({
                         <DropdownMenuItem onClick={() => handleSendEmail(claim.id)}>
                           Send Email
                         </DropdownMenuItem>
-                        {onEditClaim && (
-                          <DropdownMenuItem onClick={() => onEditClaim(claim)}>
-                            Edit Claim
-                          </DropdownMenuItem>
-                        )}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "in_progress")}>
                           Mark as In Progress

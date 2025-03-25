@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Plane, Calendar, MapPin } from "lucide-react";
@@ -10,7 +10,7 @@ import AirlineSelect from "./AirlineSelect";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { format, parse, isValid } from "date-fns";
+import { format } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 
 interface FlightInputFieldsProps {
@@ -19,48 +19,6 @@ interface FlightInputFieldsProps {
 
 const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
   const [datePickerOpen, setDatePickerOpen] = React.useState(false);
-  const [dateInputValue, setDateInputValue] = useState("");
-  
-  // Initialize date input value from form if available
-  useEffect(() => {
-    const currentDate = form.getValues().departureDate;
-    if (currentDate) {
-      setDateInputValue(format(new Date(currentDate), "dd.MM.yyyy"));
-    }
-  }, [form]);
-
-  // Update input value when field value changes (e.g., from calendar selection)
-  const watchDepartureDate = form.watch("departureDate");
-  useEffect(() => {
-    if (watchDepartureDate) {
-      setDateInputValue(format(new Date(watchDepartureDate), "dd.MM.yyyy"));
-    }
-  }, [watchDepartureDate]);
-
-  const handleDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setDateInputValue(value);
-
-    // Parse the input date when it looks complete
-    if (value.length >= 8) {
-      try {
-        // Try to parse the date with different common formats
-        let parsedDate;
-        const formats = ["dd.MM.yyyy", "dd/MM/yyyy", "dd-MM-yyyy"];
-        
-        for (const formatStr of formats) {
-          parsedDate = parse(value, formatStr, new Date());
-          if (isValid(parsedDate)) {
-            form.setValue("departureDate", format(parsedDate, "yyyy-MM-dd"));
-            break;
-          }
-        }
-      } catch (error) {
-        // If parsing fails, don't update the date
-        console.log("Invalid date format:", error);
-      }
-    }
-  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -89,43 +47,38 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Departure Date</FormLabel>
-            <div className="flex">
-              <FormControl>
-                <Input
-                  value={dateInputValue}
-                  onChange={handleDateInputChange}
-                  placeholder="DD.MM.YYYY"
-                  className="rounded-r-none"
-                />
-              </FormControl>
-              <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
-                <PopoverTrigger asChild>
+            <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+              <PopoverTrigger asChild>
+                <FormControl>
                   <Button
                     variant="outline"
-                    className="rounded-l-none border-l-0"
-                    type="button"
+                    className={cn(
+                      "w-full pl-3 text-left font-normal",
+                      !field.value && "text-muted-foreground"
+                    )}
                   >
-                    <Calendar className="h-4 w-4" />
+                    {field.value ? (
+                      format(new Date(field.value), "PPP")
+                    ) : (
+                      <span>Select a date</span>
+                    )}
+                    <Calendar className="ml-auto h-4 w-4 opacity-50" />
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
-                  <CalendarComponent
-                    mode="single"
-                    selected={field.value ? new Date(field.value) : undefined}
-                    onSelect={(date) => {
-                      if (date) {
-                        field.onChange(format(date, "yyyy-MM-dd"));
-                        setDateInputValue(format(date, "dd.MM.yyyy"));
-                        setDatePickerOpen(false);
-                      }
-                    }}
-                    initialFocus
-                    className="touch-manipulation"
-                    captionLayout="dropdown-buttons"
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
+                <CalendarComponent
+                  mode="single"
+                  selected={field.value ? new Date(field.value) : undefined}
+                  onSelect={(date) => {
+                    field.onChange(date ? format(date, "yyyy-MM-dd") : "");
+                    if (date) setDatePickerOpen(false);
+                  }}
+                  initialFocus
+                  className="touch-manipulation"
+                />
+              </PopoverContent>
+            </Popover>
             <FormMessage />
           </FormItem>
         )}
