@@ -74,10 +74,12 @@ export const claimsService = {
   
   // Update a claim
   async updateClaim(id: string, updates: Partial<Claim>): Promise<Claim> {
+    console.log('Updating claim with data:', updates);
+    
     // Ensure we're updating lastupdated (not lastUpdated)
     const updatedData = {
       ...updates,
-      lastupdated: new Date().toISOString().split('T')[0]
+      lastupdated: updates.lastupdated || new Date().toISOString().split('T')[0]
     };
     
     const { data, error } = await supabase

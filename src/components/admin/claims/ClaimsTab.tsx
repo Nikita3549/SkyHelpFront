@@ -12,6 +12,7 @@ type ClaimsTabProps = {
   handleExportClaims: () => void;
   formatPaymentDetails: (claim: Claim | undefined) => string;
   setIsNewClaimModalOpen: (value: boolean) => void;
+  onEditClaim: (claim: Claim) => void;
 };
 
 const ClaimsTab = ({
@@ -21,6 +22,7 @@ const ClaimsTab = ({
   handleExportClaims,
   formatPaymentDetails,
   setIsNewClaimModalOpen,
+  onEditClaim,
 }: ClaimsTabProps) => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -68,6 +70,7 @@ const ClaimsTab = ({
         claimsData={claimsData}
         handleSendEmail={handleSendEmail}
         formatPaymentDetails={formatPaymentDetails}
+        onEditClaim={onEditClaim}
       />
     </div>
   );

@@ -1,10 +1,9 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { User, Plane, AlertCircle, Info, CreditCard, FileText, Mail, CheckCircle2, XCircle } from "lucide-react";
+import { User, Plane, AlertCircle, Info, CreditCard, FileText, Mail, CheckCircle2, XCircle, Edit } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import { Claim } from "@/lib/supabase";
 
@@ -14,6 +13,7 @@ type ClaimDetailsSectionProps = {
   claimsData: Claim[];
   handleSendEmail: (claimId: string) => void;
   formatPaymentDetails: (claim: Claim | undefined) => string;
+  onEditClaim: (claim: Claim) => void;
 };
 
 const ClaimDetailsSection = ({
@@ -22,10 +22,13 @@ const ClaimDetailsSection = ({
   claimsData,
   handleSendEmail,
   formatPaymentDetails,
+  onEditClaim,
 }: ClaimDetailsSectionProps) => {
   if (!selectedClaim) return null;
 
   const claim = claimsData.find((claim) => claim.id === selectedClaim);
+  
+  if (!claim) return null;
 
   return (
     <motion.div
@@ -227,6 +230,10 @@ const ClaimDetailsSection = ({
             <Button variant="outline" size="sm" onClick={() => handleSendEmail(selectedClaim)}>
               <Mail className="h-4 w-4 mr-2" />
               Send Email
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => onEditClaim(claim)}>
+              <Edit className="h-4 w-4 mr-2" />
+              Edit Claim
             </Button>
             <Button size="sm">
               <CheckCircle2 className="h-4 w-4 mr-2" />

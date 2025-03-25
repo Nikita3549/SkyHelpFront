@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { XCircle } from "lucide-react";
 import { toast } from "sonner";
 import NewClaimModal from "@/components/admin/NewClaimModal";
+import EditClaimModal from "@/components/admin/EditClaimModal";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { claimsService } from "@/services/claimsService";
 import { Claim } from "@/lib/supabase";
@@ -15,6 +16,8 @@ import CommunicationsTab from "@/components/admin/communications/CommunicationsT
 
 const Admin = () => {
   const [isNewClaimModalOpen, setIsNewClaimModalOpen] = useState(false);
+  const [isEditClaimModalOpen, setIsEditClaimModalOpen] = useState(false);
+  const [selectedClaimForEdit, setSelectedClaimForEdit] = useState<Claim | null>(null);
   
   const queryClient = useQueryClient();
   
@@ -24,13 +27,13 @@ const Admin = () => {
   });
   
   const updateClaimMutation = useMutation({
-    mutationFn: ({ claimId, newStatus }: { claimId: string, newStatus: string }) => 
-      claimsService.updateClaim(claimId, { status: newStatus as any }),
+    mutationFn: ({ claimId, updates }: { claimId: string, updates: Partial<Claim> }) => 
+      claimsService.updateClaim(claimId, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['claims'] });
     },
     onError: (error) => {
-      toast.error("Failed to update status", {
+      toast.error("Failed to update claim", {
         description: error instanceof Error ? error.message : "An unknown error occurred",
       });
     },
@@ -56,7 +59,10 @@ const Admin = () => {
   };
 
   const handleUpdateStatus = (claimId: string, newStatus: string) => {
-    updateClaimMutation.mutate({ claimId, newStatus });
+    updateClaimMutation.mutate({ 
+      claimId, 
+      updates: { status: newStatus as any } 
+    });
     
     toast.success("Status updated", {
       description: `Claim ${claimId} status changed to ${newStatus}`,
@@ -104,6 +110,24 @@ const Admin = () => {
     
     toast.success("New claim created", {
       description: `Claim ${claimData.id} has been created successfully`,
+    });
+  };
+
+  const handleEditClaim = (claim: Claim) => {
+    setSelectedClaimForEdit(claim);
+    setIsEditClaimModalOpen(true);
+  };
+
+  const handleEditClaimSubmit = (claimData: Partial<Claim>) => {
+    if (!claimData.id) return;
+    
+    updateClaimMutation.mutate({
+      claimId: claimData.id,
+      updates: claimData
+    });
+    
+    toast.success("Claim updated", {
+      description: `Claim ${claimData.id} has been updated successfully`,
     });
   };
 
@@ -192,6 +216,7 @@ const Admin = () => {
               handleExportClaims={handleExportClaims}
               formatPaymentDetails={formatPaymentDetails}
               setIsNewClaimModalOpen={setIsNewClaimModalOpen}
+              onEditClaim={handleEditClaim}
             />
           </TabsContent>
 
@@ -206,6 +231,15 @@ const Admin = () => {
           isOpen={isNewClaimModalOpen}
           onClose={() => setIsNewClaimModalOpen(false)}
           onSubmit={handleNewClaimSubmit}
+        />
+      )}
+
+      {isEditClaimModalOpen && selectedClaimForEdit && (
+        <EditClaimModal
+          isOpen={isEditClaimModalOpen}
+          onClose={() => setIsEditClaimModalOpen(false)}
+          onSubmit={handleEditClaimSubmit}
+          claim={selectedClaimForEdit}
         />
       )}
     </div>
