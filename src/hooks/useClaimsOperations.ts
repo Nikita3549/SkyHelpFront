@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,15 +14,22 @@ export function useClaimsOperations() {
   const { data: claimsData = [], isLoading, error } = useQuery({
     queryKey: ['claims'],
     queryFn: claimsService.getClaims,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    staleTime: 10000,
   });
+  
+  console.log("Claims data fetched:", claimsData);
   
   const updateClaimMutation = useMutation({
     mutationFn: ({ claimId, updates }: { claimId: string, updates: Partial<Claim> }) => 
       claimsService.updateClaim(claimId, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['claims'] });
+      toast.success("Claim updated successfully");
     },
     onError: (error) => {
+      console.error("Failed to update claim:", error);
       toast.error("Failed to update claim", {
         description: error instanceof Error ? error.message : "An unknown error occurred",
       });
@@ -35,8 +41,10 @@ export function useClaimsOperations() {
       claimsService.createClaim(claimData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['claims'] });
+      toast.success("New claim created successfully");
     },
     onError: (error) => {
+      console.error("Failed to create claim:", error);
       toast.error("Failed to create claim", {
         description: error instanceof Error ? error.message : "An unknown error occurred",
       });
@@ -97,29 +105,31 @@ export function useClaimsOperations() {
   };
 
   const handleNewClaimSubmit = (claimData: any) => {
+    console.log("Submitting new claim:", claimData);
     createClaimMutation.mutate(claimData);
     
-    toast.success("New claim created", {
-      description: `Claim ${claimData.id} has been created successfully`,
-    });
+    setIsNewClaimModalOpen(false);
   };
 
   const handleEditClaim = (claim: Claim) => {
+    console.log("Editing claim:", claim);
     setSelectedClaimForEdit(claim);
     setIsEditClaimModalOpen(true);
   };
 
   const handleEditClaimSubmit = (claimData: Partial<Claim>) => {
-    if (!claimData.id) return;
+    if (!claimData.id) {
+      console.error("Cannot update claim without ID");
+      return;
+    }
     
+    console.log("Submitting edited claim:", claimData);
     updateClaimMutation.mutate({
       claimId: claimData.id,
       updates: claimData
     });
     
-    toast.success("Claim updated", {
-      description: `Claim ${claimData.id} has been updated successfully`,
-    });
+    setIsEditClaimModalOpen(false);
   };
 
   const formatPaymentDetails = (claim: Claim | undefined) => {

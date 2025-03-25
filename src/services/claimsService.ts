@@ -4,6 +4,8 @@ import { supabase, Claim } from '@/lib/supabase';
 export const claimsService = {
   // Fetch all claims
   async getClaims(): Promise<Claim[]> {
+    console.log("Fetching claims from Supabase...");
+    
     const { data, error } = await supabase
       .from('claims')
       .select('*')
@@ -14,6 +16,7 @@ export const claimsService = {
       throw error;
     }
     
+    console.log(`Retrieved ${data?.length || 0} claims from database`);
     return data || [];
   },
   
@@ -40,10 +43,10 @@ export const claimsService = {
       airline: claim.airline,
       flightnumber: claim.flightnumber,
       date: claim.date,
-      status: claim.status,
-      stage: claim.stage,
+      status: claim.status || 'pending', // Set default status if not provided
+      stage: claim.stage || 'initial_review', // Set default stage if not provided
       amount: claim.amount,
-      lastupdated: claim.lastupdated,
+      lastupdated: claim.lastupdated || new Date().toISOString().split('T')[0], // Set current date if not provided
       // Convert camelCase to lowercase for all the new fields
       phone: claim.phone,
       address: claim.address,
@@ -57,6 +60,8 @@ export const claimsService = {
       paymentdetails: claim.paymentDetails
     };
     
+    console.log('Formatted claim for database:', formattedClaim);
+    
     // Insert the formatted claim
     const { data, error } = await supabase
       .from('claims')
@@ -69,6 +74,7 @@ export const claimsService = {
       throw error;
     }
     
+    console.log('Claim created successfully:', data);
     return data;
   },
   
@@ -94,11 +100,14 @@ export const claimsService = {
       throw error;
     }
     
+    console.log('Claim updated successfully:', data);
     return data;
   },
   
   // Delete a claim
   async deleteClaim(id: string): Promise<void> {
+    console.log('Deleting claim with ID:', id);
+    
     const { error } = await supabase
       .from('claims')
       .delete()
@@ -108,5 +117,7 @@ export const claimsService = {
       console.error('Error deleting claim:', error);
       throw error;
     }
+    
+    console.log('Claim deleted successfully');
   }
 };
