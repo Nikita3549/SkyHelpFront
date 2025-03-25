@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { format, parse, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,13 @@ const DateAndAmountSection = ({
   const [dateInputValue, setDateInputValue] = useState(
     date ? format(date, "dd.MM.yyyy") : ""
   );
+
+  // Synchronize the date input value when the date prop changes
+  useEffect(() => {
+    if (date) {
+      setDateInputValue(format(date, "dd.MM.yyyy"));
+    }
+  }, [date]);
 
   const handleDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -95,6 +102,7 @@ const DateAndAmountSection = ({
                 onSelect={handleCalendarSelect}
                 initialFocus
                 className="touch-manipulation pointer-events-auto"
+                captionLayout="dropdown-buttons"
               />
             </PopoverContent>
           </Popover>

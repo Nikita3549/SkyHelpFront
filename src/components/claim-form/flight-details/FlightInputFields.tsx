@@ -29,6 +29,14 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
     }
   }, [form]);
 
+  // Update input value when field value changes (e.g., from calendar selection)
+  const watchDepartureDate = form.watch("departureDate");
+  useEffect(() => {
+    if (watchDepartureDate) {
+      setDateInputValue(format(new Date(watchDepartureDate), "dd.MM.yyyy"));
+    }
+  }, [watchDepartureDate]);
+
   const handleDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setDateInputValue(value);
