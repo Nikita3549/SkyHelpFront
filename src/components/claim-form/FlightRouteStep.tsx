@@ -25,7 +25,6 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
   form,
   onSubmit,
   transitions,
-  onBack,
 }) => {
   return (
     <motion.div
@@ -112,8 +111,8 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
           </Alert>
 
           <NavigationButtons 
-            onBack={onBack || (() => {})} 
-            showBackButton={!!onBack} 
+            onBack={() => {}} 
+            showBackButton={false} 
           />
         </form>
       </Form>

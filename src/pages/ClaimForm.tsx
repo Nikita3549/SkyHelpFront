@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useEffect } from "react";
 import { AnimationTransitions } from "@/components/claim-form/types";
@@ -95,11 +94,6 @@ const ClaimForm = () => {
     transition: { duration: 0.3 },
   };
 
-  // Function to handle going back to the home page
-  const goBackToHomePage = () => {
-    navigate('/');
-  };
-
   // Render the current step
   const renderStep = () => {
     switch (step) {
@@ -109,7 +103,6 @@ const ClaimForm = () => {
             form={flightRouteForm}
             onSubmit={onFlightRouteSubmit}
             transitions={transitions}
-            onBack={goBackToHomePage}
           />
         );
       case 2:
