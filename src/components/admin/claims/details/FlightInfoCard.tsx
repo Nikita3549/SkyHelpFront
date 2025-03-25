@@ -29,31 +29,41 @@ const FlightInfoCard = ({ claim }: FlightInfoCardProps) => {
   };
 
   return (
-    <div className="bg-card rounded-lg border p-4">
-      <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center">
+    <div>
+      <h3 className="text-sm font-medium text-gray-500 mb-2 flex items-center">
         <Plane className="h-4 w-4 mr-1" />
         Flight Information
       </h3>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-        <div className="flex items-center justify-between">
+      <div className="space-y-3">
+        <div className="flex justify-between text-sm">
           <span className="text-gray-500">Airline:</span>
-          <span className="font-medium text-right">{claim?.airline}</span>
+          <span className="font-medium">
+            {claim?.airline}
+          </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between text-sm">
           <span className="text-gray-500">Flight Number:</span>
-          <span className="font-medium text-right">{claim?.flightnumber}</span>
+          <span className="font-medium">
+            {claim?.flightnumber}
+          </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between text-sm">
           <span className="text-gray-500">Date:</span>
-          <span className="font-medium text-right">{formatFlightDate(claim?.date)}</span>
+          <span className="font-medium">
+            {formatFlightDate(claim?.date)}
+          </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between text-sm">
           <span className="text-gray-500">Departure:</span>
-          <span className="font-medium text-right">{claim?.departureairport || "N/A"}</span>
+          <span className="font-medium">
+            {claim?.departureairport || "N/A"}
+          </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between text-sm">
           <span className="text-gray-500">Arrival:</span>
-          <span className="font-medium text-right">{claim?.arrivalairport || "N/A"}</span>
+          <span className="font-medium">
+            {claim?.arrivalairport || "N/A"}
+          </span>
         </div>
       </div>
     </div>

@@ -30,22 +30,20 @@ const ClaimDetailsSection = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-4"
+      className="space-y-6"
     >
       <ClaimDetailsHeader claim={claim} />
       
-      <div className="grid grid-cols-1 gap-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-2 space-y-6">
           <CustomerInfoCard claim={claim} />
-          <ClaimStatusCard claim={claim} />
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FlightInfoCard claim={claim} />
+          <IssueDetailsCard claim={claim} />
+        </div>
+        <div className="space-y-6">
+          <ClaimStatusCard claim={claim} />
           <PaymentDetailsCard claim={claim} formatPaymentDetails={formatPaymentDetails} />
         </div>
-        
-        <IssueDetailsCard claim={claim} />
       </div>
       
       <ActionButtons 
