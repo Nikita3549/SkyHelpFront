@@ -1,7 +1,9 @@
+
 import React from "react";
 import { useEffect } from "react";
 import { AnimationTransitions } from "@/components/claim-form/types";
 import { Plane } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Component imports
 import ProgressBar from "@/components/claim-form/ProgressBar";
@@ -20,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 
 const ClaimForm = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   
   const {
     step,
@@ -151,11 +154,11 @@ const ClaimForm = () => {
   };
 
   return (
-    <div className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container-custom">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div className="py-8 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className="container-custom px-4 md:px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
           {/* Timeline sidebar */}
-          <div className="md:col-span-1 pt-6">
+          <div className={`${isMobile ? 'mb-6' : 'md:col-span-1 pt-6'}`}>
             <Timeline items={getTimelineItems()} />
           </div>
           
@@ -171,7 +174,9 @@ const ClaimForm = () => {
               preFilledDepartureDate={preFilledDepartureDate}
               locationState={location.state}
             />
-            {renderStep()}
+            <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
+              {renderStep()}
+            </div>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Plane, Info } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Schema and types
 import { flightRouteSchema } from "@/components/claim-form/schemas";
@@ -26,6 +27,8 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
   onSubmit,
   transitions,
 }) => {
+  const isMobile = useIsMobile();
+
   return (
     <motion.div
       key="step0"
@@ -34,16 +37,16 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
       exit={transitions.exit}
       transition={transitions.transition}
     >
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Your Flight Route</h2>
-        <p className="text-gray-600">
+      <div className={`${isMobile ? 'mb-4' : 'mb-8'}`}>
+        <h2 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-semibold mb-2`}>Your Flight Route</h2>
+        <p className="text-gray-600 text-sm md:text-base">
           Enter your departure and destination airports to start your claim
         </p>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-4 md:gap-6">
             {/* Departure Airport */}
             <div>
               <FormField
@@ -51,7 +54,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                 name="departureAirport"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-blue-900 font-semibold text-lg">Departing from</FormLabel>
+                    <FormLabel className="text-blue-900 font-semibold text-base md:text-lg">Departing from</FormLabel>
                     <div className="relative">
                       <FormControl>
                         <div className="relative">
@@ -60,7 +63,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                           </div>
                           <Input
                             placeholder="e.g. New York or JFK"
-                            className="pl-10 h-14 text-md"
+                            className={`pl-10 ${isMobile ? 'h-14' : 'h-12'} text-md`}
                             {...field}
                           />
                         </div>
@@ -79,7 +82,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                 name="arrivalAirport"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-blue-900 font-semibold text-lg">Final destination</FormLabel>
+                    <FormLabel className="text-blue-900 font-semibold text-base md:text-lg">Final destination</FormLabel>
                     <div className="relative">
                       <FormControl>
                         <div className="relative">
@@ -88,7 +91,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                           </div>
                           <Input
                             placeholder="e.g. London or LHR"
-                            className="pl-10 h-14 text-md border-blue-500"
+                            className={`pl-10 ${isMobile ? 'h-14' : 'h-12'} text-md border-blue-500`}
                             {...field}
                           />
                         </div>
@@ -101,11 +104,11 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             </div>
           </div>
           
-          <Alert className="mb-6 bg-blue-50 border-blue-100 text-blue-800 flex items-center">
+          <Alert className="mb-4 bg-blue-50 border-blue-100 text-blue-800 flex items-center">
             <div className="opacity-70 flex-shrink-0">
               <Info className="h-4 w-4 text-blue-500" />
             </div>
-            <AlertDescription className="text-blue-700 ml-2">
+            <AlertDescription className="text-blue-700 ml-2 text-sm">
               No risk. Checking compensation is absolutely free of charge.
             </AlertDescription>
           </Alert>
