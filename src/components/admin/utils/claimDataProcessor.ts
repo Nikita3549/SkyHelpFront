@@ -34,8 +34,8 @@ type FormStateWithId = {
 };
 
 export const prepareClaimDataForSubmission = (formState: FormStateWithId): Partial<Claim> => {
-  // Format date for submission in the correct format: DD.MM.YY
-  const formattedDate = format(formState.date, "dd.MM.yy");
+  // Format date for submission with full year (YYYY)
+  const formattedDate = format(formState.date, "dd.MM.yyyy");
   console.log("Submitting with formatted date:", formattedDate);
   
   // Prepare payment details based on payment method
@@ -80,7 +80,7 @@ export const prepareClaimDataForSubmission = (formState: FormStateWithId): Parti
     paymentdetails: paymentDetails,
     status: formState.status,
     stage: formState.stage,
-    lastupdated: format(new Date(), "dd.MM.yy"),
+    lastupdated: format(new Date(), "dd.MM.yyyy"),
   };
   
   return claimData;
