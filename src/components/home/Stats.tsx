@@ -33,55 +33,63 @@ const Stats = () => {
     <div className="container-custom relative z-10 py-12 md:py-20">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {stats.map((stat, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-            onMouseEnter={() => setHoveredStat(index)}
-            onMouseLeave={() => setHoveredStat(null)}
-            className="relative"
-            style={{ zIndex: hoveredStat === index ? 10 : 1 }}
-          >
-            <Card className={`h-full transition-all duration-300 ${
-              hoveredStat === index 
-                ? "shadow-xl transform -translate-y-2 border-primary/30" 
-                : "shadow-md"
-            }`}>
-              <CardContent className="p-6">
-                <motion.h3 
-                  className="text-3xl md:text-4xl font-bold text-primary text-center"
-                  initial={{ scale: 1 }}
-                  animate={{ 
-                    scale: hoveredStat === index ? [1, 1.1, 1] : 1,
-                  }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {stat.value}
-                </motion.h3>
-                
-                <p className="text-gray-600 text-center mt-2">{stat.label}</p>
-                
-                <motion.div 
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ 
-                    height: hoveredStat === index ? "auto" : 0,
-                    opacity: hoveredStat === index ? 1 : 0 
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden mt-3"
-                >
-                  <p className="text-sm text-gray-500 text-center">{stat.description}</p>
+          <div key={index} className="relative" style={{ height: '100%' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              className="relative h-full"
+              style={{ 
+                position: 'relative',
+                zIndex: hoveredStat === index ? 20 : 1,
+              }}
+            >
+              <Card 
+                className={`h-full transition-all duration-300 ${
+                  hoveredStat === index 
+                    ? "shadow-xl border-primary/30" 
+                    : "shadow-md"
+                }`}
+                style={{
+                  transform: hoveredStat === index ? 'translateY(-8px)' : 'none',
+                  position: 'relative',
+                }}
+              >
+                <CardContent className="p-6">
+                  <motion.h3 
+                    className="text-3xl md:text-4xl font-bold text-primary text-center"
+                    initial={{ scale: 1 }}
+                    animate={{ 
+                      scale: hoveredStat === index ? [1, 1.1, 1] : 1,
+                    }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {stat.value}
+                  </motion.h3>
                   
-                  <div className="flex justify-center mt-3">
-                    <button className="text-primary text-sm font-medium flex items-center">
-                      Learn more
-                    </button>
-                  </div>
-                </motion.div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                  <p className="text-gray-600 text-center mt-2">{stat.label}</p>
+                  
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ 
+                      height: hoveredStat === index ? "auto" : 0,
+                      opacity: hoveredStat === index ? 1 : 0 
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden mt-3"
+                  >
+                    <p className="text-sm text-gray-500 text-center">{stat.description}</p>
+                    
+                    <div className="flex justify-center mt-3">
+                      <button className="text-primary text-sm font-medium flex items-center">
+                        Learn more
+                      </button>
+                    </div>
+                  </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         ))}
       </div>
       
