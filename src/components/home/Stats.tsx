@@ -33,7 +33,13 @@ const Stats = () => {
     <div className="container-custom relative z-10 py-12 md:py-20">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {stats.map((stat, index) => (
-          <div key={index} className="relative" style={{ height: '100%' }}>
+          <div 
+            key={index} 
+            className="relative" 
+            style={{ height: '100%' }}
+            onMouseEnter={() => setHoveredStat(index)}
+            onMouseLeave={() => setHoveredStat(null)}
+          >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

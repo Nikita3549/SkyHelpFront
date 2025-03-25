@@ -1,6 +1,7 @@
+
 import React from "react";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, Globe } from "lucide-react";
 import Marquee from "@/components/ui-custom/Marquee";
 import HeroButtons from "./HeroButtons";
 import HeroTrustBadge from "./HeroTrustBadge";
@@ -19,8 +20,25 @@ const HeroTitle = () => {
         transition={{ delay: 0.2, duration: 0.8 }}
         className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-sm font-medium mb-2"
       >
-        <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
-        EU Regulation 261/2004
+        <div className="flex items-center">
+          <div className="h-5 w-5 mr-2 rounded-full bg-[#003399] flex items-center justify-center overflow-hidden">
+            <div className="h-4 w-4 rounded-full relative flex items-center justify-center">
+              <div className="absolute">
+                {[...Array(12)].map((_, i) => (
+                  <div 
+                    key={i} 
+                    className="absolute h-3 w-0.5 bg-yellow-400"
+                    style={{
+                      transform: `rotate(${i * 30}deg) translateY(-1.5px)`,
+                      transformOrigin: 'center 1.5px'
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          EU Regulation 261/2004
+        </div>
       </motion.div>
       
       <motion.h1
