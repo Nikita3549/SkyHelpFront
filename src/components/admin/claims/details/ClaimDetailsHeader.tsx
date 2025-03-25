@@ -11,14 +11,10 @@ type ClaimDetailsHeaderProps = {
 
 const ClaimDetailsHeader = ({ claim }: ClaimDetailsHeaderProps) => {
   return (
-    <CardHeader className="flex flex-row items-start justify-between">
-      <div>
-        <CardTitle>Claim Details: {claim.id}</CardTitle>
-        <CardDescription>
-          {claim?.customer}
-        </CardDescription>
-      </div>
-    </CardHeader>
+    <div className="mb-2">
+      <h2 className="text-xl font-semibold">Claim Details: {claim.id}</h2>
+      <p className="text-muted-foreground text-sm">{claim?.customer}</p>
+    </div>
   );
 };
 
