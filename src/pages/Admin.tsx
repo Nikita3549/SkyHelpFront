@@ -1,11 +1,20 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useClaimsOperations } from "@/hooks/useClaimsOperations";
 import LoadingState from "@/components/admin/LoadingState";
 import ErrorState from "@/components/admin/ErrorState";
 import AdminContent from "@/components/admin/AdminContent";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Admin = () => {
+  const queryClient = useQueryClient();
+  
+  // Force refresh claims data when the admin page loads
+  useEffect(() => {
+    console.log("Admin page mounted - invalidating claims query");
+    queryClient.invalidateQueries({ queryKey: ['claims'] });
+  }, [queryClient]);
+
   const {
     claimsData,
     isLoading,

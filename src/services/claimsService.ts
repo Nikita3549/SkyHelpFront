@@ -6,18 +6,23 @@ export const claimsService = {
   async getClaims(): Promise<Claim[]> {
     console.log("Fetching claims from Supabase...");
     
-    const { data, error } = await supabase
-      .from('claims')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (error) {
-      console.error('Error fetching claims:', error);
+    try {
+      const { data, error } = await supabase
+        .from('claims')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching claims:', error);
+        throw error;
+      }
+      
+      console.log(`Retrieved ${data?.length || 0} claims from database:`, data);
+      return data || [];
+    } catch (error) {
+      console.error('Failed to fetch claims:', error);
       throw error;
     }
-    
-    console.log(`Retrieved ${data?.length || 0} claims from database`);
-    return data || [];
   },
   
   // Create a new claim
@@ -62,20 +67,25 @@ export const claimsService = {
     
     console.log('Formatted claim for database:', formattedClaim);
     
-    // Insert the formatted claim
-    const { data, error } = await supabase
-      .from('claims')
-      .insert(formattedClaim)
-      .select()
-      .single();
-    
-    if (error) {
-      console.error('Error creating claim:', error);
+    try {
+      // Insert the formatted claim
+      const { data, error } = await supabase
+        .from('claims')
+        .insert(formattedClaim)
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error creating claim:', error);
+        throw error;
+      }
+      
+      console.log('Claim created successfully:', data);
+      return data;
+    } catch (error) {
+      console.error('Failed to create claim:', error);
       throw error;
     }
-    
-    console.log('Claim created successfully:', data);
-    return data;
   },
   
   // Update a claim
@@ -88,36 +98,46 @@ export const claimsService = {
       lastupdated: updates.lastupdated || new Date().toISOString().split('T')[0]
     };
     
-    const { data, error } = await supabase
-      .from('claims')
-      .update(updatedData)
-      .eq('id', id)
-      .select()
-      .single();
-    
-    if (error) {
-      console.error('Error updating claim:', error);
+    try {
+      const { data, error } = await supabase
+        .from('claims')
+        .update(updatedData)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error updating claim:', error);
+        throw error;
+      }
+      
+      console.log('Claim updated successfully:', data);
+      return data;
+    } catch (error) {
+      console.error('Failed to update claim:', error);
       throw error;
     }
-    
-    console.log('Claim updated successfully:', data);
-    return data;
   },
   
   // Delete a claim
   async deleteClaim(id: string): Promise<void> {
     console.log('Deleting claim with ID:', id);
     
-    const { error } = await supabase
-      .from('claims')
-      .delete()
-      .eq('id', id);
-    
-    if (error) {
-      console.error('Error deleting claim:', error);
+    try {
+      const { error } = await supabase
+        .from('claims')
+        .delete()
+        .eq('id', id);
+      
+      if (error) {
+        console.error('Error deleting claim:', error);
+        throw error;
+      }
+      
+      console.log('Claim deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete claim:', error);
       throw error;
     }
-    
-    console.log('Claim deleted successfully');
   }
 };

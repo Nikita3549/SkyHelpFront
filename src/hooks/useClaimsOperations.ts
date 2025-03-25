@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -16,10 +17,11 @@ export function useClaimsOperations() {
     queryFn: claimsService.getClaims,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    staleTime: 10000,
+    staleTime: 5000, // 5 seconds - make data stale more quickly
+    refetchInterval: 30000, // 30 seconds - auto refresh every 30 seconds
   });
   
-  console.log("Claims data fetched:", claimsData);
+  console.log("Claims data from useClaimsOperations:", claimsData);
   
   const updateClaimMutation = useMutation({
     mutationFn: ({ claimId, updates }: { claimId: string, updates: Partial<Claim> }) => 

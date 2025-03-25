@@ -1,9 +1,10 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Claim } from "@/lib/supabase";
 import ClaimsTableHeader from "./ClaimsTableHeader";
 import ClaimsTable from "./ClaimsTable";
 import ClaimDetailsSection from "./ClaimDetailsSection";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ClaimsTabProps = {
   claimsData: Claim[];
@@ -24,23 +25,45 @@ const ClaimsTab = ({
   setIsNewClaimModalOpen,
   onEditClaim,
 }: ClaimsTabProps) => {
+  const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedClaim, setSelectedClaim] = useState<string | null>(null);
 
+  // Force refresh on tab mount/unmount
+  useEffect(() => {
+    console.log("Claims tab mounted - refreshing claims data");
+    queryClient.invalidateQueries({ queryKey: ['claims'] });
+    
+    return () => {
+      console.log("Claims tab unmounted");
+    };
+  }, [queryClient]);
+
+  // Log claims data for debugging
+  useEffect(() => {
+    console.log("Claims data in ClaimsTab:", claimsData);
+  }, [claimsData]);
+
   const filteredClaims = claimsData.filter((claim) => {
     const matchesSearch = 
-      claim.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      claim.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      claim.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      claim.airline.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      claim.flightnumber.toLowerCase().includes(searchTerm.toLowerCase());
+      claim.id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      claim.customer?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      claim.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      claim.airline?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      claim.flightnumber?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = statusFilter === "all" || claim.status === statusFilter;
     
     return matchesSearch && matchesStatus;
   });
+
+  // Calculate pagination
+  const itemsPerPage = 10;
+  const startIndex = (page - 1) * itemsPerPage;
+  const paginatedClaims = filteredClaims.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(filteredClaims.length / itemsPerPage);
 
   return (
     <div className="space-y-6">
@@ -54,12 +77,13 @@ const ClaimsTab = ({
       />
 
       <ClaimsTable
-        filteredClaims={filteredClaims}
-        totalClaims={claimsData.length}
+        filteredClaims={paginatedClaims}
+        totalClaims={filteredClaims.length}
         selectedClaim={selectedClaim}
         setSelectedClaim={setSelectedClaim}
         page={page}
         setPage={setPage}
+        totalPages={totalPages}
         handleSendEmail={handleSendEmail}
         handleUpdateStatus={handleUpdateStatus}
       />
