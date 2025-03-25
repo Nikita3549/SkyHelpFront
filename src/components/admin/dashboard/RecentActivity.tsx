@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle, MailCheck, Banknote, CheckCircle2, XCircle, ChevronRight, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 interface Activity {
   id: number;
@@ -63,10 +65,12 @@ const RecentActivity = () => {
           });
 
           setRecentActivities(activities);
+          console.log("Fetched activities:", activities);
         }
       } catch (err) {
         console.error("Error fetching recent claims:", err);
         setError("Failed to load recent activities");
+        toast.error("Failed to load recent activities");
       } finally {
         setIsLoading(false);
       }
@@ -156,10 +160,12 @@ const RecentActivity = () => {
           )}
         </CardContent>
         <CardFooter className="border-t pt-4">
-          <Button variant="ghost" className="w-full text-sm" size="sm">
-            View All Activity
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
+          <Link to="/admin" className="w-full">
+            <Button variant="ghost" className="w-full text-sm" size="sm">
+              View All Activity
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </motion.div>
