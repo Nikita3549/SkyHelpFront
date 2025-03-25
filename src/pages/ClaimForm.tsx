@@ -56,19 +56,19 @@ const ClaimForm = () => {
     return [
       {
         label: "Eligibility Check",
-        status: step >= 1 && isEligible ? "completed" : step === 1 ? "active" : "pending"
+        status: step >= 1 && isEligible ? "completed" as const : step === 1 ? "active" as const : "pending" as const
       },
       {
         label: "Passenger Details",
-        status: step > 2 ? "completed" : step === 2 ? "active" : "pending"
+        status: step > 2 ? "completed" as const : step === 2 ? "active" as const : "pending" as const
       },
       {
         label: "Disruption Details",
-        status: step > 3 ? "completed" : step === 3 ? "active" : "pending"
+        status: step > 3 ? "completed" as const : step === 3 ? "active" as const : "pending" as const
       },
       {
         label: "Payment",
-        status: step === 4 ? "active" : "pending"
+        status: step === 4 ? "active" as const : "pending" as const
       }
     ];
   };
