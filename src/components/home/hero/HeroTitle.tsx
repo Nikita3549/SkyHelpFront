@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Check, Globe } from "lucide-react";
+import { Check, Euro } from "lucide-react";
 import Marquee from "@/components/ui-custom/Marquee";
 import HeroButtons from "./HeroButtons";
 import HeroTrustBadge from "./HeroTrustBadge";
@@ -22,20 +22,7 @@ const HeroTitle = () => {
       >
         <div className="flex items-center">
           <div className="h-5 w-5 mr-2 rounded-full bg-[#003399] flex items-center justify-center overflow-hidden">
-            <div className="h-4 w-4 rounded-full relative flex items-center justify-center">
-              <div className="absolute">
-                {[...Array(12)].map((_, i) => (
-                  <div 
-                    key={i} 
-                    className="absolute h-3 w-0.5 bg-yellow-400"
-                    style={{
-                      transform: `rotate(${i * 30}deg) translateY(-1.5px)`,
-                      transformOrigin: 'center 1.5px'
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
+            <Euro className="h-3 w-3 text-yellow-400" />
           </div>
           EU Regulation 261/2004
         </div>
