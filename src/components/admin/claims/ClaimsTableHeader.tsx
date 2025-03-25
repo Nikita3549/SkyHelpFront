@@ -8,21 +8,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, Filter, Download, PlusCircle } from "lucide-react";
 
 type ClaimsTableHeaderProps = {
-  searchTerm: string;
-  setSearchTerm: (value: string) => void;
-  statusFilter: string;
-  setStatusFilter: (value: string) => void;
-  handleExportClaims: () => void;
-  setIsNewClaimModalOpen: (value: boolean) => void;
+  searchQuery: string;
+  setSearchQuery: (value: string) => void;
+  statusFilter: string | null;
+  setStatusFilter: (value: string | null) => void;
 };
 
 const ClaimsTableHeader = ({
-  searchTerm,
-  setSearchTerm,
+  searchQuery,
+  setSearchQuery,
   statusFilter,
   setStatusFilter,
-  handleExportClaims,
-  setIsNewClaimModalOpen,
 }: ClaimsTableHeaderProps) => {
   return (
     <motion.div
@@ -38,8 +34,8 @@ const ClaimsTableHeader = ({
             type="search"
             placeholder="Search claims, customers..."
             className="pl-9"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -47,7 +43,10 @@ const ClaimsTableHeader = ({
           <Label htmlFor="status-filter" className="sr-only">
             Status
           </Label>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select 
+            value={statusFilter || "all"} 
+            onValueChange={(value) => setStatusFilter(value === "all" ? null : value)}
+          >
             <SelectTrigger id="status-filter" className="w-full sm:w-36">
               <div className="flex items-center">
                 <Filter className="mr-2 h-4 w-4 text-gray-400" />
@@ -64,17 +63,6 @@ const ClaimsTableHeader = ({
             </SelectContent>
           </Select>
         </div>
-      </div>
-
-      <div className="flex gap-2 w-full sm:w-auto">
-        <Button variant="outline" size="sm" onClick={handleExportClaims}>
-          <Download className="mr-2 h-4 w-4" />
-          Export
-        </Button>
-        <Button size="sm" onClick={() => setIsNewClaimModalOpen(true)}>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          New Claim
-        </Button>
       </div>
     </motion.div>
   );
