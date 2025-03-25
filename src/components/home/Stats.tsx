@@ -1,7 +1,6 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const Stats = () => {
@@ -42,6 +41,7 @@ const Stats = () => {
             onMouseEnter={() => setHoveredStat(index)}
             onMouseLeave={() => setHoveredStat(null)}
             className="relative"
+            style={{ zIndex: hoveredStat === index ? 10 : 1 }}
           >
             <Card className={`h-full transition-all duration-300 ${
               hoveredStat === index 
@@ -75,23 +75,11 @@ const Stats = () => {
                   
                   <div className="flex justify-center mt-3">
                     <button className="text-primary text-sm font-medium flex items-center">
-                      Learn more <ArrowRight className="ml-1 h-3 w-3" />
+                      Learn more
                     </button>
                   </div>
                 </motion.div>
               </CardContent>
-              
-              {/* Only render TrendingUp when actually hovering */}
-              {hoveredStat === index && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute -bottom-2 left-0 right-0 flex justify-center"
-                >
-                  <TrendingUp className="text-primary/70 h-5 w-5" />
-                </motion.div>
-              )}
             </Card>
           </motion.div>
         ))}
