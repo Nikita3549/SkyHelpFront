@@ -1,4 +1,3 @@
-
 import { supabase, Claim } from '@/lib/supabase';
 
 export const claimsService = {
@@ -48,11 +47,16 @@ export const claimsService = {
     let formattedDate = claim.date;
     if (formattedDate && !formattedDate.includes('.')) {
       // Convert YYYY-MM-DD to DD.MM.YY
-      const dateObj = new Date(formattedDate);
-      const day = dateObj.getDate().toString().padStart(2, '0');
-      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-      const year = dateObj.getFullYear().toString().slice(2);
-      formattedDate = `${day}.${month}.${year}`;
+      try {
+        const dateObj = new Date(formattedDate);
+        const day = dateObj.getDate().toString().padStart(2, '0');
+        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+        const year = dateObj.getFullYear().toString().slice(2);
+        formattedDate = `${day}.${month}.${year}`;
+      } catch (err) {
+        console.error('Error formatting date:', err);
+        // Keep original date if formatting fails
+      }
     }
     
     // Convert camelCase fields to lowercase to match database column names
@@ -96,6 +100,10 @@ export const claimsService = {
       }
       
       console.log('Claim created successfully:', data);
+      
+      // Force a refetch of claims after creating a new one
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       return data;
     } catch (error) {
       console.error('Failed to create claim:', error);

@@ -40,7 +40,7 @@ const ClaimsTab = ({
     // Set up periodic refresh for real-time updates
     const interval = setInterval(() => {
       queryClient.invalidateQueries({ queryKey: ['claims'] });
-    }, 5000); // Refresh every 5 seconds
+    }, 3000); // Refresh every 3 seconds
     
     return () => {
       clearInterval(interval);
@@ -53,15 +53,14 @@ const ClaimsTab = ({
     console.log("Claims data in ClaimsTab:", claimsData);
     if (claimsData.length === 0) {
       console.log("No claims data available!");
+      // Show toast if no claims data is available when we expect some
+      if (window.location.pathname.includes('admin')) {
+        toast.info("No claims data available", {
+          description: "Add new claims using the 'New Claim' button"
+        });
+      }
     }
   }, [claimsData]);
-
-  // Notify when claims are updated
-  useEffect(() => {
-    if (claimsData.length > 0) {
-      console.log("Claims data received, total items:", claimsData.length);
-    }
-  }, [claimsData.length]);
 
   const filteredClaims = claimsData.filter((claim) => {
     const matchesSearch = 

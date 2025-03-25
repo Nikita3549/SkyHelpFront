@@ -5,6 +5,7 @@ import LoadingState from "@/components/admin/LoadingState";
 import ErrorState from "@/components/admin/ErrorState";
 import AdminContent from "@/components/admin/AdminContent";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Admin = () => {
   const queryClient = useQueryClient();
@@ -20,7 +21,7 @@ const Admin = () => {
     const interval = setInterval(() => {
       console.log("Periodic claims refresh");
       queryClient.invalidateQueries({ queryKey: ['claims'] });
-    }, 10000); // Refresh every 10 seconds
+    }, 5000); // Refresh every 5 seconds for more responsive updates
     
     return () => {
       clearInterval(interval);
@@ -46,11 +47,22 @@ const Admin = () => {
     formatPaymentDetails
   } = useClaimsOperations();
 
+  // Log claims data for debugging
+  useEffect(() => {
+    console.log("Admin page - current claims data:", claimsData);
+    if (claimsData.length === 0) {
+      console.log("No claims data available in Admin!");
+    }
+  }, [claimsData]);
+
   if (isLoading) {
     return <LoadingState />;
   }
 
   if (error) {
+    toast.error("Error loading claims data", {
+      description: "Please try refreshing the page",
+    });
     return <ErrorState error={error} />;
   }
 

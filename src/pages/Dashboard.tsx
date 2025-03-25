@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,39 +11,50 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { Claim } from "@/lib/supabase";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Fetch user claims from database
   const { data: userClaims = [], isLoading, error, refetch } = useQuery({
     queryKey: ['userClaims'],
     queryFn: async () => {
       console.log("Fetching user claims...");
       
-      // Simulate a user ID for demonstration (in a real app, this would come from auth)
-      // We're just fetching all claims for demo purposes
-      const { data, error } = await supabase
-        .from('claims')
-        .select('*')
-        .order('created_at', { ascending: false });
+      try {
+        await new Promise(resolve => setTimeout(resolve, 300));
         
-      if (error) {
-        console.error('Error fetching user claims:', error);
-        throw error;
-      }
+        const { data, error } = await supabase
+          .from('claims')
+          .select('*')
+          .order('created_at', { ascending: false });
+          
+        if (error) {
+          console.error('Error fetching user claims:', error);
+          throw error;
+        }
 
-      console.log(`Retrieved ${data?.length || 0} user claims:`, data);
-      return data || [];
+        console.log(`Retrieved ${data?.length || 0} user claims:`, data);
+        return data || [];
+      } catch (err) {
+        console.error("Failed to fetch claims:", err);
+        toast.error("Could not load your claims");
+        throw err;
+      }
     },
     refetchOnWindowFocus: true,
-    refetchInterval: 10000, // Refresh every 10 seconds
+    refetchInterval: 5000,
+    staleTime: 1000,
   });
 
-  // Refetch claims on mount
   useEffect(() => {
+    console.log("Dashboard mounted - refreshing claims");
     refetch();
+    
+    return () => {
+      console.log("Dashboard unmounted");
+    };
   }, [refetch]);
 
   const getStatusColor = (status: string) => {
@@ -80,15 +90,18 @@ const Dashboard = () => {
   const formatLastUpdated = (dateStr: string) => {
     if (!dateStr) return "Unknown";
     
-    // Handle the DD.MM.YY format
-    if (dateStr.includes('.')) {
-      const [day, month, year] = dateStr.split('.');
-      const date = new Date(`20${year}-${month}-${day}`);
-      return formatDistanceToNow(date, { addSuffix: true });
+    try {
+      if (dateStr.includes('.')) {
+        const [day, month, year] = dateStr.split('.');
+        const date = new Date(`20${year}-${month}-${day}`);
+        return formatDistanceToNow(date, { addSuffix: true });
+      }
+      
+      return formatDistanceToNow(new Date(dateStr), { addSuffix: true });
+    } catch (err) {
+      console.error("Error formatting date:", dateStr, err);
+      return dateStr;
     }
-    
-    // Handle ISO format
-    return formatDistanceToNow(new Date(dateStr), { addSuffix: true });
   };
 
   return (
@@ -176,7 +189,7 @@ const Dashboard = () => {
                       <p className="text-gray-500 mb-4">
                         You haven't submitted any flight compensation claims yet.
                       </p>
-                      <Button onClick={() => navigate("/claim-form")}>
+                      <Button onClick={() => navigate("/claim")}>
                         Start a New Claim
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
@@ -227,7 +240,7 @@ const Dashboard = () => {
               <CardHeader>
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <CardTitle>My Claims</CardTitle>
-                  <Button onClick={() => navigate("/claim-form")}>
+                  <Button onClick={() => navigate("/claim")}>
                     New Claim
                   </Button>
                 </div>
@@ -253,7 +266,7 @@ const Dashboard = () => {
                     <p className="text-gray-500 mb-4">
                       You haven't submitted any flight compensation claims yet.
                     </p>
-                    <Button onClick={() => navigate("/claim-form")}>
+                    <Button onClick={() => navigate("/claim")}>
                       Start a New Claim
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
