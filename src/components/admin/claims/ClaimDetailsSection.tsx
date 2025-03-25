@@ -1,10 +1,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { XCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Claim } from "@/lib/supabase";
 
 // Import sub-components
@@ -14,6 +12,7 @@ import ClaimStatusCard from "./details/ClaimStatusCard";
 import IssueDetailsCard from "./details/IssueDetailsCard";
 import PaymentDetailsCard from "./details/PaymentDetailsCard";
 import ActionButtons from "./details/ActionButtons";
+import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
@@ -45,21 +44,11 @@ const ClaimDetailsSection = ({
       transition={{ duration: 0.3 }}
     >
       <Card>
-        <CardHeader className="flex flex-row items-start justify-between">
-          <div>
-            <CardTitle>Claim Details: {selectedClaim}</CardTitle>
-            <CardDescription>
-              {claim?.customer}
-            </CardDescription>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setSelectedClaim(null)}
-          >
-            <XCircle className="h-4 w-4" />
-          </Button>
-        </CardHeader>
+        <ClaimDetailsHeader 
+          selectedClaim={selectedClaim} 
+          claim={claim} 
+          setSelectedClaim={setSelectedClaim} 
+        />
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <CustomerInfoCard claim={claim} />
