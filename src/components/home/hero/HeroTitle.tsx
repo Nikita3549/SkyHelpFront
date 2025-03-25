@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
@@ -20,23 +19,8 @@ const HeroTitle = () => {
         transition={{ delay: 0.2, duration: 0.8 }}
         className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-sm font-medium mb-2"
       >
-        <div className="flex items-center">
-          <div className="h-5 w-5 mr-2 rounded-full bg-[#003399] flex items-center justify-center overflow-hidden">
-            <div className="relative h-4 w-4 flex items-center justify-center">
-              {[...Array(12)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="absolute h-0.5 w-1 bg-yellow-400"
-                  style={{
-                    transformOrigin: 'center',
-                    transform: `rotate(${i * 30}deg) translateX(1.5px)`,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-          EU Regulation 261/2004
-        </div>
+        <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
+        EU Regulation 261/2004
       </motion.div>
       
       <motion.h1
