@@ -50,7 +50,11 @@ const EligibilityResult: React.FC<EligibilityResultProps> = ({ isEligible, onCon
               <div className="mt-2 text-sm text-yellow-700">
                 <p>Based on the information provided, it appears that your situation may not qualify for compensation under EU Regulation 261/2004, which requires delays of 3 hours or more.</p>
                 <div className="mt-4">
-                  <Button onClick={onContinue} variant="outline" className="border-yellow-300 text-yellow-700 hover:bg-yellow-50">
+                  <Button 
+                    onClick={onContinue} 
+                    variant="outline" 
+                    className="border-yellow-300 text-yellow-700 hover:bg-yellow-100 hover:text-yellow-800 hover:border-yellow-400 focus:ring-yellow-500"
+                  >
                     Continue anyway
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
