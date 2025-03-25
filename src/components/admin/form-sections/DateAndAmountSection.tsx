@@ -1,6 +1,6 @@
 
-import React from "react";
-import { format } from "date-fns";
+import React, { useState } from "react";
+import { format, parse, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,36 +30,75 @@ const DateAndAmountSection = ({
   datePickerOpen,
   setDatePickerOpen,
 }: DateAndAmountSectionProps) => {
+  const [dateInputValue, setDateInputValue] = useState(
+    date ? format(date, "dd.MM.yyyy") : ""
+  );
+
+  const handleDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setDateInputValue(value);
+
+    // Parse the input date when it looks complete (is 10 characters)
+    if (value.length >= 8) {
+      try {
+        // Try to parse the date with different common formats
+        let parsedDate;
+        const formats = ["dd.MM.yyyy", "dd/MM/yyyy", "dd-MM-yyyy"];
+        
+        for (const formatStr of formats) {
+          parsedDate = parse(value, formatStr, new Date());
+          if (isValid(parsedDate)) {
+            handleChange("date", parsedDate);
+            break;
+          }
+        }
+      } catch (error) {
+        // If parsing fails, don't update the date
+        console.log("Invalid date format:", error);
+      }
+    }
+  };
+
+  const handleCalendarSelect = (newDate: Date | undefined) => {
+    if (newDate) {
+      handleChange("date", newDate);
+      setDateInputValue(format(newDate, "dd.MM.yyyy"));
+      setDatePickerOpen(false);
+    }
+  };
+
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="space-y-2">
         <Label>Flight Date</Label>
-        <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn(
-                "w-full justify-start text-left font-normal",
-                !date && "text-muted-foreground"
-              )}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={(newDate) => {
-                handleChange("date", newDate);
-                setDatePickerOpen(false);
-              }}
-              initialFocus
-              className="touch-manipulation pointer-events-auto"
-            />
-          </PopoverContent>
-        </Popover>
+        <div className="flex">
+          <Input
+            value={dateInputValue}
+            onChange={handleDateInputChange}
+            placeholder="DD.MM.YYYY"
+            className="rounded-r-none"
+          />
+          <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="rounded-l-none border-l-0"
+                type="button"
+              >
+                <CalendarIcon className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={handleCalendarSelect}
+                initialFocus
+                className="touch-manipulation pointer-events-auto"
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
         {errors.date && <p className="text-sm text-red-500">{errors.date}</p>}
       </div>
       
