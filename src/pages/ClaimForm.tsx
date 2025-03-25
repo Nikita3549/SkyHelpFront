@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useEffect } from "react";
 import { AnimationTransitions } from "@/components/claim-form/types";
@@ -56,6 +57,9 @@ const ClaimForm = () => {
     setIsEligible,
     setIsChecking,
   });
+
+  // Get the disruption type from flight details form
+  const disruptionType = flightDetailsForm.watch("disruptionType");
 
   // Mapping step numbers to timeline status
   const getTimelineItems = () => {
@@ -136,6 +140,7 @@ const ClaimForm = () => {
             onSubmit={onDisruptionDetailsSubmit}
             onBack={() => setStep(3)}
             transitions={transitions}
+            disruptionType={disruptionType}
           />
         );
       case 5:

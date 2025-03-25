@@ -1,10 +1,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
@@ -14,13 +12,14 @@ import { cn } from "@/lib/utils";
 // Schema definition moved to a separate file
 import { disruptionDetailsSchema } from "@/components/claim-form/schemas";
 import { AnimationTransitions } from "@/components/claim-form/types";
+import NavigationButtons from "./passenger-details/NavigationButtons";
 
 interface DisruptionDetailsStepProps {
   form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
   onSubmit: (data: z.infer<typeof disruptionDetailsSchema>) => void;
   onBack: () => void;
-  disruptionType: string;
   transitions: AnimationTransitions;
+  disruptionType: string;
 }
 
 const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
@@ -140,22 +139,7 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
             />
           </div>
 
-          <div className="pt-4 flex justify-between items-center">
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={onBack}
-              className="flex items-center"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
-            </Button>
-
-            <Button type="submit">
-              Continue
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+          <NavigationButtons onBack={onBack} />
         </form>
       </Form>
     </motion.div>

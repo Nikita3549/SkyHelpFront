@@ -6,11 +6,15 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 interface NavigationButtonsProps {
   onBack: () => void;
   showBackButton?: boolean;
+  continueText?: string;
+  isSubmitting?: boolean;
 }
 
 const NavigationButtons: React.FC<NavigationButtonsProps> = ({ 
   onBack,
-  showBackButton = true 
+  showBackButton = true,
+  continueText = "Continue",
+  isSubmitting = false
 }) => {
   return (
     <div className="pt-4 flex justify-between items-center">
@@ -28,8 +32,8 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
         <div></div> // Empty div to maintain flex spacing when back button is hidden
       )}
 
-      <Button type="submit">
-        Continue
+      <Button type="submit" disabled={isSubmitting}>
+        {continueText}
         <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
     </div>
