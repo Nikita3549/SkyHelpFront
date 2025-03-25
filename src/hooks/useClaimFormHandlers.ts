@@ -6,17 +6,20 @@ import {
   flightDetailsSchema,
   passengerDetailsSchema,
   disruptionDetailsSchema,
-  paymentDetailsSchema
+  paymentDetailsSchema,
+  flightRouteSchema
 } from "@/components/claim-form/schemas";
 
 interface UseClaimFormHandlersProps {
   setFormData: React.Dispatch<React.SetStateAction<{
+    flightRoute: Record<string, any>;
     flightDetails: Record<string, any>;
     passengerDetails: Record<string, any>;
     disruptionDetails: Record<string, any>;
     paymentDetails: Record<string, any>;
   }>>;
   formData: {
+    flightRoute: Record<string, any>;
     flightDetails: Record<string, any>;
     passengerDetails: Record<string, any>;
     disruptionDetails: Record<string, any>;
@@ -36,6 +39,11 @@ export const useClaimFormHandlers = ({
 }: UseClaimFormHandlersProps) => {
   const navigate = useNavigate();
 
+  const onFlightRouteSubmit = (data: z.infer<typeof flightRouteSchema>) => {
+    setFormData({ ...formData, flightRoute: data });
+    setStep(2);
+  };
+
   const onFlightDetailsSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
     setIsChecking(true);
     setFormData({ ...formData, flightDetails: data });
@@ -48,12 +56,12 @@ export const useClaimFormHandlers = ({
 
   const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
     setFormData({ ...formData, passengerDetails: data });
-    setStep(3);
+    setStep(4);
   };
   
   const onDisruptionDetailsSubmit = (data: z.infer<typeof disruptionDetailsSchema>) => {
     setFormData({ ...formData, disruptionDetails: data });
-    setStep(4);
+    setStep(5);
   };
   
   const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
@@ -75,10 +83,11 @@ export const useClaimFormHandlers = ({
 
   // Navigation handlers
   const proceedToNextStep = () => {
-    setStep(2);
+    setStep(3);
   };
 
   return {
+    onFlightRouteSubmit,
     onFlightDetailsSubmit,
     onPassengerDetailsSubmit,
     onDisruptionDetailsSubmit,

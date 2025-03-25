@@ -1,6 +1,11 @@
 
 import { z } from "zod";
 
+export const flightRouteSchema = z.object({
+  departureAirport: z.string().min(2, "Please enter the departure airport"),
+  arrivalAirport: z.string().min(2, "Please enter the arrival airport"),
+});
+
 export const flightDetailsSchema = z.object({
   flightNumber: z.string().min(3, "Flight number must be at least 3 characters"),
   airline: z.string().min(2, "Please select an airline"),

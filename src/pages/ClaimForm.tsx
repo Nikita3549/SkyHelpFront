@@ -2,6 +2,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { AnimationTransitions } from "@/components/claim-form/types";
+import { Plane } from "lucide-react";
 
 // Component imports
 import ProgressBar from "@/components/claim-form/ProgressBar";
@@ -11,6 +12,7 @@ import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
 import PreFilledValuesSyncer from "@/components/claim-form/PreFilledValuesSyncer";
 import Timeline from "@/components/claim-form/Timeline";
+import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
 
 // Custom hooks
 import { useClaimFormState } from "@/hooks/useClaimFormState";
@@ -35,6 +37,7 @@ const ClaimForm = () => {
     passengerDetailsForm,
     disruptionDetailsForm,
     paymentDetailsForm,
+    flightRouteForm,
   } = useClaimFormState();
 
   const {
@@ -43,6 +46,7 @@ const ClaimForm = () => {
     onDisruptionDetailsSubmit,
     onPaymentDetailsSubmit,
     proceedToNextStep,
+    onFlightRouteSubmit,
   } = useClaimFormHandlers({
     setFormData,
     formData,
@@ -55,20 +59,24 @@ const ClaimForm = () => {
   const getTimelineItems = () => {
     return [
       {
-        label: "Eligibility Check",
-        status: step >= 1 && isEligible ? "completed" as const : step === 1 ? "active" as const : "pending" as const
+        label: "Flight Route",
+        status: step > 1 ? "completed" as const : step === 1 ? "active" as const : "pending" as const
+      },
+      {
+        label: "Flight Details",
+        status: step >= 2 && isEligible ? "completed" as const : step === 2 ? "active" as const : "pending" as const
       },
       {
         label: "Passenger Details",
-        status: step > 2 ? "completed" as const : step === 2 ? "active" as const : "pending" as const
-      },
-      {
-        label: "Disruption Details",
         status: step > 3 ? "completed" as const : step === 3 ? "active" as const : "pending" as const
       },
       {
+        label: "Disruption Details",
+        status: step > 4 ? "completed" as const : step === 4 ? "active" as const : "pending" as const
+      },
+      {
         label: "Payment",
-        status: step === 4 ? "active" as const : "pending" as const
+        status: step === 5 ? "active" as const : "pending" as const
       }
     ];
   };
@@ -86,6 +94,14 @@ const ClaimForm = () => {
     switch (step) {
       case 1:
         return (
+          <FlightRouteStep
+            form={flightRouteForm}
+            onSubmit={onFlightRouteSubmit}
+            transitions={transitions}
+          />
+        );
+      case 2:
+        return (
           <FlightDetailsStep
             form={flightDetailsForm}
             onSubmit={onFlightDetailsSubmit}
@@ -95,31 +111,31 @@ const ClaimForm = () => {
             transitions={transitions}
           />
         );
-      case 2:
+      case 3:
         return (
           <PassengerDetailsStep
             form={passengerDetailsForm}
             onSubmit={onPassengerDetailsSubmit}
-            onBack={() => setStep(1)}
-            transitions={transitions}
-          />
-        );
-      case 3:
-        return (
-          <DisruptionDetailsStep
-            form={disruptionDetailsForm}
-            onSubmit={onDisruptionDetailsSubmit}
             onBack={() => setStep(2)}
-            disruptionType={flightDetailsForm.getValues().disruptionType}
             transitions={transitions}
           />
         );
       case 4:
         return (
+          <DisruptionDetailsStep
+            form={disruptionDetailsForm}
+            onSubmit={onDisruptionDetailsSubmit}
+            onBack={() => setStep(3)}
+            disruptionType={flightDetailsForm.getValues().disruptionType}
+            transitions={transitions}
+          />
+        );
+      case 5:
+        return (
           <PaymentDetailsStep
             form={paymentDetailsForm}
             onSubmit={onPaymentDetailsSubmit}
-            onBack={() => setStep(3)}
+            onBack={() => setStep(4)}
             transitions={transitions}
           />
         );
@@ -139,9 +155,10 @@ const ClaimForm = () => {
           
           {/* Main form content */}
           <div className="md:col-span-3">
-            <ProgressBar step={step} totalSteps={4} />
+            <ProgressBar step={step} totalSteps={5} />
             <PreFilledValuesSyncer
               form={flightDetailsForm}
+              flightRouteForm={flightRouteForm}
               preFilledDepartureAirport={preFilledDepartureAirport}
               preFilledArrivalAirport={preFilledArrivalAirport}
               preFilledFlightNumber={preFilledFlightNumber}

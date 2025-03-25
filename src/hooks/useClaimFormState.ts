@@ -8,7 +8,8 @@ import {
   flightDetailsSchema,
   passengerDetailsSchema,
   disruptionDetailsSchema,
-  paymentDetailsSchema
+  paymentDetailsSchema,
+  flightRouteSchema
 } from "@/components/claim-form/schemas";
 
 export const useClaimFormState = () => {
@@ -16,6 +17,7 @@ export const useClaimFormState = () => {
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [formData, setFormData] = useState({
+    flightRoute: {},
     flightDetails: {},
     passengerDetails: {},
     disruptionDetails: {},
@@ -30,7 +32,16 @@ export const useClaimFormState = () => {
   const preFilledFlightNumber = location.state?.flightNumber || "";
   const preFilledDepartureDate = location.state?.departureDate || "";
 
-  // Initialize form hooks
+  // Initialize flight route form
+  const flightRouteForm = useForm<z.infer<typeof flightRouteSchema>>({
+    resolver: zodResolver(flightRouteSchema),
+    defaultValues: {
+      departureAirport: preFilledDepartureAirport,
+      arrivalAirport: preFilledArrivalAirport,
+    },
+  });
+
+  // Initialize flight details form
   const flightDetailsForm = useForm<z.infer<typeof flightDetailsSchema>>({
     resolver: zodResolver(flightDetailsSchema),
     defaultValues: {
@@ -94,6 +105,7 @@ export const useClaimFormState = () => {
     preFilledArrivalAirport,
     preFilledFlightNumber,
     preFilledDepartureDate,
+    flightRouteForm,
     flightDetailsForm,
     passengerDetailsForm,
     disruptionDetailsForm,
