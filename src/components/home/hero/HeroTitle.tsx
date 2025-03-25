@@ -1,9 +1,11 @@
+
 import React from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import Marquee from "@/components/ui-custom/Marquee";
 import HeroButtons from "./HeroButtons";
 import HeroTrustBadge from "./HeroTrustBadge";
+import EuFlag from "@/components/ui-custom/EuFlag";
 
 const HeroTitle = () => {
   return (
@@ -19,7 +21,7 @@ const HeroTitle = () => {
         transition={{ delay: 0.2, duration: 0.8 }}
         className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-sm font-medium mb-2"
       >
-        <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
+        <EuFlag size={16} className="mr-2" />
         EU Regulation 261/2004
       </motion.div>
       
