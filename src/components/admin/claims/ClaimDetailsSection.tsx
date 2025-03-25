@@ -1,78 +1,57 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Claim } from "@/lib/supabase";
-
-// Import sub-components
+import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
 import CustomerInfoCard from "./details/CustomerInfoCard";
 import FlightInfoCard from "./details/FlightInfoCard";
-import ClaimStatusCard from "./details/ClaimStatusCard";
 import IssueDetailsCard from "./details/IssueDetailsCard";
 import PaymentDetailsCard from "./details/PaymentDetailsCard";
+import ClaimStatusCard from "./details/ClaimStatusCard";
 import ActionButtons from "./details/ActionButtons";
-import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
+import { Claim } from "@/lib/supabase";
 
 type ClaimDetailsSectionProps = {
-  selectedClaim: string | null;
-  setSelectedClaim: (id: string | null) => void;
-  claimsData: Claim[];
+  selectedClaimId: string;
+  claim: Claim;
   handleSendEmail: (claimId: string) => void;
   formatPaymentDetails: (claim: Claim | undefined) => string;
   onEditClaim: (claim: Claim) => void;
 };
 
 const ClaimDetailsSection = ({
-  selectedClaim,
-  setSelectedClaim,
-  claimsData,
+  selectedClaimId,
+  claim,
   handleSendEmail,
   formatPaymentDetails,
   onEditClaim,
 }: ClaimDetailsSectionProps) => {
-  if (!selectedClaim) return null;
-
-  const claim = claimsData.find((claim) => claim.id === selectedClaim);
-  
-  if (!claim) return null;
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-6"
     >
-      <Card>
-        <ClaimDetailsHeader 
-          selectedClaim={selectedClaim} 
-          claim={claim} 
-          setSelectedClaim={setSelectedClaim} 
-        />
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <CustomerInfoCard claim={claim} />
-            <FlightInfoCard claim={claim} />
-            <ClaimStatusCard claim={claim} />
-          </div>
-
-          <Separator className="my-6" />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <IssueDetailsCard claim={claim} />
-            <PaymentDetailsCard claim={claim} formatPaymentDetails={formatPaymentDetails} />
-          </div>
-
-          <Separator className="my-6" />
-
-          <ActionButtons 
-            selectedClaimId={selectedClaim} 
-            claim={claim} 
-            handleSendEmail={handleSendEmail} 
-            onEditClaim={onEditClaim} 
-          />
-        </CardContent>
-      </Card>
+      <ClaimDetailsHeader claim={claim} />
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-2 space-y-6">
+          <CustomerInfoCard claim={claim} />
+          <FlightInfoCard claim={claim} />
+          <IssueDetailsCard claim={claim} />
+        </div>
+        <div className="space-y-6">
+          <ClaimStatusCard claim={claim} />
+          <PaymentDetailsCard claim={claim} formatPaymentDetails={formatPaymentDetails} />
+        </div>
+      </div>
+      
+      <ActionButtons 
+        selectedClaimId={selectedClaimId} 
+        claim={claim} 
+        handleSendEmail={handleSendEmail} 
+        onEditClaim={onEditClaim}
+      />
     </motion.div>
   );
 };
