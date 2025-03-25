@@ -18,6 +18,11 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   isSubmitting = false
 }) => {
   const isMobile = useIsMobile();
+  
+  const handleBack = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    onBack();
+  };
 
   return (
     <div className={`pt-4 flex ${isMobile ? 'flex-col gap-3' : 'justify-between items-center'}`}>
@@ -25,7 +30,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
         <Button 
           type="button" 
           variant="outline" 
-          onClick={onBack}
+          onClick={handleBack}
           className={`flex items-center ${isMobile ? 'w-full justify-center' : ''}`}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />

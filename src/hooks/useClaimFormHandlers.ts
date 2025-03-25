@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -29,6 +30,14 @@ interface UseClaimFormHandlersProps {
   setIsChecking: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// Helper function to scroll to top of the page
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+
 export const useClaimFormHandlers = ({
   setFormData,
   formData,
@@ -41,6 +50,7 @@ export const useClaimFormHandlers = ({
   const onFlightRouteSubmit = (data: z.infer<typeof flightRouteSchema>) => {
     setFormData({ ...formData, flightRoute: data });
     setStep(2);
+    scrollToTop();
   };
 
   const onFlightDetailsSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
@@ -68,17 +78,23 @@ export const useClaimFormHandlers = ({
       
       setIsEligible(isEligible);
       setIsChecking(false);
+      
+      if (isEligible) {
+        scrollToTop();
+      }
     }, 2000);
   };
 
   const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
     setFormData({ ...formData, passengerDetails: data });
     setStep(4);
+    scrollToTop();
   };
   
   const onDisruptionDetailsSubmit = (data: z.infer<typeof disruptionDetailsSchema>) => {
     setFormData({ ...formData, disruptionDetails: data });
     setStep(5);
+    scrollToTop();
   };
   
   const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
@@ -96,11 +112,13 @@ export const useClaimFormHandlers = ({
     });
     
     navigate("/dashboard");
+    scrollToTop();
   };
 
   // Navigation handlers
   const proceedToNextStep = () => {
     setStep(3);
+    scrollToTop();
   };
 
   return {
