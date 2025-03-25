@@ -101,7 +101,10 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             </div>
           </div>
 
-          <NavigationButtons onBack={onBack || (() => {})} showBackButton={!!onBack} />
+          <NavigationButtons 
+            onBack={onBack || (() => {})} 
+            showBackButton={!!onBack} 
+          />
         </form>
       </Form>
     </motion.div>
