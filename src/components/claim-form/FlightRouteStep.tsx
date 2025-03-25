@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Plane } from "lucide-react";
+import { Plane, Info } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -11,6 +11,7 @@ import { flightRouteSchema } from "@/components/claim-form/schemas";
 import { AnimationTransitions } from "@/components/claim-form/types";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import NavigationButtons from "./passenger-details/NavigationButtons";
 
 interface FlightRouteStepProps {
@@ -40,6 +41,13 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
           Enter your departure and destination airports to start your claim
         </p>
       </div>
+      
+      <Alert className="mb-6 bg-blue-50 border-blue-100 text-blue-800">
+        <Info className="h-5 w-5 text-blue-500" />
+        <AlertDescription className="text-blue-700">
+          No risk. Checking compensation is absolutely free of charge.
+        </AlertDescription>
+      </Alert>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
