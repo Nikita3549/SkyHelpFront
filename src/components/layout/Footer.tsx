@@ -43,16 +43,16 @@ const Footer = () => {
     ],
   };
 
-  // Airlines logos data
+  // Updated airlines logos data with proper image paths
   const airlines = [
-    { name: "Wizz Air", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "0%" },
-    { name: "Tarom", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "12.5%" },
-    { name: "Ryanair", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "25%" },
-    { name: "HiSky", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "37.5%" },
-    { name: "Lufthansa", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "50%" },
-    { name: "Austrian Airlines", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "62.5%" },
-    { name: "Turkish Airlines", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "75%" },
-    { name: "Qatar Airways", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "87.5%" },
+    { name: "Wizz Air", imgSrc: "https://www.wizzair.com/static/images/logo3.svg" },
+    { name: "Tarom", imgSrc: "https://www.tarom.ro/sites/default/files/tarom_logo.png" },
+    { name: "Ryanair", imgSrc: "https://corporate.ryanair.com/wp-content/uploads/2021/06/Ryanair-Primary-Logo-RGB.png" },
+    { name: "HiSky", imgSrc: "https://hisky.aero/img/header-logo.svg" },
+    { name: "Lufthansa", imgSrc: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Lufthansa_Logo_2018.svg" },
+    { name: "Austrian Airlines", imgSrc: "https://www.austrian.com/content/dam/austrian/global/images/logo/os-logo-fly-to-yes-left-red.svg" },
+    { name: "Turkish Airlines", imgSrc: "https://www.turkishairlines.com/theme/img/logos/thy-logo.png" },
+    { name: "Qatar Airways", imgSrc: "https://www.qatarairways.com/etc/designs/qrweb/images/logo/QR-logo-header-desktop.svg" },
   ];
 
   return (
@@ -63,23 +63,27 @@ const Footer = () => {
           <h3 className="text-xl font-semibold text-gray-700">We handle claims for all major airlines</h3>
         </div>
         
-        <div className="relative h-16 overflow-hidden">
-          <div className="flex justify-between items-center">
+        <div className="relative overflow-hidden">
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
             {airlines.map((airline, index) => (
               <motion.div
                 key={index}
-                className="flex-shrink-0 px-4"
+                className="flex-shrink-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.1 }}
               >
-                <div className="h-10 w-24 relative">
+                <div className="h-10 w-24 relative flex items-center justify-center">
                   <img 
                     src={airline.imgSrc} 
                     alt={`${airline.name} logo`} 
-                    className="h-full w-full object-contain" 
-                    style={{ objectPosition: airline.position }}
+                    className="h-full w-full object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/placeholder.svg";
+                      target.onerror = null;
+                    }}
                   />
                 </div>
               </motion.div>
