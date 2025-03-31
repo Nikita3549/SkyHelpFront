@@ -2,7 +2,7 @@
 import React from "react";
 import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";

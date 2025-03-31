@@ -57,11 +57,11 @@ const AirportAutocomplete: React.FC<AirportAutocompleteProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [displayValue, setDisplayValue] = useState(value);
+  const [displayValue, setDisplayValue] = useState(value || "");
 
   useEffect(() => {
     // Update display value if the input value changes externally
-    setDisplayValue(value);
+    setDisplayValue(value || "");
   }, [value]);
 
   // Filter airports based on search query
