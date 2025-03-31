@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useEffect } from "react";
 import { AnimationTransitions } from "@/components/claim-form/types";
@@ -108,6 +107,9 @@ const ClaimForm = () => {
             form={flightRouteForm}
             onSubmit={onFlightRouteSubmit}
             transitions={transitions}
+            connectionFlights={connectionFlights}
+            setConnectionFlights={setConnectionFlights}
+            flightDetailsForm={flightDetailsForm}
           />
         );
       case 2:

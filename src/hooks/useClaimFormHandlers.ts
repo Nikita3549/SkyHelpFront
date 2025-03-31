@@ -48,6 +48,7 @@ export const useClaimFormHandlers = ({
   const navigate = useNavigate();
 
   const onFlightRouteSubmit = (data: z.infer<typeof flightRouteSchema>) => {
+    // When submitting flight route data (step 1), we store it and move to step 2
     setFormData({ ...formData, flightRoute: data });
     setStep(2);
     scrollToTop();

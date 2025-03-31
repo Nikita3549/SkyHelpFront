@@ -15,7 +15,6 @@ import { AnimationTransitions } from "@/components/claim-form/types";
 import FlightInputFields from "./flight-details/FlightInputFields";
 import DisruptionTypeRadioGroup from "./flight-details/DisruptionTypeRadioGroup";
 import EligibilityResult from "./flight-details/EligibilityResult";
-import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection";
 
 // Re-export airlines for other components that might need it
 export { airlines } from "./flight-details/AirlineSelect";
@@ -60,13 +59,6 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Connecting flights section - moved to step 1 */}
-          <ConnectingFlightsSection 
-            form={form} 
-            connectionFlights={connectionFlights}
-            setConnectionFlights={setConnectionFlights}
-          />
-          
           {/* Flight input fields component */}
           <FlightInputFields form={form} />
           

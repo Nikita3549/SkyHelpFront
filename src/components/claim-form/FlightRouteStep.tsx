@@ -1,122 +1,96 @@
-
 import React from "react";
 import { motion } from "framer-motion";
-import { Plane, Info } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { useIsMobile } from "@/hooks/use-mobile";
 
-// Schema and types
+// Schema and types imports
 import { flightRouteSchema } from "@/components/claim-form/schemas";
 import { AnimationTransitions } from "@/components/claim-form/types";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import NavigationButtons from "./passenger-details/NavigationButtons";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 interface FlightRouteStepProps {
   form: UseFormReturn<z.infer<typeof flightRouteSchema>>;
   onSubmit: (data: z.infer<typeof flightRouteSchema>) => void;
   transitions: AnimationTransitions;
-  onBack?: () => void;
+  connectionFlights: string[];
+  setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
+  flightDetailsForm: UseFormReturn<any>; // Need to pass the flight details form for connecting flights
 }
 
 const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
   form,
   onSubmit,
   transitions,
+  connectionFlights,
+  setConnectionFlights,
+  flightDetailsForm
 }) => {
-  const isMobile = useIsMobile();
-
   return (
     <motion.div
-      key="step0"
+      key="step1"
       initial={transitions.initial}
       animate={transitions.animate}
       exit={transitions.exit}
       transition={transitions.transition}
     >
-      <div className={`${isMobile ? 'mb-4' : 'mb-8'}`}>
-        <h2 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-semibold mb-2`}>Your Flight Route</h2>
-        <p className="text-gray-600 text-sm md:text-base">
-          Enter your departure and destination airports to start your claim
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Flight Route</h2>
+        <p className="text-gray-600">
+          Let's start with your flight information to get you compensated quickly.
         </p>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 gap-4 md:gap-6">
-            {/* Departure Airport */}
-            <div>
-              <FormField
-                control={form.control}
-                name="departureAirport"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-blue-900 font-semibold text-base md:text-lg">Departing from</FormLabel>
-                    <div className="relative">
-                      <FormControl>
-                        <div className="relative">
-                          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <Plane className="h-5 w-5 -rotate-45" />
-                          </div>
-                          <Input
-                            placeholder="e.g. New York or JFK"
-                            className={`pl-10 ${isMobile ? 'h-14' : 'h-12'} text-md`}
-                            {...field}
-                          />
-                        </div>
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          {/* Departure and Arrival fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+              control={form.control}
+              name="departureAirport"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Departure Airport</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. JFK" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            {/* Arrival Airport */}
-            <div>
-              <FormField
-                control={form.control}
-                name="arrivalAirport"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-blue-900 font-semibold text-base md:text-lg">Final destination</FormLabel>
-                    <div className="relative">
-                      <FormControl>
-                        <div className="relative">
-                          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500">
-                            <Plane className="h-5 w-5 rotate-45" />
-                          </div>
-                          <Input
-                            placeholder="e.g. London or LHR"
-                            className={`pl-10 ${isMobile ? 'h-14' : 'h-12'} text-md border-blue-500`}
-                            {...field}
-                          />
-                        </div>
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="arrivalAirport"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Arrival Airport</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. LAX" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          
-          <Alert className="mb-4 bg-blue-50 border-blue-100 text-blue-800 flex items-center">
-            <div className="opacity-70 flex-shrink-0">
-              <Info className="h-4 w-4 text-blue-500" />
-            </div>
-            <AlertDescription className="text-blue-700 ml-2 text-sm">
-              No risk. Checking compensation is absolutely free of charge.
-            </AlertDescription>
-          </Alert>
 
-          <NavigationButtons 
-            onBack={() => {}} 
-            showBackButton={false} 
+          {/* Connecting flights section - added to step 1 */}
+          <ConnectingFlightsSection 
+            form={flightDetailsForm} 
+            connectionFlights={connectionFlights}
+            setConnectionFlights={setConnectionFlights}
           />
+
+          <div className="pt-4 flex justify-end">
+            <Button type="submit" className="w-full sm:w-auto">
+              Continue
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         </form>
       </Form>
     </motion.div>
