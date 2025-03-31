@@ -1,4 +1,3 @@
-
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -63,6 +62,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
     setStep
   });
 
+  // Show boarding pass upload component if showBoardingPassUpload is true and step is 0 or 1
   if (showBoardingPassUpload && step < 2) {
     return (
       <BoardingPassUpload 

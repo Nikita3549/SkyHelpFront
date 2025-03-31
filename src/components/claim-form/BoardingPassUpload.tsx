@@ -25,9 +25,12 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
   // Generate the QR code URL when the component mounts
   useEffect(() => {
     // Create a URL that points to the boarding pass upload step
-    const currentUrl = window.location.href;
-    const baseUrl = currentUrl.split("?")[0]; // Remove any existing query params
-    const qrUrl = `${baseUrl}?checkType=boardingPass`;
+    // Include the origin for absolute URL and add checkType parameter
+    const origin = window.location.origin;
+    const path = window.location.pathname;
+    
+    // Create a URL that ensures we're directed to the claim page with boardingPass parameter
+    const qrUrl = `${origin}/claim?checkType=boardingPass`;
     setQrCodeUrl(qrUrl);
   }, []);
 

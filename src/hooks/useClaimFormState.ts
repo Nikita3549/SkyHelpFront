@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,10 +12,17 @@ import {
 } from "@/components/claim-form/schemas";
 
 export const useClaimFormState = () => {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  
+  // Check for checkType in both location state and URL query parameters
+  const checkTypeFromState = location.state?.checkType;
+  const checkTypeFromUrl = searchParams.get('checkType');
+  const isBoardingPass = checkTypeFromState === 'boardingPass' || checkTypeFromUrl === 'boardingPass';
+  
   // If we came from the boarding pass option, start at step 0 (boarding pass upload)
   // Otherwise start at step 1 (flight route)
-  const location = useLocation();
-  const initialStep = location.state?.checkType === 'boardingPass' ? 0 : 1;
+  const initialStep = isBoardingPass ? 0 : 1;
   
   const [step, setStep] = useState(initialStep);
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
@@ -29,11 +36,11 @@ export const useClaimFormState = () => {
     paymentDetails: {},
   });
 
-  // Get pre-filled values from location state
-  const preFilledDepartureAirport = location.state?.departureAirport || "";
-  const preFilledArrivalAirport = location.state?.arrivalAirport || "";
-  const preFilledFlightNumber = location.state?.flightNumber || "";
-  const preFilledDepartureDate = location.state?.departureDate || "";
+  // Get pre-filled values from location state or URL parameters
+  const preFilledDepartureAirport = location.state?.departureAirport || searchParams.get('departureAirport') || "";
+  const preFilledArrivalAirport = location.state?.arrivalAirport || searchParams.get('arrivalAirport') || "";
+  const preFilledFlightNumber = location.state?.flightNumber || searchParams.get('flightNumber') || "";
+  const preFilledDepartureDate = location.state?.departureDate || searchParams.get('departureDate') || "";
 
   // Initialize flight route form
   const flightRouteForm = useForm<z.infer<typeof flightRouteSchema>>({

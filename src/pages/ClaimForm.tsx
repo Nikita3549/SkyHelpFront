@@ -3,8 +3,11 @@ import React from "react";
 import { useClaimFormState } from "@/hooks/useClaimFormState";
 import { useClaimFormHandlers } from "@/hooks/useClaimFormHandlers";
 import ClaimFormContent from "@/components/claim-form/ClaimFormContent";
+import { useSearchParams } from "react-router-dom";
 
 const ClaimForm = () => {
+  const [searchParams] = useSearchParams();
+  
   const {
     step,
     setStep,
@@ -47,7 +50,10 @@ const ClaimForm = () => {
   const disruptionType = flightDetailsForm.watch("disruptionType");
 
   // Check if we need to show the boarding pass upload component
-  const showBoardingPassUpload = location.state?.checkType === 'boardingPass';
+  // Look in both URL parameters and location state
+  const checkTypeFromState = location.state?.checkType;
+  const checkTypeFromUrl = searchParams.get('checkType');
+  const showBoardingPassUpload = checkTypeFromState === 'boardingPass' || checkTypeFromUrl === 'boardingPass';
 
   // Animation transitions
   const transitions = {
