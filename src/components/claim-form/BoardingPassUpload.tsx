@@ -1,9 +1,10 @@
 
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Upload, ArrowRight } from "lucide-react";
+import { Upload, ArrowRight, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimationTransitions } from "./types";
+import { toast } from "sonner";
 
 interface BoardingPassUploadProps {
   onContinue: (file: File) => void;
@@ -14,6 +15,7 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -53,13 +55,13 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
     // Check file type
     const validTypes = ['image/png', 'image/jpeg', 'application/pdf'];
     if (!validTypes.includes(selectedFile.type)) {
-      alert('Please upload a PNG, JPG or PDF file');
+      toast.error('Please upload a PNG, JPG or PDF file');
       return;
     }
 
     // Check file size (15MB max)
     if (selectedFile.size > 15 * 1024 * 1024) {
-      alert('File size must be less than 15MB');
+      toast.error('File size must be less than 15MB');
       return;
     }
 
@@ -68,6 +70,10 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
 
   const handleBrowseClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleCameraClick = () => {
+    cameraInputRef.current?.click();
   };
 
   const handleSubmit = () => {
@@ -109,6 +115,15 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
             onChange={handleFileInputChange}
           />
           
+          <input
+            type="file"
+            ref={cameraInputRef}
+            className="hidden"
+            accept="image/*"
+            capture="environment"
+            onChange={handleFileInputChange}
+          />
+          
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
               <Upload className="h-8 w-8 text-primary" />
@@ -118,9 +133,21 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
               <p className="text-lg font-medium">
                 Drag & drop documents or <span className="text-primary cursor-pointer" onClick={handleBrowseClick}>select</span> file to upload
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 mb-4">
                 We support PNG, JPG and PDF. Max size 15MB.
               </p>
+              <div className="flex items-center justify-center gap-2 mt-4 text-sm text-primary">
+                <span>or you can use your </span>
+                <Button 
+                  variant="ghost" 
+                  className="flex items-center gap-1 p-0 h-auto text-primary hover:text-primary/90"
+                  onClick={handleCameraClick}
+                >
+                  <Camera className="h-4 w-4" />
+                  <span>camera</span>
+                </Button>
+                <span>, our AI will read the data.</span>
+              </div>
             </div>
           </div>
         </div>
