@@ -50,7 +50,7 @@ const QuickEligibilityCheck = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="departureAirport" className="flex items-center gap-2">
+                <Label htmlFor="departureAirport" className="flex items-center gap-2 mb-2">
                   <Plane className="h-4 w-4 text-primary" /> Departure Airport
                 </Label>
                 <div className="relative">
@@ -67,7 +67,7 @@ const QuickEligibilityCheck = () => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="arrivalAirport" className="flex items-center gap-2">
+                <Label htmlFor="arrivalAirport" className="flex items-center gap-2 mb-2">
                   <Plane className="h-4 w-4 rotate-90 text-primary" /> Arrival Airport
                 </Label>
                 <div className="relative">
