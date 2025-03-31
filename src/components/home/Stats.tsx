@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Award, Clock, EuroIcon, PiggyBank } from "lucide-react";
+import { Award, BanknoteIcon, Clock, PiggyBank } from "lucide-react";
 
 const Stats = () => {
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
@@ -12,7 +12,7 @@ const Stats = () => {
       value: "€600",
       label: "Maximum compensation per passenger",
       description: "EU regulation 261/2004 entitles you to up to €600 compensation",
-      icon: EuroIcon,
+      icon: BanknoteIcon,
     },
     {
       value: "94%",
