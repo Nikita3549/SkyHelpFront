@@ -61,8 +61,8 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
   const flightSegments = createFlightSegments();
 
   return (
-    <div className="border border-input rounded-md p-4 mb-2">
-      <h3 className="text-base font-medium mb-3">Select the flight that didn't go as planned</h3>
+    <div className="border border-input rounded-md p-3 mb-2 max-w-md mx-auto">
+      <h3 className="text-sm font-medium mb-2">Select the flight that didn't go as planned</h3>
       
       <FormField
         control={form.control}
@@ -73,13 +73,13 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
             <RadioGroup
               onValueChange={field.onChange}
               value={field.value}
-              className="space-y-2"
+              className="space-y-1.5"
             >
               {flightSegments.map((segment) => (
                 <label
                   key={segment.id}
                   htmlFor={segment.id}
-                  className="flex items-center gap-2 border rounded-md p-3 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50"
+                  className="flex items-center gap-2 border rounded-md p-2 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50"
                 >
                   <RadioGroupItem
                     id={segment.id}
