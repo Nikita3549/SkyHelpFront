@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
+import { Award, Clock, EuroIcon, PiggyBank } from "lucide-react";
 
 const Stats = () => {
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
@@ -11,21 +12,25 @@ const Stats = () => {
       value: "€600",
       label: "Maximum compensation per passenger",
       description: "EU regulation 261/2004 entitles you to up to €600 compensation",
+      icon: EuroIcon,
     },
     {
       value: "94%",
       label: "Success rate on valid claims",
       description: "Our expert team handles airline negotiations effectively",
+      icon: Award,
     },
     {
       value: "3 min",
       label: "Average time to check eligibility",
       description: "Quick and easy claim verification process",
+      icon: Clock,
     },
     {
       value: "€2.8M",
       label: "Recovered for our customers",
       description: "Helping passengers get the compensation they deserve",
+      icon: PiggyBank,
     },
   ];
 
@@ -57,36 +62,49 @@ const Stats = () => {
               }}
             >
               <CardContent className="p-6">
-                <motion.h3 
-                  className="text-3xl md:text-4xl font-bold text-primary text-center"
-                  initial={{ scale: 1 }}
-                  animate={{ 
-                    scale: hoveredStat === index ? [1, 1.1, 1] : 1,
-                  }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {stat.value}
-                </motion.h3>
-                
-                <p className="text-gray-600 text-center mt-2">{stat.label}</p>
-                
-                <motion.div 
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ 
-                    height: hoveredStat === index ? "auto" : 0,
-                    opacity: hoveredStat === index ? 1 : 0 
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden mt-3"
-                >
-                  <p className="text-sm text-gray-500 text-center">{stat.description}</p>
+                <div className="flex flex-col items-center">
+                  <motion.div 
+                    className="text-primary mb-2"
+                    initial={{ scale: 1 }}
+                    animate={{ 
+                      scale: hoveredStat === index ? [1, 1.2, 1] : 1,
+                    }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <stat.icon size={28} />
+                  </motion.div>
                   
-                  <div className="flex justify-center mt-3">
-                    <button className="text-primary text-sm font-medium flex items-center">
-                      Learn more
-                    </button>
-                  </div>
-                </motion.div>
+                  <motion.h3 
+                    className="text-3xl md:text-4xl font-bold text-primary text-center"
+                    initial={{ scale: 1 }}
+                    animate={{ 
+                      scale: hoveredStat === index ? [1, 1.1, 1] : 1,
+                    }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {stat.value}
+                  </motion.h3>
+                  
+                  <p className="text-gray-600 text-center mt-2">{stat.label}</p>
+                  
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ 
+                      height: hoveredStat === index ? "auto" : 0,
+                      opacity: hoveredStat === index ? 1 : 0 
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden mt-3"
+                  >
+                    <p className="text-sm text-gray-500 text-center">{stat.description}</p>
+                    
+                    <div className="flex justify-center mt-3">
+                      <button className="text-primary text-sm font-medium flex items-center">
+                        Learn more
+                      </button>
+                    </div>
+                  </motion.div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
