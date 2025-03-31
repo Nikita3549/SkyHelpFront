@@ -56,7 +56,7 @@ const QuickEligibilityCheck = () => {
                 <div className="relative">
                   <Input
                     id="departureAirport"
-                    placeholder="e.g. LHR, Heathrow"
+                    placeholder="Departure Airport"
                     value={departureAirport}
                     onChange={(e) => setDepartureAirport(e.target.value)}
                     required
@@ -73,7 +73,7 @@ const QuickEligibilityCheck = () => {
                 <div className="relative">
                   <Input
                     id="arrivalAirport"
-                    placeholder="e.g. CDG, Charles de Gaulle"
+                    placeholder="Arrival Airport"
                     value={arrivalAirport}
                     onChange={(e) => setArrivalAirport(e.target.value)}
                     required

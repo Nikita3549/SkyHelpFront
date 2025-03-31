@@ -36,7 +36,7 @@ const HeroForm = () => {
               <div className="relative">
                 <Input 
                   type="text" 
-                  placeholder="e.g., LHR, Heathrow" 
+                  placeholder="Departure Airport" 
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
                   value={departureAirport}
                   onChange={(e) => setDepartureAirport(e.target.value)}
@@ -50,7 +50,7 @@ const HeroForm = () => {
               <div className="relative">
                 <Input 
                   type="text" 
-                  placeholder="e.g., JFK, New York" 
+                  placeholder="Arrival Airport" 
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
                   value={arrivalAirport}
                   onChange={(e) => setArrivalAirport(e.target.value)}
