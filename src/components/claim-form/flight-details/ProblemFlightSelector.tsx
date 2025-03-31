@@ -1,7 +1,7 @@
 
 import React from "react";
 import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { RadioGroup } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
@@ -61,8 +61,8 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
   const flightSegments = createFlightSegments();
 
   return (
-    <div className="space-y-4 bg-slate-50 p-6 rounded-lg mt-6">
-      <h3 className="text-lg font-medium text-slate-900">Select the flight that didn't go as planned</h3>
+    <div className="space-y-4 border border-input rounded-md p-4">
+      <h3 className="text-lg font-medium">Select the flight that didn't go as planned</h3>
       
       <FormField
         control={form.control}
@@ -79,20 +79,16 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
                 <label
                   key={segment.id}
                   htmlFor={segment.id}
-                  className="flex items-center gap-3 border rounded-lg p-4 cursor-pointer transition-colors hover:border-primary hover:bg-white"
+                  className="flex items-center gap-3 border rounded-md p-4 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50"
                 >
-                  <input 
-                    type="radio"
+                  <RadioGroupItem
                     id={segment.id}
                     value={segment.value}
-                    checked={field.value === segment.value}
-                    onChange={() => field.onChange(segment.value)}
-                    className="h-4 w-4 text-primary border-gray-300 focus:ring-primary"
                   />
                   <div className="flex items-center justify-between w-full">
-                    <span className="font-medium">{segment.departure}</span>
-                    <Plane className="text-blue-400 mx-2 h-5 w-5" />
-                    <span className="font-medium">{segment.arrival}</span>
+                    <span className="font-medium text-sm">{segment.departure}</span>
+                    <Plane className="text-primary mx-2 h-4 w-4" />
+                    <span className="font-medium text-sm">{segment.arrival}</span>
                   </div>
                 </label>
               ))}
