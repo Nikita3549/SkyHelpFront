@@ -7,7 +7,6 @@ import { Plus, X } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
-import ProblemFlightSelector from "./ProblemFlightSelector";
 
 interface ConnectingFlightsFormProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
@@ -21,8 +20,6 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
   setConnectionFlights 
 }) => {
   const connectingFlightsValue = form.watch("connectingFlights");
-  const departureAirport = form.watch("departureAirport");
-  const arrivalAirport = form.watch("arrivalAirport");
 
   const handleAddConnectionFlight = () => {
     setConnectionFlights([...connectionFlights, ""]);
@@ -97,14 +94,6 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
         <Plus className="h-4 w-4 mr-2" />
         Add another connecting flight
       </Button>
-
-      {/* Add the ProblemFlightSelector component */}
-      <ProblemFlightSelector 
-        form={form} 
-        departureAirport={departureAirport} 
-        arrivalAirport={arrivalAirport}
-        connectionAirports={connectionFlights.filter(airport => airport.trim() !== "")}
-      />
     </div>
   );
 };

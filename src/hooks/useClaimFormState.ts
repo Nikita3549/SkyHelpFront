@@ -55,7 +55,6 @@ export const useClaimFormState = () => {
       connectingFlights: "no",
       delayDuration: "1 hour",
       connectionAirports: [],
-      problemFlight: "",
     },
   });
 

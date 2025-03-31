@@ -20,7 +20,6 @@ export const flightDetailsSchema = z.object({
   connectingFlights: z.enum(["yes", "no"]).default("no"),
   delayDuration: z.string().optional(),
   connectionAirports: z.array(z.string()).optional(),
-  problemFlight: z.string().optional(),
 });
 
 export const passengerDetailsSchema = z.object({
