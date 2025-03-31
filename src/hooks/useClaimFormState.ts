@@ -51,6 +51,7 @@ export const useClaimFormState = () => {
       arrivalAirport: preFilledArrivalAirport,
       disruptionType: "delay",
       connectingFlights: "no",
+      delayDuration: "1 hour",
     },
   });
 

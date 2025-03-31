@@ -13,6 +13,7 @@ export const flightDetailsSchema = z.object({
   arrivalAirport: z.string().min(1, "Arrival airport is required"),
   disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection"]),
   connectingFlights: z.enum(["yes", "no"]).default("no"),
+  delayDuration: z.string().optional(),
 });
 
 export const passengerDetailsSchema = z.object({

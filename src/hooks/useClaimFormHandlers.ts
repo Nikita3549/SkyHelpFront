@@ -64,7 +64,7 @@ export const useClaimFormHandlers = ({
       
       if (data.disruptionType === "delay") {
         // Only eligible if delay is 3 hours or more (EU Regulation 261/2004)
-        const delayDuration = data.delayDuration;
+        const delayDuration = data.delayDuration || "1 hour";
         // Fix the bug: "3 hours", "4+ hours" should be eligible
         isEligible = delayDuration === "3 hours" || delayDuration === "4+ hours";
       } else if (data.disruptionType === "cancellation" || 
