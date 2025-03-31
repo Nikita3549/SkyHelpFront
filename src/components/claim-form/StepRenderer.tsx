@@ -1,7 +1,6 @@
 
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { toast } from "sonner";
 
 // Component imports
 import FlightDetailsStep from "@/components/claim-form/FlightDetailsStep";
@@ -11,6 +10,7 @@ import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
 import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
 import BoardingPassUpload from "@/components/claim-form/BoardingPassUpload";
 import { AnimationTransitions } from "@/components/claim-form/types";
+import { useBoardingPassUpload } from "@/hooks/useBoardingPassUpload";
 
 interface StepRendererProps {
   step: number;
@@ -57,24 +57,11 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   transitions,
   disruptionType
 }) => {
-  // Handle boarding pass upload
-  const handleBoardingPassSubmit = (file: File) => {
-    // Here we would normally process the boarding pass file
-    // For now, we'll just show a toast and move to the flight details step
-    toast.success("Boarding pass uploaded successfully", {
-      description: "We'll extract the flight details automatically."
-    });
-    
-    // Set some dummy data that would normally be extracted from the boarding pass
-    flightDetailsForm.setValue("airline", "Extracted Airline");
-    flightDetailsForm.setValue("flightNumber", "EX123");
-    flightDetailsForm.setValue("departureDate", "2023-08-15");
-    flightDetailsForm.setValue("departureAirport", "LHR");
-    flightDetailsForm.setValue("arrivalAirport", "JFK");
-    
-    // Move to flight details step
-    setStep(2);
-  };
+  // Use the boarding pass upload hook
+  const { handleBoardingPassSubmit } = useBoardingPassUpload({
+    flightDetailsForm,
+    setStep
+  });
 
   if (showBoardingPassUpload && step < 2) {
     return (
