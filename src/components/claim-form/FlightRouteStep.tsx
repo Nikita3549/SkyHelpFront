@@ -78,7 +78,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                        <Plane className="h-4 w-4" />
+                        <Plane className="h-4 w-4 transform rotate-90" />
                       </span>
                       <Input placeholder="e.g. LAX" {...field} className="pl-10" />
                     </div>
