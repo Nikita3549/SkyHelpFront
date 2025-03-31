@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Hero from "@/components/home/Hero";
 import Stats from "@/components/home/Stats";
-import PassengerRights from "@/components/home/PassengerRights";
 import QuickEligibilityCheck from "@/components/home/QuickEligibilityCheck";
 import HowItWorks from "@/components/home/HowItWorks";
 import Eligibility from "@/components/home/Eligibility";
@@ -79,7 +78,6 @@ const Index = () => {
     <>
       <Hero />
       <Stats />
-      <PassengerRights />
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
       <QuickEligibilityCheck />
