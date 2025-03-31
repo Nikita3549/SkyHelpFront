@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Check, ExternalLink } from "lucide-react";
@@ -16,17 +15,17 @@ const HeroTitle = () => {
       className="space-y-6"
     >
       <motion.a
-        href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32004R0261"
-        target="_blank"
-        rel="noopener noreferrer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-sm font-medium mb-2 hover:bg-blue-100 transition-colors group"
+        className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-sm font-medium mb-2 hover:bg-blue-100 transition-colors cursor-pointer group"
+        href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32004R0261"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <EuFlag size={16} className="mr-2" />
         EU Regulation 261/2004
-        <ExternalLink className="ml-1 h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <ExternalLink size={14} className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
       </motion.a>
       
       <motion.h1
