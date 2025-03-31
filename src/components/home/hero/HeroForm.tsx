@@ -1,8 +1,8 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Check, Plane } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Check, Plane, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,15 @@ import { Label } from "@/components/ui/label";
 const HeroForm = () => {
   const [departureAirport, setDepartureAirport] = useState("");
   const [arrivalAirport, setArrivalAirport] = useState("");
+  const navigate = useNavigate();
+
+  const handleBoardingPassCheck = () => {
+    navigate('/claim', {
+      state: {
+        checkType: 'boardingPass'
+      }
+    });
+  };
 
   return (
     <motion.div
@@ -61,6 +70,19 @@ const HeroForm = () => {
           >
             Check Now
           </Link>
+          
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-xs text-gray-500">or</span>
+            <Button 
+              type="button"
+              variant="ghost" 
+              className="p-0 h-auto text-blue-500 hover:text-blue-700 hover:bg-transparent font-medium text-xs flex items-center gap-1 group"
+              onClick={handleBoardingPassCheck}
+            >
+              <Ticket className="h-4 w-4 text-blue-500 group-hover:text-blue-700" />
+              Fast check with boarding pass
+            </Button>
+          </div>
           
           <div className="text-xs text-gray-500 space-y-2 pt-2">
             <p className="flex items-start">
