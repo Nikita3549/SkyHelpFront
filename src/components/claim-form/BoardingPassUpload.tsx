@@ -133,21 +133,28 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
               <p className="text-lg font-medium">
                 Drag & drop documents or <span className="text-primary cursor-pointer" onClick={handleBrowseClick}>select</span> file to upload
               </p>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-sm text-gray-500">
                 We support PNG, JPG and PDF. Max size 15MB.
               </p>
-              <div className="flex items-center justify-center gap-2 mt-4 text-sm text-primary">
-                <span>or you can use your </span>
-                <Button 
-                  variant="ghost" 
-                  className="flex items-center gap-1 p-0 h-auto text-primary hover:text-primary/90"
-                  onClick={handleCameraClick}
-                >
-                  <Camera className="h-4 w-4" />
-                  <span>camera</span>
-                </Button>
-                <span>, our AI will read the data.</span>
-              </div>
+            </div>
+          </div>
+          
+          {/* Camera function highlighted section */}
+          <div className="mt-8 flex justify-center">
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-primary rounded-xl blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
+              <button
+                onClick={handleCameraClick}
+                className="relative flex items-center gap-3 bg-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+              >
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Camera className="h-5 w-5 text-primary" />
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-gray-800">Use your camera</p>
+                  <p className="text-xs text-gray-500">Our AI will read the data automatically</p>
+                </div>
+              </button>
             </div>
           </div>
         </div>
