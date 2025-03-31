@@ -6,6 +6,7 @@ import Stats from "@/components/home/Stats";
 import QuickEligibilityCheck from "@/components/home/QuickEligibilityCheck";
 import HowItWorks from "@/components/home/HowItWorks";
 import Eligibility from "@/components/home/Eligibility";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Testimonials from "@/components/home/Testimonials";
 import Faq from "@/components/home/Faq";
 import Cta from "@/components/home/Cta";
@@ -80,6 +81,7 @@ const Index = () => {
       <Stats />
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
+      <WhyChooseUs />
       <QuickEligibilityCheck />
       <Testimonials />
       <Faq faqRef={faqRef} faqs={faqs} />
