@@ -85,9 +85,9 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
                     id={segment.id}
                     value={segment.value}
                   />
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
                     <span className="font-medium">{segment.departure}</span>
-                    <Plane className="text-primary h-3 w-3" />
+                    <Plane className="text-primary h-3 w-3 mx-1" />
                     <span className="font-medium">{segment.arrival}</span>
                   </div>
                 </label>
