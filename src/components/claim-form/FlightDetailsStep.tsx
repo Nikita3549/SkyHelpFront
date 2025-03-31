@@ -60,15 +60,15 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Flight input fields component */}
-          <FlightInputFields form={form} />
-          
-          {/* Connecting flights section */}
+          {/* Connecting flights section - moved to step 1 */}
           <ConnectingFlightsSection 
             form={form} 
             connectionFlights={connectionFlights}
             setConnectionFlights={setConnectionFlights}
           />
+          
+          {/* Flight input fields component */}
+          <FlightInputFields form={form} />
           
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
