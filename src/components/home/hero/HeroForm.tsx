@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -74,7 +73,7 @@ const HeroForm = () => {
             <Button 
               type="button"
               variant="ghost" 
-              className="p-0 h-auto text-blue-500 hover:text-blue-700 hover:bg-transparent font-medium text-xs flex items-center gap-1 group"
+              className="p-0 h-auto text-blue-500 hover:text-blue-700 hover:bg-transparent font-medium text-sm flex items-center gap-1 group"
               onClick={handleBoardingPassCheck}
             >
               <Ticket className="h-4 w-4 text-blue-500 group-hover:text-blue-700" />

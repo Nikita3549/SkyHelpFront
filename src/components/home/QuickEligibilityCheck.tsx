@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -92,7 +91,7 @@ const QuickEligibilityCheck = () => {
               <Button 
                 type="button"
                 variant="ghost" 
-                className="p-0 h-auto text-blue-500 hover:text-blue-700 hover:bg-transparent font-medium flex items-center gap-2 group"
+                className="p-0 h-auto text-blue-500 hover:text-blue-700 hover:bg-transparent font-medium flex items-center gap-2 group text-base"
                 onClick={handleBoardingPassCheck}
               >
                 <Ticket className="h-5 w-5 text-blue-500 group-hover:text-blue-700" />
