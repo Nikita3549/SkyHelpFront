@@ -27,7 +27,7 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
   // Filter out empty entries
   const validConnectionAirports = connectionFlights.filter(airport => airport.trim() !== "");
   
-  if (validConnectionAirports.length === 0) {
+  if (validConnectionAirports.length === l0) {
     return null;
   }
 
@@ -85,10 +85,10 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
                     id={segment.id}
                     value={segment.value}
                   />
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm">{segment.departure}</span>
-                    <Plane className="text-primary h-3.5 w-3.5" />
-                    <span className="text-sm">{segment.arrival}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">{segment.departure}</span>
+                    <Plane className="text-primary h-3 w-3" />
+                    <span className="font-medium">{segment.arrival}</span>
                   </div>
                 </label>
               ))}
