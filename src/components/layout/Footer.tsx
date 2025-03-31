@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui-custom/Logo";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const navigation = {
@@ -42,8 +43,51 @@ const Footer = () => {
     ],
   };
 
+  // Airlines logos data
+  const airlines = [
+    { name: "Wizz Air", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "0%" },
+    { name: "Tarom", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "12.5%" },
+    { name: "Ryanair", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "25%" },
+    { name: "HiSky", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "37.5%" },
+    { name: "Lufthansa", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "50%" },
+    { name: "Austrian Airlines", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "62.5%" },
+    { name: "Turkish Airlines", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "75%" },
+    { name: "Qatar Airways", imgSrc: "/lovable-uploads/d372a92a-529b-43c2-ba57-c3c07424a3b4.png", position: "87.5%" },
+  ];
+
   return (
     <footer className="bg-white border-t border-gray-100">
+      {/* Airlines Logos Section */}
+      <div className="container-custom py-10 border-b border-gray-100">
+        <div className="text-center mb-6">
+          <h3 className="text-xl font-semibold text-gray-700">We handle claims for all major airlines</h3>
+        </div>
+        
+        <div className="relative h-16 overflow-hidden">
+          <div className="flex justify-between items-center">
+            {airlines.map((airline, index) => (
+              <motion.div
+                key={index}
+                className="flex-shrink-0 px-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.1 }}
+              >
+                <div className="h-10 w-24 relative">
+                  <img 
+                    src={airline.imgSrc} 
+                    alt={`${airline.name} logo`} 
+                    className="h-full w-full object-contain" 
+                    style={{ objectPosition: airline.position }}
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="container-custom">
         <div className="py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
