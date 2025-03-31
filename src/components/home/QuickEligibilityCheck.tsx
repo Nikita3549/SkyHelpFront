@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plane, ArrowRight } from "lucide-react";
+import { Plane, ArrowRight, Ticket } from "lucide-react";
 
 const QuickEligibilityCheck = () => {
   const [departureAirport, setDepartureAirport] = useState("");
@@ -19,6 +19,14 @@ const QuickEligibilityCheck = () => {
       state: {
         departureAirport,
         arrivalAirport
+      }
+    });
+  };
+
+  const handleBoardingPassCheck = () => {
+    navigate('/claim', {
+      state: {
+        checkType: 'boardingPass'
       }
     });
   };
@@ -82,6 +90,19 @@ const QuickEligibilityCheck = () => {
                 className="px-6 py-3 h-auto rounded-full font-medium text-white bg-primary hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 w-full md:w-auto"
               >
                 Check Compensation <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <span className="text-gray-500">or</span>
+              <Button 
+                type="button"
+                variant="ghost" 
+                className="p-0 h-auto text-blue-500 hover:text-blue-700 hover:bg-transparent font-medium flex items-center gap-2 group"
+                onClick={handleBoardingPassCheck}
+              >
+                <Ticket className="h-5 w-5 text-blue-500 group-hover:text-blue-700" />
+                Fast check with boarding pass
               </Button>
             </div>
           </form>
