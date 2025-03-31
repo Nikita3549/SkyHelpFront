@@ -49,7 +49,7 @@ interface AirportAutocompleteProps {
 }
 
 const AirportAutocomplete: React.FC<AirportAutocompleteProps> = ({
-  value,
+  value = "", // Provide default empty string
   onChange,
   placeholder = "Search airport...",
   className,
@@ -130,33 +130,36 @@ const AirportAutocomplete: React.FC<AirportAutocompleteProps> = ({
           </div>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command>
-            <CommandInput 
-              placeholder="Search airport or city..." 
-              value={searchQuery}
-              onValueChange={setSearchQuery}
-              className="h-9"
-            />
-            <CommandEmpty>No airport found.</CommandEmpty>
-            <CommandGroup className="max-h-64 overflow-auto">
-              {filteredAirports.map((airport) => (
-                <CommandItem
-                  key={airport.code}
-                  value={airport.code}
-                  onSelect={handleSelect}
-                  className="flex items-center"
-                >
-                  <div className="flex-1">
-                    <div className="font-medium">{airport.city} ({airport.code})</div>
-                    <div className="text-xs text-gray-500">{airport.name}, {airport.country}</div>
-                  </div>
-                  {displayValue === `${airport.city} (${airport.code})` && (
-                    <Check className="h-4 w-4 text-green-500 ml-2" />
-                  )}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </Command>
+          {/* Wrap Command in an error boundary to prevent crashes */}
+          <div className="w-full">
+            <Command>
+              <CommandInput 
+                placeholder="Search airport or city..." 
+                value={searchQuery}
+                onValueChange={setSearchQuery}
+                className="h-9"
+              />
+              <CommandEmpty>No airport found.</CommandEmpty>
+              <CommandGroup className="max-h-64 overflow-auto">
+                {filteredAirports.map((airport) => (
+                  <CommandItem
+                    key={airport.code}
+                    value={airport.code}
+                    onSelect={handleSelect}
+                    className="flex items-center"
+                  >
+                    <div className="flex-1">
+                      <div className="font-medium">{airport.city} ({airport.code})</div>
+                      <div className="text-xs text-gray-500">{airport.name}, {airport.country}</div>
+                    </div>
+                    {displayValue === `${airport.city} (${airport.code})` && (
+                      <Check className="h-4 w-4 text-green-500 ml-2" />
+                    )}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </div>
         </PopoverContent>
       </Popover>
     </div>

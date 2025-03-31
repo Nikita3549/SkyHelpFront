@@ -27,12 +27,12 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
 
   const handleConnectionAirportChange = (index: number, value: string) => {
     const newConnectionFlights = [...connectionFlights];
-    newConnectionFlights[index] = value;
+    newConnectionFlights[index] = value || ""; // Ensure we always have a string, not undefined
     setConnectionFlights(newConnectionFlights);
     
     // Update the form value
     form.setValue("connectionAirports", 
-      newConnectionFlights.filter(airport => airport.trim() !== ""));
+      newConnectionFlights.filter(airport => airport && airport.trim() !== ""));
   };
 
   const handleRemoveConnectionFlight = (index: number) => {
@@ -48,7 +48,7 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
     
     // Update the form value
     form.setValue("connectionAirports", 
-      newConnectionFlights.filter(airport => airport.trim() !== ""));
+      newConnectionFlights.filter(airport => airport && airport.trim() !== ""));
   };
 
   if (connectingFlightsValue !== "yes") {
@@ -65,7 +65,7 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
             {index + 1}. City or airport name
           </FormLabel>
           <AirportAutocomplete
-            value={airport}
+            value={airport || ""} // Ensure we always pass a string, not undefined
             onChange={(value) => handleConnectionAirportChange(index, value)}
             placeholder="e.g. London or LHR"
             onRemove={() => handleRemoveConnectionFlight(index)}
