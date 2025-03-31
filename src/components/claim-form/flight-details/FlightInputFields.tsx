@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import AirportAutocomplete from "./AirportAutocomplete";
 
 interface FlightInputFieldsProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
