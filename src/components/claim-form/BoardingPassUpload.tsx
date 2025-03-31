@@ -1,11 +1,12 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Upload, ArrowRight, Camera } from "lucide-react";
+import { Upload, ArrowRight, Camera, QrCode, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimationTransitions } from "./types";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
 
 interface BoardingPassUploadProps {
   onContinue: (file: File) => void;
@@ -15,9 +16,20 @@ interface BoardingPassUploadProps {
 const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [showQrCode, setShowQrCode] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
+
+  // Generate the QR code URL when the component mounts
+  useEffect(() => {
+    // Create a URL that points to the boarding pass upload step
+    const currentUrl = window.location.href;
+    const baseUrl = currentUrl.split("?")[0]; // Remove any existing query params
+    const qrUrl = `${baseUrl}?checkType=boardingPass`;
+    setQrCodeUrl(qrUrl);
+  }, []);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -75,7 +87,13 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
   };
 
   const handleCameraClick = () => {
-    cameraInputRef.current?.click();
+    if (isMobile) {
+      // On mobile, open the camera directly
+      cameraInputRef.current?.click();
+    } else {
+      // On desktop, show the QR code dialog
+      setShowQrCode(true);
+    }
   };
 
   const handleSubmit = () => {
@@ -150,11 +168,22 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
                 className="relative flex items-center gap-3 bg-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
               >
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Camera className="h-5 w-5 text-primary" style={{ minWidth: '20px' }} />
+                  {isMobile ? (
+                    <Camera className="h-5 w-5 text-primary" style={{ minWidth: '20px' }} />
+                  ) : (
+                    <QrCode className="h-5 w-5 text-primary" style={{ minWidth: '20px' }} />
+                  )}
                 </div>
                 <div className="text-left">
-                  <p className="font-semibold text-gray-800">Use your camera</p>
-                  <p className="text-xs text-gray-500">Our AI will read the data automatically</p>
+                  <p className="font-semibold text-gray-800">
+                    {isMobile ? "Use your camera" : "Scan with your phone"}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {isMobile 
+                      ? "Our AI will read the data automatically" 
+                      : "Use your mobile device to take a photo"
+                    }
+                  </p>
                 </div>
               </button>
             </div>
@@ -188,6 +217,37 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
           Send File <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
+
+      {/* QR Code Dialog */}
+      <Dialog open={showQrCode} onOpenChange={setShowQrCode}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Scan QR Code with your phone</DialogTitle>
+            <DialogDescription>
+              Use your phone's camera to scan this QR code and continue the boarding pass upload on your mobile device.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center justify-center p-6">
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <img 
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrCodeUrl)}`}
+                alt="QR Code for mobile upload"
+                width="200"
+                height="200"
+                className="mx-auto"
+              />
+            </div>
+            <p className="mt-4 text-center text-sm text-gray-500">
+              This will open the boarding pass upload on your mobile device where you can take a photo directly.
+            </p>
+          </div>
+          <div className="flex justify-end">
+            <DialogClose asChild>
+              <Button variant="outline">Close</Button>
+            </DialogClose>
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 };
