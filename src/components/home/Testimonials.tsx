@@ -55,30 +55,7 @@ const Testimonials = () => {
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
               <Avatar className="h-12 w-12 border-2 border-primary/10">
-                <AvatarImage src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1470" alt="James Davis" />
-                <AvatarFallback className="bg-blue-100 text-primary font-medium">JD</AvatarFallback>
-              </Avatar>
-              <div className="ml-3">
-                <h4 className="font-medium">James Davis</h4>
-                <p className="text-sm text-gray-500">London to Rome</p>
-              </div>
-            </div>
-            <p className="text-gray-600">
-              "My flight was delayed by 4 hours due to a technical issue. CleverClaim handled everything and I received €400 compensation within 6 weeks. Excellent service!"
-            </p>
-            <div className="mt-4 flex text-primary">
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            </div>
-          </motion.div>
-          
-          <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
-            <div className="flex items-center mb-4">
-              <Avatar className="h-12 w-12 border-2 border-primary/10">
-                <AvatarImage src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1470" alt="Sophie Martinez" />
+                <AvatarImage src="/public/lovable-uploads/d64dd295-d77e-402c-9f5e-d9c765ccd0e5.png" alt="Sophie Martinez" />
                 <AvatarFallback className="bg-blue-100 text-primary font-medium">SM</AvatarFallback>
               </Avatar>
               <div className="ml-3">
@@ -101,7 +78,30 @@ const Testimonials = () => {
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
               <Avatar className="h-12 w-12 border-2 border-primary/10">
-                <AvatarImage src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1470" alt="Alexander Kruger" />
+                <AvatarImage src="/public/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png" alt="James Davis" />
+                <AvatarFallback className="bg-blue-100 text-primary font-medium">JD</AvatarFallback>
+              </Avatar>
+              <div className="ml-3">
+                <h4 className="font-medium">James Davis</h4>
+                <p className="text-sm text-gray-500">London to Rome</p>
+              </div>
+            </div>
+            <p className="text-gray-600">
+              "My flight was delayed by 4 hours due to a technical issue. CleverClaim handled everything and I received €400 compensation within 6 weeks. Excellent service!"
+            </p>
+            <div className="mt-4 flex text-primary">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </div>
+          </motion.div>
+          
+          <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
+            <div className="flex items-center mb-4">
+              <Avatar className="h-12 w-12 border-2 border-primary/10">
+                <AvatarImage src="/public/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png" alt="Alexander Kruger" />
                 <AvatarFallback className="bg-blue-100 text-primary font-medium">AK</AvatarFallback>
               </Avatar>
               <div className="ml-3">
