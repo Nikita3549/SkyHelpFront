@@ -59,10 +59,6 @@ const Footer = () => {
     <footer className="bg-white border-t border-gray-100">
       {/* Airlines Logos Section */}
       <div className="container-custom py-10 border-b border-gray-100">
-        <div className="text-center mb-6">
-          <h3 className="text-xl font-semibold text-gray-700">We handle claims for all major airlines</h3>
-        </div>
-        
         <div className="relative overflow-hidden">
           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
             {airlines.map((airline, index) => (
