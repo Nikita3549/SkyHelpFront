@@ -5,6 +5,7 @@ import { Upload, ArrowRight, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimationTransitions } from "./types";
 import { toast } from "sonner";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BoardingPassUploadProps {
   onContinue: (file: File) => void;
@@ -16,6 +17,7 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const isMobile = useIsMobile();
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -139,16 +141,16 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
             </div>
           </div>
           
-          {/* Camera function highlighted section */}
+          {/* Camera function highlighted section - fixed for mobile */}
           <div className="mt-8 flex justify-center">
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-primary rounded-xl blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
               <button
                 onClick={handleCameraClick}
-                className="relative flex items-center gap-3 bg-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                className="relative flex items-center gap-3 bg-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
               >
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Camera className="h-5 w-5 text-primary" />
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Camera className="h-5 w-5 text-primary" style={{ minWidth: '20px' }} />
                 </div>
                 <div className="text-left">
                   <p className="font-semibold text-gray-800">Use your camera</p>
