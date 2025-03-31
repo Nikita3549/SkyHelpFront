@@ -43,6 +43,8 @@ const ClaimForm = () => {
     disruptionDetailsForm,
     paymentDetailsForm,
     flightRouteForm,
+    connectionFlights,
+    setConnectionFlights,
   } = useClaimFormState();
 
   const {
@@ -118,6 +120,8 @@ const ClaimForm = () => {
             onContinue={proceedToNextStep}
             transitions={transitions}
             onBack={() => setStep(1)}
+            connectionFlights={connectionFlights}
+            setConnectionFlights={setConnectionFlights}
           />
         );
       case 3:

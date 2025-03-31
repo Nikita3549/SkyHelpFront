@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -15,6 +16,7 @@ export const useClaimFormState = () => {
   const [step, setStep] = useState(1);
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
+  const [connectionFlights, setConnectionFlights] = useState<string[]>([""]);
   const [formData, setFormData] = useState({
     flightRoute: {},
     flightDetails: {},
@@ -52,6 +54,7 @@ export const useClaimFormState = () => {
       disruptionType: "delay",
       connectingFlights: "no",
       delayDuration: "1 hour",
+      connectionAirports: [],
     },
   });
 
@@ -111,5 +114,7 @@ export const useClaimFormState = () => {
     passengerDetailsForm,
     disruptionDetailsForm,
     paymentDetailsForm,
+    connectionFlights,
+    setConnectionFlights,
   };
 };

@@ -28,6 +28,8 @@ interface FlightDetailsStepProps {
   onContinue: () => void;
   transitions: AnimationTransitions;
   onBack?: () => void;
+  connectionFlights: string[];
+  setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
@@ -38,6 +40,8 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
   onContinue,
   transitions,
   onBack,
+  connectionFlights,
+  setConnectionFlights
 }) => {
   return (
     <motion.div
@@ -60,7 +64,11 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
           <FlightInputFields form={form} />
           
           {/* Connecting flights section */}
-          <ConnectingFlightsSection form={form} />
+          <ConnectingFlightsSection 
+            form={form} 
+            connectionFlights={connectionFlights}
+            setConnectionFlights={setConnectionFlights}
+          />
           
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
