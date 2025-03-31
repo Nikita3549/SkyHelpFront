@@ -1,7 +1,6 @@
 
 import React from "react";
 import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
@@ -59,6 +58,10 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
   };
 
   const flightSegments = createFlightSegments();
+  
+  const handleSegmentSelect = (value: string) => {
+    form.setValue("problematicFlightSegment", value);
+  };
 
   return (
     <div className="border border-input rounded-md p-4 mb-2">
@@ -70,29 +73,30 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel className="sr-only">Problematic Flight Segment</FormLabel>
-            <RadioGroup
-              onValueChange={field.onChange}
-              value={field.value}
-              className="space-y-2"
-            >
+            <div className="space-y-2">
               {flightSegments.map((segment) => (
-                <label
+                <div
                   key={segment.id}
-                  htmlFor={segment.id}
-                  className="flex items-center gap-2 border rounded-md p-3 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50"
+                  onClick={() => handleSegmentSelect(segment.value)}
+                  className={`flex items-center gap-2 border rounded-md p-3 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50 ${
+                    field.value === segment.value ? "bg-blue-50 border-primary" : ""
+                  }`}
                 >
-                  <RadioGroupItem
+                  <input
+                    type="radio"
                     id={segment.id}
-                    value={segment.value}
+                    checked={field.value === segment.value}
+                    onChange={() => {}}
+                    className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   />
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
                     <span className="text-sm">{segment.departure}</span>
-                    <Plane className="text-primary h-3.5 w-3.5" />
+                    <Plane className="text-primary h-3.5 w-3.5 mx-1" />
                     <span className="text-sm">{segment.arrival}</span>
                   </div>
-                </label>
+                </div>
               ))}
-            </RadioGroup>
+            </div>
             <FormMessage />
           </FormItem>
         )}

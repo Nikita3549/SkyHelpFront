@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Clock, AlertCircle, Users, Plane } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -36,6 +36,10 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
     setIsOpen(false);
   };
 
+  const handleOptionClick = (value: string) => {
+    form.setValue("disruptionType", value);
+  };
+
   return (
     <FormField
       control={form.control}
@@ -49,13 +53,22 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
               defaultValue={field.value}
               className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2"
             >
-              <div className={cn(
-                "rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
-                disruptionType === "delay" ? "bg-blue-50 border-primary" : ""
-              )}>
+              <div 
+                className={cn(
+                  "relative rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
+                  disruptionType === "delay" ? "bg-blue-50 border-primary" : ""
+                )}
+                onClick={() => handleOptionClick("delay")}
+              >
                 <div className="flex items-center justify-between space-x-2">
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="delay" id="delay" className="mt-0.5" />
+                    <input 
+                      type="radio" 
+                      id="delay" 
+                      checked={disruptionType === "delay"}
+                      onChange={() => {}}
+                      className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    />
                     <label htmlFor="delay" className="flex items-center cursor-pointer">
                       <span>Flight was delayed</span>
                     </label>
@@ -67,7 +80,7 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                         <Button 
                           variant="outline" 
                           className="flex items-center space-x-2 h-9 px-3 text-sm font-normal"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <span>{delayDuration || "Select duration"}</span>
                           <Clock className="h-4 w-4 text-gray-500" />
@@ -87,39 +100,74 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                     </DropdownMenu>
                   )}
                 </div>
+                {/* Invisible overlay to cover the entire area for better clicking */}
+                <div className="absolute inset-0 cursor-pointer" onClick={() => handleOptionClick("delay")}></div>
               </div>
 
-              <div className={cn(
-                "flex items-center space-x-2 rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
-                disruptionType === "cancellation" ? "bg-blue-50 border-primary" : ""
-              )}>
-                <RadioGroupItem value="cancellation" id="cancellation" />
-                <label htmlFor="cancellation" className="flex items-center cursor-pointer">
-                  <AlertCircle className="h-4 w-4 mr-2 text-red-500" />
-                  <span>Flight was cancelled</span>
-                </label>
+              <div 
+                className={cn(
+                  "relative rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
+                  disruptionType === "cancellation" ? "bg-blue-50 border-primary" : ""
+                )}
+                onClick={() => handleOptionClick("cancellation")}
+              >
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="radio" 
+                    id="cancellation" 
+                    checked={disruptionType === "cancellation"}
+                    onChange={() => {}}
+                    className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                  <label htmlFor="cancellation" className="flex items-center cursor-pointer">
+                    <AlertCircle className="h-4 w-4 mr-2 text-red-500" />
+                    <span>Flight was cancelled</span>
+                  </label>
+                </div>
               </div>
 
-              <div className={cn(
-                "flex items-center space-x-2 rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
-                disruptionType === "denied_boarding" ? "bg-blue-50 border-primary" : ""
-              )}>
-                <RadioGroupItem value="denied_boarding" id="denied_boarding" />
-                <label htmlFor="denied_boarding" className="flex items-center cursor-pointer">
-                  <Users className="h-4 w-4 mr-2 text-orange-500" />
-                  <span>Denied boarding (overbooking)</span>
-                </label>
+              <div 
+                className={cn(
+                  "relative rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
+                  disruptionType === "denied_boarding" ? "bg-blue-50 border-primary" : ""
+                )}
+                onClick={() => handleOptionClick("denied_boarding")}
+              >
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="radio" 
+                    id="denied_boarding" 
+                    checked={disruptionType === "denied_boarding"}
+                    onChange={() => {}}
+                    className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                  <label htmlFor="denied_boarding" className="flex items-center cursor-pointer">
+                    <Users className="h-4 w-4 mr-2 text-orange-500" />
+                    <span>Denied boarding (overbooking)</span>
+                  </label>
+                </div>
               </div>
 
-              <div className={cn(
-                "flex items-center space-x-2 rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
-                disruptionType === "missed_connection" ? "bg-blue-50 border-primary" : ""
-              )}>
-                <RadioGroupItem value="missed_connection" id="missed_connection" />
-                <label htmlFor="missed_connection" className="flex items-center cursor-pointer">
-                  <Plane className="h-4 w-4 mr-2 text-blue-500" />
-                  <span>Missed connecting flight</span>
-                </label>
+              <div 
+                className={cn(
+                  "relative rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors",
+                  disruptionType === "missed_connection" ? "bg-blue-50 border-primary" : ""
+                )}
+                onClick={() => handleOptionClick("missed_connection")}
+              >
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="radio" 
+                    id="missed_connection" 
+                    checked={disruptionType === "missed_connection"}
+                    onChange={() => {}}
+                    className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                  <label htmlFor="missed_connection" className="flex items-center cursor-pointer">
+                    <Plane className="h-4 w-4 mr-2 text-blue-500" />
+                    <span>Missed connecting flight</span>
+                  </label>
+                </div>
               </div>
             </RadioGroup>
           </FormControl>
