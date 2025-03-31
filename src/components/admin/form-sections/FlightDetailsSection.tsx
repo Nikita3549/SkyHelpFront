@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import AirportAutocomplete from "@/components/claim-form/flight-details/AirportAutocomplete";
 
 type FlightDetailsSectionProps = {
   departureAirport: string;
@@ -32,20 +31,22 @@ const FlightDetailsSection = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="departureAirport">Departure Airport</Label>
-          <AirportAutocomplete
+          <Input
+            id="departureAirport"
             value={departureAirport}
-            onChange={(value) => handleChange("departureAirport", value)}
-            placeholder="e.g. London or LHR"
+            onChange={(e) => handleChange("departureAirport", e.target.value)}
+            placeholder="e.g. LHR"
           />
           {errors.departureAirport && <p className="text-sm text-red-500">{errors.departureAirport}</p>}
         </div>
         
         <div className="space-y-2">
           <Label htmlFor="arrivalAirport">Arrival Airport</Label>
-          <AirportAutocomplete
+          <Input
+            id="arrivalAirport"
             value={arrivalAirport}
-            onChange={(value) => handleChange("arrivalAirport", value)}
-            placeholder="e.g. Paris or CDG"
+            onChange={(e) => handleChange("arrivalAirport", e.target.value)}
+            placeholder="e.g. JFK"
           />
           {errors.arrivalAirport && <p className="text-sm text-red-500">{errors.arrivalAirport}</p>}
         </div>

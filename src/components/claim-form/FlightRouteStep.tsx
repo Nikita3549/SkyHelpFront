@@ -11,8 +11,8 @@ import { z } from "zod";
 import { flightRouteSchema } from "@/components/claim-form/schemas";
 import { AnimationTransitions } from "@/components/claim-form/types";
 import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection";
+import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import AirportAutocomplete from "./flight-details/AirportAutocomplete";
 
 interface FlightRouteStepProps {
   form: UseFormReturn<z.infer<typeof flightRouteSchema>>;
@@ -58,15 +58,10 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                   <FormLabel>Departure Airport</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10">
+                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                         <Plane className="h-4 w-4" />
                       </span>
-                      <AirportAutocomplete 
-                        value={field.value} 
-                        onChange={field.onChange}
-                        placeholder="e.g. London or LHR"
-                        className="pl-10"
-                      />
+                      <Input placeholder="e.g. JFK" {...field} className="pl-10" />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -82,15 +77,10 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                   <FormLabel>Arrival Airport</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10">
+                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                         <Plane className="h-4 w-4 transform rotate-90" />
                       </span>
-                      <AirportAutocomplete 
-                        value={field.value} 
-                        onChange={field.onChange}
-                        placeholder="e.g. Paris or CDG"
-                        className="pl-10"
-                      />
+                      <Input placeholder="e.g. LAX" {...field} className="pl-10" />
                     </div>
                   </FormControl>
                   <FormMessage />

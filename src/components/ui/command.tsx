@@ -1,8 +1,7 @@
-
 import * as React from "react"
 import { type DialogProps } from "@radix-ui/react-dialog"
 import { Command as CommandPrimitive } from "cmdk"
-import { Check, Search } from "lucide-react"
+import { Search } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
@@ -112,33 +111,16 @@ CommandSeparator.displayName = CommandPrimitive.Separator.displayName
 const CommandItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
->(({ className, children, ...props }, ref) => {
-  // Ensure `value` is always a string to avoid type errors
-  const safeProps = {
-    ...props,
-    value: props.value || ""
-  };
-  
-  return (
-    <CommandPrimitive.Item
-      ref={ref}
-      className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50",
-        className
-      )}
-      {...safeProps}
-    >
-      {/* Modified to not use ItemIndicator and ItemText since they don't exist */}
-      <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-        {/* Show check only when selected */}
-        {props['data-selected'] && <Check className="h-4 w-4" />}
-      </span>
-      
-      {/* Just render children directly */}
-      <span className="ml-6">{children}</span>
-    </CommandPrimitive.Item>
-  );
-})
+>(({ className, ...props }, ref) => (
+  <CommandPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50",
+      className
+    )}
+    {...props}
+  />
+))
 
 CommandItem.displayName = CommandPrimitive.Item.displayName
 
