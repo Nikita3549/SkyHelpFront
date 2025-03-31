@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -55,6 +54,7 @@ export const useClaimFormState = () => {
       connectingFlights: "no",
       delayDuration: "1 hour",
       connectionAirports: [],
+      problematicFlightSegment: "",
     },
   });
 

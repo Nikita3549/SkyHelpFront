@@ -33,6 +33,9 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
     // Update the form value
     form.setValue("connectionAirports", 
       newConnectionFlights.filter(airport => airport.trim() !== ""));
+      
+    // Reset problematic flight segment if connection airports change
+    form.setValue("problematicFlightSegment", "");
   };
 
   const handleRemoveConnectionFlight = (index: number) => {
@@ -49,6 +52,9 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
     // Update the form value
     form.setValue("connectionAirports", 
       newConnectionFlights.filter(airport => airport.trim() !== ""));
+      
+    // Reset problematic flight segment if connection airports change
+    form.setValue("problematicFlightSegment", "");
   };
 
   if (connectingFlightsValue !== "yes") {
