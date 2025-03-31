@@ -32,7 +32,6 @@ const HeroForm = () => {
           <h3 className="text-xl font-medium text-gray-800">Check your eligibility</h3>
           <div className="grid gap-4">
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Departure Airport</Label>
               <div className="relative">
                 <Input 
                   type="text" 
@@ -46,7 +45,6 @@ const HeroForm = () => {
             </div>
             
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Arrival Airport</Label>
               <div className="relative">
                 <Input 
                   type="text" 
