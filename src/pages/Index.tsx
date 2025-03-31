@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Hero from "@/components/home/Hero";
@@ -77,9 +78,9 @@ const Index = () => {
     <>
       <Hero />
       <Stats />
-      <QuickEligibilityCheck />
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
+      <QuickEligibilityCheck />
       <Testimonials />
       <Faq faqRef={faqRef} faqs={faqs} />
       <Cta />

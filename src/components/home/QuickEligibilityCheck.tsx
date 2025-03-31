@@ -42,8 +42,8 @@ const QuickEligibilityCheck = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="departureAirport" className="flex items-center gap-2 text-base font-medium text-gray-700">
-                  <Plane className="h-5 w-5 text-primary" /> Departure Airport
+                <Label htmlFor="departureAirport" className="flex items-center gap-2">
+                  <Plane className="h-4 w-4 text-primary" /> Departure Airport
                 </Label>
                 <div className="relative">
                   <Input
@@ -52,15 +52,15 @@ const QuickEligibilityCheck = () => {
                     value={departureAirport}
                     onChange={(e) => setDepartureAirport(e.target.value)}
                     required
-                    className="w-full pl-10 h-12 rounded-full border-gray-300 focus:border-primary shadow-sm"
+                    className="w-full pl-10"
                   />
-                  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="arrivalAirport" className="flex items-center gap-2 text-base font-medium text-gray-700">
-                  <Plane className="h-5 w-5 rotate-90 text-primary" /> Arrival Airport
+                <Label htmlFor="arrivalAirport" className="flex items-center gap-2">
+                  <Plane className="h-4 w-4 rotate-90 text-primary" /> Arrival Airport
                 </Label>
                 <div className="relative">
                   <Input
@@ -69,19 +69,19 @@ const QuickEligibilityCheck = () => {
                     value={arrivalAirport}
                     onChange={(e) => setArrivalAirport(e.target.value)}
                     required
-                    className="w-full pl-10 h-12 rounded-full border-gray-300 focus:border-primary shadow-sm"
+                    className="w-full pl-10"
                   />
-                  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 rotate-90 text-gray-400" />
+                  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 rotate-90 text-gray-400" />
                 </div>
               </div>
             </div>
             
-            <div className="mt-8 text-center">
+            <div className="mt-6 text-center">
               <Button 
                 type="submit" 
-                className="px-8 py-3 h-auto rounded-full font-medium text-white bg-primary hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 flex items-center justify-center gap-2 w-auto min-w-[16rem]"
+                className="px-6 py-3 h-auto rounded-full font-medium text-white bg-primary hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 w-full md:w-auto"
               >
-                Check Compensation <ArrowRight className="ml-1 h-5 w-5" />
+                Check Compensation <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </form>
