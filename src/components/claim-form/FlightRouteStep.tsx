@@ -1,7 +1,6 @@
-
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Plane } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
@@ -57,10 +56,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                 <FormItem>
                   <FormLabel>Departure Airport</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Input placeholder="e.g. JFK" {...field} />
-                      <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    </div>
+                    <Input placeholder="e.g. JFK" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -74,10 +70,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                 <FormItem>
                   <FormLabel>Arrival Airport</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Input placeholder="e.g. LAX" {...field} />
-                      <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    </div>
+                    <Input placeholder="e.g. LAX" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
