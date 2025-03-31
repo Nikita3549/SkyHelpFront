@@ -29,7 +29,7 @@ const HeroForm = () => {
     >
       <div className="glass rounded-2xl p-6 md:p-8 shadow-xl">
         <div className="flex flex-col space-y-5">
-          <h3 className="text-xl font-medium text-gray-800">Check your compensation</h3>
+          <h3 className="text-xl font-medium text-gray-800">Check your eligibility</h3>
           <div className="grid gap-4">
             <div>
               <Label className="block text-sm font-medium text-gray-700 mb-1">Departure Airport</Label>
