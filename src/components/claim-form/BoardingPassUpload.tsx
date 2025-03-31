@@ -1,12 +1,12 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { AnimationTransitions } from "./types";
 import QRCodeDialog from "./boarding-pass/QRCodeDialog";
 import FileDropZone from "./boarding-pass/FileDropZone";
 import FilePreview from "./boarding-pass/FilePreview";
+import HeaderSection from "./boarding-pass/HeaderSection";
+import SubmitButton from "./boarding-pass/SubmitButton";
 import { useBoardingPassUploader } from "@/hooks/useBoardingPassUploader";
 
 interface BoardingPassUploadProps {
@@ -48,12 +48,7 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
       className="space-y-6"
     >
       <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Hi! Let's start with getting your boarding pass.
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Please upload your boarding pass as a PNG, JPG or PDF. Max size 15MB
-        </p>
+        <HeaderSection />
         
         <FileDropZone
           isDragging={isDragging}
@@ -72,18 +67,8 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
         {file && <FilePreview file={file} />}
       </div>
 
-      <div className="flex justify-end">
-        <Button
-          type="button"
-          disabled={!file}
-          onClick={handleSubmit}
-          className="flex items-center gap-2 px-6"
-        >
-          Send File <ArrowRight className="h-4 w-4" />
-        </Button>
-      </div>
+      <SubmitButton isDisabled={!file} onSubmit={handleSubmit} />
 
-      {/* QR Code Dialog */}
       <QRCodeDialog 
         open={showQrCode} 
         onOpenChange={setShowQrCode} 
