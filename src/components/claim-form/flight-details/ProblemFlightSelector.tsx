@@ -86,7 +86,7 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
                     type="radio"
                     id={segment.id}
                     checked={field.value === segment.value}
-                    onChange={() => {}}
+                    onChange={() => {}} // Handled by onClick on the parent div
                     className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   />
                   <div className="flex items-center gap-1">

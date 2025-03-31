@@ -36,7 +36,8 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
     setIsOpen(false);
   };
 
-  const handleOptionClick = (value: string) => {
+  // Fix: Update the function to accept only valid disruption types
+  const handleOptionClick = (value: "delay" | "cancellation" | "denied_boarding" | "missed_connection") => {
     form.setValue("disruptionType", value);
   };
 
