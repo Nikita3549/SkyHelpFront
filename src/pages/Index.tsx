@@ -9,6 +9,7 @@ import Eligibility from "@/components/home/Eligibility";
 import Testimonials from "@/components/home/Testimonials";
 import Faq from "@/components/home/Faq";
 import Cta from "@/components/home/Cta";
+import PassengerRightsSection from "@/components/home/PassengerRightsSection";
 
 const Index = () => {
   // Create refs for scroll targets
@@ -81,6 +82,7 @@ const Index = () => {
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
       <QuickEligibilityCheck />
+      <PassengerRightsSection />
       <Testimonials />
       <Faq faqRef={faqRef} faqs={faqs} />
       <Cta />
