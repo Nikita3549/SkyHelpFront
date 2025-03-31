@@ -128,13 +128,14 @@ const CommandItem = React.forwardRef<
       )}
       {...safeProps}
     >
+      {/* Modified to not use ItemIndicator and ItemText since they don't exist */}
       <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-        <CommandPrimitive.ItemIndicator>
-          <Check className="h-4 w-4" />
-        </CommandPrimitive.ItemIndicator>
+        {/* Show check only when selected */}
+        {props['data-selected'] && <Check className="h-4 w-4" />}
       </span>
-
-      <CommandPrimitive.ItemText>{children}</CommandPrimitive.ItemText>
+      
+      {/* Just render children directly */}
+      <span className="ml-6">{children}</span>
     </CommandPrimitive.Item>
   );
 })
