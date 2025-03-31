@@ -43,16 +43,16 @@ const Footer = () => {
     ],
   };
 
-  // Updated airlines logos data with proper image paths
+  // Updated airlines logos data with local image paths
   const airlines = [
-    { name: "Wizz Air", imgSrc: "https://www.wizzair.com/static/images/logo3.svg" },
-    { name: "Tarom", imgSrc: "https://www.tarom.ro/sites/default/files/tarom_logo.png" },
-    { name: "Ryanair", imgSrc: "https://corporate.ryanair.com/wp-content/uploads/2021/06/Ryanair-Primary-Logo-RGB.png" },
-    { name: "HiSky", imgSrc: "https://hisky.aero/img/header-logo.svg" },
-    { name: "Lufthansa", imgSrc: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Lufthansa_Logo_2018.svg" },
-    { name: "Austrian Airlines", imgSrc: "https://www.austrian.com/content/dam/austrian/global/images/logo/os-logo-fly-to-yes-left-red.svg" },
-    { name: "Turkish Airlines", imgSrc: "https://www.turkishairlines.com/theme/img/logos/thy-logo.png" },
-    { name: "Qatar Airways", imgSrc: "https://www.qatarairways.com/etc/designs/qrweb/images/logo/QR-logo-header-desktop.svg" },
+    { name: "Wizz Air", imgSrc: "/lovable-uploads/cead91f8-e2d2-4c22-8f59-a23cc2d20312.png" },
+    { name: "Tarom", imgSrc: "/lovable-uploads/4812daa1-9593-4874-ac96-312b7529e017.png" },
+    { name: "Ryanair", imgSrc: "/lovable-uploads/3ff3dd0c-2a3a-4309-9bdb-75f4ca774cd8.png" },
+    { name: "HiSky", imgSrc: "/lovable-uploads/efee1862-31c9-4c95-9cdc-ba830c7a7753.png" },
+    { name: "Lufthansa", imgSrc: "/lovable-uploads/ef9590ec-4acf-45bd-9e4f-26cd3a22c318.png" },
+    { name: "Austrian Airlines", imgSrc: "/lovable-uploads/bd2c2e1e-9cb7-4a31-bb7a-476b91c8f6ce.png" },
+    { name: "Turkish Airlines", imgSrc: "/lovable-uploads/08bca47d-16aa-4482-9a00-3e31d4ca38de.png" },
+    { name: "Qatar Airways", imgSrc: "/lovable-uploads/aafcf716-358e-4c11-90f3-3d6de72ed1bc.png" },
   ];
 
   return (
@@ -74,7 +74,7 @@ const Footer = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.1 }}
               >
-                <div className="h-10 w-24 relative flex items-center justify-center">
+                <div className="h-12 w-28 relative flex items-center justify-center">
                   <img 
                     src={airline.imgSrc} 
                     alt={`${airline.name} logo`} 
