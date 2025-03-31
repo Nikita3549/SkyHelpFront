@@ -49,7 +49,7 @@ const ConnectingFlightsSection: React.FC<ConnectingFlightsSectionProps> = ({
                   value="no"
                   id="connectingFlights-no"
                 />
-                <span className="text-base">No, I didn't</span>
+                <span className="text-sm">No, I didn't</span>
               </label>
               
               <label 
@@ -60,7 +60,7 @@ const ConnectingFlightsSection: React.FC<ConnectingFlightsSectionProps> = ({
                   value="yes"
                   id="connectingFlights-yes"
                 />
-                <span className="text-base">Yes, I had to change flights</span>
+                <span className="text-sm">Yes, I had to change flights</span>
               </label>
             </RadioGroup>
           </FormItem>

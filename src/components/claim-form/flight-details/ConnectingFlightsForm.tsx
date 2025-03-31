@@ -62,12 +62,12 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
   }
 
   return (
-    <div className="space-y-6 bg-slate-50 p-6 rounded-lg mt-6">
-      <h3 className="text-lg font-medium text-gray-900">Where did you have to change flight(s)?</h3>
+    <div className="space-y-6 border border-input rounded-md p-4 mt-6">
+      <h3 className="text-lg font-medium">Where did you have to change flight(s)?</h3>
       
       {connectionFlights.map((airport, index) => (
         <div key={index} className="space-y-2">
-          <FormLabel className="text-base font-medium">
+          <FormLabel className="text-sm font-medium">
             {index + 1}. City or airport name
           </FormLabel>
           <div className="relative">
@@ -94,7 +94,7 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
       <Button
         type="button"
         variant="outline"
-        className="mt-4 text-primary hover:text-primary hover:bg-blue-50"
+        className="mt-4 text-primary"
         onClick={handleAddConnectionFlight}
       >
         <Plus className="h-4 w-4 mr-2" />
