@@ -26,7 +26,7 @@ const QuickEligibilityCheck = () => {
   return (
     <section className="bg-blue-50 py-14">
       <div className="container-custom">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
               Check Your Compensation Eligibility
