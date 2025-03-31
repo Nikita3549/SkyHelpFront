@@ -39,44 +39,29 @@ const ConnectingFlightsSection: React.FC<ConnectingFlightsSectionProps> = ({
               }}
               defaultValue={field.value}
               className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              value={field.value}
             >
-              <div className="border rounded-md p-4 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50">
+              <label 
+                htmlFor="connectingFlights-no"
+                className="border rounded-md p-4 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50 flex items-center space-x-2"
+              >
                 <RadioGroupItem
                   value="no"
                   id="connectingFlights-no"
-                  className="sr-only"
                 />
-                <label
-                  htmlFor="connectingFlights-no"
-                  className="flex items-center cursor-pointer space-x-2"
-                >
-                  <div className="w-4 h-4 border border-gray-300 rounded-full flex items-center justify-center">
-                    {field.value === "no" && (
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                    )}
-                  </div>
-                  <span className="text-base">No, I didn't</span>
-                </label>
-              </div>
+                <span className="text-base">No, I didn't</span>
+              </label>
               
-              <div className="border rounded-md p-4 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50">
+              <label 
+                htmlFor="connectingFlights-yes"
+                className="border rounded-md p-4 cursor-pointer transition-colors hover:border-primary hover:bg-slate-50 flex items-center space-x-2"
+              >
                 <RadioGroupItem
                   value="yes"
                   id="connectingFlights-yes"
-                  className="sr-only"
                 />
-                <label
-                  htmlFor="connectingFlights-yes"
-                  className="flex items-center cursor-pointer space-x-2"
-                >
-                  <div className="w-4 h-4 border border-gray-300 rounded-full flex items-center justify-center">
-                    {field.value === "yes" && (
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                    )}
-                  </div>
-                  <span className="text-base">Yes, I had to change flights</span>
-                </label>
-              </div>
+                <span className="text-base">Yes, I had to change flights</span>
+              </label>
             </RadioGroup>
           </FormItem>
         )}
