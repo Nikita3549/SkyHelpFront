@@ -16,7 +16,6 @@ import FlightInputFields from "./flight-details/FlightInputFields";
 import DisruptionTypeRadioGroup from "./flight-details/DisruptionTypeRadioGroup";
 import EligibilityResult from "./flight-details/EligibilityResult";
 import ProblemFlightSelector from "./flight-details/ProblemFlightSelector";
-import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection";
 
 // Re-export airlines for other components that might need it
 export { airlines } from "./flight-details/AirlineSelect";
@@ -69,13 +68,6 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
           
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
-
-          {/* Connecting flights section - moved to FlightRouteStep */}
-          <ConnectingFlightsSection
-            form={form}
-            connectionFlights={connectionFlights}
-            setConnectionFlights={setConnectionFlights}
-          />
 
           <div className="pt-4 flex justify-between items-center">
             {onBack && (
