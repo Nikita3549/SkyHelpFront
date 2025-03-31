@@ -24,26 +24,33 @@ const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({ form }) =
               defaultValue={field.value}
               className="grid grid-cols-1 md:grid-cols-3 gap-4"
             >
-              <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-                  <label htmlFor="bank_transfer" className="cursor-pointer font-medium">Bank Transfer</label>
+              {/* Use label wrappers around the entire div to make the whole card clickable */}
+              <label htmlFor="bank_transfer" className="cursor-pointer w-full">
+                <div className={`flex items-center justify-between rounded-lg border p-4 hover:bg-gray-50 transition-colors ${field.value === 'bank_transfer' ? 'bg-gray-50 border-primary' : ''}`}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="bank_transfer" id="bank_transfer" />
+                    <span className="font-medium">Bank Transfer</span>
+                  </div>
                 </div>
-              </div>
+              </label>
 
-              <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="paypal" id="paypal" />
-                  <label htmlFor="paypal" className="cursor-pointer font-medium">PayPal</label>
+              <label htmlFor="paypal" className="cursor-pointer w-full">
+                <div className={`flex items-center justify-between rounded-lg border p-4 hover:bg-gray-50 transition-colors ${field.value === 'paypal' ? 'bg-gray-50 border-primary' : ''}`}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="paypal" id="paypal" />
+                    <span className="font-medium">PayPal</span>
+                  </div>
                 </div>
-              </div>
+              </label>
 
-              <div className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="wise" id="wise" />
-                  <label htmlFor="wise" className="cursor-pointer font-medium">Wise / TransferWise</label>
+              <label htmlFor="wise" className="cursor-pointer w-full">
+                <div className={`flex items-center justify-between rounded-lg border p-4 hover:bg-gray-50 transition-colors ${field.value === 'wise' ? 'bg-gray-50 border-primary' : ''}`}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="wise" id="wise" />
+                    <span className="font-medium">Wise / TransferWise</span>
+                  </div>
                 </div>
-              </div>
+              </label>
             </RadioGroup>
           </FormControl>
           <FormMessage />

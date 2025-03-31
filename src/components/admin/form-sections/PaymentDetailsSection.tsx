@@ -35,25 +35,33 @@ const PaymentDetailsSection = ({
     <div className="space-y-4 pt-2">
       <h3 className="text-lg font-medium">Payment Details</h3>
       
-      <div className="space-y-2">
-        <Label>Payment Method</Label>
+      <div className="space-y-4">
+        <Label className="block mb-2">Payment Method</Label>
         <RadioGroup
           value={paymentMethod}
           onValueChange={(value) => handleChange("paymentMethod", value)}
-          className="flex flex-col space-y-2"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4"
         >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="bank_transfer" id="payment-bank" />
-            <Label htmlFor="payment-bank" className="cursor-pointer">Bank Transfer</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="paypal" id="payment-paypal" />
-            <Label htmlFor="payment-paypal" className="cursor-pointer">PayPal</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="wise" id="payment-wise" />
-            <Label htmlFor="payment-wise" className="cursor-pointer">Wise / TransferWise</Label>
-          </div>
+          <label htmlFor="payment-bank" className="cursor-pointer w-full">
+            <div className={`flex items-center rounded-lg border p-4 hover:bg-gray-50 transition-colors ${paymentMethod === 'bank_transfer' ? 'bg-gray-50 border-primary' : ''}`}>
+              <RadioGroupItem value="bank_transfer" id="payment-bank" className="mr-2" />
+              <span>Bank Transfer</span>
+            </div>
+          </label>
+          
+          <label htmlFor="payment-paypal" className="cursor-pointer w-full">
+            <div className={`flex items-center rounded-lg border p-4 hover:bg-gray-50 transition-colors ${paymentMethod === 'paypal' ? 'bg-gray-50 border-primary' : ''}`}>
+              <RadioGroupItem value="paypal" id="payment-paypal" className="mr-2" />
+              <span>PayPal</span>
+            </div>
+          </label>
+          
+          <label htmlFor="payment-wise" className="cursor-pointer w-full">
+            <div className={`flex items-center rounded-lg border p-4 hover:bg-gray-50 transition-colors ${paymentMethod === 'wise' ? 'bg-gray-50 border-primary' : ''}`}>
+              <RadioGroupItem value="wise" id="payment-wise" className="mr-2" />
+              <span>Wise / TransferWise</span>
+            </div>
+          </label>
         </RadioGroup>
         {errors.paymentMethod && <p className="text-sm text-red-500">{errors.paymentMethod}</p>}
       </div>
