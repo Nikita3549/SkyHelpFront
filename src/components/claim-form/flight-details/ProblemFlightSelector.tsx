@@ -27,7 +27,7 @@ const ProblemFlightSelector: React.FC<ProblemFlightSelectorProps> = ({
   // Filter out empty entries
   const validConnectionAirports = connectionFlights.filter(airport => airport.trim() !== "");
   
-  if (validConnectionAirports.length === l0) {
+  if (validConnectionAirports.length === 0) {
     return null;
   }
 
