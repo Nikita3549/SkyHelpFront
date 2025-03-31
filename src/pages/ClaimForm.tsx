@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useEffect } from "react";
 import { AnimationTransitions } from "@/components/claim-form/types";
@@ -13,11 +14,13 @@ import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
 import PreFilledValuesSyncer from "@/components/claim-form/PreFilledValuesSyncer";
 import Timeline from "@/components/claim-form/Timeline";
 import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
+import BoardingPassUpload from "@/components/claim-form/BoardingPassUpload";
 
 // Custom hooks
 import { useClaimFormState } from "@/hooks/useClaimFormState";
 import { useClaimFormHandlers } from "@/hooks/useClaimFormHandlers";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const ClaimForm = () => {
   const navigate = useNavigate();
@@ -64,8 +67,55 @@ const ClaimForm = () => {
   // Get the disruption type from flight details form
   const disruptionType = flightDetailsForm.watch("disruptionType");
 
+  // Check if we need to show the boarding pass upload component
+  const showBoardingPassUpload = location.state?.checkType === 'boardingPass';
+
+  // Handle boarding pass upload
+  const handleBoardingPassSubmit = (file: File) => {
+    // Here we would normally process the boarding pass file
+    // For now, we'll just show a toast and move to the flight details step
+    toast.success("Boarding pass uploaded successfully", {
+      description: "We'll extract the flight details automatically."
+    });
+    
+    // Set some dummy data that would normally be extracted from the boarding pass
+    flightDetailsForm.setValue("airline", "Extracted Airline");
+    flightDetailsForm.setValue("flightNumber", "EX123");
+    flightDetailsForm.setValue("departureDate", "2023-08-15");
+    flightDetailsForm.setValue("departureAirport", "LHR");
+    flightDetailsForm.setValue("arrivalAirport", "JFK");
+    
+    // Move to flight details step
+    setStep(2);
+  };
+
   // Mapping step numbers to timeline status
   const getTimelineItems = () => {
+    if (showBoardingPassUpload) {
+      return [
+        {
+          label: "Boarding Pass",
+          status: step > 0 ? "completed" as const : "active" as const
+        },
+        {
+          label: "Flight Details",
+          status: step > 2 ? "completed" as const : step === 2 ? "active" as const : "pending" as const
+        },
+        {
+          label: "Passenger Details",
+          status: step > 3 ? "completed" as const : step === 3 ? "active" as const : "pending" as const
+        },
+        {
+          label: "Disruption Details",
+          status: step > 4 ? "completed" as const : step === 4 ? "active" as const : "pending" as const
+        },
+        {
+          label: "Payment",
+          status: step === 5 ? "active" as const : "pending" as const
+        }
+      ];
+    }
+    
     return [
       {
         label: "Flight Route",
@@ -100,6 +150,15 @@ const ClaimForm = () => {
 
   // Render the current step
   const renderStep = () => {
+    if (showBoardingPassUpload && step < 2) {
+      return (
+        <BoardingPassUpload 
+          onContinue={handleBoardingPassSubmit}
+          transitions={transitions}
+        />
+      );
+    }
+    
     switch (step) {
       case 1:
         return (
@@ -170,7 +229,7 @@ const ClaimForm = () => {
           
           {/* Main form content */}
           <div className="md:col-span-3">
-            <ProgressBar step={step} totalSteps={5} />
+            <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={5} />
             <PreFilledValuesSyncer
               form={flightDetailsForm}
               flightRouteForm={flightRouteForm}

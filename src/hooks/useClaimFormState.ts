@@ -12,7 +12,12 @@ import {
 } from "@/components/claim-form/schemas";
 
 export const useClaimFormState = () => {
-  const [step, setStep] = useState(1);
+  // If we came from the boarding pass option, start at step 0 (boarding pass upload)
+  // Otherwise start at step 1 (flight route)
+  const location = useLocation();
+  const initialStep = location.state?.checkType === 'boardingPass' ? 0 : 1;
+  
+  const [step, setStep] = useState(initialStep);
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [connectionFlights, setConnectionFlights] = useState<string[]>([""]);
@@ -23,8 +28,6 @@ export const useClaimFormState = () => {
     disruptionDetails: {},
     paymentDetails: {},
   });
-
-  const location = useLocation();
 
   // Get pre-filled values from location state
   const preFilledDepartureAirport = location.state?.departureAirport || "";
