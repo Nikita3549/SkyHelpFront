@@ -76,29 +76,30 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                   </div>
                   
                   {disruptionType === "delay" && (
-                    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-                      <DropdownMenuTrigger asChild>
-                        <Button 
-                          variant="outline" 
-                          className="flex items-center space-x-2 h-9 px-3 text-sm font-normal"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span>{delayDuration || "Select duration"}</span>
-                          <Clock className="h-4 w-4 text-gray-500" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-32">
-                        {["1 hour", "2 hours", "3 hours", "4+ hours"].map((duration) => (
-                          <DropdownMenuItem 
-                            key={duration} 
-                            onClick={() => handleDelayDurationSelect(duration)}
-                            className="cursor-pointer"
+                    <div onClick={(e) => e.stopPropagation()} className="z-10">
+                      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+                        <DropdownMenuTrigger asChild>
+                          <Button 
+                            variant="outline" 
+                            className="flex items-center space-x-2 h-9 px-3 text-sm font-normal cursor-pointer"
                           >
-                            {duration}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                            <span>{delayDuration || "Select duration"}</span>
+                            <Clock className="h-4 w-4 text-gray-500" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32 bg-white">
+                          {["1 hour", "2 hours", "3 hours", "4+ hours"].map((duration) => (
+                            <DropdownMenuItem 
+                              key={duration} 
+                              onClick={() => handleDelayDurationSelect(duration)}
+                              className="cursor-pointer"
+                            >
+                              {duration}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   )}
                 </div>
                 {/* Invisible overlay to cover the entire area for better clicking */}
