@@ -37,7 +37,7 @@ const QuickEligibilityCheck = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              Check Your Compensation Eligibility
+              Check Your Compensation
             </h2>
             <p className="text-gray-600">
               Enter your flight details below to quickly check if you're eligible for compensation

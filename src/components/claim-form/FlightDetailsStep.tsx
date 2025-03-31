@@ -54,7 +54,7 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-2">Flight Details</h2>
         <p className="text-gray-600">
-          Enter your flight information to check eligibility for compensation.
+          Enter your flight information to check compensation.
         </p>
       </div>
 
@@ -91,11 +91,11 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
                 {isChecking ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Checking Eligibility
+                    Checking Compensation
                   </>
                 ) : (
                   <>
-                    Check Eligibility
+                    Check Compensation
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
