@@ -6,11 +6,12 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 // Schema and types imports
 import { flightRouteSchema } from "@/components/claim-form/schemas";
 import { AnimationTransitions } from "@/components/claim-form/types";
-import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection";
+import ConnectingFlightsForm from "./flight-details/ConnectingFlightsForm";
 import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
@@ -55,13 +56,13 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
               name="departureAirport"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Departure Airport</FormLabel>
+                  <FormLabel className="text-base font-medium">Departure Airport</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                        <Plane className="h-4 w-4" />
+                        <Plane className="h-5 w-5" />
                       </span>
-                      <Input placeholder="e.g. JFK" {...field} className="pl-10" />
+                      <Input placeholder="e.g. LHR" {...field} className="pl-10 h-14 text-base" />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -74,13 +75,13 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
               name="arrivalAirport"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Arrival Airport</FormLabel>
+                  <FormLabel className="text-base font-medium">Arrival Airport</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                        <Plane className="h-4 w-4 transform rotate-90" />
+                        <Plane className="h-5 w-5 transform rotate-90" />
                       </span>
-                      <Input placeholder="e.g. LAX" {...field} className="pl-10" />
+                      <Input placeholder="e.g. CDG" {...field} className="pl-10 h-14 text-base" />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -89,17 +90,63 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             />
           </div>
 
-          {/* Connecting flights section - added to step 1 */}
-          <ConnectingFlightsSection 
+          {/* Connecting flights question */}
+          <div className="mt-8">
+            <h3 className="text-xl font-medium mb-4">Did you have any connecting flights?</h3>
+            
+            <FormField
+              control={flightDetailsForm.control}
+              name="connectingFlights"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    >
+                      <label
+                        htmlFor="connecting-no"
+                        className={`flex items-center space-x-2 border rounded-lg p-4 cursor-pointer transition-colors hover:border-primary ${field.value === 'no' ? 'border-primary bg-blue-50' : 'border-gray-200'}`}
+                      >
+                        <RadioGroupItem 
+                          value="no" 
+                          id="connecting-no"
+                          className="h-5 w-5"
+                        />
+                        <span className="text-base">No, I didn't</span>
+                      </label>
+                      
+                      <label
+                        htmlFor="connecting-yes"
+                        className={`flex items-center space-x-2 border rounded-lg p-4 cursor-pointer transition-colors hover:border-primary ${field.value === 'yes' ? 'border-primary bg-blue-50' : 'border-gray-200'}`}
+                      >
+                        <RadioGroupItem 
+                          value="yes" 
+                          id="connecting-yes"
+                          className="h-5 w-5"
+                        />
+                        <span className="text-base">Yes, I had to change flights</span>
+                      </label>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Connecting flights form section */}
+          <ConnectingFlightsForm 
             form={flightDetailsForm} 
             connectionFlights={connectionFlights}
             setConnectionFlights={setConnectionFlights}
           />
 
-          <div className="pt-4 flex justify-end">
-            <Button type="submit" className="w-full sm:w-auto">
+          <div className="pt-6 flex justify-end">
+            <Button type="submit" className="w-full sm:w-auto h-12 px-6 text-base">
               Continue
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </form>
