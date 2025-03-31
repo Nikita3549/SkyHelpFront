@@ -1,5 +1,6 @@
 
 import React from "react";
+import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
@@ -61,20 +62,20 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
   }
 
   return (
-    <div className="space-y-6 bg-slate-50 p-6 rounded-lg">
-      <h3 className="text-xl font-medium text-slate-900">Where did you have to change flight(s)?</h3>
+    <div className="space-y-6 bg-slate-50 p-6 rounded-lg mt-6">
+      <h3 className="text-lg font-medium text-gray-900">Where did you have to change flight(s)?</h3>
       
       {connectionFlights.map((airport, index) => (
         <div key={index} className="space-y-2">
-          <label className="text-base font-medium">
+          <FormLabel className="text-base font-medium">
             {index + 1}. City or airport name
-          </label>
+          </FormLabel>
           <div className="relative">
             <Input
               placeholder="e.g. London or LHR"
               value={airport}
               onChange={(e) => handleConnectionAirportChange(index, e.target.value)}
-              className="w-full pr-10 h-14 text-base"
+              className="w-full pr-10"
             />
             <Button
               type="button"
@@ -84,7 +85,7 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
               className="absolute right-2 top-1/2 transform -translate-y-1/2"
               aria-label="Remove connecting flight"
             >
-              <X className="h-5 w-5 text-gray-500 hover:text-gray-900" />
+              <X className="h-4 w-4 text-gray-500 hover:text-gray-900" />
             </Button>
           </div>
         </div>
@@ -93,10 +94,10 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
       <Button
         type="button"
         variant="outline"
-        className="mt-4 text-primary hover:text-primary hover:bg-blue-50 h-12 text-base"
+        className="mt-4 text-primary hover:text-primary hover:bg-blue-50"
         onClick={handleAddConnectionFlight}
       >
-        <Plus className="h-5 w-5 mr-2" />
+        <Plus className="h-4 w-4 mr-2" />
         Add another connecting flight
       </Button>
     </div>
