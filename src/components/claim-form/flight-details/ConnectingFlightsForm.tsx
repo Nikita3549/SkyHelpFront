@@ -3,7 +3,7 @@ import React from "react";
 import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
@@ -35,6 +35,22 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
       newConnectionFlights.filter(airport => airport.trim() !== ""));
   };
 
+  const handleRemoveConnectionFlight = (index: number) => {
+    const newConnectionFlights = [...connectionFlights];
+    newConnectionFlights.splice(index, 1);
+    
+    // Ensure there's always at least one empty field if all are removed
+    if (newConnectionFlights.length === 0) {
+      newConnectionFlights.push("");
+    }
+    
+    setConnectionFlights(newConnectionFlights);
+    
+    // Update the form value
+    form.setValue("connectionAirports", 
+      newConnectionFlights.filter(airport => airport.trim() !== ""));
+  };
+
   if (connectingFlightsValue !== "yes") {
     return null;
   }
@@ -48,12 +64,24 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
           <FormLabel className="text-base font-medium">
             {index + 1}. City or airport name
           </FormLabel>
-          <Input
-            placeholder="e.g. London or LHR"
-            value={airport}
-            onChange={(e) => handleConnectionAirportChange(index, e.target.value)}
-            className="w-full"
-          />
+          <div className="relative">
+            <Input
+              placeholder="e.g. London or LHR"
+              value={airport}
+              onChange={(e) => handleConnectionAirportChange(index, e.target.value)}
+              className="w-full pr-10"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => handleRemoveConnectionFlight(index)}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2"
+              aria-label="Remove connecting flight"
+            >
+              <X className="h-4 w-4 text-gray-500 hover:text-gray-900" />
+            </Button>
+          </div>
         </div>
       ))}
       
