@@ -2,20 +2,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check, Calendar as CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
+import { Check, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const HeroForm = () => {
-  const [flightNumber, setFlightNumber] = useState("");
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [datePickerOpen, setDatePickerOpen] = useState(false);
-
-  // Format the date as required by the flight details form
-  const formattedDate = date ? format(date, "yyyy-MM-dd") : "";
+  const [departureAirport, setDepartureAirport] = useState("");
+  const [arrivalAirport, setArrivalAirport] = useState("");
 
   return (
     <motion.div
@@ -29,51 +23,39 @@ const HeroForm = () => {
           <h3 className="text-xl font-medium text-gray-800">Check your eligibility</h3>
           <div className="grid gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Flight Number</label>
-              <input 
-                type="text" 
-                placeholder="e.g., BA1234" 
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
-                value={flightNumber}
-                onChange={(e) => setFlightNumber(e.target.value)}
-              />
+              <Label className="block text-sm font-medium text-gray-700 mb-1">Departure Airport</Label>
+              <div className="relative">
+                <Input 
+                  type="text" 
+                  placeholder="e.g., LHR, Heathrow" 
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  value={departureAirport}
+                  onChange={(e) => setDepartureAirport(e.target.value)}
+                />
+                <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              </div>
             </div>
+            
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Flight Date</label>
-              <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Select a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={(newDate) => {
-                      setDate(newDate);
-                      if (newDate) setDatePickerOpen(false);
-                    }}
-                    initialFocus
-                    className="touch-manipulation"
-                  />
-                </PopoverContent>
-              </Popover>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">Arrival Airport</Label>
+              <div className="relative">
+                <Input 
+                  type="text" 
+                  placeholder="e.g., JFK, New York" 
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  value={arrivalAirport}
+                  onChange={(e) => setArrivalAirport(e.target.value)}
+                />
+                <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 rotate-90 text-gray-400" />
+              </div>
             </div>
           </div>
           
           <Link 
             to="/claim" 
             state={{ 
-              flightNumber, 
-              departureDate: formattedDate
+              departureAirport, 
+              arrivalAirport
             }}
             className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-center"
           >

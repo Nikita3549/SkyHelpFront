@@ -45,28 +45,34 @@ const QuickEligibilityCheck = () => {
                 <Label htmlFor="departureAirport" className="flex items-center gap-2">
                   <Plane className="h-4 w-4 text-primary" /> Departure Airport
                 </Label>
-                <Input
-                  id="departureAirport"
-                  placeholder="e.g. LHR, Heathrow"
-                  value={departureAirport}
-                  onChange={(e) => setDepartureAirport(e.target.value)}
-                  required
-                  className="w-full"
-                />
+                <div className="relative">
+                  <Input
+                    id="departureAirport"
+                    placeholder="e.g. LHR, Heathrow"
+                    value={departureAirport}
+                    onChange={(e) => setDepartureAirport(e.target.value)}
+                    required
+                    className="w-full pl-10"
+                  />
+                  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                </div>
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="arrivalAirport" className="flex items-center gap-2">
                   <Plane className="h-4 w-4 rotate-90 text-primary" /> Arrival Airport
                 </Label>
-                <Input
-                  id="arrivalAirport"
-                  placeholder="e.g. CDG, Charles de Gaulle"
-                  value={arrivalAirport}
-                  onChange={(e) => setArrivalAirport(e.target.value)}
-                  required
-                  className="w-full"
-                />
+                <div className="relative">
+                  <Input
+                    id="arrivalAirport"
+                    placeholder="e.g. CDG, Charles de Gaulle"
+                    value={arrivalAirport}
+                    onChange={(e) => setArrivalAirport(e.target.value)}
+                    required
+                    className="w-full pl-10"
+                  />
+                  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 rotate-90 text-gray-400" />
+                </div>
               </div>
             </div>
             
