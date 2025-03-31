@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Award, BanknoteIcon, Brain, PiggyBank } from "lucide-react";
+import { Award, BanknoteIcon, Clock, PiggyBank } from "lucide-react";
 
 const Stats = () => {
   const [hoveredStat, setHoveredStat] = useState<number | null>(null);
@@ -21,10 +21,10 @@ const Stats = () => {
       icon: Award,
     },
     {
-      value: "AI",
-      label: "The power of AI",
-      description: "Leveraging artificial intelligence to maximize your claim's success",
-      icon: Brain,
+      value: "3 min",
+      label: "Average time to check eligibility",
+      description: "Quick and easy claim verification process",
+      icon: Clock,
     },
     {
       value: "€2.8M",
