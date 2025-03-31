@@ -1,7 +1,6 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Globe, Flag, GlobeLock } from "lucide-react";
 import EuFlag from "@/components/ui-custom/EuFlag";
 
 const PassengerRightsSection = () => {
@@ -17,7 +16,7 @@ const PassengerRightsSection = () => {
         >
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
-              WE PROTECT YOUR AIR PASSENGER RIGHTS
+              AIRHELP PROTECTS AIR PASSENGER RIGHTS
             </h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               We assist passengers with claims under various international regulations when your flight is delayed, canceled, or you've been denied boarding.
@@ -27,7 +26,11 @@ const PassengerRightsSection = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col items-center text-center">
               <div className="w-12 h-12 flex items-center justify-center mb-4">
-                <EuFlag size={40} className="w-10" />
+                <img 
+                  src="/public/lovable-uploads/1af88ce2-ca6e-4f1f-85a7-cf2f047b3ade.png" 
+                  alt="EU Flag" 
+                  className="object-contain w-10" 
+                />
               </div>
               <h3 className="font-semibold text-primary text-lg mb-2">EU REGULATION EC 261</h3>
               <p className="text-gray-600 text-sm">
@@ -37,7 +40,11 @@ const PassengerRightsSection = () => {
 
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col items-center text-center">
               <div className="w-12 h-12 flex items-center justify-center mb-4">
-                <Flag className="h-10 w-10 text-yellow-500" />
+                <img 
+                  src="/public/lovable-uploads/1af88ce2-ca6e-4f1f-85a7-cf2f047b3ade.png" 
+                  alt="Brazilian Flag" 
+                  className="object-contain w-10" 
+                />
               </div>
               <h3 className="font-semibold text-primary text-lg mb-2">BRAZILIAN REGULATIONS</h3>
               <p className="text-gray-600 text-sm">
@@ -47,7 +54,11 @@ const PassengerRightsSection = () => {
 
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col items-center text-center">
               <div className="w-12 h-12 flex items-center justify-center mb-4">
-                <Globe className="h-10 w-10 text-blue-500" />
+                <img 
+                  src="/public/lovable-uploads/1af88ce2-ca6e-4f1f-85a7-cf2f047b3ade.png" 
+                  alt="Globe Icon" 
+                  className="object-contain w-10" 
+                />
               </div>
               <h3 className="font-semibold text-primary text-lg mb-2">MONTREAL CONVENTION</h3>
               <p className="text-gray-600 text-sm">
@@ -57,7 +68,11 @@ const PassengerRightsSection = () => {
 
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col items-center text-center">
               <div className="w-12 h-12 flex items-center justify-center mb-4">
-                <GlobeLock className="h-10 w-10 text-red-500" />
+                <img 
+                  src="/public/lovable-uploads/1af88ce2-ca6e-4f1f-85a7-cf2f047b3ade.png" 
+                  alt="Turkish Flag" 
+                  className="object-contain w-10" 
+                />
               </div>
               <h3 className="font-semibold text-primary text-lg mb-2">TURKISH REGULATIONS</h3>
               <p className="text-gray-600 text-sm">
