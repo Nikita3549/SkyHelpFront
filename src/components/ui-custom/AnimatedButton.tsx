@@ -37,16 +37,6 @@ const AnimatedButton = ({
     lg: "text-base px-6 py-3",
   };
 
-  const handleClick = (e: React.MouseEvent) => {
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Call the original onClick if provided
-    if (onClick) {
-      onClick();
-    }
-  };
-
   return (
     <Link
       to={to}
@@ -57,7 +47,7 @@ const AnimatedButton = ({
         "group",
         className
       )}
-      onClick={handleClick}
+      onClick={onClick}
     >
       <span>{children}</span>
       {icon && (

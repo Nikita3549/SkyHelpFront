@@ -24,11 +24,6 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
     onBack();
   };
 
-  const handleSubmit = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Form submission is handled by the parent component
-  };
-
   return (
     <div className={`pt-4 flex ${isMobile ? 'flex-col gap-3' : 'justify-between items-center'}`}>
       {showBackButton ? (
@@ -49,7 +44,6 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
         type="submit" 
         disabled={isSubmitting}
         className={isMobile ? 'w-full' : ''}
-        onClick={handleSubmit}
       >
         {continueText}
         <ArrowRight className="ml-2 h-4 w-4" />
