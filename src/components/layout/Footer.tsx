@@ -88,6 +88,31 @@ const Footer = () => {
         </div>
       </div>
 
+      {/* APRA Information Section */}
+      <div className="container-custom py-8 border-b border-gray-100">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col md:flex-row items-center justify-center bg-white rounded-xl p-6 shadow-sm"
+        >
+          <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+            <img 
+              src="/lovable-uploads/f31ea213-ae65-4bb3-a8aa-9725f81f1ac3.png" 
+              alt="APRA Logo" 
+              className="h-16 w-auto"
+            />
+          </div>
+          <div className="text-center md:text-left">
+            <p className="text-gray-700">
+              CleverClaim is a part of the Association of Passenger Rights Advocates (APRA) 
+              whose mission is to promote and protect passengers' rights.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
       <div className="container-custom">
         <div className="py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
