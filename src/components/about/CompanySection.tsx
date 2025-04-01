@@ -31,9 +31,9 @@ const CompanySection = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Company</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Values</h2>
           <p className="text-base text-gray-700 max-w-3xl mx-auto">
-            Founded in 2018, CleverClaim has grown from a small startup to a leading advocate for passenger rights. Our team of legal experts and tech professionals work together to make claiming compensation as simple as possible.
+            We're committed to transparency, expertise, and using technology to ensure passengers receive the compensation they deserve.
           </p>
         </motion.div>
 
