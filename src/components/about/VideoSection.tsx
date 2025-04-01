@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Logo from "../ui-custom/Logo";
 
 const VideoSection = () => {
-  const [isVideoExpanded, setIsVideoExpanded] = useState(false);
+  const [isVideoExpanded, setIsVideoExpanded] = useState(true); // Changed to true by default
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   
@@ -13,21 +13,18 @@ const VideoSection = () => {
   const fileId = "1Bj8Q7KnmBw65yAL3XFDeKej93np1lTsF";
   const videoUrl = `https://drive.google.com/file/d/${fileId}/preview`;
   
-  const handlePlayClick = () => {
+  // Auto-play the video when component mounts
+  useEffect(() => {
+    // Component is mounted, auto-play the video
     setIsVideoExpanded(true);
-    setIsMuted(false);
     
-    // Small delay to ensure DOM updates before playing
-    setTimeout(() => {
-      if (videoRef.current) {
-        videoRef.current.play().catch(err => {
-          console.error("Error playing video:", err);
-          
-          // Fallback to opening the video in a new tab if direct playback fails
-          window.open(videoUrl, '_blank');
-        });
-      }
-    }, 100);
+    // No need for user interaction to start playing since it's muted
+    // Browsers allow autoplay for muted videos
+  }, []);
+  
+  const handlePlayClick = () => {
+    // This now just unmutes the already playing video
+    setIsMuted(false);
   };
   
   // Add poster image for video
@@ -43,12 +40,12 @@ const VideoSection = () => {
           className="rounded-xl overflow-hidden shadow-lg bg-white mb-8"
         >
           <div 
-            className={`relative w-full transition-all duration-500 ease-in-out ${isVideoExpanded ? 'aspect-video' : 'h-[300px]'}`}
+            className={`relative w-full transition-all duration-500 ease-in-out aspect-video`}
           >
             {isVideoExpanded ? (
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
-                src={videoUrl}
+                src={`${videoUrl}?autoplay=1&mute=1`}
                 allow="autoplay"
                 allowFullScreen
               ></iframe>
