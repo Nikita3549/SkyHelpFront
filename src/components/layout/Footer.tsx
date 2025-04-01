@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui-custom/Logo";
 import { motion } from "framer-motion";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   const navigation = {
@@ -159,20 +160,36 @@ const Footer = () => {
               <h3 className="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-4">
                 Contact Us
               </h3>
-              <p className="text-sm text-gray-500 mb-4">
-                Have questions or need help with your claim?
-              </p>
-              <a
-                href="mailto:support@cleverclaim.com"
-                className="text-sm text-primary hover:text-blue-600 transition-colors"
-              >
-                support@cleverclaim.com
-              </a>
-              <p className="text-sm text-gray-500 mt-4">
-                1234 Airport Avenue<br />
-                Suite 567<br />
-                London, UK
-              </p>
+              <div className="space-y-3">
+                <p className="text-sm text-gray-500">
+                  Have questions or need help with your claim?
+                </p>
+                <div className="flex items-center space-x-2">
+                  <Mail className="h-4 w-4 text-primary" />
+                  <a
+                    href="mailto:support@cleverclaim.com"
+                    className="text-sm text-primary hover:text-blue-600 transition-colors"
+                  >
+                    support@cleverclaim.com
+                  </a>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <a
+                    href="tel:+441234567890"
+                    className="text-sm text-gray-500 hover:text-primary transition-colors"
+                  >
+                    +44 1234 567 890
+                  </a>
+                </div>
+                <div className="flex space-x-2">
+                  <MapPin className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-gray-500">
+                    1234 Airport Avenue, Suite 567<br />
+                    London, UK
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
