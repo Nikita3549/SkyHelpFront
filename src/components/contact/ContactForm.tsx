@@ -1,8 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
 import { User, Phone, Mail, MessageSquare } from "lucide-react";
 
 import {
@@ -17,26 +14,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { contactFormSchema, type ContactFormValues } from "./schema";
+import { type ContactFormValues } from "./schema";
+import { useContactForm } from "./hooks/useContactForm";
 
 const ContactForm = () => {
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: "",
-      phone: "",
-      email: "",
-      subject: "",
-      message: "",
-      termsAgreed: false,
-    },
-  });
-
-  const onSubmit = (data: ContactFormValues) => {
-    console.log("Form submitted:", data);
-    toast.success("Your message has been sent! We'll get back to you soon.");
-    form.reset();
-  };
+  const { form, onSubmit } = useContactForm();
 
   return (
     <motion.div
