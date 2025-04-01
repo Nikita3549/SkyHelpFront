@@ -11,7 +11,7 @@ const TeamSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="text-center mb-10"
+          className="mb-10"
         >
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Team</h2>
         </motion.div>
