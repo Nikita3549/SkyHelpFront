@@ -29,7 +29,7 @@ const PassengerRights = () => {
       color: "bg-blue-100",
       borderColor: "border-blue-200",
       iconColor: "text-blue-600",
-      flagClass: "before:content-[''] before:absolute before:inset-0 before:bg-[url('/public/lovable-uploads/844228aa-d90a-40f3-8239-3ec6115ee0f6.png')] before:bg-[length:64px_64px] before:bg-no-repeat before:bg-[0px_0px] before:opacity-20",
+      flagImage: "/lovable-uploads/5b13fe1b-e415-4ceb-8e01-454b5a7b81c8.png",
     },
     {
       title: "Turkish Regulations",
@@ -37,7 +37,7 @@ const PassengerRights = () => {
       color: "bg-red-100",
       borderColor: "border-red-200",
       iconColor: "text-red-600",
-      flagClass: "before:content-[''] before:absolute before:inset-0 before:bg-[url('/public/lovable-uploads/844228aa-d90a-40f3-8239-3ec6115ee0f6.png')] before:bg-no-repeat before:bg-[length:64px_64px] before:bg-[-64px_0px] before:opacity-20",
+      flagImage: "/lovable-uploads/7aca5341-11a6-4da2-bf15-f80c88d80cae.png",
     },
     {
       title: "Brazilian Regulations",
@@ -45,7 +45,7 @@ const PassengerRights = () => {
       color: "bg-green-100",
       borderColor: "border-green-200",
       iconColor: "text-green-600",
-      flagClass: "before:content-[''] before:absolute before:inset-0 before:bg-[url('/public/lovable-uploads/844228aa-d90a-40f3-8239-3ec6115ee0f6.png')] before:bg-no-repeat before:bg-[length:64px_64px] before:bg-[0px_-64px] before:opacity-20",
+      flagImage: "/lovable-uploads/414f54f0-1c7c-4a66-847c-9ef17765d4b7.png",
     },
     {
       title: "Montreal Convention",
@@ -53,7 +53,7 @@ const PassengerRights = () => {
       color: "bg-indigo-100",
       borderColor: "border-indigo-200",
       iconColor: "text-indigo-600",
-      flagClass: "before:content-[''] before:absolute before:inset-0 before:bg-[url('/public/lovable-uploads/844228aa-d90a-40f3-8239-3ec6115ee0f6.png')] before:bg-no-repeat before:bg-[length:64px_64px] before:bg-[-64px_-64px] before:opacity-20",
+      flagImage: "/lovable-uploads/320f827c-287a-42c7-9eab-85dfc5fe8039.png",
     },
   ];
 
@@ -87,8 +87,11 @@ const PassengerRights = () => {
             <motion.div 
               key={index}
               variants={itemVariants}
-              className={`relative rounded-xl p-6 border ${reg.borderColor} ${reg.color} ${reg.flagClass} overflow-hidden`}
+              className={`relative rounded-xl p-6 border ${reg.borderColor} ${reg.color} overflow-hidden`}
             >
+              <div className="absolute top-0 right-0 w-16 h-16 opacity-20">
+                <img src={reg.flagImage} alt={`${reg.title} flag`} className="w-full h-full object-cover" />
+              </div>
               <div className="relative z-10 flex flex-col items-center">
                 <div className={`p-3 rounded-full mb-4 ${reg.color} ${reg.iconColor}`}>
                   <reg.icon size={24} />
