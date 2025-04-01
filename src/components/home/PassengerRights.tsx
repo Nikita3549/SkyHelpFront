@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Globe, Euro, TurkishLira, BrazilianReal, MontrealConvention } from "lucide-react";
+import { Shield, Globe, Euro, CircleDollarSign, Banknote, BookOpen } from "lucide-react";
 
 const PassengerRights = () => {
   // Animation variants
@@ -33,7 +33,7 @@ const PassengerRights = () => {
     },
     {
       title: "Turkish Regulations",
-      icon: TurkishLira,
+      icon: CircleDollarSign,
       color: "bg-red-100",
       borderColor: "border-red-200",
       iconColor: "text-red-600",
@@ -41,7 +41,7 @@ const PassengerRights = () => {
     },
     {
       title: "Brazilian Regulations",
-      icon: BrazilianReal,
+      icon: Banknote,
       color: "bg-green-100",
       borderColor: "border-green-200",
       iconColor: "text-green-600",
@@ -49,7 +49,7 @@ const PassengerRights = () => {
     },
     {
       title: "Montreal Convention",
-      icon: Globe,
+      icon: BookOpen,
       color: "bg-indigo-100",
       borderColor: "border-indigo-200",
       iconColor: "text-indigo-600",
