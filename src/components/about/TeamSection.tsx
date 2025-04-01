@@ -14,11 +14,6 @@ const TeamSection = () => {
           className="text-center mb-10"
         >
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Team</h2>
-          <p className="text-base text-gray-700 max-w-3xl mx-auto">
-            At CleverClaim, our team of legal experts, technology specialists, and customer service professionals 
-            work together to champion your rights as an air passenger. With diverse backgrounds and a shared passion 
-            for justice, we're dedicated to making the compensation process as seamless as possible.
-          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
