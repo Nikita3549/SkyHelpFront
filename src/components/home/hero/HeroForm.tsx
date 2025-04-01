@@ -99,7 +99,7 @@ const HeroForm = () => {
         </div>
       </div>
       
-      {/* Replace floating plane icons with plane icons in yellow circles */}
+      {/* Replace plane icons in yellow circles with blue circles */}
       <motion.div 
         className="absolute -bottom-6 -right-6" 
         animate={{ 
@@ -112,7 +112,7 @@ const HeroForm = () => {
           repeatType: "reverse"
         }}
       >
-        <div className="bg-[#FEF7CD] rounded-full p-2 shadow-md">
+        <div className="bg-[#D3E4FD] rounded-full p-2 shadow-md">
           <Plane size={26} strokeWidth={2} className="text-gray-800" />
         </div>
       </motion.div>
@@ -130,7 +130,7 @@ const HeroForm = () => {
           delay: 1
         }}
       >
-        <div className="bg-[#FEF7CD] rounded-full p-2 shadow-sm">
+        <div className="bg-[#D3E4FD] rounded-full p-2 shadow-sm">
           <Plane size={20} strokeWidth={2} className="text-gray-800 rotate-180" />
         </div>
       </motion.div>

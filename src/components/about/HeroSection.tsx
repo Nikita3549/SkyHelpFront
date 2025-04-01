@@ -34,7 +34,7 @@ const HeroSection = () => {
             </div>
           </div>
           
-          {/* Add decorative plane icons in yellow circles */}
+          {/* Update plane icons in yellow circles to light blue */}
           <motion.div 
             className="absolute -bottom-16 -right-16 hidden md:block" 
             animate={{ 
@@ -47,7 +47,7 @@ const HeroSection = () => {
               repeatType: "reverse"
             }}
           >
-            <div className="bg-[#FEF7CD] rounded-full p-3 shadow-md">
+            <div className="bg-[#D3E4FD] rounded-full p-3 shadow-md">
               <Plane size={34} strokeWidth={2} className="text-gray-800" />
             </div>
           </motion.div>
@@ -65,7 +65,7 @@ const HeroSection = () => {
               delay: 0.5
             }}
           >
-            <div className="bg-[#FEF7CD] rounded-full p-2 shadow-sm">
+            <div className="bg-[#D3E4FD] rounded-full p-2 shadow-sm">
               <Plane size={26} strokeWidth={2} className="text-gray-800 rotate-180" />
             </div>
           </motion.div>

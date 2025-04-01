@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -101,7 +100,6 @@ const QuickEligibilityCheck = () => {
               </Button>
             </div>
             
-            {/* Add plane icon in a yellow circle */}
             <motion.div 
               className="absolute -top-10 -right-10 hidden md:block" 
               animate={{ 
@@ -114,7 +112,7 @@ const QuickEligibilityCheck = () => {
                 repeatType: "reverse"
               }}
             >
-              <div className="bg-[#FEF7CD] rounded-full p-3 shadow-md">
+              <div className="bg-[#D3E4FD] rounded-full p-3 shadow-md">
                 <Plane size={30} strokeWidth={2} className="text-gray-800" />
               </div>
             </motion.div>
@@ -122,7 +120,6 @@ const QuickEligibilityCheck = () => {
         </div>
       </div>
       
-      {/* Add background plane icon in a yellow circle */}
       <motion.div 
         className="absolute bottom-10 left-10 hidden lg:block" 
         animate={{ 
@@ -136,7 +133,7 @@ const QuickEligibilityCheck = () => {
           repeatType: "reverse"
         }}
       >
-        <div className="bg-[#FEF7CD] rounded-full p-4 shadow-lg">
+        <div className="bg-[#D3E4FD] rounded-full p-4 shadow-lg">
           <Plane size={50} strokeWidth={1.5} className="text-gray-800 rotate-180" />
         </div>
       </motion.div>

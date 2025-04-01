@@ -26,7 +26,7 @@ const HeroButtons = () => {
         How It Works
       </Link>
       
-      {/* Add plane icon in a yellow circle */}
+      {/* Update plane icon to light blue circle */}
       <motion.div 
         className="absolute -right-12 top-0 hidden md:block" 
         animate={{ 
@@ -39,7 +39,7 @@ const HeroButtons = () => {
           repeatType: "reverse"
         }}
       >
-        <div className="bg-[#FEF7CD] rounded-full p-2 shadow-sm">
+        <div className="bg-[#D3E4FD] rounded-full p-2 shadow-sm">
           <Plane size={20} strokeWidth={2} className="text-gray-800" />
         </div>
       </motion.div>
