@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui-custom/Logo";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   const navigation = {
@@ -160,51 +159,21 @@ const Footer = () => {
               <h3 className="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-4">
                 Contact Us
               </h3>
-              <div className="space-y-3">
-                <p className="text-sm text-gray-500">
-                  Have questions or need help with your claim?
-                </p>
-                <div className="flex items-center space-x-2">
-                  <Mail className="h-4 w-4 text-primary" />
-                  <a
-                    href="mailto:support@cleverclaim.com"
-                    className="text-sm text-primary hover:text-blue-600 transition-colors"
-                  >
-                    support@cleverclaim.com
-                  </a>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Phone className="h-4 w-4 text-primary" />
-                  <a
-                    href="tel:+441234567890"
-                    className="text-sm text-gray-500 hover:text-primary transition-colors"
-                  >
-                    +44 1234 567 890
-                  </a>
-                </div>
-                <div className="flex space-x-2">
-                  <MapPin className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-gray-500">
-                    1234 Airport Avenue, Suite 567<br />
-                    London, UK
-                  </p>
-                </div>
-              </div>
+              <p className="text-sm text-gray-500 mb-4">
+                Have questions or need help with your claim?
+              </p>
+              <a
+                href="mailto:support@cleverclaim.com"
+                className="text-sm text-primary hover:text-blue-600 transition-colors"
+              >
+                support@cleverclaim.com
+              </a>
+              <p className="text-sm text-gray-500 mt-4">
+                1234 Airport Avenue<br />
+                Suite 567<br />
+                London, UK
+              </p>
             </div>
-          </div>
-        </div>
-        
-        {/* APRA Section */}
-        <div className="py-6 border-t border-gray-100">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
-            <img 
-              src="/lovable-uploads/e2db9d23-6fbd-4f1e-8232-4a9f3d2a25b7.png" 
-              alt="APRA Logo" 
-              className="h-10 w-auto"
-            />
-            <p className="text-gray-600 text-sm max-w-3xl">
-              CleverClaim is a part of the Association of Passenger Rights Advocates (APRA) whose mission is to promote and protect passengers' rights
-            </p>
           </div>
         </div>
         
