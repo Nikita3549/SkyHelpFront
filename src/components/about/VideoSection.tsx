@@ -70,6 +70,17 @@ const VideoSection = () => {
     setUploadProgress(0);
     
     try {
+      // Set up a timer to simulate progress since onUploadProgress isn't available
+      const progressTimer = setInterval(() => {
+        setUploadProgress(prev => {
+          // Only increment if not at 90% yet (we'll set to 100% after success)
+          if (prev < 90) {
+            return prev + 10;
+          }
+          return prev;
+        });
+      }, 500);
+      
       // Upload the file
       const fileName = `company-video-${Date.now()}.${file.name.split('.').pop()}`;
       
@@ -78,15 +89,18 @@ const VideoSection = () => {
         .from('videos')
         .upload(fileName, file, {
           cacheControl: '3600',
-          upsert: true,
-          onUploadProgress: (progress) => {
-            setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
-          }
+          upsert: true
         });
         
+      // Clear the timer now that upload is complete
+      clearInterval(progressTimer);
+      
       if (error) {
         throw error;
       }
+      
+      // Set progress to 100% on success
+      setUploadProgress(100);
       
       // Get the public URL
       const { data: publicUrlData } = supabase
