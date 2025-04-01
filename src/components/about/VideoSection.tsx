@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Logo from "../ui-custom/Logo";
 
 const VideoSection = () => {
-  const [isVideoExpanded, setIsVideoExpanded] = useState(true); // Changed to true by default
+  const [isVideoExpanded, setIsVideoExpanded] = useState(false); // Changed back to false by default
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   
@@ -13,22 +13,13 @@ const VideoSection = () => {
   const fileId = "1Bj8Q7KnmBw65yAL3XFDeKej93np1lTsF";
   const videoUrl = `https://drive.google.com/file/d/${fileId}/preview`;
   
-  // Auto-play the video when component mounts
-  useEffect(() => {
-    // Component is mounted, auto-play the video
-    setIsVideoExpanded(true);
-    
-    // No need for user interaction to start playing since it's muted
-    // Browsers allow autoplay for muted videos
-  }, []);
-  
-  const handlePlayClick = () => {
-    // This now just unmutes the already playing video
-    setIsMuted(false);
-  };
-  
   // Add poster image for video
   const posterImage = "https://via.placeholder.com/1920x1080/e0f2fe/0369a1?text=CleverClaim+Video";
+  
+  const handlePlayClick = () => {
+    setIsVideoExpanded(true);
+    setIsMuted(false);
+  };
   
   return (
     <div className="bg-gray-100 py-8">
@@ -40,20 +31,23 @@ const VideoSection = () => {
           className="rounded-xl overflow-hidden shadow-lg bg-white mb-8"
         >
           <div 
-            className={`relative w-full transition-all duration-500 ease-in-out aspect-video`}
+            className={`relative w-full transition-all duration-500 ease-in-out ${isVideoExpanded ? 'aspect-video' : 'h-[200px]'}`}
           >
             {isVideoExpanded ? (
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
-                src={`${videoUrl}?autoplay=1&mute=1`}
+                src={`${videoUrl}?autoplay=1`}
                 allow="autoplay"
                 allowFullScreen
               ></iframe>
             ) : (
-              <div 
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${posterImage})` }}
-              >
+              <div className="relative w-full h-full">
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src={`${videoUrl}?autoplay=1&mute=1`}
+                  allow="autoplay"
+                  allowFullScreen
+                ></iframe>
                 <div 
                   className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-20 transition-all cursor-pointer"
                   onClick={handlePlayClick}
@@ -63,7 +57,6 @@ const VideoSection = () => {
                       <path d="M8 5.14v14l11-7-11-7z" />
                     </svg>
                   </div>
-                  {/* Removed the "Watch our story" label */}
                 </div>
               </div>
             )}
