@@ -13,7 +13,7 @@ const ContactInfo = () => {
     >
       <div>
         <h1 className="text-4xl font-bold mb-2">
-          <span className="text-green-500">Contact</span> form
+          <span className="text-primary">Contact</span> form
         </h1>
         <h2 className="text-2xl font-medium text-gray-700 mb-6">
           HIT US WITH A MESSAGE

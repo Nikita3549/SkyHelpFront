@@ -32,11 +32,11 @@ const TermsAgreementSection: React.FC<TermsAgreementSectionProps> = ({ form }) =
           <div className="space-y-1 leading-none">
             <FormLabel className="font-normal text-sm">
               I have read and acknowledged{" "}
-              <a href="#" className="text-green-500 hover:underline">
+              <a href="#" className="text-primary hover:underline">
                 Privacy Data Policy
               </a>{" "}
               and the{" "}
-              <a href="#" className="text-green-500 hover:underline">
+              <a href="#" className="text-primary hover:underline">
                 Terms and conditions
               </a>{" "}
               of the website.
