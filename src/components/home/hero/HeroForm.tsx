@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Check, Plane, Ticket, PlaneTakeoff, PlaneLanding } from "lucide-react";
+import { Check, Plane, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -99,9 +99,9 @@ const HeroForm = () => {
         </div>
       </div>
       
-      {/* Replace floating dots with plane icons */}
+      {/* Replace floating plane icons with plane icons in yellow circles */}
       <motion.div 
-        className="absolute -bottom-6 -right-6 text-primary/20" 
+        className="absolute -bottom-6 -right-6" 
         animate={{ 
           y: [0, -10, 0],
           rotate: [0, 5, 0]
@@ -112,11 +112,13 @@ const HeroForm = () => {
           repeatType: "reverse"
         }}
       >
-        <PlaneTakeoff size={32} strokeWidth={2} />
+        <div className="bg-[#FEF7CD] rounded-full p-2 shadow-md">
+          <Plane size={26} strokeWidth={2} className="text-gray-800" />
+        </div>
       </motion.div>
       
       <motion.div 
-        className="absolute -top-4 -left-4 text-primary/20" 
+        className="absolute -top-4 -left-4" 
         animate={{ 
           y: [0, -8, 0],
           rotate: [0, -5, 0]
@@ -128,7 +130,9 @@ const HeroForm = () => {
           delay: 1
         }}
       >
-        <PlaneLanding size={26} strokeWidth={2} />
+        <div className="bg-[#FEF7CD] rounded-full p-2 shadow-sm">
+          <Plane size={20} strokeWidth={2} className="text-gray-800 rotate-180" />
+        </div>
       </motion.div>
     </motion.div>
   );

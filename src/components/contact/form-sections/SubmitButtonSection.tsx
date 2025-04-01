@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { PlaneTakeoff } from "lucide-react";
+import { Plane } from "lucide-react";
 
 const SubmitButtonSection: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ const SubmitButtonSection: React.FC = () => {
       </Button>
       
       <motion.div 
-        className="absolute -right-8 -top-6 text-primary/10 hidden md:block" 
+        className="absolute -right-8 -top-6 hidden md:block" 
         animate={{ 
           y: [0, -5, 0],
           rotate: [0, 5, 0]
@@ -26,7 +26,9 @@ const SubmitButtonSection: React.FC = () => {
           repeatType: "reverse"
         }}
       >
-        <PlaneTakeoff size={24} strokeWidth={2} />
+        <div className="bg-[#FEF7CD] rounded-full p-2 shadow-sm">
+          <Plane size={20} strokeWidth={2} className="text-gray-800" />
+        </div>
       </motion.div>
     </div>
   );

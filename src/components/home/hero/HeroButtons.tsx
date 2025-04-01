@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PlaneTakeoff } from "lucide-react";
+import { Plane } from "lucide-react";
 
 const HeroButtons = () => {
   return (
@@ -26,9 +26,9 @@ const HeroButtons = () => {
         How It Works
       </Link>
       
-      {/* Add small plane icon */}
+      {/* Add plane icon in a yellow circle */}
       <motion.div 
-        className="absolute -right-12 top-0 text-primary/10 hidden md:block" 
+        className="absolute -right-12 top-0 hidden md:block" 
         animate={{ 
           y: [0, -8, 0],
           rotate: [0, 10, 0]
@@ -39,7 +39,9 @@ const HeroButtons = () => {
           repeatType: "reverse"
         }}
       >
-        <PlaneTakeoff size={24} strokeWidth={2} />
+        <div className="bg-[#FEF7CD] rounded-full p-2 shadow-sm">
+          <Plane size={20} strokeWidth={2} className="text-gray-800" />
+        </div>
       </motion.div>
     </motion.div>
   );

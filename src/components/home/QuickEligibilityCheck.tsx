@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plane, ArrowRight, Ticket, PlaneTakeoff, PlaneLanding } from "lucide-react";
+import { Plane, ArrowRight, Ticket } from "lucide-react";
 import { motion } from "framer-motion";
 
 const QuickEligibilityCheck = () => {
@@ -101,9 +101,9 @@ const QuickEligibilityCheck = () => {
               </Button>
             </div>
             
-            {/* Add decorative plane icons */}
+            {/* Add plane icon in a yellow circle */}
             <motion.div 
-              className="absolute -top-10 -right-10 text-primary/10 hidden md:block" 
+              className="absolute -top-10 -right-10 hidden md:block" 
               animate={{ 
                 y: [0, -12, 0],
                 rotate: [0, 15, 0]
@@ -114,15 +114,17 @@ const QuickEligibilityCheck = () => {
                 repeatType: "reverse"
               }}
             >
-              <PlaneTakeoff size={36} strokeWidth={2} />
+              <div className="bg-[#FEF7CD] rounded-full p-3 shadow-md">
+                <Plane size={30} strokeWidth={2} className="text-gray-800" />
+              </div>
             </motion.div>
           </form>
         </div>
       </div>
       
-      {/* Add background plane icons */}
+      {/* Add background plane icon in a yellow circle */}
       <motion.div 
-        className="absolute bottom-10 left-10 text-primary/5 hidden lg:block" 
+        className="absolute bottom-10 left-10 hidden lg:block" 
         animate={{ 
           y: [0, -20, 0],
           x: [0, 20, 0],
@@ -134,7 +136,9 @@ const QuickEligibilityCheck = () => {
           repeatType: "reverse"
         }}
       >
-        <PlaneLanding size={60} strokeWidth={1.5} />
+        <div className="bg-[#FEF7CD] rounded-full p-4 shadow-lg">
+          <Plane size={50} strokeWidth={1.5} className="text-gray-800 rotate-180" />
+        </div>
       </motion.div>
     </section>
   );

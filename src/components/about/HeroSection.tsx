@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { PlaneTakeoff, PlaneLanding } from "lucide-react";
+import { Plane } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -34,9 +34,9 @@ const HeroSection = () => {
             </div>
           </div>
           
-          {/* Add decorative plane icons */}
+          {/* Add decorative plane icons in yellow circles */}
           <motion.div 
-            className="absolute -bottom-16 -right-16 text-primary/10 hidden md:block" 
+            className="absolute -bottom-16 -right-16 hidden md:block" 
             animate={{ 
               y: [0, -15, 0],
               rotate: [0, 10, 0]
@@ -47,11 +47,13 @@ const HeroSection = () => {
               repeatType: "reverse"
             }}
           >
-            <PlaneTakeoff size={40} strokeWidth={2} />
+            <div className="bg-[#FEF7CD] rounded-full p-3 shadow-md">
+              <Plane size={34} strokeWidth={2} className="text-gray-800" />
+            </div>
           </motion.div>
           
           <motion.div 
-            className="absolute -top-10 -left-16 text-primary/10 hidden md:block" 
+            className="absolute -top-10 -left-16 hidden md:block" 
             animate={{ 
               y: [0, -10, 0],
               rotate: [0, -5, 0]
@@ -63,7 +65,9 @@ const HeroSection = () => {
               delay: 0.5
             }}
           >
-            <PlaneLanding size={32} strokeWidth={2} />
+            <div className="bg-[#FEF7CD] rounded-full p-2 shadow-sm">
+              <Plane size={26} strokeWidth={2} className="text-gray-800 rotate-180" />
+            </div>
           </motion.div>
         </motion.div>
       </div>
