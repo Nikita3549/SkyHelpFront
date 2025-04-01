@@ -1,20 +1,18 @@
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Logo from "../ui-custom/Logo";
 
 const VideoSection = () => {
-  const [isVideoExpanded, setIsVideoExpanded] = useState(false); // Changed back to false by default
+  const [isVideoExpanded, setIsVideoExpanded] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   
-  // Using a more direct format for Google Drive video
-  // The format below should work better for direct streaming
+  // Using direct embed code format to ensure proper video loading
   const fileId = "1Bj8Q7KnmBw65yAL3XFDeKej93np1lTsF";
-  const videoUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-  
-  // Add poster image for video
-  const posterImage = "https://via.placeholder.com/1920x1080/e0f2fe/0369a1?text=CleverClaim+Video";
+  // Creating separate URLs for expanded and collapsed states
+  const collapsedVideoUrl = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1&mute=1`;
+  const expandedVideoUrl = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
   
   const handlePlayClick = () => {
     setIsVideoExpanded(true);
@@ -36,17 +34,19 @@ const VideoSection = () => {
             {isVideoExpanded ? (
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
-                src={`${videoUrl}?autoplay=1`}
-                allow="autoplay"
+                src={expandedVideoUrl}
+                allow="autoplay; encrypted-media"
                 allowFullScreen
+                title="Company video"
               ></iframe>
             ) : (
               <div className="relative w-full h-full">
                 <iframe
                   className="absolute top-0 left-0 w-full h-full"
-                  src={`${videoUrl}?autoplay=1&mute=1`}
-                  allow="autoplay"
+                  src={collapsedVideoUrl}
+                  allow="autoplay; encrypted-media"
                   allowFullScreen
+                  title="Company video preview"
                 ></iframe>
                 <div 
                   className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-20 transition-all cursor-pointer"
