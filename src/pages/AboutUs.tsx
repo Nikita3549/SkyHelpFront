@@ -61,15 +61,19 @@ const AboutUs = () => {
                 allowFullScreen
                 onLoad={(e) => {
                   // This adds an event listener to track when the video starts playing
-                  const iframe = e.target;
+                  const iframe = e.target as HTMLIFrameElement;
                   window.addEventListener('message', (event) => {
                     if (event.source === iframe.contentWindow) {
-                      const data = JSON.parse(event.data);
-                      // YouTube API event for state change (1 = playing)
-                      if (data.event === 'infoDelivery' || data.event === 'onStateChange') {
-                        if (data.info && data.info.playerState === 1) {
-                          setIsVideoExpanded(true);
+                      try {
+                        const data = JSON.parse(event.data);
+                        // YouTube API event for state change (1 = playing)
+                        if (data.event === 'infoDelivery' || data.event === 'onStateChange') {
+                          if (data.info && data.info.playerState === 1) {
+                            setIsVideoExpanded(true);
+                          }
                         }
+                      } catch (error) {
+                        console.error('Failed to parse YouTube API message', error);
                       }
                     }
                   });
