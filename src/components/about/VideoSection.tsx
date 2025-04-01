@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { Upload, Play, Pause } from "lucide-react";
+import { Upload, Play } from "lucide-react";
 
 const VideoSection = () => {
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
@@ -175,11 +175,7 @@ const VideoSection = () => {
                   className="w-12 h-12 rounded-full bg-primary flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors"
                   onClick={togglePlayPause}
                 >
-                  {isPlaying ? (
-                    <Pause className="h-6 w-6 text-white" />
-                  ) : (
-                    <Play className="h-6 w-6 text-white fill-white" />
-                  )}
+                  <Play className="h-6 w-6 text-white fill-white" />
                 </div>
               </div>
             )}
