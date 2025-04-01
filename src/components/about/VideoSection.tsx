@@ -8,7 +8,8 @@ import { Upload, Play, Pause } from "lucide-react";
 
 const VideoSection = () => {
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true); // Start as playing
+  const [isMuted, setIsMuted] = useState(true); // Start as muted
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -127,8 +128,14 @@ const VideoSection = () => {
   };
   
   const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-    setIsVideoExpanded(true); // Always expand when playing
+    if (!isVideoExpanded) {
+      // First click: expand and unmute
+      setIsVideoExpanded(true);
+      setIsMuted(false);
+    } else {
+      // Subsequent clicks: toggle play/pause
+      setIsPlaying(!isPlaying);
+    }
   };
 
   return (
@@ -147,16 +154,13 @@ const VideoSection = () => {
               <video 
                 src={videoUrl} 
                 className="absolute top-0 left-0 w-full h-full object-cover cursor-pointer"
-                autoPlay={isPlaying}
-                muted={!isPlaying}
+                autoPlay={true}
+                muted={isMuted}
                 playsInline
                 controls={isVideoExpanded}
-                loop={false}
+                loop={true}
                 onClick={togglePlayPause}
-                onPlay={() => {
-                  setIsPlaying(true);
-                  setIsVideoExpanded(true);
-                }}
+                onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
               />
             ) : (
