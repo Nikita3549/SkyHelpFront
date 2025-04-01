@@ -6,16 +6,6 @@ const TeamSection = () => {
   return (
     <section className="py-12 bg-white">
       <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="mb-10"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Team</h2>
-        </motion.div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
