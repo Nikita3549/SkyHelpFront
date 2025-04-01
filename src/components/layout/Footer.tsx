@@ -88,20 +88,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* APRA Section */}
-      <div className="container-custom py-6 border-b border-gray-100">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
-          <img 
-            src="/lovable-uploads/e2db9d23-6fbd-4f1e-8232-4a9f3d2a25b7.png" 
-            alt="APRA Logo" 
-            className="h-10 w-auto"
-          />
-          <p className="text-gray-600 text-sm">
-            CleverClaim is a part of the Association of Passenger Rights Advocates (APRA) whose mission is to promote and protect passengers' rights
-          </p>
-        </div>
-      </div>
-
       <div className="container-custom">
         <div className="py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -188,6 +174,20 @@ const Footer = () => {
                 London, UK
               </p>
             </div>
+          </div>
+        </div>
+        
+        {/* APRA Section */}
+        <div className="py-6 border-t border-gray-100">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
+            <img 
+              src="/lovable-uploads/e2db9d23-6fbd-4f1e-8232-4a9f3d2a25b7.png" 
+              alt="APRA Logo" 
+              className="h-10 w-auto"
+            />
+            <p className="text-gray-600 text-sm max-w-3xl">
+              CleverClaim is a part of the Association of Passenger Rights Advocates (APRA) whose mission is to promote and protect passengers' rights
+            </p>
           </div>
         </div>
         
