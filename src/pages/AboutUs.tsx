@@ -21,7 +21,7 @@ const AboutUs = () => {
               <span className="text-primary">About Us</span>
             </h1>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-              Our tech turns flight disruptions into something good
+              CleverClaim - Your Trusted Flight Disruption Companion
             </h2>
             
             {/* Trustpilot Rating */}
@@ -39,18 +39,23 @@ const AboutUs = () => {
             </div>
           </motion.div>
 
-          {/* Feature image */}
+          {/* Video section (replacing feature image) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="rounded-xl overflow-hidden shadow-2xl mb-16"
           >
-            <img
-              src="https://images.unsplash.com/photo-1587019158091-1a103c5dd17f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-              alt="Person looking at flight information displays at an airport"
-              className="w-full h-auto object-cover"
-            />
+            <div className="relative w-full" style={{ height: "300px" }}>
+              <iframe 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1" 
+                title="CleverClaim video" 
+                className="absolute top-0 left-0 w-full h-full"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
           </motion.div>
         </div>
       </section>
