@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Globe, Euro, CircleDollarSign, Banknote, BookOpen } from "lucide-react";
+import { Shield } from "lucide-react";
 
 const PassengerRights = () => {
   // Animation variants
@@ -25,35 +25,31 @@ const PassengerRights = () => {
   const regulations = [
     {
       title: "EU Regulation EC 261",
-      icon: Euro,
+      flagImage: "/lovable-uploads/5b13fe1b-e415-4ceb-8e01-454b5a7b81c8.png",
       color: "bg-blue-100",
       borderColor: "border-blue-200",
       iconColor: "text-blue-600",
-      flagImage: "/lovable-uploads/5b13fe1b-e415-4ceb-8e01-454b5a7b81c8.png",
     },
     {
       title: "Turkish Regulations",
-      icon: CircleDollarSign,
+      flagImage: "/lovable-uploads/7aca5341-11a6-4da2-bf15-f80c88d80cae.png",
       color: "bg-red-100",
       borderColor: "border-red-200",
       iconColor: "text-red-600",
-      flagImage: "/lovable-uploads/7aca5341-11a6-4da2-bf15-f80c88d80cae.png",
     },
     {
       title: "Brazilian Regulations",
-      icon: Banknote,
+      flagImage: "/lovable-uploads/414f54f0-1c7c-4a66-847c-9ef17765d4b7.png",
       color: "bg-green-100",
       borderColor: "border-green-200",
       iconColor: "text-green-600",
-      flagImage: "/lovable-uploads/414f54f0-1c7c-4a66-847c-9ef17765d4b7.png",
     },
     {
       title: "Montreal Convention",
-      icon: BookOpen,
+      flagImage: "/lovable-uploads/320f827c-287a-42c7-9eab-85dfc5fe8039.png",
       color: "bg-indigo-100",
       borderColor: "border-indigo-200",
       iconColor: "text-indigo-600",
-      flagImage: "/lovable-uploads/320f827c-287a-42c7-9eab-85dfc5fe8039.png",
     },
   ];
 
@@ -89,12 +85,13 @@ const PassengerRights = () => {
               variants={itemVariants}
               className={`relative rounded-xl p-6 border ${reg.borderColor} ${reg.color} overflow-hidden`}
             >
-              <div className="absolute top-0 right-0 w-16 h-16 opacity-20">
-                <img src={reg.flagImage} alt={`${reg.title} flag`} className="w-full h-full object-cover" />
-              </div>
               <div className="relative z-10 flex flex-col items-center">
-                <div className={`p-3 rounded-full mb-4 ${reg.color} ${reg.iconColor}`}>
-                  <reg.icon size={24} />
+                <div className={`p-3 rounded-full mb-4 ${reg.color} ${reg.iconColor} w-16 h-16 flex items-center justify-center`}>
+                  <img 
+                    src={reg.flagImage} 
+                    alt={`${reg.title} flag`} 
+                    className="w-10 h-10 object-cover rounded-full" 
+                  />
                 </div>
                 <h3 className="font-semibold text-gray-800 text-lg mb-1">{reg.title}</h3>
               </div>
