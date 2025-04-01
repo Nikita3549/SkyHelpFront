@@ -1,7 +1,8 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Check, Plane, Ticket } from "lucide-react";
+import { Check, Plane, Ticket, PlaneTakeoff, PlaneLanding } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -98,8 +99,37 @@ const HeroForm = () => {
         </div>
       </div>
       
-      <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-blue-500/10 rounded-full animate-float" />
-      <div className="absolute -top-4 -left-4 w-12 h-12 bg-primary/10 rounded-full animate-float" style={{animationDelay: '1s'}} />
+      {/* Replace floating dots with plane icons */}
+      <motion.div 
+        className="absolute -bottom-6 -right-6 text-primary/20" 
+        animate={{ 
+          y: [0, -10, 0],
+          rotate: [0, 5, 0]
+        }}
+        transition={{ 
+          duration: 4,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      >
+        <PlaneTakeoff size={32} strokeWidth={2} />
+      </motion.div>
+      
+      <motion.div 
+        className="absolute -top-4 -left-4 text-primary/20" 
+        animate={{ 
+          y: [0, -8, 0],
+          rotate: [0, -5, 0]
+        }}
+        transition={{ 
+          duration: 3.5,
+          repeat: Infinity,
+          repeatType: "reverse",
+          delay: 1
+        }}
+      >
+        <PlaneLanding size={26} strokeWidth={2} />
+      </motion.div>
     </motion.div>
   );
 };

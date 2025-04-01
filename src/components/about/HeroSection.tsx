@@ -2,16 +2,17 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { PlaneTakeoff, PlaneLanding } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="bg-white py-10">
+    <section className="bg-white py-10 relative overflow-hidden">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-8"
+          className="text-center max-w-3xl mx-auto mb-8 relative"
         >
           <span className="text-primary text-sm font-medium uppercase tracking-wider">ABOUT US</span>
           
@@ -32,6 +33,38 @@ const HeroSection = () => {
               </span>
             </div>
           </div>
+          
+          {/* Add decorative plane icons */}
+          <motion.div 
+            className="absolute -bottom-16 -right-16 text-primary/10 hidden md:block" 
+            animate={{ 
+              y: [0, -15, 0],
+              rotate: [0, 10, 0]
+            }}
+            transition={{ 
+              duration: 5,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+          >
+            <PlaneTakeoff size={40} strokeWidth={2} />
+          </motion.div>
+          
+          <motion.div 
+            className="absolute -top-10 -left-16 text-primary/10 hidden md:block" 
+            animate={{ 
+              y: [0, -10, 0],
+              rotate: [0, -5, 0]
+            }}
+            transition={{ 
+              duration: 4,
+              repeat: Infinity,
+              repeatType: "reverse",
+              delay: 0.5
+            }}
+          >
+            <PlaneLanding size={32} strokeWidth={2} />
+          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -1,9 +1,11 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plane, ArrowRight, Ticket } from "lucide-react";
+import { Plane, ArrowRight, Ticket, PlaneTakeoff, PlaneLanding } from "lucide-react";
+import { motion } from "framer-motion";
 
 const QuickEligibilityCheck = () => {
   const [departureAirport, setDepartureAirport] = useState("");
@@ -31,7 +33,7 @@ const QuickEligibilityCheck = () => {
   };
 
   return (
-    <section className="bg-blue-50 py-14">
+    <section className="bg-blue-50 py-14 relative overflow-hidden">
       <div className="container-custom">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
@@ -45,7 +47,7 @@ const QuickEligibilityCheck = () => {
           
           <form 
             onSubmit={handleSubmit}
-            className="bg-white rounded-xl shadow-md p-6 md:p-8"
+            className="bg-white rounded-xl shadow-md p-6 md:p-8 relative"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -98,9 +100,42 @@ const QuickEligibilityCheck = () => {
                 Fast check with boarding pass
               </Button>
             </div>
+            
+            {/* Add decorative plane icons */}
+            <motion.div 
+              className="absolute -top-10 -right-10 text-primary/10 hidden md:block" 
+              animate={{ 
+                y: [0, -12, 0],
+                rotate: [0, 15, 0]
+              }}
+              transition={{ 
+                duration: 5,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
+              <PlaneTakeoff size={36} strokeWidth={2} />
+            </motion.div>
           </form>
         </div>
       </div>
+      
+      {/* Add background plane icons */}
+      <motion.div 
+        className="absolute bottom-10 left-10 text-primary/5 hidden lg:block" 
+        animate={{ 
+          y: [0, -20, 0],
+          x: [0, 20, 0],
+          rotate: [0, -10, 0]
+        }}
+        transition={{ 
+          duration: 10,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      >
+        <PlaneLanding size={60} strokeWidth={1.5} />
+      </motion.div>
     </section>
   );
 };
