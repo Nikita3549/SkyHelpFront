@@ -5,9 +5,12 @@ import Logo from "../ui-custom/Logo";
 
 const VideoSection = () => {
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
-  // Placeholder video URL - replace with your actual video URL when available
-  const videoUrl = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4";
-
+  
+  // Using the Google Drive video link provided
+  // Need to reformat Google Drive link for direct embedding
+  const fileId = "1Bj8Q7KnmBw65yAL3XFDeKej93np1lTsF";
+  const videoUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+  
   return (
     <div className="bg-gray-100 py-8">
       <div className="container-custom">
