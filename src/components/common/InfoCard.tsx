@@ -16,7 +16,7 @@ const InfoCard = ({ icon, title, description, className = "" }: InfoCardProps) =
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className={`bg-blue-50 p-8 rounded-xl border border-blue-100 ${className}`}
+      className={`bg-blue-50 p-6 rounded-xl border border-blue-100 ${className}`}
     >
       {icon && (
         <div className="flex items-start gap-4 mb-4">
@@ -25,7 +25,7 @@ const InfoCard = ({ icon, title, description, className = "" }: InfoCardProps) =
           </div>
         </div>
       )}
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">{title}</h3>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
       <p className="text-gray-700">{description}</p>
     </motion.div>
   );

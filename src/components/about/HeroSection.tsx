@@ -5,29 +5,28 @@ import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
-    <section className="bg-gradient-to-b from-blue-50 to-white py-20">
+    <section className="bg-white py-10">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-8"
         >
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            <span className="text-primary">About Us</span>
+          <span className="text-primary text-sm font-medium uppercase tracking-wider">ABOUT US</span>
+          
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 my-4">
+            Our tech turns flight disruptions into something good
           </h1>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            CleverClaim - Your Trusted Flight Disruption Companion
-          </h2>
           
           {/* Trustpilot Rating */}
-          <div className="flex items-center justify-center mt-8 bg-white p-4 rounded-lg shadow-sm">
+          <div className="flex items-center justify-center mt-4">
             <div className="flex flex-col sm:flex-row items-center gap-2">
               <span className="font-medium text-gray-700">Excellent</span>
               <div className="flex">
-                <img src="/lovable-uploads/5f38c0aa-45f7-4d7f-94c8-a9b7889ec866.png" alt="Trustpilot rating" className="h-8" />
+                <span className="text-[#00b67a]">★★★★★</span>
               </div>
-              <span className="text-sm text-gray-500">211,850 reviews on</span>
+              <span className="text-sm text-gray-500">211,776 reviews on</span>
               <span className="font-medium flex items-center">
                 <span className="text-[#00b67a] mr-1">★</span> Trustpilot
               </span>

@@ -22,22 +22,22 @@ const CompanySection = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-12 bg-white">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Company</h2>
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Company</h2>
+          <p className="text-base text-gray-700 max-w-3xl mx-auto">
             Founded in 2018, CleverClaim has grown from a small startup to a leading advocate for passenger rights. Our team of legal experts and tech professionals work together to make claiming compensation as simple as possible.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {companyValues.map((item, index) => (
             <InfoCard
               key={index}
