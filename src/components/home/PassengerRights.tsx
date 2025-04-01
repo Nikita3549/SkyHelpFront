@@ -38,18 +38,18 @@ const PassengerRights = () => {
       iconColor: "text-red-600",
     },
     {
-      title: "Brazilian Regulations",
-      flagImage: "/lovable-uploads/414f54f0-1c7c-4a66-847c-9ef17765d4b7.png",
-      color: "bg-green-100",
-      borderColor: "border-green-200",
-      iconColor: "text-green-600",
-    },
-    {
       title: "Montreal Convention",
-      flagImage: "/lovable-uploads/320f827c-287a-42c7-9eab-85dfc5fe8039.png",
+      flagImage: "/lovable-uploads/414f54f0-1c7c-4a66-847c-9ef17765d4b7.png",
       color: "bg-indigo-100",
       borderColor: "border-indigo-200",
       iconColor: "text-indigo-600",
+    },
+    {
+      title: "Brazilian Regulations",
+      flagImage: "/lovable-uploads/320f827c-287a-42c7-9eab-85dfc5fe8039.png",
+      color: "bg-green-100",
+      borderColor: "border-green-200",
+      iconColor: "text-green-600",
     },
   ];
 
@@ -86,11 +86,11 @@ const PassengerRights = () => {
               className={`relative rounded-xl p-6 border ${reg.borderColor} ${reg.color} overflow-hidden`}
             >
               <div className="relative z-10 flex flex-col items-center">
-                <div className={`p-3 rounded-full mb-4 ${reg.color} ${reg.iconColor} w-16 h-16 flex items-center justify-center`}>
+                <div className={`p-3 mb-4 ${reg.color} ${reg.iconColor} w-16 h-16 flex items-center justify-center`}>
                   <img 
                     src={reg.flagImage} 
                     alt={`${reg.title} flag`} 
-                    className="w-10 h-10 object-cover rounded-full" 
+                    className="w-10 h-10 object-cover" 
                   />
                 </div>
                 <h3 className="font-semibold text-gray-800 text-lg mb-1">{reg.title}</h3>
