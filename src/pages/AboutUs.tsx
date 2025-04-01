@@ -6,6 +6,7 @@ import StatsSection from "@/components/about/StatsSection";
 import MissionSection from "@/components/about/MissionSection";
 import CompanySection from "@/components/about/CompanySection";
 import TechSection from "@/components/about/TechSection";
+import TeamSection from "@/components/about/TeamSection";
 
 const AboutUs = () => {
   return (
@@ -21,6 +22,9 @@ const AboutUs = () => {
       
       {/* Mission section */}
       <MissionSection />
+      
+      {/* Team section */}
+      <TeamSection />
       
       {/* Tech section */}
       <TechSection />
