@@ -66,12 +66,7 @@ const VideoSection = () => {
                       <path d="M8 5.14v14l11-7-11-7z" />
                     </svg>
                   </div>
-                  <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-                    <div className="bg-white/90 px-4 py-2 rounded-full shadow-md flex items-center gap-2">
-                      <Logo size="sm" />
-                      <span className="text-sm font-medium">Watch our story</span>
-                    </div>
-                  </div>
+                  {/* Removed the "Watch our story" label */}
                 </div>
               </div>
             )}
