@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Award, Users } from "lucide-react";
+import { ArrowRight, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import InfoCard from "../common/InfoCard";
 
@@ -44,7 +44,15 @@ const MissionSection = () => {
             className="space-y-5"
           >
             <InfoCard 
-              icon={<Award size={24} />}
+              customIcon={
+                <div className="flex items-center justify-center w-12 h-12">
+                  <img 
+                    src="/lovable-uploads/5453978d-0746-4fd7-8dcd-8380620e1601.png" 
+                    alt="APRA Logo" 
+                    className="h-8 w-auto" 
+                  />
+                </div>
+              }
               title="Part of APRA"
               description="CleverClaim is a member of the Association of Passenger Rights Advocates (APRA), whose mission is to promote and protect passengers' rights worldwide."
             />

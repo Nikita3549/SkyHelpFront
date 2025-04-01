@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 
 interface InfoCardProps {
   icon?: ReactNode;
+  customIcon?: ReactNode;
   title: string;
   description: string;
   className?: string;
 }
 
-const InfoCard = ({ icon, title, description, className = "" }: InfoCardProps) => {
+const InfoCard = ({ icon, customIcon, title, description, className = "" }: InfoCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -18,7 +19,11 @@ const InfoCard = ({ icon, title, description, className = "" }: InfoCardProps) =
       viewport={{ once: true }}
       className={`bg-blue-50 p-6 rounded-xl border border-blue-100 ${className}`}
     >
-      {icon && (
+      {customIcon ? (
+        <div className="mb-4">
+          {customIcon}
+        </div>
+      ) : icon && (
         <div className="flex items-start gap-4 mb-4">
           <div className="bg-primary p-3 rounded-lg text-white">
             {icon}
