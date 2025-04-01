@@ -52,7 +52,7 @@ const TeamSection = () => {
           >
             <div className="rounded-lg overflow-hidden shadow-md">
               <img 
-                src="public/lovable-uploads/75d03988-d5f8-4e4c-9f5b-fbc875e45630.png" 
+                src="/lovable-uploads/75d03988-d5f8-4e4c-9f5b-fbc875e45630.png" 
                 alt="CleverClaim team working together" 
                 className="w-full h-auto"
               />
