@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import InfoCard from "../common/InfoCard";
 
 const CompanySection = () => {
   const companyValues = [
@@ -38,17 +39,11 @@ const CompanySection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {companyValues.map((item, index) => (
-            <motion.div
+            <InfoCard
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-blue-50 p-8 rounded-xl border border-blue-100"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">{item.title}</h3>
-              <p className="text-gray-700">{item.description}</p>
-            </motion.div>
+              title={item.title}
+              description={item.description}
+            />
           ))}
         </div>
 

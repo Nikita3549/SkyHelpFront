@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Award, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import InfoCard from "../common/InfoCard";
 
 const MissionSection = () => {
   return (
@@ -37,33 +38,17 @@ const MissionSection = () => {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            <div className="bg-blue-50 p-8 rounded-xl border border-blue-100">
-              <div className="flex items-start gap-4">
-                <div className="bg-primary p-3 rounded-lg text-white">
-                  <Award size={24} />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Part of APRA</h3>
-                  <p className="text-gray-700">
-                    CleverClaim is a member of the Association of Passenger Rights Advocates (APRA), whose mission is to promote and protect passengers' rights worldwide.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <InfoCard 
+              icon={<Award size={24} />}
+              title="Part of APRA"
+              description="CleverClaim is a member of the Association of Passenger Rights Advocates (APRA), whose mission is to promote and protect passengers' rights worldwide."
+            />
             
-            <div className="bg-blue-50 p-8 rounded-xl border border-blue-100">
-              <div className="flex items-start gap-4">
-                <div className="bg-primary p-3 rounded-lg text-white">
-                  <Users size={24} />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Passenger-First Approach</h3>
-                  <p className="text-gray-700">
-                    We put passengers first, ensuring they receive the compensation they're entitled to with minimal effort on their part.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <InfoCard 
+              icon={<Users size={24} />}
+              title="Passenger-First Approach"
+              description="We put passengers first, ensuring they receive the compensation they're entitled to with minimal effort on their part."
+            />
           </motion.div>
         </div>
       </div>
