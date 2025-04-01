@@ -9,21 +9,6 @@ const MissionSection = () => {
   return (
     <section className="py-12 bg-white">
       <div className="container-custom">
-        {/* Company section - Added above mission content as requested */}
-        <div className="mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Company</h2>
-            <p className="text-base text-gray-700 mb-4">
-              Founded in 2018, CleverClaim has grown from a small startup to a leading advocate for passenger rights. Our team of legal experts and tech professionals work together to make claiming compensation as simple as possible.
-            </p>
-          </motion.div>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
