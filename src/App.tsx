@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import ClaimForm from "./pages/ClaimForm";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 // Create a client
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/claim" element={<ClaimForm />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
