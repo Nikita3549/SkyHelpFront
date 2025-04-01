@@ -90,14 +90,6 @@ const Contact = () => {
                 <span>Monday - Friday, 9:00 - 17:00</span>
               </div>
             </div>
-
-            <div className="pt-8">
-              <img 
-                src="/lovable-uploads/26442131-787a-4059-8398-0aef3dc143ab.png" 
-                alt="Contact illustration" 
-                className="w-full max-w-sm opacity-80"
-              />
-            </div>
           </motion.div>
         </div>
 
