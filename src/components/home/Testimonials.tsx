@@ -55,7 +55,7 @@ const Testimonials = () => {
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
               <Avatar className="h-12 w-12 border-2 border-primary/10">
-                <AvatarImage src="/public/lovable-uploads/d64dd295-d77e-402c-9f5e-d9c765ccd0e5.png" alt="Sophie Martinez" />
+                <AvatarImage src="/lovable-uploads/d64dd295-d77e-402c-9f5e-d9c765ccd0e5.png" alt="Sophie Martinez" />
                 <AvatarFallback className="bg-blue-100 text-primary font-medium">SM</AvatarFallback>
               </Avatar>
               <div className="ml-3">
@@ -78,7 +78,7 @@ const Testimonials = () => {
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
               <Avatar className="h-12 w-12 border-2 border-primary/10">
-                <AvatarImage src="/public/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png" alt="James Davis" />
+                <AvatarImage src="/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png" alt="James Davis" />
                 <AvatarFallback className="bg-blue-100 text-primary font-medium">JD</AvatarFallback>
               </Avatar>
               <div className="ml-3">
@@ -101,7 +101,7 @@ const Testimonials = () => {
           <motion.div variants={item} className="glass rounded-xl p-6 shadow-lg">
             <div className="flex items-center mb-4">
               <Avatar className="h-12 w-12 border-2 border-primary/10">
-                <AvatarImage src="/public/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png" alt="Alexander Kruger" />
+                <AvatarImage src="/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png" alt="Alexander Kruger" />
                 <AvatarFallback className="bg-blue-100 text-primary font-medium">AK</AvatarFallback>
               </Avatar>
               <div className="ml-3">
