@@ -1,57 +1,40 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
-import { useVideoUpload } from "@/hooks/useVideoUpload";
+import { ExternalLink } from "lucide-react";
 
 interface AdminControlsProps {
-  setVideoUrl: (url: string) => void;
   isAdmin: boolean;
 }
 
-const AdminControls: React.FC<AdminControlsProps> = ({ setVideoUrl, isAdmin }) => {
-  const { isUploading, uploadProgress, uploadVideo } = useVideoUpload();
-
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    
-    const newVideoUrl = await uploadVideo(file);
-    if (newVideoUrl) {
-      setVideoUrl(newVideoUrl);
-    }
-  };
-
+const AdminControls: React.FC<AdminControlsProps> = ({ isAdmin }) => {
   if (!isAdmin) return null;
+
+  // Get the Supabase project URL for storage
+  const storageUrl = "https://supabase.com/dashboard/project/lyxhxlvshcsvoqdicqhm/storage/buckets";
 
   return (
     <div className="p-4 border-t border-gray-200">
       <h4 className="text-sm font-medium mb-2">Admin Controls</h4>
       <div className="flex items-center gap-4">
-        <label 
-          className="flex items-center gap-2 cursor-pointer"
-          htmlFor="video-upload"
+        <a 
+          href={storageUrl}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <Button 
             variant="outline" 
             size="sm" 
-            type="button" 
-            disabled={isUploading}
             className="flex items-center gap-2"
           >
-            <Upload className="h-4 w-4" />
-            {isUploading ? `Uploading ${uploadProgress}%` : 'Upload Company Video'}
+            <ExternalLink className="h-4 w-4" />
+            Manage Videos in Supabase
           </Button>
-          <input 
-            id="video-upload" 
-            type="file" 
-            accept="video/*" 
-            className="hidden" 
-            onChange={handleFileUpload}
-            disabled={isUploading}
-          />
-        </label>
+        </a>
       </div>
+      <p className="text-xs text-gray-500 mt-2">
+        Upload and manage company videos directly through the Supabase dashboard.
+      </p>
     </div>
   );
 };

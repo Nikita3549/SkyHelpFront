@@ -70,7 +70,6 @@ const VideoSection = () => {
           />
           
           <AdminControls 
-            setVideoUrl={setVideoUrl}
             isAdmin={isAdmin}
           />
         </motion.div>
