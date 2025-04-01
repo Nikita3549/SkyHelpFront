@@ -54,17 +54,17 @@ const PassengerRights = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-12 bg-gray-50">
       <div className="container-custom">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
-          <div className="flex items-center justify-center mb-4">
-            <Shield className="text-green-500 w-8 h-8 mr-2" />
+          <div className="flex items-center justify-center mb-3">
+            <Shield className="text-primary w-8 h-8 mr-2" />
             <h2 className="text-3xl font-bold">We protect your rights</h2>
           </div>
           <p className="text-gray-600 max-w-3xl mx-auto">
@@ -83,17 +83,17 @@ const PassengerRights = () => {
             <motion.div 
               key={index}
               variants={itemVariants}
-              className={`relative rounded-xl p-6 border ${reg.borderColor} ${reg.color} overflow-hidden`}
+              className={`relative rounded-xl p-4 border ${reg.borderColor} ${reg.color} overflow-hidden h-auto`}
             >
               <div className="relative z-10 flex flex-col items-center">
-                <div className={`p-3 mb-4 ${reg.color} ${reg.iconColor} w-16 h-16 flex items-center justify-center`}>
+                <div className={`p-2 mb-2 ${reg.color} ${reg.iconColor} w-12 h-12 flex items-center justify-center`}>
                   <img 
                     src={reg.flagImage} 
                     alt={`${reg.title} flag`} 
-                    className="w-10 h-10 object-cover" 
+                    className="w-8 h-8 object-cover" 
                   />
                 </div>
-                <h3 className="font-semibold text-gray-800 text-lg mb-1">{reg.title}</h3>
+                <h3 className="font-semibold text-gray-800 text-lg">{reg.title}</h3>
               </div>
             </motion.div>
           ))}
