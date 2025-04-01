@@ -1,7 +1,5 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -19,19 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
-const contactFormSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  phone: z.string().min(1, "Phone number is required"),
-  email: z.string().email("Invalid email address"),
-  subject: z.string().min(1, "Subject is required"),
-  message: z.string().min(10, "Message should be at least 10 characters"),
-  termsAgreed: z.boolean().refine((val) => val === true, {
-    message: "You must agree to the terms and privacy policy",
-  }),
-});
-
-type ContactFormValues = z.infer<typeof contactFormSchema>;
+import { contactFormSchema, type ContactFormValues } from "./schema";
 
 const ContactForm = () => {
   const form = useForm<ContactFormValues>({
