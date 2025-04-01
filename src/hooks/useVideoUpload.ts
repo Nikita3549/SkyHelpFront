@@ -29,14 +29,30 @@ export const useVideoUpload = () => {
         setUploadProgress(prev => {
           // Only increment if not at 90% yet (we'll set to 100% after success)
           if (prev < 90) {
-            return prev + 10;
+            return prev + 5;
           }
           return prev;
         });
-      }, 500);
+      }, 300);
       
       // Upload the file
       const fileName = `company-video-${Date.now()}.${file.name.split('.').pop()}`;
+      
+      // Check if the 'videos' bucket exists, if not create it
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const videoBucket = buckets?.find(bucket => bucket.name === 'videos');
+      
+      if (!videoBucket) {
+        console.log("Videos bucket doesn't exist, trying to create it");
+        const { error: bucketError } = await supabase.storage.createBucket('videos', {
+          public: true
+        });
+        
+        if (bucketError) {
+          console.error('Error creating videos bucket:', bucketError);
+          throw bucketError;
+        }
+      }
       
       const { error } = await supabase
         .storage
