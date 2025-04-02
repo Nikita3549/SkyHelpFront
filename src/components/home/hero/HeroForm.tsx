@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -98,8 +99,41 @@ const HeroForm = () => {
         </div>
       </div>
       
-      <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-blue-500/10 rounded-full animate-float" />
-      <div className="absolute -top-4 -left-4 w-12 h-12 bg-primary/10 rounded-full animate-float" style={{animationDelay: '1s'}} />
+      {/* Replace plane icons in yellow circles with blue circles */}
+      <motion.div 
+        className="absolute -bottom-6 -right-6" 
+        animate={{ 
+          y: [0, -10, 0],
+          rotate: [0, 5, 0]
+        }}
+        transition={{ 
+          duration: 4,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      >
+        <div className="bg-[#D3E4FD] rounded-full p-2 shadow-md">
+          <Plane size={26} strokeWidth={2} className="text-gray-800" />
+        </div>
+      </motion.div>
+      
+      <motion.div 
+        className="absolute -top-4 -left-4" 
+        animate={{ 
+          y: [0, -8, 0],
+          rotate: [0, -5, 0]
+        }}
+        transition={{ 
+          duration: 3.5,
+          repeat: Infinity,
+          repeatType: "reverse",
+          delay: 1
+        }}
+      >
+        <div className="bg-[#D3E4FD] rounded-full p-2 shadow-sm">
+          <Plane size={20} strokeWidth={2} className="text-gray-800 rotate-180" />
+        </div>
+      </motion.div>
     </motion.div>
   );
 };
