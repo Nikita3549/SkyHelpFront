@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Building, Briefcase, Shield, BadgeDollarSign, Link } from "lucide-react";
@@ -54,8 +53,8 @@ const galleryImages = [
     src: "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png",
     alt: "Partner Dashboard Analytics",
     title: "Partner Analytics Dashboard",
-    caption: "Real-time Analytics Dashboard",
-    subcaption: "Track commissions, compensations, and claim performance in one place"
+    caption: "Partner Analytics Dashboard",
+    subcaption: "Track your agency's commissions, payouts, and claim activity in real time."
   }
 ];
 
@@ -171,4 +170,3 @@ const PartnerTypesSection: React.FC = () => {
 };
 
 export default PartnerTypesSection;
-
