@@ -50,10 +50,10 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
   const toggleSidebar = () => setSidebarCollapsed(!sidebarCollapsed);
 
   return (
-    <div className="flex flex-col md:flex-row bg-gray-50 min-h-screen">
+    <div className="flex h-screen bg-gray-50 overflow-hidden">
       {/* Sidebar */}
-      <div 
-        className={`fixed md:relative z-30 h-full transition-all duration-300 ease-in-out bg-white border-r shadow-sm ${
+      <aside 
+        className={`fixed inset-y-0 z-30 transition-all duration-300 ease-in-out bg-white border-r shadow-sm ${
           sidebarCollapsed ? "w-16" : "w-64"
         }`}
       >
@@ -102,11 +102,11 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
             </div>
           )}
         </div>
-      </div>
+      </aside>
 
       {/* Content Area */}
-      <div className={`flex-1 transition-all duration-300 ${
-        sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+      <main className={`flex-1 overflow-y-auto ${
+        sidebarCollapsed ? "ml-16" : "ml-64"
       }`}>
         {/* Mobile Tab Navigation */}
         <div className="block md:hidden sticky top-0 z-20 bg-white border-b shadow-sm">
@@ -122,11 +122,11 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
           </Tabs>
         </div>
 
-        {/* Content */}
-        <div className="p-4 md:p-8">
+        {/* Content Wrapper for Proper Padding */}
+        <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
           {activeChild}
         </div>
-      </div>
+      </main>
     </div>
   );
 };

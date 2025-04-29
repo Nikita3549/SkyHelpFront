@@ -38,7 +38,7 @@ const ReferralSection: React.FC<ReferralSectionProps> = ({ referralLink }) => {
         <p className="text-muted-foreground">Share your unique link to start earning.</p>
       </div>
       
-      <Card>
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Your Unique Referral Link</CardTitle>
           <CardDescription>
