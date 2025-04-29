@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -31,6 +31,22 @@ const queryClient = new QueryClient({
   },
 });
 
+// Layout component to conditionally render header
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+  const isAffiliateDashboard = location.pathname === "/affiliate/dashboard";
+
+  return (
+    <>
+      {!isAffiliateDashboard && <Header />}
+      <main className={`flex-grow ${isAffiliateDashboard ? "" : "pt-16"}`}>
+        {children}
+      </main>
+      {!isAffiliateDashboard && <Footer />}
+    </>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -40,23 +56,28 @@ const App = () => (
           <Toaster />
           <Sonner />
           <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow pt-16">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/claim" element={<ClaimForm />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/about" element={<AboutUs />} />
-                <Route path="/affiliate" element={<AffiliateProgram />} />
-                <Route path="/affiliate/register" element={<AffiliateRegister />} />
-                <Route path="/affiliate/login" element={<AffiliateLogin />} />
-                <Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
+            <Routes>
+              <Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
+              <Route
+                path="*"
+                element={
+                  <Layout>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/claim" element={<ClaimForm />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/admin" element={<Admin />} />
+                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/about" element={<AboutUs />} />
+                      <Route path="/affiliate" element={<AffiliateProgram />} />
+                      <Route path="/affiliate/register" element={<AffiliateRegister />} />
+                      <Route path="/affiliate/login" element={<AffiliateLogin />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Layout>
+                }
+              />
+            </Routes>
           </div>
         </TooltipProvider>
       </BrowserRouter>
