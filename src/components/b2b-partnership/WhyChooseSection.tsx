@@ -57,24 +57,6 @@ const WhyChooseSection: React.FC = () => {
             />
           ))}
         </div>
-        
-        <motion.div
-          className="mt-16 rounded-xl overflow-hidden shadow-xl"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <img 
-            src="/lovable-uploads/03593731-0f02-44d7-8eec-15d47af60109.png" 
-            alt="Claims Analytics Dashboard" 
-            className="w-full h-auto rounded-xl"
-          />
-          <div className="bg-blue-50 p-6 text-center">
-            <h4 className="text-xl font-semibold text-gray-900 mb-2">Detailed Claims Analytics</h4>
-            <p className="text-gray-600">Monitor claim status distribution and compensation by airline</p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
