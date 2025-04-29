@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Building, Briefcase, Shield, BadgeDollarSign, Link } from "lucide-react";
@@ -102,7 +101,7 @@ const PartnerTypesSection: React.FC = () => {
                   />
                 </div>
                 <div className="p-4 bg-white">
-                  <h3 className="font-semibold text-gray-900">{image.title}</h3>
+                  <h3 className="font-semibold text-gray-900 text-center">{image.title}</h3>
                 </div>
               </motion.div>
             ))}
