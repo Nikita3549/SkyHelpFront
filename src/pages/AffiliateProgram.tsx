@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import HeroSection from "@/components/affiliate/HeroSection";
 import HowItWorksSection from "@/components/affiliate/HowItWorksSection";
@@ -12,6 +12,17 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const AffiliateProgram = () => {
   const { isAuthenticated } = useAuth();
+  
+  // Refs for scroll navigation
+  const howItWorksRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to section function
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   
   return (
     <div className="bg-white">
@@ -33,12 +44,18 @@ const AffiliateProgram = () => {
         </div>
       </div>
       
-      <HeroSection />
-      <HowItWorksSection />
+      <HeroSection 
+        scrollToSection={scrollToSection} 
+        howItWorksRef={howItWorksRef} 
+      />
+      <HowItWorksSection reference={howItWorksRef} />
       <BenefitsSection />
       <EarningsSection />
-      <FaqSection />
-      <CallToActionSection />
+      <FaqSection reference={faqRef} />
+      <CallToActionSection 
+        scrollToSection={scrollToSection} 
+        howItWorksRef={howItWorksRef} 
+      />
     </div>
   );
 };
