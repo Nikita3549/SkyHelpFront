@@ -2,25 +2,29 @@ import React from "react";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui-custom/AnimatedButton";
 import { Link } from "react-router-dom";
-
 interface HeroSectionProps {
   scrollToSection: (ref: React.RefObject<HTMLDivElement>) => void;
   howItWorksRef: React.RefObject<HTMLDivElement>;
 }
-
-const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRef }) => {
-  return (
-    <section className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden bg-gradient-to-br from-white to-blue-50">
+const HeroSection: React.FC<HeroSectionProps> = ({
+  scrollToSection,
+  howItWorksRef
+}) => {
+  return <section className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden bg-gradient-to-br from-white to-blue-50">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2670')] bg-cover bg-center opacity-[0.03]"></div>
       
       <div className="container-custom relative z-10 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <motion.div initial={{
+            opacity: 0,
+            y: 20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.6
+          }}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
                 Earn Money with CleverClaim!
               </h1>
@@ -32,10 +36,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRe
                 <AnimatedButton to="/affiliate/register" variant="primary" size="lg">
                   Become a Partner
                 </AnimatedButton>
-                <Link
-                  to="/affiliate/login" 
-                  className="px-6 py-3 rounded-full font-medium border border-gray-200 text-gray-600 hover:text-primary hover:border-primary/20 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2"
-                >
+                <Link to="/affiliate/login" className="px-6 py-3 rounded-full font-medium border border-gray-200 text-gray-600 hover:text-primary hover:border-primary/20 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2">
                   Log in
                 </Link>
               </div>
@@ -54,18 +55,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRe
           </div>
           
           <div className="order-1 lg:order-2 flex justify-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              className="relative"
-            >
+            <motion.div initial={{
+            opacity: 0,
+            scale: 0.9
+          }} animate={{
+            opacity: 1,
+            scale: 1
+          }} transition={{
+            duration: 0.6
+          }} className="relative">
               <div className="relative w-full max-w-lg">
-                <img
-                  src="https://images.unsplash.com/photo-1469474968028-56623f02e42e"
-                  alt="Travel blogger with mountain landscape"
-                  className="rounded-xl shadow-2xl"
-                />
+                <img alt="Travel blogger with mountain landscape" className="rounded-xl shadow-2xl" src="/lovable-uploads/5ea7e0fd-ac87-413d-ae2d-5ebbc3377a7d.jpg" />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
                   <div className="text-lg font-semibold text-primary">25%</div>
                   <div className="text-sm text-gray-600">from every successful claim</div>
@@ -75,8 +75,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRe
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
