@@ -63,8 +63,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRe
             >
               <div className="relative w-full max-w-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=2670"
-                  alt="Person earning with affiliate marketing"
+                  src="https://images.unsplash.com/photo-1469474968028-56623f02e42e"
+                  alt="Travel blogger with mountain landscape"
                   className="rounded-xl shadow-2xl"
                 />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
