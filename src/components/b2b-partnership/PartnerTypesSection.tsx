@@ -1,7 +1,8 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Building, Briefcase, Shield, BadgeDollarSign, Link } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const partnerTypes = [
   {
@@ -36,10 +37,70 @@ const partnerTypes = [
   }
 ];
 
+const galleryImages = [
+  {
+    src: "/lovable-uploads/03593731-0f02-44d7-8eec-15d47af60109.png",
+    alt: "Claims Analytics Dashboard",
+    title: "Claims Analytics Dashboard"
+  },
+  {
+    src: "/lovable-uploads/ad264c4c-e6f4-4084-b38a-ae8a7a9df2c8.png",
+    alt: "Flight Import System",
+    title: "Flight Data Import Tool"
+  },
+  {
+    src: "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png",
+    alt: "Partner Dashboard Analytics",
+    title: "Partner Analytics Dashboard"
+  }
+];
+
 const PartnerTypesSection: React.FC = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  
   return (
     <section className="py-16 md:py-24 bg-blue-50">
       <div className="container-custom">
+        {/* Image Gallery Section */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+            Visual Highlights
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {galleryImages.map((image, index) => (
+              <motion.div
+                key={index}
+                className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-[1.02]"
+                whileHover={{ y: -5 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => setSelectedImage(image.src)}
+              >
+                <div className="aspect-video relative">
+                  <img 
+                    src={image.src} 
+                    alt={image.alt}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="font-semibold text-gray-900">{image.title}</h3>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+        
+        {/* Original Content - Who Can Partner With Us */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -73,6 +134,19 @@ const PartnerTypesSection: React.FC = () => {
           ))}
         </div>
       </div>
+      
+      {/* Image Modal/Lightbox */}
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-4xl p-0 bg-transparent border-none">
+          <div className="bg-white rounded-lg overflow-hidden">
+            <img 
+              src={selectedImage || ''} 
+              alt="Enlarged view" 
+              className="w-full h-auto"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
