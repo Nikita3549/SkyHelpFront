@@ -21,7 +21,7 @@ const NavigationLinks: React.FC<NavigationLinksProps> = ({ title, links }) => {
       <ul className="space-y-3">
         {links.map((item) => (
           <li key={item.name}>
-            {item.href.startsWith('/') ? (
+            {item.href.startsWith('/') || item.href.includes('affiliate') ? (
               <Link
                 to={item.href}
                 className="text-gray-500 hover:text-primary text-sm transition-colors"
