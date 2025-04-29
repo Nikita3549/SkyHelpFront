@@ -3,10 +3,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui-custom/AnimatedButton";
 import { Link } from "react-router-dom";
+
 interface HeroSectionProps {
   scrollToSection: (ref: React.RefObject<HTMLDivElement>) => void;
   howItWorksRef: React.RefObject<HTMLDivElement>;
 }
+
 const HeroSection: React.FC<HeroSectionProps> = ({
   scrollToSection,
   howItWorksRef
@@ -68,7 +70,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="relative w-full max-w-lg">
                 <img alt="Travel blogger with mountain landscape" className="rounded-xl shadow-2xl" src="/lovable-uploads/24273f87-f4c9-41ca-87ef-12c1ac90a8f5.jpg" />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
-                  <div className="text-lg font-semibold text-primary">~25 €</div>
+                  <div className="text-lg font-semibold text-primary">25 €</div>
                   <div className="text-sm text-gray-600">from every successful claim</div>
                 </div>
               </div>
@@ -78,4 +80,5 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
     </section>;
 };
+
 export default HeroSection;
