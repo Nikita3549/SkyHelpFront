@@ -77,24 +77,6 @@ const BenefitsSection: React.FC = () => {
           </motion.div>
         ))}
       </div>
-      
-      <motion.div
-        className="mt-16 rounded-xl overflow-hidden shadow-xl mx-4 md:mx-8 lg:mx-16 xl:mx-24"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-      >
-        <img 
-          src="/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png" 
-          alt="Partner Dashboard Analytics" 
-          className="w-full h-auto rounded-xl"
-        />
-        <div className="bg-blue-50 p-6 text-center">
-          <h4 className="text-xl font-semibold text-gray-900 mb-2">Real-time Analytics Dashboard</h4>
-          <p className="text-gray-600">Track commissions, compensations, and claim performance in one place</p>
-        </div>
-      </motion.div>
     </section>
   );
 };
