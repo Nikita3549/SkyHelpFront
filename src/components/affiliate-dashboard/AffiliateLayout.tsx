@@ -78,18 +78,20 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-4 border-b">
             {!sidebarCollapsed && (
-              <h2 className="text-lg font-semibold text-primary">Affiliate Portal</h2>
+              <h2 className="text-lg font-semibold text-primary mt-2">Affiliate Portal</h2>
             )}
             <button 
               onClick={toggleSidebar}
-              className="p-1 rounded-full hover:bg-gray-100 focus:outline-none"
+              className={`p-1 rounded-full hover:bg-gray-100 focus:outline-none ${
+                !sidebarCollapsed ? "mt-2" : ""
+              }`}
             >
               {sidebarCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
           </div>
 
           {/* Sidebar Navigation */}
-          <nav className="flex-1 p-2 space-y-1 overflow-auto">
+          <nav className="flex-1 p-2 space-y-1 overflow-auto mt-2">
             {tabConfig.map((tab) => {
               const Icon = tab.icon;
               return (
