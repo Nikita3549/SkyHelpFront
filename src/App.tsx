@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Contact from "./pages/Contact";
 import AboutUs from "./pages/AboutUs";
+import AffiliateProgram from "./pages/AffiliateProgram";
+import AffiliateRegister from "./pages/AffiliateRegister";
 import NotFound from "./pages/NotFound";
 
 // Create a client
@@ -41,6 +43,8 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<AboutUs />} />
+              <Route path="/affiliate" element={<AffiliateProgram />} />
+              <Route path="/affiliate/register" element={<AffiliateRegister />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
