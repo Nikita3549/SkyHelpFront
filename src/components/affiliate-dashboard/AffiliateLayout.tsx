@@ -15,8 +15,13 @@ import {
   HelpCircle, 
   Settings, 
   ChevronLeft, 
-  ChevronRight 
+  ChevronRight,
+  LogOut
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { AffiliateData } from "@/pages/AffiliateDashboard";
 
 // Define props type
@@ -39,6 +44,8 @@ const tabConfig = [
 const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   // Find the index of the active child based on the active tab
   const activeIndex = tabConfig.findIndex(tab => tab.id === activeTab);
@@ -48,6 +55,16 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
 
   // Toggle sidebar collapsed state
   const toggleSidebar = () => setSidebarCollapsed(!sidebarCollapsed);
+
+  // Handle logout
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out."
+    });
+    navigate("/affiliate/login");
+  };
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -93,14 +110,34 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
           </nav>
 
           {/* Sidebar Footer */}
-          {!sidebarCollapsed && (
-            <div className="p-4 border-t">
-              <div className="text-xs text-gray-500">
-                <p>Logged in as:</p>
-                <p className="font-medium">{data.user.name}</p>
+          <div className="p-4 border-t">
+            {!sidebarCollapsed ? (
+              <div className="space-y-3">
+                <div className="text-xs text-gray-500">
+                  <p>Logged in as:</p>
+                  <p className="font-medium">{data.user.name}</p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full flex items-center" 
+                  onClick={handleLogout}
+                >
+                  <LogOut className="mr-2" size={16} />
+                  Sign out
+                </Button>
               </div>
-            </div>
-          )}
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="w-full flex items-center justify-center" 
+                onClick={handleLogout}
+              >
+                <LogOut size={18} />
+              </Button>
+            )}
+          </div>
         </div>
       </aside>
 

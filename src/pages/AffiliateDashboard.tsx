@@ -2,6 +2,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/contexts/AuthContext";
 import AffiliateLayout from "@/components/affiliate-dashboard/AffiliateLayout";
 import DashboardOverview from "@/components/affiliate-dashboard/DashboardOverview";
 import ReferralSection from "@/components/affiliate-dashboard/ReferralSection";
@@ -40,18 +41,17 @@ export type AffiliateData = {
   };
 };
 
-// This would normally come from authentication
-const isAuthenticated = true; // For demo purposes
-
 const AffiliateDashboard = () => {
-  // In a real app, this would check for auth state
-  if (!isAuthenticated) {
-    return <Navigate to="/affiliate/register" />;
+  const { isAuthenticated, isLoading: authLoading, user } = useAuth();
+
+  // Check authentication
+  if (!authLoading && !isAuthenticated) {
+    return <Navigate to="/affiliate/login" />;
   }
 
   // Fetch affiliate data - would connect to API in production
   const { data: affiliateData, isLoading } = useQuery({
-    queryKey: ["affiliateData"],
+    queryKey: ["affiliateData", user?.id],
     queryFn: () => {
       // Simulate API call
       return new Promise<AffiliateData>((resolve) => {
@@ -62,7 +62,7 @@ const AffiliateDashboard = () => {
             approvedClaims: 28,
             pendingPayouts: 2,
             completedPayouts: 5,
-            referralLink: "https://cleverclaim.com/ref/user123",
+            referralLink: `https://cleverclaim.com/ref/${user?.id || "user123"}`,
             performanceData: [
               { date: "2025-03-30", clicks: 12, registrations: 3, claims: 1 },
               { date: "2025-03-31", clicks: 15, registrations: 4, claims: 1 },
@@ -103,18 +103,19 @@ const AffiliateDashboard = () => {
               { id: 4, amount: 505, date: "2025-04-30", status: "Pending" },
             ],
             user: {
-              name: "John Smith",
-              email: "john.smith@example.com",
+              name: user?.name || "John Smith",
+              email: user?.email || "john.smith@example.com",
               paymentMethod: "PayPal",
-              paymentDetails: "john.smith@example.com"
+              paymentDetails: user?.email || "john.smith@example.com"
             }
           });
         }, 800);
       });
-    }
+    },
+    enabled: isAuthenticated
   });
 
-  if (isLoading || !affiliateData) {
+  if (authLoading || isLoading || !affiliateData) {
     return <LoadingState />;
   }
 
