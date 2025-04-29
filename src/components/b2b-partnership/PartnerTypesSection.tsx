@@ -46,7 +46,9 @@ const galleryImages = [
   {
     src: "/lovable-uploads/ad264c4c-e6f4-4084-b38a-ae8a7a9df2c8.png",
     alt: "Flight Import System",
-    title: "Flight Data Import Tool"
+    title: "Flight Data Import Tool",
+    caption: "Flight Data Import Tool",
+    subcaption: "Easily upload and analyze thousands of passenger flights to detect eligible claims."
   },
   {
     src: "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png",
@@ -149,14 +151,16 @@ const PartnerTypesSection: React.FC = () => {
               alt="Enlarged view" 
               className="w-full h-auto"
             />
-            {selectedImageData?.src === "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png" && (
+            {selectedImageData?.caption && (
               <div className="px-6 py-4 text-center">
                 <h3 className="font-bold text-lg text-gray-900 mt-2">
                   {selectedImageData.caption}
                 </h3>
-                <p className="text-gray-600 text-sm mt-1">
-                  {selectedImageData.subcaption}
-                </p>
+                {selectedImageData.subcaption && (
+                  <p className="text-gray-600 text-sm mt-1">
+                    {selectedImageData.subcaption}
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -167,3 +171,4 @@ const PartnerTypesSection: React.FC = () => {
 };
 
 export default PartnerTypesSection;
+
