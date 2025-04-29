@@ -1,10 +1,17 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui-custom/Logo";
-import { motion } from "framer-motion";
-import { Mail, Phone, MapPin } from "lucide-react";
+import SocialLinks from "./footer/SocialLinks";
+import NavigationLinks from "./footer/NavigationLinks";
+import ContactInfo from "./footer/ContactInfo";
+import AirlinesSection from "./footer/AirlinesSection";
+
+export type SocialLink = {
+  name: string;
+  href: string;
+  icon: (props: any) => JSX.Element;
+};
 
 const Footer = () => {
   const navigation = {
@@ -45,7 +52,7 @@ const Footer = () => {
     ],
   };
 
-  // Updated airlines logos data with local image paths
+  // Airlines logos data with local image paths
   const airlines = [
     { name: "Wizz Air", imgSrc: "/lovable-uploads/cead91f8-e2d2-4c22-8f59-a23cc2d20312.png" },
     { name: "Tarom", imgSrc: "/lovable-uploads/4812daa1-9593-4874-ac96-312b7529e017.png" },
@@ -60,136 +67,15 @@ const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-100">
       {/* Airlines Logos Section */}
-      <div className="container-custom py-10 border-b border-gray-100">
-        <div className="relative overflow-hidden">
-          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
-            {airlines.map((airline, index) => (
-              <motion.div
-                key={index}
-                className="flex-shrink-0"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
-              >
-                <div className="h-12 w-28 relative flex items-center justify-center">
-                  <img 
-                    src={airline.imgSrc} 
-                    alt={`${airline.name} logo`} 
-                    className="h-full w-full object-contain"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = "/placeholder.svg";
-                      target.onerror = null;
-                    }}
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <AirlinesSection airlines={airlines} />
 
       <div className="container-custom">
         <div className="py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="space-y-6">
-              <Logo size="md" withLink={false} />
-              <p className="text-gray-500 text-sm max-w-xs">
-                Helping air passengers get the compensation they deserve when flights are delayed or canceled.
-              </p>
-              <div className="flex space-x-4">
-                {navigation.social.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="text-gray-400 hover:text-primary transition-colors"
-                  >
-                    <span className="sr-only">{item.name}</span>
-                    <item.icon className="h-5 w-5" aria-hidden="true" />
-                  </a>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-4">
-                Navigation
-              </h3>
-              <ul className="space-y-3">
-                {navigation.main.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      to={item.href}
-                      className="text-gray-500 hover:text-primary text-sm transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-4">
-                Company
-              </h3>
-              <ul className="space-y-3">
-                {navigation.company.map((item) => (
-                  <li key={item.name}>
-                    {item.href.startsWith('/') ? (
-                      <Link
-                        to={item.href}
-                        className="text-gray-500 hover:text-primary text-sm transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    ) : (
-                      <a
-                        href={item.href}
-                        className="text-gray-500 hover:text-primary text-sm transition-colors"
-                      >
-                        {item.name}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-4">
-                Contact Us
-              </h3>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <Mail className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
-                  <a
-                    href="mailto:support@cleverclaim.com"
-                    className="text-sm text-gray-500 hover:text-primary transition-colors"
-                  >
-                    support@cleverclaim.com
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <Phone className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
-                  <a
-                    href="tel:+442071234567"
-                    className="text-sm text-gray-500 hover:text-primary transition-colors"
-                  >
-                    +44 20 7123 4567
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-500">
-                    1234 Airport Avenue<br />
-                    Suite 567<br />
-                    London, UK
-                  </span>
-                </li>
-              </ul>
-            </div>
+            <SocialLinks social={navigation.social} />
+            <NavigationLinks title="Navigation" links={navigation.main} />
+            <NavigationLinks title="Company" links={navigation.company} />
+            <ContactInfo />
           </div>
         </div>
         
@@ -213,4 +99,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
