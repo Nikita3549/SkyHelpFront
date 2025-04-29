@@ -1,14 +1,14 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Scales, FileText, HandShake, BarChart } from "lucide-react";
+import { Scale, FileText, Handshake, BarChart } from "lucide-react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
 const benefits = [
   {
     title: "Focus on law – let us handle the rest",
     description: "We take care of claim processing, documentation, and customer support. You focus on legal expertise.",
-    icon: <Scales className="h-10 w-10 text-primary" />
+    icon: <Scale className="h-10 w-10 text-primary" />
   },
   {
     title: "Fast results, high success rate",
@@ -18,7 +18,7 @@ const benefits = [
   {
     title: "Revenue share model",
     description: "Earn a commission for each successful claim you refer.",
-    icon: <HandShake className="h-10 w-10 text-primary" />
+    icon: <Handshake className="h-10 w-10 text-primary" />
   },
   {
     title: "Dedicated partner dashboard",
