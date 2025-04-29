@@ -1,6 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import AnimatedButton from "@/components/ui-custom/AnimatedButton";
 
 interface CallToActionSectionProps {
@@ -9,6 +10,13 @@ interface CallToActionSectionProps {
 }
 
 const CallToActionSection: React.FC<CallToActionSectionProps> = ({ scrollToSection, howItWorksRef }) => {
+  const navigate = useNavigate();
+
+  const handleRegisterClick = () => {
+    window.scrollTo(0, 0);
+    navigate("/affiliate/register");
+  };
+
   return (
     <section className="py-20 bg-gradient-to-br from-primary/90 to-blue-600/90 text-white">
       <div className="container-custom">
@@ -24,14 +32,12 @@ const CallToActionSection: React.FC<CallToActionSectionProps> = ({ scrollToSecti
             Start earning by helping others get their flight compensations. Our program is designed to reward you generously for every successful referral.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <AnimatedButton 
-              to="/affiliate/register" 
-              variant="secondary" 
-              size="lg" 
-              className="bg-white text-primary hover:bg-blue-50"
+            <button 
+              onClick={handleRegisterClick}
+              className="px-6 py-3 rounded-full font-medium bg-white text-primary hover:bg-blue-50 transition-all focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-primary"
             >
               Become a CleverClaim Partner
-            </AnimatedButton>
+            </button>
             <button
               onClick={() => scrollToSection(howItWorksRef)}
               className="px-6 py-3 rounded-full font-medium border border-white/30 text-white hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-primary"
