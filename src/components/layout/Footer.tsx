@@ -17,6 +17,7 @@ const Footer = () => {
     company: [
       { name: "About Us", href: "/about" },
       { name: "Contact", href: "/contact" },
+      { name: "Affiliate Program", href: "/affiliate" },
       { name: "Privacy Policy", href: "#" },
       { name: "Terms of Service", href: "#" },
     ],
@@ -212,3 +213,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
