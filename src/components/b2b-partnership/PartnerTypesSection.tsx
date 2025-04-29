@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Building, Briefcase, Shield, BadgeDollarSign, Link } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const partnerTypes = [
   {
@@ -42,29 +41,22 @@ const galleryImages = [
   {
     src: "/lovable-uploads/03593731-0f02-44d7-8eec-15d47af60109.png",
     alt: "Claims Analytics Dashboard",
-    title: "Claims Analytics Dashboard",
-    subtitle: "View detailed insights into claim statuses and airline performance."
+    title: "Claims Analytics Dashboard"
   },
   {
     src: "/lovable-uploads/ad264c4c-e6f4-4084-b38a-ae8a7a9df2c8.png",
     alt: "Flight Import System",
-    title: "Flight Data Import Tool",
-    subtitle: "Easily upload and analyze thousands of passenger flights to detect eligible claims."
+    title: "Flight Data Import Tool"
   },
   {
     src: "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png",
     alt: "Partner Dashboard Analytics",
-    title: "Partner Analytics Dashboard",
-    subtitle: "Track your agency's commissions, payouts, and claim activity in real time."
+    title: "Partner Analytics Dashboard"
   }
 ];
 
 const PartnerTypesSection: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<{
-    src: string;
-    title: string;
-    subtitle: string;
-  } | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   
   return (
     <section className="py-16 md:py-24 bg-blue-50">
@@ -85,17 +77,13 @@ const PartnerTypesSection: React.FC = () => {
             {galleryImages.map((image, index) => (
               <motion.div
                 key={index}
-                className="overflow-hidden rounded-xl shadow-md transition-all duration-300 cursor-pointer transform hover:scale-[1.02] bg-white"
+                className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-[1.02]"
                 whileHover={{ y: -5 }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={() => setSelectedImage({
-                  src: image.src,
-                  title: image.title,
-                  subtitle: image.subtitle
-                })}
+                onClick={() => setSelectedImage(image.src)}
               >
                 <div className="aspect-video relative">
                   <img 
@@ -104,9 +92,8 @@ const PartnerTypesSection: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-5 bg-gray-50 border-t border-gray-100">
-                  <h3 className="font-semibold text-lg text-gray-900 mb-1">{image.title}</h3>
-                  <p className="text-sm text-gray-600">{image.subtitle}</p>
+                <div className="p-4 bg-white">
+                  <h3 className="font-semibold text-gray-900">{image.title}</h3>
                 </div>
               </motion.div>
             ))}
@@ -153,16 +140,10 @@ const PartnerTypesSection: React.FC = () => {
         <DialogContent className="max-w-4xl p-0 bg-transparent border-none">
           <div className="bg-white rounded-lg overflow-hidden">
             <img 
-              src={selectedImage?.src || ''} 
+              src={selectedImage || ''} 
               alt="Enlarged view" 
               className="w-full h-auto"
             />
-            {selectedImage && (
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-bold mb-2">{selectedImage.title}</h3>
-                <p className="text-gray-600">{selectedImage.subtitle}</p>
-              </div>
-            )}
           </div>
         </DialogContent>
       </Dialog>
