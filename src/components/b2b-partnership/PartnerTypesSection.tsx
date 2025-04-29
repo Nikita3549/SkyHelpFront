@@ -41,7 +41,9 @@ const galleryImages = [
   {
     src: "/lovable-uploads/03593731-0f02-44d7-8eec-15d47af60109.png",
     alt: "Claims Analytics Dashboard",
-    title: "Claims Analytics Dashboard"
+    title: "Claims Analytics Dashboard",
+    caption: "Real-time Analytics Dashboard",
+    subcaption: "Track commissions, compensations, and claim performance in one place"
   },
   {
     src: "/lovable-uploads/ad264c4c-e6f4-4084-b38a-ae8a7a9df2c8.png",
@@ -57,6 +59,12 @@ const galleryImages = [
 
 const PartnerTypesSection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageData, setSelectedImageData] = useState<typeof galleryImages[0] | null>(null);
+  
+  const handleImageClick = (image: typeof galleryImages[0]) => {
+    setSelectedImage(image.src);
+    setSelectedImageData(image);
+  };
   
   return (
     <section className="py-16 md:py-24 bg-blue-50">
@@ -83,7 +91,7 @@ const PartnerTypesSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={() => setSelectedImage(image.src)}
+                onClick={() => handleImageClick(image)}
               >
                 <div className="aspect-video relative">
                   <img 
@@ -136,14 +144,27 @@ const PartnerTypesSection: React.FC = () => {
       </div>
       
       {/* Image Modal/Lightbox */}
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+      <Dialog open={!!selectedImage} onOpenChange={() => {setSelectedImage(null); setSelectedImageData(null);}}>
         <DialogContent className="max-w-4xl p-0 bg-transparent border-none">
           <div className="bg-white rounded-lg overflow-hidden">
             <img 
               src={selectedImage || ''} 
-              alt="Enlarged view" 
+              alt={selectedImageData?.alt || 'Enlarged view'} 
               className="w-full h-auto"
             />
+            
+            {selectedImageData?.caption && (
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {selectedImageData.caption}
+                </h3>
+                {selectedImageData.subcaption && (
+                  <p className="text-gray-600 text-base mt-1">
+                    {selectedImageData.subcaption}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
