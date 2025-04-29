@@ -1,3 +1,4 @@
+
 import React from "react";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui-custom/AnimatedButton";
@@ -62,8 +63,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRe
             >
               <div className="relative w-full max-w-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1469474968028-56623f02e42e"
-                  alt="Travel blogger with mountain landscape"
+                  src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"
+                  alt="Travel blogger with money and laptop"
                   className="rounded-xl shadow-2xl"
                 />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
