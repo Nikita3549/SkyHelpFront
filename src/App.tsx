@@ -19,6 +19,7 @@ import AffiliateRegister from "./pages/AffiliateRegister";
 import AffiliateLogin from "./pages/AffiliateLogin";
 import AffiliateDashboard from "./pages/AffiliateDashboard";
 import LegalPartnership from "./pages/LegalPartnership";
+import B2bPartnership from "./pages/B2bPartnership";
 import NotFound from "./pages/NotFound";
 
 // Create a client
@@ -74,6 +75,7 @@ const App = () => (
                       <Route path="/affiliate/register" element={<AffiliateRegister />} />
                       <Route path="/affiliate/login" element={<AffiliateLogin />} />
                       <Route path="/legal-partnership" element={<LegalPartnership />} />
+                      <Route path="/b2b-partnership" element={<B2bPartnership />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </Layout>

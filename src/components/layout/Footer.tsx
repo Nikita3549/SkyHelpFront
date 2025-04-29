@@ -26,6 +26,7 @@ const Footer = () => {
       { name: "Contact", href: "/contact" },
       { name: "Affiliate Program", href: "/affiliate" },
       { name: "Legal Partnership", href: "/legal-partnership" },
+      { name: "B2B Partnership", href: "/b2b-partnership" },
       { name: "Privacy Policy", href: "#" },
       { name: "Terms of Service", href: "#" },
     ],
