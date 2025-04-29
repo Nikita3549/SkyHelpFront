@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Building, Briefcase, Shield, BadgeDollarSign, Link } from "lucide-react";
@@ -40,7 +41,9 @@ const galleryImages = [
   {
     src: "/lovable-uploads/03593731-0f02-44d7-8eec-15d47af60109.png",
     alt: "Claims Analytics Dashboard",
-    title: "Claims Analytics Dashboard"
+    title: "Claims Analytics Dashboard",
+    caption: "Detailed Claims Analytics",
+    subcaption: "Monitor claim status distribution and compensation by airline"
   },
   {
     src: "/lovable-uploads/ad264c4c-e6f4-4084-b38a-ae8a7a9df2c8.png",
