@@ -51,8 +51,7 @@ const galleryImages = [
   {
     src: "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png",
     alt: "Partner Dashboard Analytics",
-    title: "Partner Analytics Dashboard",
-    description: "Track commissions, compensations, and claim performance in one place"
+    title: "Partner Analytics Dashboard"
   }
 ];
 
@@ -95,9 +94,6 @@ const PartnerTypesSection: React.FC = () => {
                 </div>
                 <div className="p-4 bg-white">
                   <h3 className="font-semibold text-gray-900">{image.title}</h3>
-                  {image.description && (
-                    <p className="text-gray-600 text-sm mt-1">{image.description}</p>
-                  )}
                 </div>
               </motion.div>
             ))}
