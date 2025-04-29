@@ -23,7 +23,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { AffiliateData } from "@/pages/AffiliateDashboard";
-import Logo from "@/components/ui-custom/Logo";
 
 // Define props type
 type AffiliateLayoutProps = {
@@ -79,21 +78,18 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-4 border-b">
             {!sidebarCollapsed && (
-              <div className="flex flex-col">
-                <span className="text-xs text-gray-500">CleverClaim</span>
-                <h2 className="text-lg font-semibold text-primary">Affiliate Portal</h2>
-              </div>
+              <h2 className="text-lg font-semibold text-primary">Affiliate Portal</h2>
             )}
             <button 
               onClick={toggleSidebar}
-              className="p-1 rounded-full hover:bg-gray-100 focus:outline-none self-start mt-1"
+              className="p-1 rounded-full hover:bg-gray-100 focus:outline-none"
             >
               {sidebarCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
           </div>
 
           {/* Sidebar Navigation */}
-          <nav className="flex-1 p-2 space-y-1.5 overflow-auto mt-4">
+          <nav className="flex-1 p-2 space-y-1 overflow-auto">
             {tabConfig.map((tab) => {
               const Icon = tab.icon;
               return (
@@ -146,14 +142,9 @@ const AffiliateLayout: React.FC<AffiliateLayoutProps> = ({ children, data }) => 
       </aside>
 
       {/* Content Area */}
-      <main className={`flex-1 overflow-y-auto transition-all duration-300 ease-in-out ${
+      <main className={`flex-1 overflow-y-auto ${
         sidebarCollapsed ? "ml-16" : "ml-64"
       }`}>
-        <div className="sticky top-0 z-10 bg-white border-b shadow-sm p-4 flex items-center justify-between">
-          <Logo size="sm" />
-          <div className="text-sm text-gray-500">Affiliate Dashboard</div>
-        </div>
-
         {/* Mobile Tab Navigation */}
         <div className="block md:hidden sticky top-0 z-20 bg-white border-b shadow-sm">
           <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
