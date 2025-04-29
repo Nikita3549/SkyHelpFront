@@ -65,7 +65,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             duration: 0.6
           }} className="relative">
               <div className="relative w-full max-w-lg">
-                <img alt="Travel blogger with mountain landscape" className="rounded-xl shadow-2xl" src="/lovable-uploads/b1b615e9-885a-483a-aeb7-e0bf8c846ffd.jpg" />
+                <img alt="Travel blogger with mountain landscape" className="rounded-xl shadow-2xl" src="/lovable-uploads/2af4c4e3-612a-454e-be38-258cdd541e3d.jpg" />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
                   <div className="text-lg font-semibold text-primary">25%</div>
                   <div className="text-sm text-gray-600">from every successful claim</div>
