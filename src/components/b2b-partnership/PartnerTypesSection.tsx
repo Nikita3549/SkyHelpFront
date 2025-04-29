@@ -150,11 +150,11 @@ const PartnerTypesSection: React.FC = () => {
               className="w-full h-auto"
             />
             {selectedImageData?.src === "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png" && (
-              <div className="px-6 py-4 text-center">
-                <h3 className="font-bold text-lg text-gray-900 mt-2">
+              <div className="px-6 py-4 text-center bg-transparent text-white">
+                <h3 className="font-bold text-lg mt-2">
                   {selectedImageData.caption}
                 </h3>
-                <p className="text-gray-600 text-sm mt-1">
+                <p className="text-white/80 text-sm mt-1">
                   {selectedImageData.subcaption}
                 </p>
               </div>
