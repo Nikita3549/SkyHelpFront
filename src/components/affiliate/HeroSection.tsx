@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui-custom/AnimatedButton";
@@ -68,8 +67,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRe
                   className="rounded-xl shadow-2xl"
                 />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
-                  <div className="text-lg font-semibold text-primary">€250</div>
-                  <div className="text-sm text-gray-600">avg. monthly earnings</div>
+                  <div className="text-lg font-semibold text-primary">25%</div>
+                  <div className="text-sm text-gray-600">from every successful claim</div>
                 </div>
               </div>
             </motion.div>
