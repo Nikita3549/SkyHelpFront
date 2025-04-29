@@ -46,9 +46,7 @@ const galleryImages = [
   {
     src: "/lovable-uploads/ad264c4c-e6f4-4084-b38a-ae8a7a9df2c8.png",
     alt: "Flight Import System",
-    title: "Flight Data Import Tool",
-    floatingTitle: "Easy Flight Data Import",
-    floatingSubtitle: "Upload your customer flight data to quickly identify compensable disruptions"
+    title: "Flight Data Import Tool"
   },
   {
     src: "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png",
@@ -102,14 +100,6 @@ const PartnerTypesSection: React.FC = () => {
                 <div className="p-4 bg-white">
                   <h3 className="font-semibold text-gray-900">{image.title}</h3>
                 </div>
-                
-                {/* Floating text for the Flight Data Import Tool image */}
-                {image.floatingTitle && (
-                  <div className="text-center py-6 px-4">
-                    <h3 className="text-xl font-semibold text-gray-900">{image.floatingTitle}</h3>
-                    <p className="text-gray-600 mt-1">{image.floatingSubtitle}</p>
-                  </div>
-                )}
               </motion.div>
             ))}
           </div>
