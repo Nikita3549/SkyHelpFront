@@ -23,6 +23,14 @@ const ReferralSection: React.FC<ReferralSectionProps> = ({ referralLink }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const testLink = () => {
+    window.open(referralLink, "_blank");
+    toast({
+      title: "Testing referral link",
+      description: "Your referral link has been opened in a new tab.",
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -64,7 +72,7 @@ const ReferralSection: React.FC<ReferralSectionProps> = ({ referralLink }) => {
                 </>
               )}
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={testLink}>
               <ExternalLink className="mr-2 h-4 w-4" />
               Test Link
             </Button>

@@ -12,6 +12,34 @@ import SupportFaqSection from "@/components/affiliate-dashboard/SupportFaqSectio
 import SettingsSection from "@/components/affiliate-dashboard/SettingsSection";
 import LoadingState from "@/components/affiliate-dashboard/LoadingState";
 
+// Define the types for our affiliate data
+export type AffiliateData = {
+  totalEarnings: number;
+  clicks: number;
+  approvedClaims: number;
+  pendingPayouts: number;
+  completedPayouts: number;
+  referralLink: string;
+  performanceData: Array<{
+    date: string;
+    clicks: number;
+    registrations: number;
+    claims: number;
+  }>;
+  payouts: Array<{
+    id: number;
+    amount: number;
+    date: string;
+    status: string;
+  }>;
+  user: {
+    name: string;
+    email: string;
+    paymentMethod: string;
+    paymentDetails: string;
+  };
+};
+
 // This would normally come from authentication
 const isAuthenticated = true; // For demo purposes
 
@@ -26,7 +54,7 @@ const AffiliateDashboard = () => {
     queryKey: ["affiliateData"],
     queryFn: () => {
       // Simulate API call
-      return new Promise((resolve) => {
+      return new Promise<AffiliateData>((resolve) => {
         setTimeout(() => {
           resolve({
             totalEarnings: 1250,
@@ -86,7 +114,7 @@ const AffiliateDashboard = () => {
     }
   });
 
-  if (isLoading) {
+  if (isLoading || !affiliateData) {
     return <LoadingState />;
   }
 

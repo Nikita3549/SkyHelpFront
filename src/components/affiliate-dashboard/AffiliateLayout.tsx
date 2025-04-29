@@ -17,35 +17,9 @@ import {
   ChevronLeft, 
   ChevronRight 
 } from "lucide-react";
+import { AffiliateData } from "@/pages/AffiliateDashboard";
 
-// Define types 
-type AffiliateData = {
-  totalEarnings: number;
-  clicks: number;
-  approvedClaims: number;
-  pendingPayouts: number;
-  completedPayouts: number;
-  referralLink: string;
-  performanceData: Array<{
-    date: string;
-    clicks: number;
-    registrations: number;
-    claims: number;
-  }>;
-  payouts: Array<{
-    id: number;
-    amount: number;
-    date: string;
-    status: string;
-  }>;
-  user: {
-    name: string;
-    email: string;
-    paymentMethod: string;
-    paymentDetails: string;
-  };
-};
-
+// Define props type
 type AffiliateLayoutProps = {
   children: React.ReactNode;
   data: AffiliateData;
