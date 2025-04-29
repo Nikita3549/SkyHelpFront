@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui-custom/AnimatedButton";
+import { Link } from "react-router-dom";
 
 interface HeroSectionProps {
   scrollToSection: (ref: React.RefObject<HTMLDivElement>) => void;
@@ -32,12 +33,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToSection, howItWorksRe
                 <AnimatedButton to="/affiliate/register" variant="primary" size="lg">
                   Become a Partner
                 </AnimatedButton>
-                <button
-                  onClick={() => scrollToSection(howItWorksRef)} 
+                <Link
+                  to="/affiliate/login" 
                   className="px-6 py-3 rounded-full font-medium border border-gray-200 text-gray-600 hover:text-primary hover:border-primary/20 transition-all shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2"
                 >
-                  How it Works
-                </button>
+                  Log in
+                </Link>
               </div>
               
               <div className="mt-10">
