@@ -51,12 +51,17 @@ const galleryImages = [
   {
     src: "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png",
     alt: "Partner Dashboard Analytics",
-    title: "Partner Analytics Dashboard"
+    title: "Partner Analytics Dashboard",
+    caption: "Real-time Analytics Dashboard",
+    subcaption: "Track commissions, compensations, and claim performance in one place"
   }
 ];
 
 const PartnerTypesSection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const selectedImageData = selectedImage 
+    ? galleryImages.find(img => img.src === selectedImage) 
+    : null;
   
   return (
     <section className="py-16 md:py-24 bg-blue-50">
@@ -144,6 +149,16 @@ const PartnerTypesSection: React.FC = () => {
               alt="Enlarged view" 
               className="w-full h-auto"
             />
+            {selectedImageData?.src === "/lovable-uploads/4620b240-fdab-47bc-9fde-6928b0d952ea.png" && (
+              <div className="px-6 py-4 text-center">
+                <h3 className="font-bold text-lg text-gray-900 mt-2">
+                  {selectedImageData.caption}
+                </h3>
+                <p className="text-gray-600 text-sm mt-1">
+                  {selectedImageData.subcaption}
+                </p>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
