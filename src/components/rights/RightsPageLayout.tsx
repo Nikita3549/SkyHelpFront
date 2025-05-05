@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { CheckIcon, ExternalLinkIcon } from "lucide-react";
 
 interface RightsPageLayoutProps {
   title: string;
@@ -15,6 +18,10 @@ interface RightsPageLayoutProps {
     title: string;
     href: string;
   }>;
+  tableOfContents?: Array<{
+    id: string;
+    title: string;
+  }>;
 }
 
 const RightsPageLayout = ({
@@ -24,6 +31,7 @@ const RightsPageLayout = ({
   metaDescription,
   children,
   relatedLinks = [],
+  tableOfContents = [],
 }: RightsPageLayoutProps) => {
   return (
     <>
@@ -44,6 +52,25 @@ const RightsPageLayout = ({
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
+            {tableOfContents.length > 0 && (
+              <div className="bg-blue-50 p-6 rounded-lg mb-8">
+                <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
+                <ul className="space-y-2">
+                  {tableOfContents.map((item) => (
+                    <li key={item.id}>
+                      <a 
+                        href={`#${item.id}`} 
+                        className="text-primary hover:underline flex items-center"
+                      >
+                        <CheckIcon className="w-4 h-4 mr-2" />
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <article className="prose prose-lg max-w-none">
               {children}
             </article>
@@ -65,7 +92,7 @@ const RightsPageLayout = ({
           </div>
 
           <div className="lg:col-span-1">
-            <div className="sticky top-24">
+            <div className="sticky top-24 space-y-8">
               <Card>
                 <CardContent className="pt-6">
                   <h3 className="font-semibold text-xl mb-4">Related Information</h3>
@@ -74,13 +101,26 @@ const RightsPageLayout = ({
                       <li key={index}>
                         <Link 
                           to={link.href} 
-                          className="text-primary hover:underline block py-2 border-b border-gray-100 last:border-0"
+                          className="text-primary hover:underline block py-2 border-b border-gray-100 last:border-0 flex items-center"
                         >
+                          <ExternalLinkIcon className="w-4 h-4 mr-2 flex-shrink-0" />
                           {link.title}
                         </Link>
                       </li>
                     ))}
                   </ul>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <h3 className="font-semibold text-xl mb-4">Check If You're Eligible</h3>
+                  <p className="text-gray-600 mb-4">
+                    Find out in just a few clicks if you're eligible for compensation.
+                  </p>
+                  <Button asChild className="w-full">
+                    <Link to="/claim">Check Your Eligibility</Link>
+                  </Button>
                 </CardContent>
               </Card>
             </div>
