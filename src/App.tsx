@@ -22,6 +22,20 @@ import LegalPartnership from "./pages/LegalPartnership";
 import B2bPartnership from "./pages/B2bPartnership";
 import NotFound from "./pages/NotFound";
 
+// Rights pages
+import AirPassengerRights from "./pages/rights/AirPassengerRights";
+import DelayedFlightCompensation from "./pages/rights/DelayedFlightCompensation";
+import OverbookedFlightCompensation from "./pages/rights/OverbookedFlightCompensation";
+import CancelledFlightCompensation from "./pages/rights/CancelledFlightCompensation";
+import DeniedBoardingCompensation from "./pages/rights/DeniedBoardingCompensation";
+import MissedConnectionCompensation from "./pages/rights/MissedConnectionCompensation";
+import AirlineStrikeCompensation from "./pages/rights/AirlineStrikeCompensation";
+import DelayedBaggageCompensation from "./pages/rights/DelayedBaggageCompensation";
+import FlightCompensation from "./pages/rights/FlightCompensation";
+import ShyRegulationTurkey from "./pages/rights/ShyRegulationTurkey";
+import Anac400Regulation from "./pages/rights/Anac400Regulation";
+import Uk261FlightCompensation from "./pages/rights/Uk261FlightCompensation";
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,6 +90,21 @@ const App = () => (
                       <Route path="/affiliate/login" element={<AffiliateLogin />} />
                       <Route path="/legal-partnership" element={<LegalPartnership />} />
                       <Route path="/b2b-partnership" element={<B2bPartnership />} />
+                      
+                      {/* Rights Pages */}
+                      <Route path="/rights/air-passenger-rights" element={<AirPassengerRights />} />
+                      <Route path="/rights/delayed-flight-compensation" element={<DelayedFlightCompensation />} />
+                      <Route path="/rights/overbooked-flight-compensation" element={<OverbookedFlightCompensation />} />
+                      <Route path="/rights/cancelled-flight-compensation" element={<CancelledFlightCompensation />} />
+                      <Route path="/rights/denied-boarding-compensation" element={<DeniedBoardingCompensation />} />
+                      <Route path="/rights/missed-connection-compensation" element={<MissedConnectionCompensation />} />
+                      <Route path="/rights/airline-strike-compensation" element={<AirlineStrikeCompensation />} />
+                      <Route path="/rights/delayed-baggage-compensation" element={<DelayedBaggageCompensation />} />
+                      <Route path="/rights/flight-compensation" element={<FlightCompensation />} />
+                      <Route path="/rights/shy-regulation-turkey" element={<ShyRegulationTurkey />} />
+                      <Route path="/rights/anac-400-regulation" element={<Anac400Regulation />} />
+                      <Route path="/rights/uk-261-flight-compensation" element={<Uk261FlightCompensation />} />
+                      
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </Layout>
