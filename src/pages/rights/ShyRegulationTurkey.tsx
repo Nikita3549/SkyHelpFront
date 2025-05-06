@@ -1,4 +1,3 @@
-
 import React from "react";
 import RightsPageLayout from "@/components/rights/RightsPageLayout";
 import RightsInfoBox from "@/components/rights/RightsInfoBox";
@@ -6,7 +5,7 @@ import CompensationTable from "@/components/rights/CompensationTable";
 import RightsFaqSection from "@/components/rights/RightsFaqSection";
 import RightsCallToAction from "@/components/rights/RightsCallToAction";
 import InfoCardGrid from "@/components/rights/InfoCardGrid";
-import { InfoIcon, TurkishLiraIcon, ShieldIcon, AlertTriangleIcon } from "lucide-react";
+import { InfoIcon, BanknoteIcon, ShieldIcon, AlertTriangleIcon } from "lucide-react";
 
 const ShyRegulationTurkey = () => {
   const relatedLinks = [
@@ -98,7 +97,7 @@ const ShyRegulationTurkey = () => {
             description: "Covers denied boarding, flight cancellations, long delays, and baggage-related issues for flights connected to Turkish airports."
           },
           {
-            icon: <TurkishLiraIcon className="w-6 h-6" />,
+            icon: <BanknoteIcon className="w-6 h-6" />,
             title: "Financial Compensation",
             description: "Provides standardized compensation amounts from 100 to 300 EUR based on flight distance, typically paid in Turkish lira."
           }
