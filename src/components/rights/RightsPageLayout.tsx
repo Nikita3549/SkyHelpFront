@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,15 @@ const RightsPageLayout = ({
   relatedLinks = [],
   tableOfContents = [],
 }: RightsPageLayoutProps) => {
+  const [activeTab, setActiveTab] = useState<string>("overview");
+  
+  // Define content tabs
+  const contentTabs = [
+    { id: "overview", title: "Overview" },
+    ...(tableOfContents.length > 0 ? [{ id: "details", title: "Detailed Guide" }] : []),
+    { id: "faq", title: "FAQs" }
+  ];
+
   return (
     <>
       <Helmet>
