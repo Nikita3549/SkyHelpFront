@@ -1,17 +1,23 @@
 
 import React from "react";
 import RightsPageLayout from "@/components/rights/RightsPageLayout";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
-import { AlertCircle, Clock, CheckCircle, PlaneTakeoff, FileText, LucideHelp, BaggageClaim, AlertTriangle, Info } from "lucide-react";
+import { 
+  AlertCircle, 
+  Clock, 
+  CheckCircle, 
+  PlaneTakeoff, 
+  FileText, 
+  Info, 
+  AlertTriangle 
+} from "lucide-react";
 import InfoCard from "@/components/common/InfoCard";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import AnimatedButton from "@/components/ui-custom/AnimatedButton";
+import CompensationTable from "@/components/rights/CompensationTable";
+import RightsFaqSection, { FaqItem } from "@/components/rights/RightsFaqSection";
+import RightsCallToAction from "@/components/rights/RightsCallToAction";
+import InfoCardGrid from "@/components/rights/InfoCardGrid";
+import RightsInfoBox from "@/components/rights/RightsInfoBox";
+import DisruptionTypesSection from "@/components/rights/DisruptionTypesSection";
 
 const FlightCompensation = () => {
   const relatedLinks = [
@@ -30,6 +36,71 @@ const FlightCompensation = () => {
     { id: "claim-process", title: "How to Claim Compensation" },
     { id: "time-limits", title: "Time Limits for Claims" },
     { id: "extraordinary", title: "Extraordinary Circumstances" }
+  ];
+
+  // FAQs data
+  const faqs: FaqItem[] = [
+    {
+      question: "Can I claim compensation for both a delayed and cancelled flight?",
+      answer: "No, you cannot claim twice for the same disrupted journey. EU261 entitles you to compensation once per disrupted journey, not for each individual issue that occurred. The compensation is calculated based on the total delay at your final destination, regardless of whether it was caused by a delay, cancellation, or combination of issues."
+    },
+    {
+      question: "Am I entitled to compensation if I was offered an alternative flight?",
+      answer: "Yes, you can still be entitled to compensation even if you accepted an alternative flight. The key factor is how much later you arrived at your final destination compared to your original schedule. If the replacement flight got you there 3+ hours late, you're likely eligible for compensation, even if you accepted the airline's alternative travel arrangements."
+    },
+    {
+      question: "What if I was rerouted through a different connecting city?",
+      answer: "Being rerouted through a different connecting city doesn't affect your right to compensation if you still arrived at your final destination 3+ hours late. The route taken is irrelevant for compensation purposes - only the delay at your final destination matters. If the airline got you there via a completely different path but still late, you maintain your right to compensation."
+    },
+    {
+      question: "Can I claim if my flight was part of a package holiday?",
+      answer: "Yes, flights that are part of package holidays are fully covered by EU261. You have the same rights as any other passenger. However, you may need to direct your claim to the tour operator rather than the airline, depending on your specific booking arrangements. The tour operator is responsible for assisting you with your claim against the airline."
+    },
+    {
+      question: "Do I need a lawyer to claim flight compensation?",
+      answer: "No, you don't need a lawyer to claim flight compensation. You can submit a claim directly to the airline yourself. However, if the airline refuses to pay or ignores your claim, you might consider using a specialized flight compensation company like CleverClaim to handle your case. These services work on a no-win, no-fee basis and have expertise in dealing with resistant airlines."
+    }
+  ];
+
+  // Compensation table data
+  const compensationTableHeaders = ["Flight Distance", "Compensation Amount", "Conditions"];
+  const compensationTableRows = [
+    ["Up to 1,500 km", <span className="font-medium">€250 per passenger</span>, "For all qualifying disruptions"],
+    ["Between 1,500-3,500 km", <span className="font-medium">€400 per passenger</span>, "For all qualifying disruptions"],
+    ["Over 3,500 km within EU", <span className="font-medium">€400 per passenger</span>, "For all qualifying disruptions"],
+    ["Over 3,500 km outside EU", <span className="font-medium">€600 per passenger</span>, "For delays 4+ hours (€300 for 3-4 hour delays)"]
+  ];
+
+  // Time limits table data
+  const timeTableHeaders = ["Time Limit", "Countries"];
+  const timeTableRows = [
+    ["1 year", "Belgium, Poland, Slovakia"],
+    ["2 years", "Croatia, Czech Republic, Denmark, Finland, Latvia, Norway, Portugal, Spain, Switzerland"],
+    ["3 years", "Austria, Germany, Estonia, Greece, Iceland, Netherlands, Romania, Slovenia, Sweden"],
+    ["5 years", "France, Hungary, Italy"],
+    ["6 years", "United Kingdom (5 years in Scotland)"]
+  ];
+
+  // Info cards for claim process
+  const claimProcessCards = [
+    {
+      icon: <FileText className="w-5 h-5" />,
+      title: "1. Document Everything",
+      description: "Collect boarding passes, booking confirmations, communications from the airline, and expenses receipts.",
+      className: "bg-blue-50"
+    },
+    {
+      icon: <Clock className="w-5 h-5" />,
+      title: "2. Calculate Entitlement",
+      description: "Check flight distance and delay duration to determine your potential compensation amount.",
+      className: "bg-green-50"
+    },
+    {
+      icon: <CheckCircle className="w-5 h-5" />,
+      title: "3. Submit Your Claim",
+      description: "Contact the airline directly with all details, referencing EU261, or use a specialized claim company.",
+      className: "bg-amber-50"
+    }
   ];
 
   return (
@@ -83,48 +154,20 @@ const FlightCompensation = () => {
       <p className="mb-4">
         Under EU261, compensation amounts are fixed based on the flight distance:
       </p>
-      <div className="overflow-x-auto my-6">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-blue-50">
-              <TableHead className="font-semibold">Flight Distance</TableHead>
-              <TableHead className="font-semibold">Compensation Amount</TableHead>
-              <TableHead className="font-semibold">Conditions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>Up to 1,500 km</TableCell>
-              <TableCell className="font-medium">€250 per passenger</TableCell>
-              <TableCell>For all qualifying disruptions</TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell>Between 1,500-3,500 km</TableCell>
-              <TableCell className="font-medium">€400 per passenger</TableCell>
-              <TableCell>For all qualifying disruptions</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Over 3,500 km within EU</TableCell>
-              <TableCell className="font-medium">€400 per passenger</TableCell>
-              <TableCell>For all qualifying disruptions</TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell>Over 3,500 km outside EU</TableCell>
-              <TableCell className="font-medium">€600 per passenger</TableCell>
-              <TableCell>For delays 4+ hours (€300 for 3-4 hour delays)</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
+      
+      <CompensationTable 
+        headers={compensationTableHeaders}
+        rows={compensationTableRows}
+      />
 
-      <div className="bg-amber-50 p-5 rounded-lg mb-6 flex items-start">
-        <AlertTriangle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-1" />
-        <p>
-          For long-distance flights (over 3,500 km) between the EU and non-EU destinations, if the delay at your final destination 
-          is between 3 and 4 hours, the compensation may be reduced by 50%. However, you'll receive the full amount if the 
-          delay exceeds 4 hours.
-        </p>
-      </div>
+      <RightsInfoBox 
+        type="warning" 
+        icon={<AlertTriangle className="w-6 h-6" />}
+      >
+        For long-distance flights (over 3,500 km) between the EU and non-EU destinations, if the delay at your final destination 
+        is between 3 and 4 hours, the compensation may be reduced by 50%. However, you'll receive the full amount if the 
+        delay exceeds 4 hours.
+      </RightsInfoBox>
 
       <h2 id="eligibility" className="text-2xl font-bold mt-8 mb-4 scroll-mt-24">Who Can Claim Flight Compensation</h2>
       
@@ -151,117 +194,10 @@ const FlightCompensation = () => {
         </div>
       </div>
 
-      <h2 id="disruption-types" className="text-2xl font-bold mt-8 mb-4 scroll-mt-24">Types of Flight Disruptions</h2>
-
-      <h3 className="text-xl font-semibold mt-6 mb-3">1. Flight Delays</h3>
-      <p className="mb-4">
-        You're entitled to compensation if your flight arrives at the final destination 3 or more hours later than scheduled 
-        and the delay wasn't caused by extraordinary circumstances.
-      </p>
-      <div className="overflow-x-auto my-4">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-blue-50">
-              <TableHead className="font-semibold">Delay Length</TableHead>
-              <TableHead className="font-semibold">Your Rights</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>2+ hours</TableCell>
-              <TableCell>
-                <ul className="list-disc pl-6">
-                  <li>Meals and refreshments</li>
-                  <li>Two phone calls, emails, or faxes</li>
-                </ul>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell>3+ hours</TableCell>
-              <TableCell>
-                <ul className="list-disc pl-6">
-                  <li>Financial compensation (€250-€600)</li>
-                  <li>All care and assistance from the 2+ hour category</li>
-                </ul>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>5+ hours</TableCell>
-              <TableCell>
-                <ul className="list-disc pl-6">
-                  <li>Full ticket refund if you decide not to travel</li>
-                  <li>Return flight to your departure point if relevant</li>
-                  <li>All previous category benefits</li>
-                </ul>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell>Overnight delay</TableCell>
-              <TableCell>
-                <ul className="list-disc pl-6">
-                  <li>Hotel accommodation</li>
-                  <li>Transport between airport and hotel</li>
-                  <li>All previous category benefits</li>
-                </ul>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
-
-      <h3 className="text-xl font-semibold mt-6 mb-3">2. Flight Cancellations</h3>
-      <p className="mb-4">
-        You're entitled to compensation if your flight was cancelled without prior notice and the airline didn't offer 
-        an alternative flight that arrives close to your original schedule.
-      </p>
-      <div className="overflow-x-auto my-4">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-blue-50">
-              <TableHead className="font-semibold">Notice Period</TableHead>
-              <TableHead className="font-semibold">Compensation Condition</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>Less than 7 days</TableCell>
-              <TableCell>If rerouting gets you to your destination more than 2 hours after your originally scheduled arrival</TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell>7-14 days</TableCell>
-              <TableCell>If rerouting gets you to your destination more than 4 hours after your originally scheduled arrival</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>More than 14 days</TableCell>
-              <TableCell>No compensation required, but the airline must offer a refund or alternative flight</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
-
-      <h3 className="text-xl font-semibold mt-6 mb-3">3. Denied Boarding</h3>
-      <p className="mb-4">
-        If you're involuntarily denied boarding (typically due to overbooking), you're entitled to immediate compensation 
-        and assistance, regardless of when you eventually arrive at your destination.
-      </p>
-      <p className="mb-4">
-        The airline must offer you the choice between:
-      </p>
-      <ul className="list-disc pl-6 space-y-2 mb-4">
-        <li>Full ticket refund plus return flight to your departure point if necessary</li>
-        <li>Alternative transport to your destination at the earliest opportunity</li>
-        <li>Rebooking to your destination at a later date of your choosing</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold mt-6 mb-3">4. Missed Connections</h3>
-      <p className="mb-4">
-        If you miss a connecting flight due to a delay in your first flight, you may be entitled to compensation if:
-      </p>
-      <ul className="list-disc pl-6 space-y-2 mb-6">
-        <li>Both flights were part of the same booking (same reservation number)</li>
-        <li>The delay of the first flight caused you to miss your connection</li>
-        <li>You arrive at your final destination with a delay of 3+ hours</li>
-      </ul>
+      <DisruptionTypesSection 
+        sectionId="disruption-types" 
+        title="Types of Flight Disruptions"
+      />
 
       <h2 id="extraordinary" className="text-2xl font-bold mt-8 mb-4 scroll-mt-24">Extraordinary Circumstances</h2>
       <p className="mb-4">
@@ -295,39 +231,18 @@ const FlightCompensation = () => {
         </div>
       </div>
 
-      <div className="bg-blue-50 p-5 rounded-lg mb-6 flex items-start">
-        <Info className="w-6 h-6 text-blue-500 mr-3 flex-shrink-0 mt-1" />
-        <p>
-          <strong>Important:</strong> Following European Court rulings, most technical problems are NOT considered extraordinary circumstances, 
-          as they are deemed part of an airline's normal operations. Airlines often reject claims citing technical issues, but 
-          courts have consistently ruled in passengers' favor in such cases.
-        </p>
-      </div>
+      <RightsInfoBox 
+        type="info" 
+        icon={<Info className="w-6 h-6" />}
+      >
+        <strong>Important:</strong> Following European Court rulings, most technical problems are NOT considered extraordinary circumstances, 
+        as they are deemed part of an airline's normal operations. Airlines often reject claims citing technical issues, but 
+        courts have consistently ruled in passengers' favor in such cases.
+      </RightsInfoBox>
 
       <h2 id="claim-process" className="text-2xl font-bold mt-8 mb-4 scroll-mt-24">How to Claim Compensation: Step-by-Step</h2>
       
-      <div className="grid md:grid-cols-3 gap-6 my-8">
-        <InfoCard 
-          icon={<FileText className="w-5 h-5" />}
-          title="1. Document Everything" 
-          description="Collect boarding passes, booking confirmations, communications from the airline, and expenses receipts."
-          className="bg-blue-50"
-        />
-        
-        <InfoCard 
-          icon={<Clock className="w-5 h-5" />}
-          title="2. Calculate Entitlement" 
-          description="Check flight distance and delay duration to determine your potential compensation amount."
-          className="bg-green-50"
-        />
-        
-        <InfoCard 
-          icon={<CheckCircle className="w-5 h-5" />}
-          title="3. Submit Your Claim" 
-          description="Contact the airline directly with all details, referencing EU261, or use a specialized claim company."
-          className="bg-amber-50"
-        />
-      </div>
+      <InfoCardGrid cards={claimProcessCards} columns={3} />
 
       <ol className="list-decimal pl-6 space-y-4 mb-8">
         <li>
@@ -376,8 +291,10 @@ const FlightCompensation = () => {
         </li>
       </ol>
 
-      <div className="bg-amber-50 p-5 rounded-lg mb-6 flex items-start">
-        <AlertCircle className="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-1" />
+      <RightsInfoBox 
+        type="warning" 
+        icon={<AlertCircle className="w-6 h-6" />}
+      >
         <div>
           <p className="font-semibold mb-1">Common Airline Tactics to Watch For:</p>
           <ul className="list-disc pl-6">
@@ -387,7 +304,7 @@ const FlightCompensation = () => {
             <li>Providing minimal information about your rights during disruptions</li>
           </ul>
         </div>
-      </div>
+      </RightsInfoBox>
 
       <h2 id="time-limits" className="text-2xl font-bold mt-8 mb-4 scroll-mt-24">Time Limits for Claims</h2>
       <p className="mb-4">
@@ -395,131 +312,28 @@ const FlightCompensation = () => {
         limitation period for contractual claims, not by your nationality or the airline's country of origin.
       </p>
 
-      <div className="overflow-x-auto my-6">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-blue-50">
-              <TableHead className="font-semibold">Time Limit</TableHead>
-              <TableHead className="font-semibold">Countries</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>1 year</TableCell>
-              <TableCell>Belgium, Poland, Slovakia</TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell>2 years</TableCell>
-              <TableCell>Croatia, Czech Republic, Denmark, Finland, Latvia, Norway, Portugal, Spain, Switzerland</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>3 years</TableCell>
-              <TableCell>Austria, Germany, Estonia, Greece, Iceland, Netherlands, Romania, Slovenia, Sweden</TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell>5 years</TableCell>
-              <TableCell>France, Hungary, Italy</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>6 years</TableCell>
-              <TableCell>United Kingdom (5 years in Scotland)</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
+      <CompensationTable 
+        headers={timeTableHeaders}
+        rows={timeTableRows}
+      />
 
-      <div className="bg-blue-50 p-5 rounded-lg mb-6 flex items-start">
-        <Info className="w-6 h-6 text-blue-500 mr-3 flex-shrink-0 mt-1" />
-        <p>
-          It's advisable to file your claim as soon as possible after the disruption, while evidence is still fresh and readily available. 
-          Even though some countries allow claims for flights from several years ago, airlines may have purged their records, making it 
-          harder to verify your claim details.
-        </p>
-      </div>
+      <RightsInfoBox 
+        type="info" 
+        icon={<Info className="w-6 h-6" />}
+      >
+        It's advisable to file your claim as soon as possible after the disruption, while evidence is still fresh and readily available. 
+        Even though some countries allow claims for flights from several years ago, airlines may have purged their records, making it 
+        harder to verify your claim details.
+      </RightsInfoBox>
 
-      <h2 id="faq" className="text-2xl font-bold mt-8 mb-4 scroll-mt-24">Frequently Asked Questions</h2>
-      <Accordion type="single" collapsible className="mb-8">
-        <AccordionItem value="item-1">
-          <AccordionTrigger className="text-lg font-medium">Can I claim compensation for both a delayed and cancelled flight?</AccordionTrigger>
-          <AccordionContent className="text-gray-700">
-            No, you cannot claim twice for the same disrupted journey. EU261 entitles you to compensation once per 
-            disrupted journey, not for each individual issue that occurred. The compensation is calculated based on 
-            the total delay at your final destination, regardless of whether it was caused by a delay, cancellation, 
-            or combination of issues.
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="item-2">
-          <AccordionTrigger className="text-lg font-medium">Am I entitled to compensation if I was offered an alternative flight?</AccordionTrigger>
-          <AccordionContent className="text-gray-700">
-            Yes, you can still be entitled to compensation even if you accepted an alternative flight. The key factor 
-            is how much later you arrived at your final destination compared to your original schedule. If the replacement 
-            flight got you there 3+ hours late, you're likely eligible for compensation, even if you accepted the airline's 
-            alternative travel arrangements.
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="item-3">
-          <AccordionTrigger className="text-lg font-medium">What if I was rerouted through a different connecting city?</AccordionTrigger>
-          <AccordionContent className="text-gray-700">
-            Being rerouted through a different connecting city doesn't affect your right to compensation if you still 
-            arrived at your final destination 3+ hours late. The route taken is irrelevant for compensation purposes - 
-            only the delay at your final destination matters. If the airline got you there via a completely different 
-            path but still late, you maintain your right to compensation.
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="item-4">
-          <AccordionTrigger className="text-lg font-medium">Can I claim if my flight was part of a package holiday?</AccordionTrigger>
-          <AccordionContent className="text-gray-700">
-            Yes, flights that are part of package holidays are fully covered by EU261. You have the same rights as any 
-            other passenger. However, you may need to direct your claim to the tour operator rather than the airline, 
-            depending on your specific booking arrangements. The tour operator is responsible for assisting you with 
-            your claim against the airline.
-          </AccordionContent>
-        </AccordionItem>
+      <RightsFaqSection faqs={faqs} />
 
-        <AccordionItem value="item-5">
-          <AccordionTrigger className="text-lg font-medium">Do I need a lawyer to claim flight compensation?</AccordionTrigger>
-          <AccordionContent className="text-gray-700">
-            No, you don't need a lawyer to claim flight compensation. You can submit a claim directly to the airline 
-            yourself. However, if the airline refuses to pay or ignores your claim, you might consider using a specialized 
-            flight compensation company like CleverClaim to handle your case. These services work on a no-win, no-fee basis 
-            and have expertise in dealing with resistant airlines.
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
-      <Separator className="my-10" />
-
-      <div className="grid md:grid-cols-2 gap-8 my-10 bg-blue-50 p-8 rounded-xl">
-        <div>
-          <h3 className="text-2xl font-semibold mb-4">Tired of Fighting Airlines?</h3>
-          <p className="mb-6">
-            Let our experts handle your flight compensation claim. With our specialized knowledge of air passenger 
-            rights and years of experience dealing with resistant airlines, we can maximize your chances of receiving 
-            the compensation you deserve.
-          </p>
-          <ul className="list-disc pl-6 space-y-2 mb-6">
-            <li>No win, no fee policy - we only get paid if you do</li>
-            <li>We handle all airline communications and paperwork</li>
-            <li>Higher success rate than claiming yourself</li>
-            <li>Expert knowledge of case law and precedents</li>
-            <li>Regular updates on your claim's progress</li>
-          </ul>
-          <AnimatedButton to="/claim" variant="primary" size="lg" className="mt-4">
-            Start Your Compensation Claim Now
-          </AnimatedButton>
-        </div>
-        <div className="flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-5xl font-bold text-primary mb-3">€600</div>
-            <p className="text-xl">Maximum compensation per passenger</p>
-            <p className="text-sm mt-2 text-gray-600">Claim takes just 3 minutes to start</p>
-            <p className="text-sm text-gray-600">Most claims resolved within 12 weeks</p>
-          </div>
-        </div>
-      </div>
+      <RightsCallToAction 
+        stats={{
+          value: "€600",
+          label: "Maximum compensation per passenger"
+        }}
+      />
 
       <p>
         While claiming flight compensation can sometimes be a time-consuming process, persistence pays off. EU regulations 
