@@ -16,6 +16,7 @@ interface RightsFaqSectionProps {
   faqs: FaqItem[];
   title?: string;
   className?: string;
+  id?: string; // Added id prop
 }
 
 /**
@@ -24,10 +25,11 @@ interface RightsFaqSectionProps {
 const RightsFaqSection = ({ 
   faqs, 
   title = "Frequently Asked Questions", 
-  className = "" 
+  className = "",
+  id = "faq" // Default to "faq" if not provided
 }: RightsFaqSectionProps) => {
   return (
-    <div className={className} id="faq">
+    <div className={className} id={id}>
       {title && <h2 className="text-2xl font-bold mt-8 mb-4 scroll-mt-24">{title}</h2>}
       <Accordion type="single" collapsible className="mb-8">
         {faqs.map((faq, index) => (
