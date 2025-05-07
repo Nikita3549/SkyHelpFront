@@ -14,6 +14,9 @@ import { AnimationTransitions } from "@/components/claim-form/types";
 // Component imports
 import DisruptionTypeRadioGroup from "./flight-details/DisruptionTypeRadioGroup";
 import EligibilityResult from "./flight-details/EligibilityResult";
+import ArrivalDelayQuestion from "./flight-details/ArrivalDelayQuestion";
+import NotificationTimeQuestion from "./flight-details/NotificationTimeQuestion";
+import VoluntaryDenialQuestion from "./flight-details/VoluntaryDenialQuestion";
 
 interface DisruptionTypeStepProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
@@ -34,6 +37,24 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   transitions,
   onBack,
 }) => {
+  // Get the current values from the form
+  const disruptionType = form.watch("disruptionType");
+  const arrivalDelay = form.watch("arrivalDelay");
+  
+  // Check if we should show the arrival delay question
+  const showArrivalDelayQuestion = 
+    disruptionType === "delay" || 
+    disruptionType === "cancellation" || 
+    disruptionType === "denied_boarding";
+    
+  // Check if we should show the notification time question
+  const showNotificationTimeQuestion = 
+    disruptionType === "cancellation" && arrivalDelay !== undefined;
+    
+  // Check if we should show the voluntary denial question
+  const showVoluntaryDenialQuestion = 
+    disruptionType === "denied_boarding" && arrivalDelay !== undefined;
+
   return (
     <motion.div
       key="disruptionType"
@@ -53,6 +74,25 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
+
+          {/* Conditional additional questions */}
+          {showArrivalDelayQuestion && (
+            <ArrivalDelayQuestion 
+              form={form} 
+            />
+          )}
+
+          {showNotificationTimeQuestion && (
+            <NotificationTimeQuestion 
+              form={form} 
+            />
+          )}
+
+          {showVoluntaryDenialQuestion && (
+            <VoluntaryDenialQuestion 
+              form={form} 
+            />
+          )}
 
           <div className="pt-4 flex justify-between items-center">
             <Button 

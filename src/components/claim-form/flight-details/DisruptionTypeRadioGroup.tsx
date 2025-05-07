@@ -1,18 +1,11 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { Clock, AlertCircle, Users, Plane } from "lucide-react";
+import { AlertCircle, Users, Plane } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface DisruptionTypeRadioGroupProps {
@@ -21,20 +14,6 @@ interface DisruptionTypeRadioGroupProps {
 
 const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ form }) => {
   const disruptionType = form.watch("disruptionType");
-  const delayDuration = form.watch("delayDuration");
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Initialize delayDuration when delay is selected
-  useEffect(() => {
-    if (disruptionType === "delay" && !form.getValues("delayDuration")) {
-      form.setValue("delayDuration", "1 hour");
-    }
-  }, [disruptionType, form]);
-
-  const handleDelayDurationSelect = (duration: string) => {
-    form.setValue("delayDuration", duration);
-    setIsOpen(false);
-  };
 
   // Fix: Update the function to accept only valid disruption types
   const handleOptionClick = (value: "delay" | "cancellation" | "denied_boarding" | "missed_connection") => {
@@ -47,7 +26,7 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
       name="disruptionType"
       render={({ field }) => (
         <FormItem className="md:col-span-2">
-          <FormLabel>What happened to your flight?</FormLabel>
+          <FormLabel className="text-lg font-medium">What happened to your flight?</FormLabel>
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
@@ -61,46 +40,17 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                 )}
                 onClick={() => handleOptionClick("delay")}
               >
-                <div className="flex items-center justify-between space-x-2">
-                  <div className="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      id="delay" 
-                      checked={disruptionType === "delay"}
-                      onChange={() => {}}
-                      className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    />
-                    <label htmlFor="delay" className="flex items-center cursor-pointer">
-                      <span>Flight was delayed</span>
-                    </label>
-                  </div>
-                  
-                  {disruptionType === "delay" && (
-                    <div onClick={(e) => e.stopPropagation()} className="z-10">
-                      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-                        <DropdownMenuTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            className="flex items-center space-x-2 h-9 px-3 text-sm font-normal cursor-pointer"
-                          >
-                            <span>{delayDuration || "Select duration"}</span>
-                            <Clock className="h-4 w-4 text-gray-500" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-32 bg-white">
-                          {["1 hour", "2 hours", "3 hours", "4+ hours"].map((duration) => (
-                            <DropdownMenuItem 
-                              key={duration} 
-                              onClick={() => handleDelayDurationSelect(duration)}
-                              className="cursor-pointer"
-                            >
-                              {duration}
-                            </DropdownMenuItem>
-                          ))}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  )}
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="radio" 
+                    id="delay" 
+                    checked={disruptionType === "delay"}
+                    onChange={() => {}}
+                    className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                  <label htmlFor="delay" className="flex items-center cursor-pointer">
+                    <span>Flight was delayed</span>
+                  </label>
                 </div>
                 {/* Invisible overlay to cover the entire area for better clicking */}
                 <div className="absolute inset-0 cursor-pointer" onClick={() => handleOptionClick("delay")}></div>

@@ -65,6 +65,9 @@ export const useClaimFormState = () => {
       delayDuration: "1 hour",
       connectionAirports: [],
       problematicFlightSegment: "",
+      arrivalDelay: undefined,
+      notificationTime: undefined,
+      voluntaryDenial: undefined,
     },
   });
 

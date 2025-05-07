@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -67,18 +66,24 @@ export const useClaimFormHandlers = ({
     
     // Simulate checking eligibility based on the EU regulation
     setTimeout(() => {
-      // Check for eligibility based on flight disruption type and duration
+      // Check for eligibility based on flight disruption type and arrival delay
       let isEligible = false;
       
       if (data.disruptionType === "delay") {
-        // Only eligible if delay is 3 hours or more (EU Regulation 261/2004)
-        const delayDuration = data.delayDuration || "1 hour";
-        // Fix the bug: "3 hours", "4+ hours" should be eligible
-        isEligible = delayDuration === "3 hours" || delayDuration === "4+ hours";
-      } else if (data.disruptionType === "cancellation" || 
-                data.disruptionType === "denied_boarding") {
-        // Cancellations and denied boarding are generally eligible
-        isEligible = true;
+        // Eligible if arrival delay is 3 hours or more
+        isEligible = data.arrivalDelay === "3hours_or_more";
+      } else if (data.disruptionType === "cancellation") {
+        // Eligible if notified less than 14 days before departure
+        // or if the arrival delay is 3 hours or more
+        isEligible = 
+          data.arrivalDelay === "3hours_or_more" || 
+          data.arrivalDelay === "never_arrived" || 
+          data.notificationTime === "less_than_14days";
+      } else if (data.disruptionType === "denied_boarding") {
+        // Eligible if not voluntary and arrival delay is 3 hours or more
+        isEligible = 
+          data.arrivalDelay === "3hours_or_more" && 
+          data.voluntaryDenial === "no";
       } else if (data.disruptionType === "missed_connection") {
         // Missed connections might be eligible depending on the total delay
         isEligible = true;

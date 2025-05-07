@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 export const flightRouteSchema = z.object({
@@ -16,7 +15,12 @@ export const flightDetailsSchema = z.object({
   departureDate: z.string().min(1, "Departure date is required"),
   departureAirport: z.string().min(1, "Departure airport is required"),
   arrivalAirport: z.string().min(1, "Arrival airport is required"),
-  disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection"]),
+  disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection"], {
+    required_error: "Please select a disruption type",
+  }),
+  arrivalDelay: z.enum(["3hours_or_more", "less_than_3hours", "never_arrived"]).optional(),
+  notificationTime: z.enum(["less_than_14days", "14days_or_more"]).optional(),
+  voluntaryDenial: z.enum(["yes", "no"]).optional(),
   connectingFlights: z.enum(["yes", "no"]).default("no"),
   delayDuration: z.string().optional(),
   connectionAirports: z.array(z.string()).optional(),
