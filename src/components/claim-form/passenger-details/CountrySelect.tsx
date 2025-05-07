@@ -29,11 +29,14 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onValueChange }) =
   const isMobile = useIsMobile();
   const [open, setOpen] = React.useState(false);
   
-  // Find the country object based on the value
-  const selectedCountry = React.useMemo(() => 
-    countries.find(country => country.value === value || country.label === value), 
-    [value]
-  );
+  // Find the country object based on the value (checking both value and label)
+  const selectedCountry = React.useMemo(() => {
+    if (!value) return null;
+    return countries.find(country => 
+      country.value === value || 
+      country.label === value
+    );
+  }, [value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -61,7 +64,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onValueChange }) =
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start" sideOffset={5}>
+      <PopoverContent className="w-full p-0" align="start">
         <Command>
           <CommandInput placeholder="Search for a country..." />
           <CommandEmpty>No country found.</CommandEmpty>
@@ -71,7 +74,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onValueChange }) =
                 key={country.value}
                 value={country.label}
                 onSelect={() => {
-                  onValueChange(country.label);
+                  onValueChange(country.value);
                   setOpen(false);
                 }}
               >
@@ -80,7 +83,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onValueChange }) =
                 <Check
                   className={cn(
                     "ml-auto h-4 w-4",
-                    selectedCountry?.label === country.label ? "opacity-100" : "opacity-0"
+                    selectedCountry?.value === country.value ? "opacity-100" : "opacity-0"
                   )}
                 />
               </CommandItem>
