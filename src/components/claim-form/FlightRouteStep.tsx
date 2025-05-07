@@ -114,11 +114,11 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             setConnectionFlights={setConnectionFlights}
           />
 
-          {/* Free checking alert message */}
+          {/* Enhanced free checking alert message */}
           <Alert className="bg-blue-50 border-blue-100 mb-4">
             <Info className="h-5 w-5 text-blue-600" />
             <AlertDescription className="text-blue-800 flex items-center">
-              No risk. Checking compensation is absolutely <span className="font-semibold">free of charge</span>.
+              <span className="font-medium">100% Risk-Free:</span> Checking your compensation eligibility is <span className="font-semibold">completely free</span> with no obligations. We only charge a fee if we successfully recover money for you.
             </AlertDescription>
           </Alert>
 
