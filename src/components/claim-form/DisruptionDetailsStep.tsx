@@ -25,8 +25,19 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
   onSubmit,
   onBack,
   transitions,
+  disruptionType,
 }) => {
   const reasonProvided = form.watch("reasonProvided");
+
+  const getDisruptionTypeLabel = () => {
+    switch (disruptionType) {
+      case "delay": return "flight delay";
+      case "cancellation": return "flight cancellation";
+      case "denied_boarding": return "denied boarding";
+      case "missed_connection": return "missed connection";
+      default: return "flight disruption";
+    }
+  };
 
   return (
     <motion.div
@@ -37,25 +48,29 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
       transition={transitions.transition}
     >
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Disruption Details</h2>
+        <h2 className="text-2xl font-semibold mb-2 text-blue-800">Disruption Details</h2>
         <p className="text-gray-600">
-          Please provide more details about the flight disruption you experienced.
+          Please tell us more about your {getDisruptionTypeLabel()} experience to help strengthen your claim.
         </p>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-8">
-            {/* Question 1: Did the airline tell you why the flight was disrupted? */}
-            <ReasonProvidedQuestion form={form} />
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <ReasonProvidedQuestion form={form} />
+            </div>
 
-            {/* Question 2: What was the reason provided by the airline? - Only shown if "Yes" selected */}
-            {reasonProvided === "yes" && <AirlineReasonQuestion form={form} />}
+            {reasonProvided === "yes" && (
+              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                <AirlineReasonQuestion form={form} />
+              </div>
+            )}
 
-            {/* Free-text field with tooltip */}
-            <AdditionalInfoField form={form} />
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <AdditionalInfoField form={form} />
+            </div>
             
-            {/* Disclaimer text */}
             <DisclaimerBox />
           </div>
 

@@ -19,7 +19,7 @@ const AdditionalInfoField: React.FC<AdditionalInfoFieldProps> = ({ form }) => {
       name="additionalInfo"
       render={({ field }) => (
         <FormItem>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-2">
             <FormLabel className="text-base font-medium">Tell us more about your situation</FormLabel>
             <TooltipProvider>
               <Tooltip>
@@ -29,27 +29,33 @@ const AdditionalInfoField: React.FC<AdditionalInfoFieldProps> = ({ form }) => {
                 <TooltipContent className="max-w-md p-4 bg-white shadow-lg rounded-lg border">
                   <h4 className="font-medium mb-2">What information should you include?</h4>
                   <ul className="list-disc pl-5 space-y-2 text-sm">
-                    <li>What time did you arrive at your final destination?</li>
-                    <li>Did the airline provide a reason for the disruption?</li>
-                    <li>Did the airline offer an alternative flight, and did you accept it?</li>
-                    <li>Have you already contacted the airline regarding EU compensation?</li>
-                    <li>Did you fly alone, with friends, family, or as part of a group?</li>
+                    <li>Exact arrival time at your final destination</li>
+                    <li>Communications received from the airline staff</li>
+                    <li>Whether you were offered any compensation or assistance</li>
+                    <li>If you've already contacted the airline about this issue</li>
+                    <li>How the disruption impacted your travel plans</li>
+                    <li>Any additional expenses incurred due to the disruption</li>
                   </ul>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
           <FormLabel className="text-sm text-gray-500 block mb-2">
-            Briefly describe what happened
+            The more details you provide, the stronger your claim will be
           </FormLabel>
           <FormControl>
             <Textarea 
-              placeholder="Please provide any relevant details about your flight disruption experience..." 
+              placeholder="Please describe what happened during your flight disruption. Include times, staff interactions, and how it affected your journey..." 
               {...field} 
-              className="min-h-[120px]"
+              className="min-h-[150px] focus:border-blue-400 focus:ring focus:ring-blue-100"
             />
           </FormControl>
-          <FormMessage />
+          <div className="flex justify-between mt-2">
+            <FormMessage />
+            <div className="text-xs text-gray-400">
+              {field.value ? field.value.length : 0}/1000 characters
+            </div>
+          </div>
         </FormItem>
       )}
     />
