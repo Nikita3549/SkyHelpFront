@@ -23,7 +23,6 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
     email: "",
     phone: "",
     address: "",
-    numberOfPassengers: "",
     airline: "",
     flightnumber: "",
     departureAirport: "",
@@ -99,7 +98,6 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         phone: formData.phone,
         address: formData.address,
         // Match the database column names (lowercase)
-        numberOfPassengers: formData.numberOfPassengers,
         departureAirport: formData.departureAirport,
         arrivalAirport: formData.arrivalAirport,
         flightIssue: formData.flightIssue,
@@ -145,7 +143,6 @@ const NewClaimForm = ({ onSubmit, onCancel }: NewClaimFormProps) => {
         email={formData.email}
         phone={formData.phone}
         address={formData.address}
-        numberOfPassengers={formData.numberOfPassengers}
         additionalInformation={formData.additionalInformation}
         errors={errors}
         handleChange={handleChange}

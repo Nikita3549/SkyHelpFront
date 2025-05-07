@@ -10,7 +10,7 @@ import DateAndAmountSection from "../form-sections/DateAndAmountSection";
 import FlightDetailsSection from "../form-sections/FlightDetailsSection";
 import PaymentDetailsSection from "../form-sections/PaymentDetailsSection";
 import FormActions from "../form-sections/FormActions";
-import { useEditClaimForm } from "../hooks/useEditClaimForm";
+import { useEditClaimForm } from "@/hooks/useEditClaimForm";
 import { validateClaimForm } from "../utils/claimValidation";
 
 type EditClaimModalProps = {
@@ -41,7 +41,7 @@ const EditClaimModal = ({ isOpen, onClose, onSubmit, claim }: EditClaimModalProp
       
       // Find the first tab with errors
       if (validationErrors.firstName || validationErrors.lastName || validationErrors.email || 
-          validationErrors.phone || validationErrors.address || validationErrors.numberOfPassengers) {
+          validationErrors.phone || validationErrors.address) {
         setActiveTab("customer");
       } else if (validationErrors.airline || validationErrors.flightnumber) {
         setActiveTab("flight");
@@ -100,7 +100,6 @@ const EditClaimModal = ({ isOpen, onClose, onSubmit, claim }: EditClaimModalProp
                 email={formState.email}
                 phone={formState.phone}
                 address={formState.address}
-                numberOfPassengers={formState.numberOfPassengers}
                 additionalInformation={formState.additionalInformation}
                 errors={errors}
                 handleChange={handleFieldChange}
