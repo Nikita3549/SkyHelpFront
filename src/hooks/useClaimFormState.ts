@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -80,6 +79,12 @@ export const useClaimFormState = () => {
       email: "",
       phone: "",
       address: "",
+      addressLine2: "",
+      city: "",
+      postalCode: "",
+      state: "",
+      country: "",
+      whatsappNotifications: false,
     },
   });
 

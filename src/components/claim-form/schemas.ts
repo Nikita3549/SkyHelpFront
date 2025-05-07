@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 export const flightRouteSchema = z.object({
@@ -34,6 +33,12 @@ export const passengerDetailsSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(6, "Please enter a valid phone number"),
   address: z.string().min(5, "Please enter your address"),
+  addressLine2: z.string().optional(),
+  city: z.string().min(2, "Please enter your city"),
+  postalCode: z.string().min(2, "Please enter your postal code"),
+  state: z.string().optional(),
+  country: z.string().min(2, "Please select your country"),
+  whatsappNotifications: z.boolean().default(false),
 });
 
 export const disruptionDetailsSchema = z.object({
