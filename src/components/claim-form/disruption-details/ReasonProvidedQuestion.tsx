@@ -18,7 +18,7 @@ const ReasonProvidedQuestion: React.FC<ReasonProvidedQuestionProps> = ({ form })
       name="reasonProvided"
       render={({ field }) => (
         <FormItem className="space-y-4">
-          <FormLabel className="text-lg font-medium block">
+          <FormLabel className="text-xl font-semibold text-blue-800 block">
             Did the airline tell you why the flight was disrupted?
           </FormLabel>
           <FormControl>
@@ -27,29 +27,29 @@ const ReasonProvidedQuestion: React.FC<ReasonProvidedQuestionProps> = ({ form })
               defaultValue={field.value}
               className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-6"
             >
-              <FormItem className="flex items-center space-x-3 space-y-0 border rounded-md p-3 hover:bg-gray-50 transition-colors cursor-pointer">
+              <FormItem className="flex items-center space-x-3 space-y-0 border rounded-md p-4 hover:bg-gray-50 transition-colors cursor-pointer data-[state=checked]:border-blue-500 data-[state=checked]:bg-blue-50">
                 <FormControl>
-                  <RadioGroupItem value="yes" />
+                  <RadioGroupItem value="yes" id="reason-yes" />
                 </FormControl>
-                <FormLabel className="font-normal cursor-pointer flex items-center">
+                <FormLabel htmlFor="reason-yes" className="font-normal cursor-pointer flex items-center">
                   <Check className="h-4 w-4 text-green-500 mr-2" />
                   Yes
                 </FormLabel>
               </FormItem>
-              <FormItem className="flex items-center space-x-3 space-y-0 border rounded-md p-3 hover:bg-gray-50 transition-colors cursor-pointer">
+              <FormItem className="flex items-center space-x-3 space-y-0 border rounded-md p-4 hover:bg-gray-50 transition-colors cursor-pointer data-[state=checked]:border-blue-500 data-[state=checked]:bg-blue-50">
                 <FormControl>
-                  <RadioGroupItem value="no" />
+                  <RadioGroupItem value="no" id="reason-no" />
                 </FormControl>
-                <FormLabel className="font-normal cursor-pointer flex items-center">
+                <FormLabel htmlFor="reason-no" className="font-normal cursor-pointer flex items-center">
                   <X className="h-4 w-4 text-red-500 mr-2" />
                   No
                 </FormLabel>
               </FormItem>
-              <FormItem className="flex items-center space-x-3 space-y-0 border rounded-md p-3 hover:bg-gray-50 transition-colors cursor-pointer">
+              <FormItem className="flex items-center space-x-3 space-y-0 border rounded-md p-4 hover:bg-gray-50 transition-colors cursor-pointer data-[state=checked]:border-blue-500 data-[state=checked]:bg-blue-50">
                 <FormControl>
-                  <RadioGroupItem value="dont_remember" />
+                  <RadioGroupItem value="dont_remember" id="reason-dont-remember" />
                 </FormControl>
-                <FormLabel className="font-normal cursor-pointer flex items-center">
+                <FormLabel htmlFor="reason-dont-remember" className="font-normal cursor-pointer flex items-center">
                   <HelpCircle className="h-4 w-4 text-amber-500 mr-2" />
                   Don't remember
                 </FormLabel>

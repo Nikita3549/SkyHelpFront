@@ -11,6 +11,7 @@ import ReasonProvidedQuestion from "./disruption-details/ReasonProvidedQuestion"
 import AirlineReasonQuestion from "./disruption-details/AirlineReasonQuestion";
 import AdditionalInfoField from "./disruption-details/AdditionalInfoField";
 import DisclaimerBox from "./disruption-details/DisclaimerBox";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface DisruptionDetailsStepProps {
   form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
@@ -57,19 +58,25 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-8">
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <ReasonProvidedQuestion form={form} />
-            </div>
+            <Card>
+              <CardContent className="p-6">
+                <ReasonProvidedQuestion form={form} />
+              </CardContent>
+            </Card>
 
             {reasonProvided === "yes" && (
-              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                <AirlineReasonQuestion form={form} />
-              </div>
+              <Card className="animate-fade-in">
+                <CardContent className="p-6">
+                  <AirlineReasonQuestion form={form} />
+                </CardContent>
+              </Card>
             )}
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <AdditionalInfoField form={form} />
-            </div>
+            <Card>
+              <CardContent className="p-6">
+                <AdditionalInfoField form={form} />
+              </CardContent>
+            </Card>
             
             <DisclaimerBox />
           </div>
