@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { disruptionDetailsSchema } from "@/components/claim-form/schemas";
-import { Wrench, CloudRain, UserGroup, Building, HelpCircle } from "lucide-react";
+import { Wrench, CloudRain, Users, Building, HelpCircle } from "lucide-react";
 
 interface AirlineReasonQuestionProps {
   form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
@@ -28,7 +28,7 @@ const reasonOptions = [
     value: "strike",
     title: "Strike",
     subtitle: "Industrial action by airline staff or airport workers",
-    icon: <UserGroup className="h-6 w-6 text-blue-600" />,
+    icon: <Users className="h-6 w-6 text-blue-600" />,
   },
   {
     value: "airport_issues",
