@@ -8,6 +8,7 @@ import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { passengerDetailsSchema } from "@/components/claim-form/schemas";
 import { MessageSquare } from "lucide-react";
+import CountrySelect from "./CountrySelect";
 
 interface AddressFieldsProps {
   form: UseFormReturn<z.infer<typeof passengerDetailsSchema>>;
@@ -92,9 +93,10 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Country</FormLabel>
-            <FormControl>
-              <Input placeholder="Enter your country" {...field} />
-            </FormControl>
+            <CountrySelect 
+              value={field.value} 
+              onValueChange={field.onChange} 
+            />
             <FormMessage />
           </FormItem>
         )}

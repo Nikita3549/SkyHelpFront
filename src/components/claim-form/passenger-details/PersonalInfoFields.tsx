@@ -1,6 +1,6 @@
 
 import React from "react";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -66,12 +66,12 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({ form }) => {
         name="phone"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="flex items-center">
-              <Phone className="mr-2 h-4 w-4" />
-              Phone Number 
+            <div className="flex items-center space-x-1.5">
+              <Phone className="h-4 w-4" />
+              <FormLabel className="m-0">Phone Number</FormLabel>
               <HoverCard>
                 <HoverCardTrigger asChild>
-                  <button className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-100 hover:bg-blue-200 transition-colors">
+                  <button type="button" className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-100 hover:bg-blue-200 transition-colors">
                     <Info className="h-3 w-3 text-blue-700" />
                   </button>
                 </HoverCardTrigger>
@@ -80,7 +80,7 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({ form }) => {
                   <p>Our goal is to help you receive the flight compensation you deserve. To do this efficiently, we may need to contact you quickly, saving you the time and effort of writing lengthy emails.</p>
                 </HoverCardContent>
               </HoverCard>
-            </FormLabel>
+            </div>
             <FormControl>
               <Input placeholder="Enter your phone number" {...field} />
             </FormControl>
