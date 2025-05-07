@@ -16,6 +16,7 @@ import FlightInputFields from "./flight-details/FlightInputFields";
 import DisruptionTypeRadioGroup from "./flight-details/DisruptionTypeRadioGroup";
 import EligibilityResult from "./flight-details/EligibilityResult";
 import ProblemFlightSelector from "./flight-details/ProblemFlightSelector";
+import HelpTooltip from "@/components/ui-custom/HelpTooltip";
 
 // Re-export airlines for other components that might need it
 export { airlines } from "./flight-details/AirlineSelect";
@@ -43,6 +44,15 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
   connectionFlights,
   setConnectionFlights
 }) => {
+  const helpItems = [
+    { 
+      text: "Enter the data for all the flights that you have booked together - not only for the disrupted one." 
+    },
+    { 
+      text: "If you were given a substitute flight, its data may differ - so enter only the original flight details." 
+    }
+  ];
+
   return (
     <motion.div
       key="step1"
@@ -51,11 +61,18 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
       exit={transitions.exit}
       transition={transitions.transition}
     >
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Flight Details</h2>
-        <p className="text-gray-600">
-          Enter your flight information to check eligibility for compensation.
-        </p>
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h2 className="text-2xl font-semibold mb-2">Flight Details</h2>
+          <p className="text-gray-600">
+            Enter your flight information to check eligibility for compensation.
+          </p>
+        </div>
+        <HelpTooltip 
+          items={helpItems} 
+          variant="dialog" 
+          className="mt-1" 
+        />
       </div>
 
       <Form {...form}>

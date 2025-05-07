@@ -13,6 +13,7 @@ import { AnimationTransitions } from "@/components/claim-form/types";
 import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection";
 import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import HelpTooltip from "@/components/ui-custom/HelpTooltip";
 
 interface FlightRouteStepProps {
   form: UseFormReturn<z.infer<typeof flightRouteSchema>>;
@@ -31,6 +32,15 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
   setConnectionFlights,
   flightDetailsForm
 }) => {
+  const helpItems = [
+    { 
+      text: "Enter the data for all the flights that you have booked together - not only for the disrupted one." 
+    },
+    { 
+      text: "If you were given a substitute flight, its data may differ - so enter only the original flight details." 
+    }
+  ];
+  
   return (
     <motion.div
       key="step1"
@@ -39,11 +49,18 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
       exit={transitions.exit}
       transition={transitions.transition}
     >
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Flight Route</h2>
-        <p className="text-gray-600">
-          Let's start with your flight information to get you compensated quickly.
-        </p>
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h2 className="text-2xl font-semibold mb-2">Flight Route</h2>
+          <p className="text-gray-600">
+            Let's start with your flight information to get you compensated quickly.
+          </p>
+        </div>
+        <HelpTooltip 
+          items={helpItems} 
+          variant="dialog" 
+          className="mt-1" 
+        />
       </div>
 
       <Form {...form}>
