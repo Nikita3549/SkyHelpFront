@@ -21,6 +21,7 @@ interface ClaimFormContentProps {
   setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
   onFlightRouteSubmit: (data: any) => void;
   onFlightDetailsSubmit: (data: any) => void;
+  onDisruptionTypeSubmit: (data: any) => void;
   onPassengerDetailsSubmit: (data: any) => void;
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
@@ -49,6 +50,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   setConnectionFlights,
   onFlightRouteSubmit,
   onFlightDetailsSubmit,
+  onDisruptionTypeSubmit,
   onPassengerDetailsSubmit,
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
@@ -64,6 +66,9 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   locationState
 }) => {
   const isMobile = useIsMobile();
+  
+  // Adjusted total steps to account for the new disruption type step
+  const totalSteps = 6;
 
   return (
     <div className="py-8 md:py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -79,7 +84,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
           
           {/* Main form content */}
           <div className="md:col-span-3">
-            <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={5} />
+            <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={totalSteps} />
             <PreFilledValuesSyncer
               form={flightDetailsForm}
               flightRouteForm={flightRouteForm}
@@ -102,6 +107,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
                 setConnectionFlights={setConnectionFlights}
                 onFlightRouteSubmit={onFlightRouteSubmit}
                 onFlightDetailsSubmit={onFlightDetailsSubmit}
+                onDisruptionTypeSubmit={onDisruptionTypeSubmit}
                 onPassengerDetailsSubmit={onPassengerDetailsSubmit}
                 onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
                 onPaymentDetailsSubmit={onPaymentDetailsSubmit}

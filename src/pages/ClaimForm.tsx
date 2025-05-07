@@ -33,6 +33,7 @@ const ClaimForm = () => {
 
   const {
     onFlightDetailsSubmit,
+    onDisruptionTypeSubmit,
     onPassengerDetailsSubmit,
     onDisruptionDetailsSubmit,
     onPaymentDetailsSubmit,
@@ -77,6 +78,7 @@ const ClaimForm = () => {
       setConnectionFlights={setConnectionFlights}
       onFlightRouteSubmit={onFlightRouteSubmit}
       onFlightDetailsSubmit={onFlightDetailsSubmit}
+      onDisruptionTypeSubmit={onDisruptionTypeSubmit}
       onPassengerDetailsSubmit={onPassengerDetailsSubmit}
       onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
       onPaymentDetailsSubmit={onPaymentDetailsSubmit}

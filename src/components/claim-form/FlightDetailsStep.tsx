@@ -13,8 +13,6 @@ import { AnimationTransitions } from "@/components/claim-form/types";
 
 // Component imports
 import FlightInputFields from "./flight-details/FlightInputFields";
-import DisruptionTypeRadioGroup from "./flight-details/DisruptionTypeRadioGroup";
-import EligibilityResult from "./flight-details/EligibilityResult";
 import ProblemFlightSelector from "./flight-details/ProblemFlightSelector";
 import HelpTooltip from "@/components/ui-custom/HelpTooltip";
 
@@ -24,9 +22,6 @@ export { airlines } from "./flight-details/AirlineSelect";
 interface FlightDetailsStepProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
   onSubmit: (data: z.infer<typeof flightDetailsSchema>) => void;
-  isChecking: boolean;
-  isEligible: boolean | null;
-  onContinue: () => void;
   transitions: AnimationTransitions;
   onBack?: () => void;
   connectionFlights: string[];
@@ -36,9 +31,6 @@ interface FlightDetailsStepProps {
 const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
   form,
   onSubmit,
-  isChecking,
-  isEligible,
-  onContinue,
   transitions,
   onBack,
   connectionFlights,
@@ -65,7 +57,7 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
         <div>
           <h2 className="text-2xl font-semibold mb-2">Flight Details</h2>
           <p className="text-gray-600">
-            Enter your flight information to check eligibility for compensation.
+            Enter your flight information and select your flight.
           </p>
         </div>
         <HelpTooltip 
@@ -77,14 +69,11 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Problem flight selector when user has connecting flights - moved to top */}
+          {/* Problem flight selector when user has connecting flights */}
           <ProblemFlightSelector form={form} connectionFlights={connectionFlights} />
           
           {/* Flight input fields component */}
           <FlightInputFields form={form} />
-          
-          {/* Disruption type radio group component */}
-          <DisruptionTypeRadioGroup form={form} />
 
           <div className="pt-4 flex justify-between items-center">
             {onBack && (
@@ -103,27 +92,14 @@ const FlightDetailsStep: React.FC<FlightDetailsStepProps> = ({
               <Button 
                 type="submit" 
                 className="w-full sm:w-auto"
-                disabled={isChecking}
               >
-                {isChecking ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Checking Eligibility
-                  </>
-                ) : (
-                  <>
-                    Check Eligibility
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </>
-                )}
+                Continue
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
         </form>
       </Form>
-
-      {/* Eligibility result component */}
-      <EligibilityResult isEligible={isEligible} onContinue={onContinue} />
     </motion.div>
   );
 };

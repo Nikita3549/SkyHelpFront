@@ -55,8 +55,15 @@ export const useClaimFormHandlers = ({
   };
 
   const onFlightDetailsSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
+    // Save the flight details and move to disruption type step (2.5)
+    setFormData({ ...formData, flightDetails: { ...formData.flightDetails, ...data } });
+    setStep(2.5);
+    scrollToTop();
+  };
+  
+  const onDisruptionTypeSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
     setIsChecking(true);
-    setFormData({ ...formData, flightDetails: data });
+    setFormData({ ...formData, flightDetails: { ...formData.flightDetails, ...data } });
     
     // Simulate checking eligibility based on the EU regulation
     setTimeout(() => {
@@ -125,6 +132,7 @@ export const useClaimFormHandlers = ({
   return {
     onFlightRouteSubmit,
     onFlightDetailsSubmit,
+    onDisruptionTypeSubmit,
     onPassengerDetailsSubmit,
     onDisruptionDetailsSubmit,
     onPaymentDetailsSubmit,

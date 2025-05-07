@@ -1,8 +1,10 @@
+
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 
 // Component imports
 import FlightDetailsStep from "@/components/claim-form/FlightDetailsStep";
+import DisruptionTypeStep from "@/components/claim-form/DisruptionTypeStep";
 import PassengerDetailsStep from "@/components/claim-form/PassengerDetailsStep";
 import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep";
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
@@ -23,6 +25,7 @@ interface StepRendererProps {
   setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
   onFlightRouteSubmit: (data: any) => void;
   onFlightDetailsSubmit: (data: any) => void;
+  onDisruptionTypeSubmit: (data: any) => void;
   onPassengerDetailsSubmit: (data: any) => void;
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
@@ -46,6 +49,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   setConnectionFlights,
   onFlightRouteSubmit,
   onFlightDetailsSubmit,
+  onDisruptionTypeSubmit,
   onPassengerDetailsSubmit,
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
@@ -89,13 +93,22 @@ const StepRenderer: React.FC<StepRendererProps> = ({
         <FlightDetailsStep
           form={flightDetailsForm}
           onSubmit={onFlightDetailsSubmit}
-          isChecking={isChecking}
-          isEligible={isEligible}
-          onContinue={proceedToNextStep}
           transitions={transitions}
           onBack={() => setStep(1)}
           connectionFlights={connectionFlights}
           setConnectionFlights={setConnectionFlights}
+        />
+      );
+    case 2.5:
+      return (
+        <DisruptionTypeStep
+          form={flightDetailsForm}
+          onSubmit={onDisruptionTypeSubmit}
+          isChecking={isChecking}
+          isEligible={isEligible}
+          onContinue={proceedToNextStep}
+          transitions={transitions}
+          onBack={() => setStep(2)}
         />
       );
     case 3:
@@ -103,7 +116,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
         <PassengerDetailsStep
           form={passengerDetailsForm}
           onSubmit={onPassengerDetailsSubmit}
-          onBack={() => setStep(2)}
+          onBack={() => setStep(2.5)}
           transitions={transitions}
         />
       );
