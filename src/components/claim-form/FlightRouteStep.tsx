@@ -117,8 +117,8 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
           {/* Free checking alert message */}
           <Alert className="bg-blue-50 border-blue-100 mb-4">
             <Info className="h-5 w-5 text-blue-600" />
-            <AlertDescription className="text-blue-800 flex items-center">
-              No risk. Checking compensation is absolutely <span className="font-semibold">free of charge</span>.
+            <AlertDescription className="text-blue-800 flex items-center ml-2">
+              No risk. Checking compensation is absolutely <span className="font-semibold">&nbsp;free of charge</span>.
             </AlertDescription>
           </Alert>
 
