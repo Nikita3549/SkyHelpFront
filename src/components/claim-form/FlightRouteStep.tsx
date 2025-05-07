@@ -58,7 +58,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
         </div>
         <HelpTooltip 
           items={helpItems} 
-          variant="dialog" 
+          variant="popover" 
           className="mt-1" 
         />
       </div>

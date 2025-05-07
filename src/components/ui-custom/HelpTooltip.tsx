@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { HelpCircle, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,6 +12,11 @@ import {
   AlertDialogContent, 
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface HelpTooltipProps {
   items: {
@@ -21,7 +25,7 @@ interface HelpTooltipProps {
   }[];
   className?: string;
   position?: "top" | "right" | "bottom" | "left";
-  variant?: "tooltip" | "dialog";
+  variant?: "tooltip" | "dialog" | "popover";
 }
 
 const HelpTooltip: React.FC<HelpTooltipProps> = ({ 
@@ -32,6 +36,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Dialog variant - keeping this for backward compatibility
   if (variant === "dialog") {
     return (
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
@@ -75,7 +80,49 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
       </AlertDialog>
     );
   }
+  
+  // New popover variant
+  if (variant === "popover") {
+    return (
+      <Popover>
+        <PopoverTrigger asChild>
+          <button 
+            className={cn(
+              "inline-flex items-center text-green-600 hover:text-green-700 transition-colors gap-1.5 text-sm font-medium bg-green-50 px-3 py-1.5 rounded-full", 
+              className
+            )}
+            aria-label="Get help with filling the form"
+          >
+            Not sure how to fill? <HelpCircle className="h-4 w-4" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent 
+          className="w-80 p-4 bg-white rounded-xl border border-green-200 shadow-lg"
+          side={position as "top" | "right" | "bottom" | "left"}
+          align="start"
+          sideOffset={5}
+        >
+          <ul className="space-y-4">
+            {items.map((item, index) => (
+              <li key={index} className="flex gap-2">
+                <span className="font-bold">•</span>
+                <p className="text-gray-800">
+                  {item.text.split(/(\booked together\b|\benter\b|\boriginal flight\b)/g).map((part, i) => {
+                    if (part === "booked together" || part === "enter" || part === "original flight") {
+                      return <span key={i} className="text-green-600 font-medium">{part}</span>;
+                    }
+                    return part;
+                  })}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </PopoverContent>
+      </Popover>
+    );
+  }
 
+  // Original tooltip variant
   return (
     <TooltipProvider>
       <Tooltip>
