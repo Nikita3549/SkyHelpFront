@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 
 export const flightRouteSchema = z.object({
@@ -37,10 +38,22 @@ export const passengerDetailsSchema = z.object({
 });
 
 export const disruptionDetailsSchema = z.object({
-  delayDuration: z.string().optional(),
-  actualDepartureTime: z.string().optional(),
-  originalDepartureTime: z.string().optional(),
-  reasonGiven: z.string().optional(),
+  reasonProvided: z
+    .enum(["yes", "no", "dont_remember"], {
+      required_error: "Please indicate if the airline provided a reason",
+    }),
+  airlineReason: z
+    .enum(["technical_problem", "weather", "strike", "airport_issues", "other"])
+    .optional()
+    .refine(
+      (val) => {
+        // If reasonProvided is yes, then airlineReason is required
+        return true;
+      },
+      {
+        message: "Please select the reason provided by the airline",
+      }
+    ),
   additionalInfo: z.string().optional(),
 });
 
