@@ -84,9 +84,6 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({ form }) => {
             <FormControl>
               <Input placeholder="Enter your phone number" {...field} />
             </FormControl>
-            <FormDescription>
-              Providing your number helps us create a stronger claim when we negotiate with the airline
-            </FormDescription>
             <FormMessage />
           </FormItem>
         )}
