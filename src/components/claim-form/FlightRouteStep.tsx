@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Plane } from "lucide-react";
+import { ArrowRight, Plane, Info } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
@@ -14,6 +14,7 @@ import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection"
 import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import HelpTooltip from "@/components/ui-custom/HelpTooltip";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface FlightRouteStepProps {
   form: UseFormReturn<z.infer<typeof flightRouteSchema>>;
@@ -112,6 +113,14 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             connectionFlights={connectionFlights}
             setConnectionFlights={setConnectionFlights}
           />
+
+          {/* Free checking alert message */}
+          <Alert className="bg-blue-50 border-blue-100 mb-4">
+            <Info className="h-5 w-5 text-blue-600" />
+            <AlertDescription className="text-blue-800 flex items-center">
+              No risk. Checking compensation is absolutely <span className="font-semibold">free of charge</span>.
+            </AlertDescription>
+          </Alert>
 
           <div className="pt-4 flex justify-end">
             <Button type="submit" className="w-full sm:w-auto">
