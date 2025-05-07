@@ -12,6 +12,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -67,28 +68,30 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onValueChange }) =
       <PopoverContent className="w-full p-0" align="start">
         <Command>
           <CommandInput placeholder="Search for a country..." />
-          <CommandEmpty>No country found.</CommandEmpty>
-          <CommandGroup className="max-h-64 overflow-y-auto">
-            {countries.map((country) => (
-              <CommandItem
-                key={country.value}
-                value={country.label}
-                onSelect={() => {
-                  onValueChange(country.value);
-                  setOpen(false);
-                }}
-              >
-                <span className="mr-2">{country.flag}</span>
-                <span>{country.label}</span>
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    selectedCountry?.value === country.value ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-            ))}
-          </CommandGroup>
+          <CommandList>
+            <CommandEmpty>No country found.</CommandEmpty>
+            <CommandGroup>
+              {countries.map((country) => (
+                <CommandItem
+                  key={country.value}
+                  value={country.label}
+                  onSelect={() => {
+                    onValueChange(country.value);
+                    setOpen(false);
+                  }}
+                >
+                  <span className="mr-2">{country.flag}</span>
+                  <span>{country.label}</span>
+                  <Check
+                    className={cn(
+                      "ml-auto h-4 w-4",
+                      selectedCountry?.value === country.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
