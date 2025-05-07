@@ -1,6 +1,5 @@
-
 import React from "react";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { AlertCircle, Users, Plane } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
@@ -26,7 +25,6 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
       name="disruptionType"
       render={({ field }) => (
         <FormItem className="md:col-span-2">
-          <FormLabel className="text-lg font-medium">What happened to your flight?</FormLabel>
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
