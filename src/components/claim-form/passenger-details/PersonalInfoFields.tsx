@@ -1,6 +1,6 @@
 
 import React from "react";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -71,7 +71,7 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({ form }) => {
               Phone Number 
               <HoverCard>
                 <HoverCardTrigger asChild>
-                  <button className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-100 hover:bg-blue-200 transition-colors">
+                  <button type="button" className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-100 hover:bg-blue-200 transition-colors">
                     <Info className="h-3 w-3 text-blue-700" />
                   </button>
                 </HoverCardTrigger>
