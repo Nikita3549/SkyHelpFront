@@ -22,25 +22,10 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <FormField
-        control={form.control}
-        name="flightNumber"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Flight Number</FormLabel>
-            <FormControl>
-              <div className="relative">
-                <Input placeholder="e.g. BA1234" {...field} />
-                <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              </div>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
+      {/* Airline Select - moved to first position */}
       <AirlineSelect form={form} />
 
+      {/* Departure Date - moved to second position */}
       <FormField
         control={form.control}
         name="departureDate"
@@ -80,6 +65,24 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
                 />
               </PopoverContent>
             </Popover>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      {/* Flight Number - moved to third position */}
+      <FormField
+        control={form.control}
+        name="flightNumber"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Flight Number</FormLabel>
+            <FormControl>
+              <div className="relative">
+                <Input placeholder="e.g. BA1234" {...field} />
+                <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              </div>
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}
