@@ -98,7 +98,7 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
 
       {/* Flight Selection Step */}
       {showFlightSelection && (
-        <div className="border-t border-b py-4 my-6">
+        <div className="bg-gray-50 p-6 rounded-lg my-6">
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
               <Loader2 className="animate-spin h-6 w-6 text-primary mr-2" />

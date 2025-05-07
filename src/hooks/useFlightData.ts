@@ -27,28 +27,28 @@ const generateMockFlights = (
   else if (airline === "wizz") airlineCode = "W6";
   else if (airline === "norwegian") airlineCode = "DY";
   
-  // Generate 3-5 mock flights for the selected date and airline
-  const flightCount = Math.floor(Math.random() * 3) + 3;
+  // Generate 2-3 mock flights for the selected date and airline
+  const flightCount = Math.floor(Math.random() * 2) + 2;
   const flights: FlightData[] = [];
   
   for (let i = 0; i < flightCount; i++) {
-    // Generate random flight number between 100-9999
-    const flightNumberSuffix = Math.floor(Math.random() * 9900) + 100;
-    const flightNumber = `${airlineCode}${flightNumberSuffix}`;
+    // Generate random flight number between 100-999
+    const flightNumberSuffix = Math.floor(Math.random() * 900) + 100;
+    const flightNumber = `${airlineCode} ${flightNumberSuffix}`;
     
     // Generate departure time at different hours of the day
-    const hour = (6 + (i * 3 + Math.floor(Math.random() * 2))) % 24;
-    const minute = Math.floor(Math.random() * 12) * 5;
+    const hour = (8 + (i * 3 + Math.floor(Math.random() * 2))) % 24;
+    const minute = [0, 15, 30, 45][Math.floor(Math.random() * 4)];
     
     // Format departure time
     const departureHour = hour.toString().padStart(2, '0');
     const departureMinute = minute.toString().padStart(2, '0');
     const departureTime = `${departureHour}:${departureMinute}`;
     
-    // Calculate arrival time (departure + 2-8 hours)
-    const flightDurationHours = Math.floor(Math.random() * 6) + 2;
+    // Calculate arrival time (departure + 2-4 hours)
+    const flightDurationHours = Math.floor(Math.random() * 2) + 2;
     const arrivalHour = (hour + flightDurationHours) % 24;
-    const arrivalMinute = (minute + Math.floor(Math.random() * 30)) % 60;
+    const arrivalMinute = minute;
     
     // Format arrival time
     const arrivalHourStr = arrivalHour.toString().padStart(2, '0');
