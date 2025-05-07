@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
@@ -14,6 +13,7 @@ import { AnimationTransitions } from "@/components/claim-form/types";
 // Component imports
 import DisruptionTypeRadioGroup from "./flight-details/DisruptionTypeRadioGroup";
 import EligibilityResult from "./flight-details/EligibilityResult";
+import EligibilityResultModal from "./flight-details/EligibilityResultModal";
 import ArrivalDelayQuestion from "./flight-details/ArrivalDelayQuestion";
 import NotificationTimeQuestion from "./flight-details/NotificationTimeQuestion";
 import VoluntaryDenialQuestion from "./flight-details/VoluntaryDenialQuestion";
@@ -37,6 +37,8 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   transitions,
   onBack,
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  
   // Get the current values from the form
   const disruptionType = form.watch("disruptionType");
   const arrivalDelay = form.watch("arrivalDelay");
@@ -58,6 +60,22 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   const showVoluntaryDenialQuestion = 
     disruptionType === "denied_boarding" && arrivalDelay !== undefined;
 
+  // Handle form submission
+  const handleSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
+    // Special case: If flight was cancelled with 14+ days notice, show the modal instead
+    if (data.disruptionType === "cancellation" && data.notificationTime === "14days_or_more") {
+      setShowModal(true);
+    } else {
+      // Otherwise proceed with normal submission
+      onSubmit(data);
+    }
+  };
+  
+  // Special case for cancellations with 14+ days notice
+  const isCancellationWithSufficientNotice = 
+    disruptionType === "cancellation" && 
+    notificationTime === "14days_or_more";
+
   return (
     <motion.div
       key="disruptionType"
@@ -74,7 +92,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
 
@@ -129,12 +147,23 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
         </form>
       </Form>
 
-      {/* Eligibility result component with additional props */}
-      <EligibilityResult 
-        isEligible={isEligible} 
+      {/* Regular eligibility result (non-modal) */}
+      {!isCancellationWithSufficientNotice && (
+        <EligibilityResult 
+          isEligible={isEligible} 
+          onContinue={onContinue}
+          disruptionType={disruptionType}
+          notificationTime={notificationTime}
+          departureAirport={departureAirport}
+          arrivalAirport={arrivalAirport}
+        />
+      )}
+
+      {/* Modal for cancellation with sufficient notice */}
+      <EligibilityResultModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
         onContinue={onContinue}
-        disruptionType={disruptionType}
-        notificationTime={notificationTime}
         departureAirport={departureAirport}
         arrivalAirport={arrivalAirport}
       />

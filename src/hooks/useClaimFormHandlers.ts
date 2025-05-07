@@ -62,6 +62,13 @@ export const useClaimFormHandlers = ({
   };
   
   const onDisruptionTypeSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
+    // Special case: Cancellation with 14+ days notice - don't show eligibility check
+    // This case is now handled in the component directly via the modal
+    if (data.disruptionType === "cancellation" && data.notificationTime === "14days_or_more") {
+      setFormData({ ...formData, flightDetails: { ...formData.flightDetails, ...data } });
+      return;
+    }
+    
     setIsChecking(true);
     setFormData({ ...formData, flightDetails: { ...formData.flightDetails, ...data } });
     
@@ -70,11 +77,7 @@ export const useClaimFormHandlers = ({
       // Check for eligibility based on flight disruption type and arrival delay
       let isEligible = false;
       
-      // Special case: Cancellation with 14+ days notice is not eligible regardless of other factors
-      if (data.disruptionType === "cancellation" && data.notificationTime === "14days_or_more") {
-        isEligible = false;
-      }
-      else if (data.disruptionType === "delay") {
+      if (data.disruptionType === "delay") {
         // Eligible if arrival delay is 3 hours or more
         isEligible = data.arrivalDelay === "3hours_or_more";
       } else if (data.disruptionType === "cancellation") {

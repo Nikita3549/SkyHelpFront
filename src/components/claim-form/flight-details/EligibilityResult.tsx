@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, AlertCircle, Clock } from "lucide-react";
+import { ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface EligibilityResultProps {
@@ -23,11 +23,9 @@ const EligibilityResult: React.FC<EligibilityResultProps> = ({
 }) => {
   if (isEligible === null) return null;
   
-  // Special case for flight cancellations with 14+ days notice
-  const isCancellationWithSufficientNotice = 
-    disruptionType === "cancellation" && 
-    notificationTime === "14days_or_more";
-
+  // Special case for flight cancellations with 14+ days notice is now handled by the modal
+  // so we don't need to duplicate it here
+  
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}
@@ -35,44 +33,7 @@ const EligibilityResult: React.FC<EligibilityResultProps> = ({
       transition={{ duration: 0.3 }}
       className="mt-8"
     >
-      {isCancellationWithSufficientNotice ? (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-          <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <Clock className="h-5 w-5 text-gray-500" />
-            </div>
-            <div className="ml-3">
-              <h3 className="text-lg font-medium text-gray-800">Unfortunately, there's no compensation for this flight.</h3>
-              
-              {/* Flight summary block */}
-              <div className="mt-2 p-3 bg-white rounded border border-gray-100 text-sm">
-                <div className="flex justify-between text-gray-600">
-                  <div>
-                    <p className="text-xs uppercase font-semibold text-gray-500 mb-1">DEPARTED:</p>
-                    <p>{departureAirport || "Departure Airport"}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs uppercase font-semibold text-gray-500 mb-1">ARRIVED:</p>
-                    <p>{arrivalAirport || "Arrival Airport"}</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Explanation block */}
-              <div className="mt-3 text-sm text-gray-700">
-                <p>For cancellations, airlines don't have to pay compensation if they gave passengers 14 days notice, as it appears they have done in this case.</p>
-                <p className="mt-2 font-medium">While we couldn't help this time, we're always here to help you understand your rights and check for compensation.</p>
-                <div className="mt-4">
-                  <Button onClick={onContinue} variant="outline" className="border-gray-300">
-                    Continue anyway
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : isEligible ? (
+      {isEligible ? (
         <div className="bg-green-50 border border-green-100 rounded-lg p-4">
           <div className="flex items-start">
             <div className="flex-shrink-0">
