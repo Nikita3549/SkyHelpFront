@@ -339,7 +339,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
         </PopoverTrigger>
         <PopoverContent align="start" className="w-[240px] p-0">
           <Command>
-            <CommandInput placeholder="Search country..." icon={Search} />
+            <CommandInput placeholder="Search country..." />
             <CommandList>
               <CommandEmpty>No country found.</CommandEmpty>
               <CommandGroup>
