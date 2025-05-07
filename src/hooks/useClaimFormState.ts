@@ -86,10 +86,8 @@ export const useClaimFormState = () => {
   const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
     resolver: zodResolver(disruptionDetailsSchema),
     defaultValues: {
-      delayDuration: "",
-      actualDepartureTime: "",
-      originalDepartureTime: "",
-      reasonGiven: "",
+      reasonProvided: undefined,
+      airlineReason: undefined,
       additionalInfo: "",
     },
   });
