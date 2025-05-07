@@ -49,20 +49,20 @@ const FlightSelectionCards: React.FC<FlightSelectionCardsProps> = ({
   };
 
   return (
-    <div className="my-6">
-      <h3 className="text-2xl font-bold mb-6 text-blue-900">
-        Next up, please select your flight from the list below:
+    <div className="my-4">
+      <h3 className="text-lg font-medium mb-3 text-blue-900">
+        Please select your flight:
       </h3>
       
-      <div className="flex justify-between text-gray-400 px-4 mb-2">
-        <span>Scheduled time</span>
-        <span>Flight number</span>
+      <div className="flex justify-between text-xs text-gray-500 px-4 mb-2">
+        <span>Flight time</span>
+        <span>Flight #</span>
       </div>
       
       <RadioGroup 
         value={selectedFlightId || ""} 
         onValueChange={handleSelectFlight}
-        className="space-y-3"
+        className="space-y-2"
       >
         {flights.map((flight) => (
           <FormItem key={flight.id} className="flex items-start space-x-0 space-y-0">
@@ -73,24 +73,24 @@ const FlightSelectionCards: React.FC<FlightSelectionCardsProps> = ({
               htmlFor={`flight-${flight.id}`} 
               className="w-full font-normal cursor-pointer"
             >
-              <Card className={`w-full border rounded-lg transition-colors ${selectedFlightId === flight.id ? 'border-blue-600 bg-blue-50' : 'border-gray-200'}`}>
-                <CardContent className="p-4 flex justify-between items-center">
+              <Card className={`w-full border transition-colors ${selectedFlightId === flight.id ? 'border-blue-600 bg-blue-50' : 'border-gray-200'}`}>
+                <CardContent className="p-3 flex justify-between items-center">
                   <div className="flex items-center">
-                    <div className={`w-5 h-5 rounded-full border mr-4 flex items-center justify-center ${selectedFlightId === flight.id ? 'border-blue-600 bg-white' : 'border-gray-300'}`}>
+                    <div className={`w-4 h-4 rounded-full border mr-3 flex items-center justify-center ${selectedFlightId === flight.id ? 'border-blue-600 bg-white' : 'border-gray-300'}`}>
                       {selectedFlightId === flight.id && (
-                        <div className="w-3 h-3 rounded-full bg-blue-600" />
+                        <div className="w-2 h-2 rounded-full bg-blue-600" />
                       )}
                     </div>
-                    <div className="flex items-center space-x-2 text-lg">
+                    <div className="flex items-center space-x-1.5 text-sm">
                       <span className="font-medium">{flight.departureTime}</span>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       <span className="font-medium">{flight.arrivalTime}</span>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-medium">{flight.flightNumber}</div>
+                    <div className="text-sm font-medium">{flight.flightNumber}</div>
                   </div>
                 </CardContent>
               </Card>
@@ -107,15 +107,15 @@ const FlightSelectionCards: React.FC<FlightSelectionCardsProps> = ({
             htmlFor="flight-not-found" 
             className="w-full font-normal cursor-pointer"
           >
-            <Card className={`w-full border rounded-lg transition-colors ${selectedFlightId === "not-found" ? 'border-blue-600 bg-blue-50' : 'border-gray-200'}`}>
-              <CardContent className="p-4">
+            <Card className={`w-full border transition-colors ${selectedFlightId === "not-found" ? 'border-blue-600 bg-blue-50' : 'border-gray-200'}`}>
+              <CardContent className="p-3">
                 <div className="flex items-center">
-                  <div className={`w-5 h-5 rounded-full border mr-4 flex items-center justify-center ${selectedFlightId === "not-found" ? 'border-blue-600 bg-white' : 'border-gray-300'}`}>
+                  <div className={`w-4 h-4 rounded-full border mr-3 flex items-center justify-center ${selectedFlightId === "not-found" ? 'border-blue-600 bg-white' : 'border-gray-300'}`}>
                     {selectedFlightId === "not-found" && (
-                      <div className="w-3 h-3 rounded-full bg-blue-600" />
+                      <div className="w-2 h-2 rounded-full bg-blue-600" />
                     )}
                   </div>
-                  <span className="text-lg">I can't find my flight</span>
+                  <span className="text-sm">I can't find my flight</span>
                 </div>
               </CardContent>
             </Card>
