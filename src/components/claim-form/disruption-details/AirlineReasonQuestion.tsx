@@ -1,11 +1,11 @@
 
 import React from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { disruptionDetailsSchema } from "@/components/claim-form/schemas";
 import { Wrench, CloudRain, Users, Building, HelpCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AirlineReasonQuestionProps {
   form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
@@ -55,30 +55,33 @@ const AirlineReasonQuestion: React.FC<AirlineReasonQuestionProps> = ({ form }) =
             What reason did the airline provide for the disruption?
           </FormLabel>
           <FormControl>
-            <RadioGroup
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {reasonOptions.map((option) => (
-                <FormItem key={option.value} className="flex items-start space-x-3 space-y-0 border rounded-lg p-4 transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 cursor-pointer data-[state=checked]:border-blue-500 data-[state=checked]:bg-blue-50">
-                  <FormControl>
-                    <RadioGroupItem value={option.value} className="mt-1" id={`reason-${option.value}`} />
-                  </FormControl>
-                  <label htmlFor={`reason-${option.value}`} className="w-full cursor-pointer">
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 mr-3 p-2 bg-blue-50 rounded-full">
-                        {option.icon}
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900 mb-1">{option.title}</div>
-                        <p className="text-sm text-gray-500">{option.subtitle}</p>
-                      </div>
-                    </div>
-                  </label>
-                </FormItem>
+                <button
+                  key={option.value}
+                  type="button"
+                  className={cn(
+                    "flex items-start space-x-3 p-4 border rounded-lg text-left w-full transition-all duration-200",
+                    "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50", 
+                    field.value === option.value 
+                      ? "border-blue-500 bg-blue-50 shadow-sm" 
+                      : "border-gray-200"
+                  )}
+                  onClick={() => field.onChange(option.value)}
+                  role="radio"
+                  aria-checked={field.value === option.value}
+                  tabIndex={0}
+                >
+                  <div className="flex-shrink-0 p-2 bg-blue-50 rounded-full">
+                    {option.icon}
+                  </div>
+                  <div className="flex-grow">
+                    <div className="font-medium text-gray-900 mb-1">{option.title}</div>
+                    <p className="text-sm text-gray-500">{option.subtitle}</p>
+                  </div>
+                </button>
               ))}
-            </RadioGroup>
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>
