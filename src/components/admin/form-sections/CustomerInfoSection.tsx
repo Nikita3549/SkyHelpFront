@@ -10,7 +10,6 @@ type CustomerInfoSectionProps = {
   email: string;
   phone: string;
   address: string;
-  numberOfPassengers: string;
   additionalInformation: string;
   errors: Record<string, string>;
   handleChange: (field: string, value: any) => void;
@@ -22,7 +21,6 @@ const CustomerInfoSection = ({
   email,
   phone,
   address,
-  numberOfPassengers,
   additionalInformation,
   errors,
   handleChange,
@@ -89,17 +87,6 @@ const CustomerInfoSection = ({
           placeholder="Enter address"
         />
         {errors.address && <p className="text-sm text-red-500">{errors.address}</p>}
-      </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="numberOfPassengers">Number of Passengers</Label>
-        <Input
-          id="numberOfPassengers"
-          value={numberOfPassengers}
-          onChange={(e) => handleChange("numberOfPassengers", e.target.value)}
-          placeholder="Enter number of passengers"
-        />
-        {errors.numberOfPassengers && <p className="text-sm text-red-500">{errors.numberOfPassengers}</p>}
       </div>
       
       <div className="space-y-2">

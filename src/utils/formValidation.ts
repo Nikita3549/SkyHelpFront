@@ -7,7 +7,6 @@ export const newClaimSchema = z.object({
   email: z.string().email("Valid email is required"),
   phone: z.string().min(1, "Phone number is required"),
   address: z.string().min(1, "Address is required"),
-  numberOfPassengers: z.string().min(1, "Number of passengers is required"),
   
   airline: z.string().min(1, "Airline is required"),
   flightnumber: z.string().min(1, "Flight number is required"),

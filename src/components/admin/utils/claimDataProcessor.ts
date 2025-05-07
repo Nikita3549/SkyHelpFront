@@ -9,7 +9,6 @@ type FormStateWithId = {
   email: string;
   phone: string;
   address: string;
-  numberOfPassengers: string;
   additionalInformation: string;
   airline: string;
   flightnumber: string;
@@ -66,7 +65,6 @@ export const prepareClaimDataForSubmission = (formState: FormStateWithId): Parti
     email: formState.email,
     phone: formState.phone,
     address: formState.address,
-    numberofpassengers: formState.numberOfPassengers,
     additionalinformation: formState.additionalInformation,
     airline: formState.airline,
     flightnumber: formState.flightnumber,

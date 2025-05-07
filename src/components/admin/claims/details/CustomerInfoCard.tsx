@@ -39,12 +39,6 @@ const CustomerInfoCard = ({ claim }: CustomerInfoCardProps) => {
             {claim?.address || "N/A"}
           </span>
         </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-500">Passengers:</span>
-          <span className="font-medium">
-            {claim?.numberofpassengers || "1"}
-          </span>
-        </div>
       </div>
     </div>
   );

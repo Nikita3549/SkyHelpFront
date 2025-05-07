@@ -33,7 +33,6 @@ export const passengerDetailsSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(6, "Please enter a valid phone number"),
-  passengers: z.string().min(1, "Please select the number of passengers"),
   address: z.string().min(5, "Please enter your address"),
 });
 
