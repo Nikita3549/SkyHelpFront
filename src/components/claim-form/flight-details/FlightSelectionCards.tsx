@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -83,7 +84,7 @@ const FlightSelectionCards: React.FC<FlightSelectionCardsProps> = ({
                     </div>
                     <div className="flex items-center space-x-1.5 text-sm">
                       <span className="font-medium">{flight.departureTime}</span>
-                      <Plane size={16} className="text-gray-400" />
+                      <Plane size={16} className="text-gray-400 transform rotate-90" />
                       <span className="font-medium">{flight.arrivalTime}</span>
                     </div>
                   </div>
