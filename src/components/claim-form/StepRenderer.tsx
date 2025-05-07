@@ -113,21 +113,21 @@ const StepRenderer: React.FC<StepRendererProps> = ({
       );
     case 3:
       return (
-        <PassengerDetailsStep
-          form={passengerDetailsForm}
-          onSubmit={onPassengerDetailsSubmit}
+        <DisruptionDetailsStep
+          form={disruptionDetailsForm}
+          onSubmit={onDisruptionDetailsSubmit}
           onBack={() => setStep(2.5)}
           transitions={transitions}
+          disruptionType={disruptionType}
         />
       );
     case 4:
       return (
-        <DisruptionDetailsStep
-          form={disruptionDetailsForm}
-          onSubmit={onDisruptionDetailsSubmit}
+        <PassengerDetailsStep
+          form={passengerDetailsForm}
+          onSubmit={onPassengerDetailsSubmit}
           onBack={() => setStep(3)}
           transitions={transitions}
-          disruptionType={disruptionType}
         />
       );
     case 5:

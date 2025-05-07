@@ -106,14 +106,14 @@ export const useClaimFormHandlers = ({
     }, 2000);
   };
 
-  const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
-    setFormData({ ...formData, passengerDetails: data });
+  const onDisruptionDetailsSubmit = (data: z.infer<typeof disruptionDetailsSchema>) => {
+    setFormData({ ...formData, disruptionDetails: data });
     setStep(4);
     scrollToTop();
   };
-  
-  const onDisruptionDetailsSubmit = (data: z.infer<typeof disruptionDetailsSchema>) => {
-    setFormData({ ...formData, disruptionDetails: data });
+
+  const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
+    setFormData({ ...formData, passengerDetails: data });
     setStep(5);
     scrollToTop();
   };
@@ -146,8 +146,8 @@ export const useClaimFormHandlers = ({
     onFlightRouteSubmit,
     onFlightDetailsSubmit,
     onDisruptionTypeSubmit,
-    onPassengerDetailsSubmit,
     onDisruptionDetailsSubmit,
+    onPassengerDetailsSubmit,
     onPaymentDetailsSubmit,
     proceedToNextStep,
   };
