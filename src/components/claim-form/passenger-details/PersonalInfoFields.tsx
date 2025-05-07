@@ -11,6 +11,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import PhoneInput from "./PhoneInput";
 
 interface PersonalInfoFieldsProps {
   form: UseFormReturn<z.infer<typeof passengerDetailsSchema>>;
@@ -82,7 +83,12 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({ form }) => {
               </HoverCard>
             </div>
             <FormControl>
-              <Input placeholder="Enter your phone number" {...field} />
+              <PhoneInput 
+                value={field.value} 
+                onChange={field.onChange}
+                placeholder="Enter your phone number"
+                defaultCountry={form.getValues().country || "US"}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

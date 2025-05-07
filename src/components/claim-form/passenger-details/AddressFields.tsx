@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,15 @@ interface AddressFieldsProps {
 }
 
 const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
+  // When country changes, update the phone field if needed
+  const handleCountryChange = (value: string) => {
+    // First update the country field
+    form.setValue("country", value, { shouldValidate: true });
+    
+    // We'll let the PhoneInput component handle the phone number update
+    // since it already watches for country changes in its useEffect
+  };
+
   return (
     <>
       <FormField
@@ -95,7 +104,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
             <FormLabel>Country</FormLabel>
             <CountrySelect 
               value={field.value} 
-              onValueChange={field.onChange} 
+              onValueChange={handleCountryChange} 
             />
             <FormMessage />
           </FormItem>
