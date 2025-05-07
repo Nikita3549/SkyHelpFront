@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -69,7 +70,11 @@ export const useClaimFormHandlers = ({
       // Check for eligibility based on flight disruption type and arrival delay
       let isEligible = false;
       
-      if (data.disruptionType === "delay") {
+      // Special case: Cancellation with 14+ days notice is not eligible regardless of other factors
+      if (data.disruptionType === "cancellation" && data.notificationTime === "14days_or_more") {
+        isEligible = false;
+      }
+      else if (data.disruptionType === "delay") {
         // Eligible if arrival delay is 3 hours or more
         isEligible = data.arrivalDelay === "3hours_or_more";
       } else if (data.disruptionType === "cancellation") {

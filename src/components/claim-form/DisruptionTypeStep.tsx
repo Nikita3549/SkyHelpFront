@@ -40,6 +40,9 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   // Get the current values from the form
   const disruptionType = form.watch("disruptionType");
   const arrivalDelay = form.watch("arrivalDelay");
+  const notificationTime = form.watch("notificationTime");
+  const departureAirport = form.watch("departureAirport");
+  const arrivalAirport = form.watch("arrivalAirport");
   
   // Check if we should show the arrival delay question
   const showArrivalDelayQuestion = 
@@ -126,8 +129,15 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
         </form>
       </Form>
 
-      {/* Eligibility result component */}
-      <EligibilityResult isEligible={isEligible} onContinue={onContinue} />
+      {/* Eligibility result component with additional props */}
+      <EligibilityResult 
+        isEligible={isEligible} 
+        onContinue={onContinue}
+        disruptionType={disruptionType}
+        notificationTime={notificationTime}
+        departureAirport={departureAirport}
+        arrivalAirport={arrivalAirport}
+      />
     </motion.div>
   );
 };
