@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
+import { motion } from "framer-motion";
 
 interface ArrivalDelayQuestionProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
@@ -19,38 +20,44 @@ const ArrivalDelayQuestion: React.FC<ArrivalDelayQuestionProps> = ({ form }) => 
     : "your destination";
 
   return (
-    <FormField
-      control={form.control}
-      name="arrivalDelay"
-      render={({ field }) => (
-        <FormItem className="space-y-3 mt-6 p-4 bg-gray-50 rounded-lg">
-          <FormLabel className="text-base">
-            Sorry to hear that. How many hours late did you arrive at {displayAirport}?
-          </FormLabel>
-          <FormControl>
-            <RadioGroup
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-              className="flex flex-col space-y-2"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="3hours_or_more" id="3hours_or_more" />
-                <Label htmlFor="3hours_or_more">3 hours or more</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="less_than_3hours" id="less_than_3hours" />
-                <Label htmlFor="less_than_3hours">Less than 3 hours</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="never_arrived" id="never_arrived" />
-                <Label htmlFor="never_arrived">Never arrived</Label>
-              </div>
-            </RadioGroup>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      transition={{ duration: 0.3 }}
+    >
+      <FormField
+        control={form.control}
+        name="arrivalDelay"
+        render={({ field }) => (
+          <FormItem className="space-y-3 mt-6 p-4 bg-gray-50 rounded-lg">
+            <FormLabel className="text-base">
+              Sorry to hear that. How many hours late did you arrive at {displayAirport}?
+            </FormLabel>
+            <FormControl>
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                className="flex flex-col space-y-2"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="3hours_or_more" id="3hours_or_more" />
+                  <Label htmlFor="3hours_or_more">3 hours or more</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="less_than_3hours" id="less_than_3hours" />
+                  <Label htmlFor="less_than_3hours">Less than 3 hours</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="never_arrived" id="never_arrived" />
+                  <Label htmlFor="never_arrived">Never arrived</Label>
+                </div>
+              </RadioGroup>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </motion.div>
   );
 };
 

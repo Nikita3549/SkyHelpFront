@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
@@ -46,11 +47,16 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   const departureAirport = form.watch("departureAirport");
   const arrivalAirport = form.watch("arrivalAirport");
   
+  // Check if any disruption type has been selected
+  const hasSelectedDisruptionType = disruptionType !== undefined && disruptionType !== "";
+
   // Check if we should show the arrival delay question
   const showArrivalDelayQuestion = 
-    disruptionType === "delay" || 
+    hasSelectedDisruptionType &&
+    (disruptionType === "delay" || 
     disruptionType === "cancellation" || 
-    disruptionType === "denied_boarding";
+    disruptionType === "denied_boarding" ||
+    disruptionType === "missed_connection");
     
   // Check if we should show the notification time question
   const showNotificationTimeQuestion = 
@@ -96,7 +102,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
 
-          {/* Conditional additional questions */}
+          {/* Conditional additional questions - only shown after a selection */}
           {showArrivalDelayQuestion && (
             <ArrivalDelayQuestion 
               form={form} 
@@ -129,7 +135,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
             <Button 
               type="submit" 
               className="w-full sm:w-auto"
-              disabled={isChecking}
+              disabled={isChecking || !hasSelectedDisruptionType || (!arrivalDelay && showArrivalDelayQuestion)}
             >
               {isChecking ? (
                 <>
