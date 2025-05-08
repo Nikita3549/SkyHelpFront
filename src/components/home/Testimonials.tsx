@@ -64,7 +64,7 @@ const Testimonials = () => {
               </div>
             </div>
             <p className="text-gray-600">
-              "The airline cancelled my flight just a day before departure. I submitted my claim with CleverClaim and received €600 compensation without any hassle. I'm very impressed!"
+              "The airline cancelled my flight just a day before departure. I submitted my claim with SkyHelp and received €600 compensation without any hassle. I'm very impressed!"
             </p>
             <div className="mt-4 flex text-primary">
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
@@ -87,7 +87,7 @@ const Testimonials = () => {
               </div>
             </div>
             <p className="text-gray-600">
-              "My flight was delayed by 4 hours due to a technical issue. CleverClaim handled everything and I received €400 compensation within 6 weeks. Excellent service!"
+              "My flight was delayed by 4 hours due to a technical issue. SkyHelp handled everything and I received €400 compensation within 6 weeks. Excellent service!"
             </p>
             <div className="mt-4 flex text-primary">
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
@@ -110,7 +110,7 @@ const Testimonials = () => {
               </div>
             </div>
             <p className="text-gray-600">
-              "I was denied boarding due to overbooking. The airline initially refused my claim, but CleverClaim managed to get me €400 in compensation after appealing. Great persistence!"
+              "I was denied boarding due to overbooking. The airline initially refused my claim, but SkyHelp managed to get me €400 in compensation after appealing. Great persistence!"
             </p>
             <div className="mt-4 flex text-primary">
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>

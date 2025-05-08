@@ -39,7 +39,7 @@ const Uk261FlightCompensation = () => {
     <RightsPageLayout
       title="UK 261 Flight Compensation"
       description="Understanding air passenger rights under UK law after Brexit"
-      metaTitle="UK 261 Flight Compensation Guide | UK Air Passenger Rights | CleverClaim"
+      metaTitle="UK 261 Flight Compensation Guide | UK Air Passenger Rights | SkyHelp"
       metaDescription="Learn about your rights under UK air passenger law for flight delays, cancellations, and denied boarding after Brexit, and how to claim compensation."
       relatedLinks={relatedLinks}
       tableOfContents={tableOfContents}
@@ -159,7 +159,7 @@ const Uk261FlightCompensation = () => {
 
       <RightsCallToAction 
         title="Need Help With Your UK261 Claim?"
-        description="CleverClaim specializes in handling UK flight compensation claims. Our experts understand the complexities of post-Brexit aviation regulations and can help you navigate the process to ensure you get the compensation you're entitled to."
+        description="SkyHelp specializes in handling UK flight compensation claims. Our experts understand the complexities of post-Brexit aviation regulations and can help you navigate the process to ensure you get the compensation you're entitled to."
         buttonText="Start Your UK Flight Claim"
         buttonLink="/claim"
         stats={{

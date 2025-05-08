@@ -35,10 +35,10 @@ const Logo = ({ className, size = "md", withLink = true }: LogoProps) => {
       />
       <div className={cn(sizeClasses[size], "font-semibold flex")}>
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
-          Clever
+          Sky
         </span>
         <span className="text-black">
-          Claim
+          Help
         </span>
       </div>
     </div>

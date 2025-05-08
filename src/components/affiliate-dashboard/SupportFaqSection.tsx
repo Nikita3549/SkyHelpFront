@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     question: "How much commission do I earn per successful claim?",
-    answer: "You earn 15% of CleverClaim's service fee for each successful claim that comes through your referral link. The average payout is approximately €25-35 per successful claim, but this can vary depending on the specific flight disruption case."
+    answer: "You earn 15% of SkyHelp's service fee for each successful claim that comes through your referral link. The average payout is approximately €25-35 per successful claim, but this can vary depending on the specific flight disruption case."
   },
   {
     question: "How long do my referral cookies last?",
@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     question: "Can I track which marketing materials are performing best?",
-    answer: "Yes! You can create unique tracking links for different marketing materials by adding UTM parameters to your referral link. For example: cleverclaim.com/ref/user123?utm_campaign=email. These will show up in your Statistics section."
+    answer: "Yes! You can create unique tracking links for different marketing materials by adding UTM parameters to your referral link. For example: skyhelp.com/ref/user123?utm_campaign=email. These will show up in your Statistics section."
   },
   {
     question: "What marketing materials can I use?",
@@ -190,7 +190,7 @@ const SupportFaqSection = () => {
             <div className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
               <h3 className="font-medium mb-1">Marketing Tips</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                Best practices for promoting CleverClaim to your audience.
+                Best practices for promoting SkyHelp to your audience.
               </p>
               <Button variant="outline" size="sm">View Tips</Button>
             </div>

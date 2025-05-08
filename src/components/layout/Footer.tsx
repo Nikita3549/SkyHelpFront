@@ -85,14 +85,14 @@ const Footer = () => {
         <div className="py-6 border-t border-gray-100">
           <div className="flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-4">
             <p className="text-sm text-gray-500">
-              CleverClaim is a part of the Association of Passenger Rights Advocates (APRA) whose mission is to promote and protect passengers' rights
+              SkyHelp is a part of the Association of Passenger Rights Advocates (APRA) whose mission is to promote and protect passengers' rights
             </p>
           </div>
         </div>
         
         <div className="py-6 border-t border-gray-100">
           <p className="text-sm text-gray-400 text-center">
-            &copy; {new Date().getFullYear()} CleverClaim. All rights reserved.
+            &copy; {new Date().getFullYear()} SkyHelp. All rights reserved.
           </p>
         </div>
       </div>

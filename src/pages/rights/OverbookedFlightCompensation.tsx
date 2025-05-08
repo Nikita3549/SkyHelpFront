@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -27,7 +26,7 @@ const OverbookedFlightCompensation = () => {
     <RightsPageLayout
       title="Overbooked Flight Compensation"
       description="Know your rights when denied boarding due to overbooking"
-      metaTitle="Overbooked Flight Compensation Guide | CleverClaim"
+      metaTitle="Overbooked Flight Compensation Guide | SkyHelp"
       metaDescription="Learn how to claim compensation of up to €600 when you've been denied boarding due to an overbooked flight under EU Regulation 261/2004."
       relatedLinks={relatedLinks}
       tableOfContents={tableOfContents}
@@ -195,7 +194,7 @@ const OverbookedFlightCompensation = () => {
       <div className="bg-blue-50 p-6 rounded-lg my-8">
         <h3 className="text-xl font-semibold mb-3">Need Help With Your Claim?</h3>
         <p className="mb-4">
-          CleverClaim specializes in helping passengers get the compensation they deserve. Our simple process and 
+          SkyHelp specializes in helping passengers get the compensation they deserve. Our simple process and 
           no-win, no-fee approach means there's no risk to you. Let us handle the complexity of dealing with airlines 
           while you focus on what matters.
         </p>

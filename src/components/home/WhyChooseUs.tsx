@@ -17,7 +17,7 @@ const WhyChooseUs = () => {
         >
           <span className="text-sm text-gray-500 uppercase tracking-wider">Advantages</span>
           <h2 className="text-3xl sm:text-4xl font-bold mt-2">
-            Why People Choose <span className="text-primary">CleverClaim</span>?
+            Why People Choose <span className="text-primary">SkyHelp</span>?
           </h2>
         </motion.div>
         
@@ -95,7 +95,7 @@ const WhyChooseUs = () => {
             </div>
           </motion.div>
           
-          {/* Right column - Claim with CleverClaim */}
+          {/* Right column - Claim with SkyHelp */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -103,7 +103,7 @@ const WhyChooseUs = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="bg-white p-6 rounded-xl shadow-sm border border-primary/10"
           >
-            <h3 className="text-xl font-medium text-primary mb-6">Claim with CleverClaim</h3>
+            <h3 className="text-xl font-medium text-primary mb-6">Claim with SkyHelp</h3>
             
             <div className="space-y-6">
               <div className="flex items-start">
@@ -125,7 +125,7 @@ const WhyChooseUs = () => {
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-800">No financial risk</h4>
                   <p className="text-gray-600 mt-1">
-                    CleverClaim covers all compensation recovery costs. You won't have to pay if we don't win your case.
+                    SkyHelp covers all compensation recovery costs. You won't have to pay if we don't win your case.
                   </p>
                 </div>
               </div>

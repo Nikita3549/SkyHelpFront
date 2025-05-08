@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,21 +11,21 @@ const sampleBanners = [
     name: "Flight Delays Banner (728x90)",
     description: "Leaderboard banner for websites and blogs",
     preview: "/lovable-uploads/5f38c0aa-45f7-4d7f-94c8-a9b7889ec866.png",
-    code: '<a href="https://cleverclaim.com/ref/user123"><img src="https://cleverclaim.com/banners/728x90-flight-delays.png" alt="Get flight compensation with CleverClaim" width="728" height="90"/></a>'
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/728x90-flight-delays.png" alt="Get flight compensation with SkyHelp" width="728" height="90"/></a>'
   },
   {
     id: "banner-2",
     name: "Flight Cancellation Banner (300x250)",
     description: "Medium rectangle for sidebars",
     preview: "/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png",
-    code: '<a href="https://cleverclaim.com/ref/user123"><img src="https://cleverclaim.com/banners/300x250-cancellation.png" alt="Claim compensation for cancelled flights" width="300" height="250"/></a>'
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/300x250-cancellation.png" alt="Claim compensation for cancelled flights" width="300" height="250"/></a>'
   },
   {
     id: "banner-3",
-    name: "CleverClaim Promo (468x60)",
+    name: "SkyHelp Promo (468x60)",
     description: "Standard banner for header sections",
     preview: "/lovable-uploads/5b13fe1b-e415-4ceb-8e01-454b5a7b81c8.png",
-    code: '<a href="https://cleverclaim.com/ref/user123"><img src="https://cleverclaim.com/banners/468x60-clever-claim.png" alt="CleverClaim - Flight compensation made easy" width="468" height="60"/></a>'
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/468x60-clever-claim.png" alt="SkyHelp - Flight compensation made easy" width="468" height="60"/></a>'
   },
 ];
 
@@ -48,11 +47,11 @@ If your flight was:
 
 You may be eligible for compensation ranging from €250 to €600, depending on the flight distance.
 
-## How CleverClaim Can Help
+## How SkyHelp Can Help
 
-Instead of struggling with complex claim forms and airline resistance, let CleverClaim handle everything for you. Their automated system analyzes your case, prepares the necessary documentation, and fights for your rightful compensation.
+Instead of struggling with complex claim forms and airline resistance, let SkyHelp handle everything for you. Their automated system analyzes your case, prepares the necessary documentation, and fights for your rightful compensation.
 
-[Check if you're eligible for compensation](https://cleverclaim.com/ref/user123)`
+[Check if you're eligible for compensation](https://skyhelp.com/ref/user123)`
   },
   {
     id: "text-2",
@@ -71,9 +70,9 @@ Many airlines won't tell you this, but under EU regulations, you have rights whe
 • Cancelled without sufficient notice
 • Overbooked, resulting in denied boarding
 
-I've discovered CleverClaim, a service that handles the entire compensation process for you. Their technology makes claiming easy and maximizes your chances of success.
+I've discovered SkyHelp, a service that handles the entire compensation process for you. Their technology makes claiming easy and maximizes your chances of success.
 
-Check your eligibility here: https://cleverclaim.com/ref/user123
+Check your eligibility here: https://skyhelp.com/ref/user123
 
 Safe travels!
 
@@ -84,23 +83,23 @@ Safe travels!
     name: "Social Media Posts",
     description: "Ready-made posts for social media platforms",
     content: `#1: 
-✈️ Flight delayed or cancelled? You could be owed up to €600 in compensation! CleverClaim makes it easy to check your eligibility and claim what you're entitled to. No paperwork hassle, just results! #TravelTip #FlightCompensation
-🔗 https://cleverclaim.com/ref/user123
+✈️ Flight delayed or cancelled? You could be owed up to €600 in compensation! SkyHelp makes it easy to check your eligibility and claim what you're entitled to. No paperwork hassle, just results! #TravelTip #FlightCompensation
+🔗 https://skyhelp.com/ref/user123
 
 #2:
-Did you know? Airlines won't volunteer to pay you compensation for delays or cancellations. But EU law requires they do! CleverClaim helps you claim what you deserve with minimal effort. Check if your flight qualifies now!
-🔗 https://cleverclaim.com/ref/user123
+Did you know? Airlines won't volunteer to pay you compensation for delays or cancellations. But EU law requires they do! SkyHelp helps you claim what you deserve with minimal effort. Check if your flight qualifies now!
+🔗 https://skyhelp.com/ref/user123
 
 #3:
-Vacation ruined by flight problems? Get some money back! ✈️💰 You might be entitled to compensation. CleverClaim's service has already helped thousands of travelers get what they deserve. It only takes 3 minutes to check your flight!
-🔗 https://cleverclaim.com/ref/user123`
+Vacation ruined by flight problems? Get some money back! ✈️💰 You might be entitled to compensation. SkyHelp's service has already helped thousands of travelers get what they deserve. It only takes 3 minutes to check your flight!
+🔗 https://skyhelp.com/ref/user123`
   },
 ];
 
 const brandAssets = [
   {
     id: "brand-1",
-    name: "CleverClaim Logo Package",
+    name: "SkyHelp Logo Package",
     description: "Various formats and sizes of the company logo",
     preview: "/lovable-uploads/8f6afcb7-d3dd-4758-825f-5b1f287ca7d5.png",
   },
@@ -137,7 +136,7 @@ const PromoMaterialsSection = () => {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Promotional Materials</h1>
         <p className="text-muted-foreground">
-          Marketing assets to help you promote CleverClaim effectively.
+          Marketing assets to help you promote SkyHelp effectively.
         </p>
       </div>
       
@@ -258,7 +257,7 @@ const PromoMaterialsSection = () => {
             {/* Color Palette Card */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">CleverClaim Color Palette</CardTitle>
+                <CardTitle className="text-base">SkyHelp Color Palette</CardTitle>
                 <CardDescription>Official brand colors for marketing materials</CardDescription>
               </CardHeader>
               <div className="px-4 py-4 border-y">
