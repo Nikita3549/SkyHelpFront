@@ -7,7 +7,8 @@ import {
   passengerDetailsSchema,
   disruptionDetailsSchema,
   paymentDetailsSchema,
-  flightRouteSchema
+  flightRouteSchema,
+  bookingReferenceSchema
 } from "@/components/claim-form/schemas";
 
 interface UseClaimFormHandlersProps {
@@ -16,6 +17,7 @@ interface UseClaimFormHandlersProps {
     flightDetails: Record<string, any>;
     passengerDetails: Record<string, any>;
     disruptionDetails: Record<string, any>;
+    bookingReference: Record<string, any>;
     paymentDetails: Record<string, any>;
   }>>;
   formData: {
@@ -23,6 +25,7 @@ interface UseClaimFormHandlersProps {
     flightDetails: Record<string, any>;
     passengerDetails: Record<string, any>;
     disruptionDetails: Record<string, any>;
+    bookingReference: Record<string, any>;
     paymentDetails: Record<string, any>;
   };
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -114,10 +117,16 @@ export const useClaimFormHandlers = ({
 
   const onPassengerDetailsSubmit = (data: z.infer<typeof passengerDetailsSchema>) => {
     setFormData({ ...formData, passengerDetails: data });
-    setStep(5);
+    setStep(4.5);  // New step for booking reference
     scrollToTop();
   };
   
+  const onBookingReferenceSubmit = (data: z.infer<typeof bookingReferenceSchema>) => {
+    setFormData({ ...formData, bookingReference: data });
+    setStep(5);  // Move to payment details
+    scrollToTop();
+  };
+
   const onPaymentDetailsSubmit = (data: z.infer<typeof paymentDetailsSchema>) => {
     const finalFormData = {
       ...formData,
@@ -148,6 +157,7 @@ export const useClaimFormHandlers = ({
     onDisruptionTypeSubmit,
     onDisruptionDetailsSubmit,
     onPassengerDetailsSubmit,
+    onBookingReferenceSubmit,
     onPaymentDetailsSubmit,
     proceedToNextStep,
   };

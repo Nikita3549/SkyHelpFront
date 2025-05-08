@@ -6,6 +6,7 @@ import { UseFormReturn } from "react-hook-form";
 import FlightDetailsStep from "@/components/claim-form/FlightDetailsStep";
 import DisruptionTypeStep from "@/components/claim-form/DisruptionTypeStep";
 import PassengerDetailsStep from "@/components/claim-form/PassengerDetailsStep";
+import BookingReferenceStep from "@/components/claim-form/BookingReferenceStep";
 import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep";
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
 import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
@@ -19,6 +20,7 @@ interface StepRendererProps {
   flightRouteForm: UseFormReturn<any>;
   flightDetailsForm: UseFormReturn<any>;
   passengerDetailsForm: UseFormReturn<any>;
+  bookingReferenceForm: UseFormReturn<any>;
   disruptionDetailsForm: UseFormReturn<any>;
   paymentDetailsForm: UseFormReturn<any>;
   connectionFlights: string[];
@@ -27,6 +29,7 @@ interface StepRendererProps {
   onFlightDetailsSubmit: (data: any) => void;
   onDisruptionTypeSubmit: (data: any) => void;
   onPassengerDetailsSubmit: (data: any) => void;
+  onBookingReferenceSubmit: (data: any) => void;
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
   proceedToNextStep: () => void;
@@ -43,6 +46,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   flightRouteForm,
   flightDetailsForm,
   passengerDetailsForm,
+  bookingReferenceForm,
   disruptionDetailsForm,
   paymentDetailsForm,
   connectionFlights,
@@ -51,6 +55,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   onFlightDetailsSubmit,
   onDisruptionTypeSubmit,
   onPassengerDetailsSubmit,
+  onBookingReferenceSubmit,
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
   proceedToNextStep,
@@ -130,12 +135,21 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           transitions={transitions}
         />
       );
+    case 4.5:
+      return (
+        <BookingReferenceStep
+          form={bookingReferenceForm}
+          onSubmit={onBookingReferenceSubmit}
+          onBack={() => setStep(4)}
+          transitions={transitions}
+        />
+      );
     case 5:
       return (
         <PaymentDetailsStep
           form={paymentDetailsForm}
           onSubmit={onPaymentDetailsSubmit}
-          onBack={() => setStep(4)}
+          onBack={() => setStep(4.5)}
           transitions={transitions}
         />
       );

@@ -22,11 +22,12 @@ const ClaimForm = () => {
     preFilledArrivalAirport,
     preFilledFlightNumber,
     preFilledDepartureDate,
+    flightRouteForm,
     flightDetailsForm,
     passengerDetailsForm,
+    bookingReferenceForm,
     disruptionDetailsForm,
     paymentDetailsForm,
-    flightRouteForm,
     connectionFlights,
     setConnectionFlights,
   } = useClaimFormState();
@@ -36,6 +37,7 @@ const ClaimForm = () => {
     onDisruptionTypeSubmit,
     onPassengerDetailsSubmit,
     onDisruptionDetailsSubmit,
+    onBookingReferenceSubmit,
     onPaymentDetailsSubmit,
     proceedToNextStep,
     onFlightRouteSubmit,
@@ -72,6 +74,7 @@ const ClaimForm = () => {
       flightRouteForm={flightRouteForm}
       flightDetailsForm={flightDetailsForm}
       passengerDetailsForm={passengerDetailsForm}
+      bookingReferenceForm={bookingReferenceForm}
       disruptionDetailsForm={disruptionDetailsForm}
       paymentDetailsForm={paymentDetailsForm}
       connectionFlights={connectionFlights}
@@ -80,6 +83,7 @@ const ClaimForm = () => {
       onFlightDetailsSubmit={onFlightDetailsSubmit}
       onDisruptionTypeSubmit={onDisruptionTypeSubmit}
       onPassengerDetailsSubmit={onPassengerDetailsSubmit}
+      onBookingReferenceSubmit={onBookingReferenceSubmit}
       onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
       onPaymentDetailsSubmit={onPaymentDetailsSubmit}
       proceedToNextStep={proceedToNextStep}

@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 
 export const flightRouteSchema = z.object({
@@ -39,6 +40,10 @@ export const passengerDetailsSchema = z.object({
   state: z.string().optional(),
   country: z.string().min(2, "Please select your country"),
   whatsappNotifications: z.boolean().default(false),
+});
+
+export const bookingReferenceSchema = z.object({
+  bookingReference: z.string().optional(),
 });
 
 export const disruptionDetailsSchema = z.object({
