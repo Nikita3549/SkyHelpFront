@@ -5,8 +5,12 @@ import { z } from "zod";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { HelpCircle } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { bookingReferenceSchema } from "@/components/claim-form/schemas";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 interface BookingReferenceFieldProps {
   form: UseFormReturn<z.infer<typeof bookingReferenceSchema>>;
@@ -21,18 +25,32 @@ const BookingReferenceField: React.FC<BookingReferenceFieldProps> = ({ form }) =
         <FormItem>
           <div className="flex items-center space-x-2">
             <FormLabel className="text-base font-medium text-black">Booking Reference (PNR)</FormLabel>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="cursor-help">
-                    <HelpCircle className="h-4 w-4 text-gray-400" />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs bg-white">
-                  <p>Don't worry if you don't have it right now — you can still continue.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <span className="cursor-help">
+                  <HelpCircle className="h-4 w-4 text-gray-400" />
+                </span>
+              </HoverCardTrigger>
+              <HoverCardContent className="max-w-md bg-white p-4">
+                <div className="space-y-4">
+                  <p className="text-sm">
+                    You can find your booking reference (also known as PNR or reservation code) on your e-ticket or other travel reservation document.
+                  </p>
+                  
+                  <div className="bg-gray-50 p-3 rounded-md border border-gray-200 text-xs font-mono">
+                    Booking reference/PNR: <span className="font-bold">FX12U4</span>
+                  </div>
+                  
+                  <ul className="text-sm space-y-2 list-disc pl-5">
+                    <li>A booking reference is usually a six-digit alphanumeric number (e.g. AMR6X3), but there may be exceptions.</li>
+                    <li>You'll find it in your booking confirmation email, e-ticket, or boarding pass.</li>
+                    <li>If you and your fellow passenger have different booking references, please only enter your number.</li>
+                  </ul>
+                  
+                  <p className="text-sm text-gray-500 italic">Don't worry if you don't have it right now — you can still continue.</p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </div>
           <FormControl>
             <Input placeholder="e.g. ABC123" {...field} />
