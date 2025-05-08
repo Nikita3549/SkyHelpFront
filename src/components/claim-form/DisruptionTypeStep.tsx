@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
@@ -47,8 +46,8 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   const departureAirport = form.watch("departureAirport");
   const arrivalAirport = form.watch("arrivalAirport");
   
-  // Check if any disruption type has been selected
-  const hasSelectedDisruptionType = disruptionType !== undefined && disruptionType !== "";
+  // Check if any disruption type has been selected - fixed comparison
+  const hasSelectedDisruptionType = disruptionType !== undefined;
 
   // Check if we should show the arrival delay question
   const showArrivalDelayQuestion = 
