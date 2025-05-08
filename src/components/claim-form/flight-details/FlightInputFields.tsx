@@ -14,7 +14,6 @@ import { format } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import FlightSelectionCards from "./FlightSelectionCards";
 import { useFlightData } from "@/hooks/useFlightData";
-import { Card, CardContent } from "@/components/ui/card";
 
 interface FlightInputFieldsProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
@@ -49,60 +48,52 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Airline Select - first position */}
-        <Card className="shadow-sm border border-gray-100">
-          <CardContent className="pt-6">
-            <AirlineSelect form={form} />
-          </CardContent>
-        </Card>
+        <AirlineSelect form={form} />
 
         {/* Departure Date - second position */}
-        <Card className="shadow-sm border border-gray-100">
-          <CardContent className="pt-6">
-            <FormField
-              control={form.control}
-              name="departureDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Departure Date</FormLabel>
-                  <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                          type="button"
-                        >
-                          {field.value ? (
-                            format(new Date(field.value), "PPP")
-                          ) : (
-                            <span>Select a date</span>
-                          )}
-                          <Calendar className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
-                      <CalendarComponent
-                        mode="single"
-                        selected={field.value ? new Date(field.value) : undefined}
-                        onSelect={(date) => {
-                          field.onChange(date ? format(date, "yyyy-MM-dd") : "");
-                          if (date) setDatePickerOpen(false);
-                        }}
-                        initialFocus
-                        className="touch-manipulation"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+        <FormField
+          control={form.control}
+          name="departureDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Departure Date</FormLabel>
+              <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                      type="button"
+                    >
+                      {field.value ? (
+                        format(new Date(field.value), "PPP")
+                      ) : (
+                        <span>Select a date</span>
+                      )}
+                      <Calendar className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 z-50" align="start" sideOffset={4}>
+                  <CalendarComponent
+                    mode="single"
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={(date) => {
+                      field.onChange(date ? format(date, "yyyy-MM-dd") : "");
+                      if (date) setDatePickerOpen(false);
+                    }}
+                    initialFocus
+                    className="touch-manipulation"
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
       {/* Flight Selection Step */}
@@ -131,26 +122,22 @@ const FlightInputFields: React.FC<FlightInputFieldsProps> = ({ form }) => {
       {/* Flight Number - now only shown if "I can't find my flight" is selected or no flights available */}
       {(selectedFlightId === "not-found" || (!isLoading && showFlightSelection && flights.length === 0)) && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="shadow-sm border border-gray-100">
-            <CardContent className="pt-6">
-              <FormField
-                control={form.control}
-                name="flightNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Flight Number</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input placeholder="e.g. BA1234" {...field} />
-                        <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+          <FormField
+            control={form.control}
+            name="flightNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Flight Number</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input placeholder="e.g. BA1234" {...field} />
+                    <Plane className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       )}
     </div>
