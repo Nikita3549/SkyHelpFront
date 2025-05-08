@@ -49,7 +49,7 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
       transition={transitions.transition}
     >
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2 text-blue-800">Disruption Details</h2>
+        <h2 className="text-2xl font-semibold mb-2 text-black">Disruption Details</h2>
         <p className="text-gray-600">
           Please tell us more about your {getDisruptionTypeLabel()} experience to help strengthen your claim.
         </p>
