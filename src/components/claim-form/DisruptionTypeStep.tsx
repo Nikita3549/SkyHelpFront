@@ -46,16 +46,11 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   const departureAirport = form.watch("departureAirport");
   const arrivalAirport = form.watch("arrivalAirport");
   
-  // Check if any disruption type has been selected - fixed comparison
-  const hasSelectedDisruptionType = disruptionType !== undefined;
-
   // Check if we should show the arrival delay question
   const showArrivalDelayQuestion = 
-    hasSelectedDisruptionType &&
-    (disruptionType === "delay" || 
+    disruptionType === "delay" || 
     disruptionType === "cancellation" || 
-    disruptionType === "denied_boarding" ||
-    disruptionType === "missed_connection");
+    disruptionType === "denied_boarding";
     
   // Check if we should show the notification time question
   const showNotificationTimeQuestion = 
@@ -101,7 +96,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
 
-          {/* Conditional additional questions - only shown after a selection */}
+          {/* Conditional additional questions */}
           {showArrivalDelayQuestion && (
             <ArrivalDelayQuestion 
               form={form} 
@@ -134,7 +129,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
             <Button 
               type="submit" 
               className="w-full sm:w-auto"
-              disabled={isChecking || !hasSelectedDisruptionType || (!arrivalDelay && showArrivalDelayQuestion)}
+              disabled={isChecking}
             >
               {isChecking ? (
                 <>
