@@ -37,9 +37,11 @@ const BookingReferenceField: React.FC<BookingReferenceFieldProps> = ({ form }) =
                     You can find your booking reference (also known as PNR or reservation code) on your e-ticket or other travel reservation document.
                   </p>
                   
-                  <div className="bg-gray-50 p-3 rounded-md border border-gray-200 text-xs font-mono">
-                    Booking reference/PNR: <span className="font-bold">FX12U4</span>
-                  </div>
+                  <img 
+                    src="/lovable-uploads/1e0292c1-67d0-4f4a-b16f-733d751a620b.png" 
+                    alt="Boarding pass with PNR highlighted" 
+                    className="w-full rounded-md border border-gray-200"
+                  />
                   
                   <ul className="text-sm space-y-2 list-disc pl-5">
                     <li>A booking reference is usually a six-digit alphanumeric number (e.g. AMR6X3), but there may be exceptions.</li>
