@@ -51,7 +51,7 @@ const AirlineReasonQuestion: React.FC<AirlineReasonQuestionProps> = ({ form }) =
       name="airlineReason"
       render={({ field }) => (
         <FormItem className="space-y-4 animate-fade-in">
-          <FormLabel className="text-xl font-semibold text-blue-800 block">
+          <FormLabel className="text-xl font-semibold text-black block">
             What reason did the airline provide for the disruption?
           </FormLabel>
           <FormControl>
