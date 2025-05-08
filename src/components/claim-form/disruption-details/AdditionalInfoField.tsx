@@ -17,7 +17,7 @@ const AdditionalInfoField: React.FC<AdditionalInfoFieldProps> = ({ form }) => {
       name="additionalInfo"
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="text-xl font-semibold text-blue-800 block mb-2">
+          <FormLabel className="text-xl font-semibold text-black block mb-2">
             Additional Information
           </FormLabel>
           <p className="text-gray-600 mb-3">
