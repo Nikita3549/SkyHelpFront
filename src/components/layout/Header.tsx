@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -89,7 +88,7 @@ const Header = () => {
       <div className="container-custom">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Logo />
+            <Logo size="md" />
           </div>
 
           <nav className="hidden md:flex items-center space-x-2">
