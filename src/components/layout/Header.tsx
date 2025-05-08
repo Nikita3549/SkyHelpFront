@@ -88,7 +88,7 @@ const Header = () => {
       <div className="container-custom">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Logo size="lg" />
+            <Logo size="md" />
           </div>
 
           <nav className="hidden md:flex items-center space-x-2">

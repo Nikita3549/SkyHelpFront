@@ -10,7 +10,7 @@ interface SocialLinksProps {
 const SocialLinks: React.FC<SocialLinksProps> = ({ social }) => {
   return (
     <div className="space-y-6">
-      <Logo size="lg" withLink={false} />
+      <Logo size="md" withLink={false} />
       <p className="text-gray-500 text-sm max-w-xs">
         Helping air passengers get the compensation they deserve when flights are delayed or canceled.
       </p>

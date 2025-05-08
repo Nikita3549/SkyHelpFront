@@ -11,9 +11,9 @@ interface LogoProps {
 
 const Logo = ({ className, size = "md", withLink = true }: LogoProps) => {
   const sizeClasses = {
-    sm: "h-8",
-    md: "h-10",
-    lg: "h-12"
+    sm: "h-6",
+    md: "h-8",
+    lg: "h-10"
   };
   
   const logo = (
