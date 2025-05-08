@@ -31,7 +31,7 @@ const BookingReferenceField: React.FC<BookingReferenceFieldProps> = ({ form }) =
                   <HelpCircle className="h-4 w-4 text-gray-400" />
                 </span>
               </HoverCardTrigger>
-              <HoverCardContent className="max-w-md bg-white p-4">
+              <HoverCardContent className="w-[450px] max-w-md bg-white p-4">
                 <div className="space-y-4">
                   <p className="text-sm">
                     You can find your booking reference (also known as PNR or reservation code) on your e-ticket or other travel reservation document.
