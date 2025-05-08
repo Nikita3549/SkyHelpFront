@@ -40,9 +40,12 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
       className="space-y-6"
     >
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-          Great news! It looks like you're entitled to €250 per person under EC 261. To get the money you deserve, sign below.
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+          Almost done!
         </h2>
+        <p className="text-lg text-gray-700 mb-4">
+          Great news! It looks like you're entitled to <span className="text-blue-600 font-bold">€250</span> per person under EC 261. To get the money you deserve, sign below.
+        </p>
       </div>
 
       <Form {...form}>
