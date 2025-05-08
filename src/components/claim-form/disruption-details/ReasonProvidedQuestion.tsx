@@ -1,4 +1,3 @@
-
 import React from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -18,7 +17,7 @@ const ReasonProvidedQuestion: React.FC<ReasonProvidedQuestionProps> = ({ form })
       name="reasonProvided"
       render={({ field }) => (
         <FormItem className="space-y-4">
-          <FormLabel className="text-xl font-semibold text-blue-800 block">
+          <FormLabel className="text-xl font-semibold text-black block">
             Did the airline tell you why the flight was disrupted?
           </FormLabel>
           <FormControl>
