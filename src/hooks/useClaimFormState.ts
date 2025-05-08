@@ -10,7 +10,8 @@ import {
   disruptionDetailsSchema,
   paymentDetailsSchema,
   flightRouteSchema,
-  bookingReferenceSchema
+  bookingReferenceSchema,
+  signatureSchema
 } from "@/components/claim-form/schemas";
 
 export const useClaimFormState = () => {
@@ -36,6 +37,7 @@ export const useClaimFormState = () => {
     passengerDetails: {},
     disruptionDetails: {},
     bookingReference: {},
+    signature: {},
     paymentDetails: {},
   });
 
@@ -97,6 +99,14 @@ export const useClaimFormState = () => {
       bookingReference: "",
     },
   });
+  
+  const signatureForm = useForm<z.infer<typeof signatureSchema>>({
+    resolver: zodResolver(signatureSchema),
+    defaultValues: {
+      signature: "",
+      termsAgreed: false,
+    },
+  });
 
   const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
     resolver: zodResolver(disruptionDetailsSchema),
@@ -139,6 +149,7 @@ export const useClaimFormState = () => {
     flightDetailsForm,
     passengerDetailsForm,
     bookingReferenceForm,
+    signatureForm,
     disruptionDetailsForm,
     paymentDetailsForm,
     connectionFlights,

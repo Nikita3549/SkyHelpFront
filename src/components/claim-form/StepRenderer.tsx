@@ -11,6 +11,7 @@ import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep
 import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
 import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
 import BoardingPassUpload from "@/components/claim-form/BoardingPassUpload";
+import SignatureStep from "@/components/claim-form/SignatureStep";
 import { AnimationTransitions } from "@/components/claim-form/types";
 import { useBoardingPassUpload } from "@/hooks/useBoardingPassUpload";
 
@@ -23,6 +24,7 @@ interface StepRendererProps {
   bookingReferenceForm: UseFormReturn<any>;
   disruptionDetailsForm: UseFormReturn<any>;
   paymentDetailsForm: UseFormReturn<any>;
+  signatureForm: UseFormReturn<any>;
   connectionFlights: string[];
   setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
   onFlightRouteSubmit: (data: any) => void;
@@ -30,6 +32,7 @@ interface StepRendererProps {
   onDisruptionTypeSubmit: (data: any) => void;
   onPassengerDetailsSubmit: (data: any) => void;
   onBookingReferenceSubmit: (data: any) => void;
+  onSignatureSubmit: (data: any) => void;
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
   proceedToNextStep: () => void;
@@ -49,6 +52,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   bookingReferenceForm,
   disruptionDetailsForm,
   paymentDetailsForm,
+  signatureForm,
   connectionFlights,
   setConnectionFlights,
   onFlightRouteSubmit,
@@ -56,6 +60,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   onDisruptionTypeSubmit,
   onPassengerDetailsSubmit,
   onBookingReferenceSubmit,
+  onSignatureSubmit,
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
   proceedToNextStep,
@@ -144,12 +149,21 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           transitions={transitions}
         />
       );
+    case 4.8:
+      return (
+        <SignatureStep
+          form={signatureForm}
+          onSubmit={onSignatureSubmit}
+          onBack={() => setStep(4.5)}
+          transitions={transitions}
+        />
+      );
     case 5:
       return (
         <PaymentDetailsStep
           form={paymentDetailsForm}
           onSubmit={onPaymentDetailsSubmit}
-          onBack={() => setStep(4.5)}
+          onBack={() => setStep(4.8)}
           transitions={transitions}
         />
       );

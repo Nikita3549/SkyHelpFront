@@ -9,13 +9,15 @@ interface NavigationButtonsProps {
   showBackButton?: boolean;
   continueText?: string;
   isSubmitting?: boolean;
+  isDisabled?: boolean;
 }
 
 const NavigationButtons: React.FC<NavigationButtonsProps> = ({ 
   onBack,
   showBackButton = true,
   continueText = "Continue",
-  isSubmitting = false
+  isSubmitting = false,
+  isDisabled = false
 }) => {
   const isMobile = useIsMobile();
   
@@ -42,7 +44,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
 
       <Button 
         type="submit" 
-        disabled={isSubmitting}
+        disabled={isSubmitting || isDisabled}
         className={isMobile ? 'w-full' : ''}
       >
         {continueText}

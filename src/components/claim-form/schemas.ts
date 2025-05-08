@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 export const flightRouteSchema = z.object({
@@ -80,4 +79,11 @@ export const paymentDetailsSchema = z.object({
   termsAgreed: z.boolean().refine(val => val === true, {
     message: "You must agree to the terms and conditions",
   }),
+});
+
+export const signatureSchema = z.object({
+  signature: z.string().min(1, { message: "Signature is required" }),
+  termsAgreed: z.boolean().refine(val => val === true, {
+    message: "You must agree to the terms and conditions"
+  })
 });

@@ -8,7 +8,8 @@ import {
   disruptionDetailsSchema,
   paymentDetailsSchema,
   flightRouteSchema,
-  bookingReferenceSchema
+  bookingReferenceSchema,
+  signatureSchema
 } from "@/components/claim-form/schemas";
 
 interface UseClaimFormHandlersProps {
@@ -18,6 +19,7 @@ interface UseClaimFormHandlersProps {
     passengerDetails: Record<string, any>;
     disruptionDetails: Record<string, any>;
     bookingReference: Record<string, any>;
+    signature: Record<string, any>;
     paymentDetails: Record<string, any>;
   }>>;
   formData: {
@@ -26,6 +28,7 @@ interface UseClaimFormHandlersProps {
     passengerDetails: Record<string, any>;
     disruptionDetails: Record<string, any>;
     bookingReference: Record<string, any>;
+    signature: Record<string, any>;
     paymentDetails: Record<string, any>;
   };
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -123,6 +126,12 @@ export const useClaimFormHandlers = ({
   
   const onBookingReferenceSubmit = (data: z.infer<typeof bookingReferenceSchema>) => {
     setFormData({ ...formData, bookingReference: data });
+    setStep(4.8);  // Move to signature step
+    scrollToTop();
+  };
+  
+  const onSignatureSubmit = (data: z.infer<typeof signatureSchema>) => {
+    setFormData({ ...formData, signature: data });
     setStep(5);  // Move to payment details
     scrollToTop();
   };
@@ -158,6 +167,7 @@ export const useClaimFormHandlers = ({
     onDisruptionDetailsSubmit,
     onPassengerDetailsSubmit,
     onBookingReferenceSubmit,
+    onSignatureSubmit,
     onPaymentDetailsSubmit,
     proceedToNextStep,
   };
