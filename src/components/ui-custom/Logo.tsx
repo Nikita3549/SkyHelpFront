@@ -11,15 +11,15 @@ interface LogoProps {
 
 const Logo = ({ className, size = "md", withLink = true }: LogoProps) => {
   const sizeClasses = {
-    sm: "h-6",
-    md: "h-8",
-    lg: "h-10"
+    sm: "h-8",
+    md: "h-10",
+    lg: "h-12"
   };
   
   const logo = (
     <div className={cn("flex items-center", className)}>
       <img 
-        src="/lovable-uploads/4ff2ecde-371b-44db-bd0e-550a02e610c0.png" 
+        src="/lovable-uploads/041f1775-36f3-4312-aa2e-86bcaae02330.png" 
         alt="SkyHelp Logo" 
         className={cn(sizeClasses[size])}
       />
