@@ -8,6 +8,7 @@ type TimelineItemStatus = "pending" | "active" | "completed";
 interface TimelineItem {
   label: string;
   status: TimelineItemStatus;
+  isFinal?: boolean;
 }
 
 interface TimelineProps {
@@ -34,7 +35,7 @@ const Timeline: React.FC<TimelineProps> = ({ items }) => {
                 ${isMobile ? 'mb-2' : 'mr-4'}
               `}
             >
-              {item.status === "completed" ? (
+              {item.status === "completed" || item.isFinal ? (
                 <Check className="h-5 w-5" />
               ) : (
                 <span className="font-medium">{index + 1}</span>
