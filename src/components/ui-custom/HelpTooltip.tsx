@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { HelpCircle, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -43,7 +44,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
         <AlertDialogTrigger asChild>
           <button 
             className={cn(
-              "inline-flex items-center text-green-600 hover:text-green-700 transition-colors gap-1.5 text-sm font-medium bg-green-50 px-3 py-1.5 rounded-full", 
+              "inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors gap-1.5 text-sm font-medium bg-blue-50 px-3 py-1.5 rounded-full", 
               className
             )}
             aria-label="Get help with filling the form"
@@ -51,7 +52,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
             Not sure how to fill? <HelpCircle className="h-4 w-4" />
           </button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="w-[90%] max-w-md p-0 rounded-xl border border-green-200 overflow-hidden">
+        <AlertDialogContent className="w-[90%] max-w-md p-0 rounded-xl border border-blue-200 overflow-hidden">
           <div className="relative p-5 pt-10 bg-white rounded-xl">
             <button 
               onClick={() => setIsOpen(false)}
@@ -67,7 +68,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
                   <p className="text-gray-800">
                     {item.text.split(/(\booked together\b|\benter\b|\boriginal flight\b)/g).map((part, i) => {
                       if (part === "booked together" || part === "enter" || part === "original flight") {
-                        return <span key={i} className="text-green-600 font-medium">{part}</span>;
+                        return <span key={i} className="text-blue-600 font-medium">{part}</span>;
                       }
                       return part;
                     })}
@@ -88,7 +89,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
         <PopoverTrigger asChild>
           <button 
             className={cn(
-              "inline-flex items-center text-green-600 hover:text-green-700 transition-colors gap-1.5 text-sm font-medium bg-green-50 px-3 py-1.5 rounded-full", 
+              "inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors gap-1.5 text-sm font-medium bg-blue-50 px-3 py-1.5 rounded-full", 
               className
             )}
             aria-label="Get help with filling the form"
@@ -97,7 +98,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
           </button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-80 p-4 bg-white rounded-xl border border-green-200 shadow-lg"
+          className="w-80 p-4 bg-white rounded-xl border border-blue-200 shadow-lg"
           side={position as "top" | "right" | "bottom" | "left"}
           align="start"
           sideOffset={5}
@@ -109,7 +110,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
                 <p className="text-gray-800">
                   {item.text.split(/(\booked together\b|\benter\b|\boriginal flight\b)/g).map((part, i) => {
                     if (part === "booked together" || part === "enter" || part === "original flight") {
-                      return <span key={i} className="text-green-600 font-medium">{part}</span>;
+                      return <span key={i} className="text-blue-600 font-medium">{part}</span>;
                     }
                     return part;
                   })}
@@ -129,7 +130,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
         <TooltipTrigger asChild>
           <button 
             className={cn(
-              "inline-flex items-center text-green-600 hover:text-green-700 transition-colors gap-1.5 text-sm font-medium bg-green-50 px-3 py-1.5 rounded-full", 
+              "inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors gap-1.5 text-sm font-medium bg-blue-50 px-3 py-1.5 rounded-full", 
               className
             )}
             aria-label="Get help with filling the form"
@@ -139,7 +140,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
         </TooltipTrigger>
         <TooltipContent 
           side={position} 
-          className="w-80 p-5 bg-white rounded-xl border border-green-200"
+          className="w-80 p-5 bg-white rounded-xl border border-blue-200"
         >
           <ul className="space-y-4">
             {items.map((item, index) => (
@@ -148,7 +149,7 @@ const HelpTooltip: React.FC<HelpTooltipProps> = ({
                 <p>
                   {item.text.split(/(\booked together\b|\benter\b|\boriginal flight\b)/g).map((part, i) => {
                     if (part === "booked together" || part === "enter" || part === "original flight") {
-                      return <span key={i} className="text-green-600 font-medium">{part}</span>;
+                      return <span key={i} className="text-blue-600 font-medium">{part}</span>;
                     }
                     return part;
                   })}
