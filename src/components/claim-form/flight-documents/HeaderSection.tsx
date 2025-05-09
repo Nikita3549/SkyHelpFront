@@ -1,6 +1,6 @@
 
 import React from "react";
-import { FileText } from "lucide-react";
+import { TicketIcon } from "lucide-react";
 
 const HeaderSection: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const HeaderSection: React.FC = () => {
       
       <div className="flex items-center gap-4 mb-6">
         <div className="bg-green-50 p-4 rounded-full">
-          <FileText className="w-8 h-8 text-green-600" />
+          <TicketIcon className="w-8 h-8 text-green-600" />
         </div>
         <p className="text-gray-700">
           Booking confirmation email, boarding pass, or any other document confirming your ticket reservation.
