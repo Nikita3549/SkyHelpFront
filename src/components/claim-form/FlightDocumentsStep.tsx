@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { motion } from "framer-motion";
@@ -26,8 +26,6 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
   onBack,
   transitions
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
   const {
     isDragging,
     handleDragOver,
@@ -76,7 +74,7 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
               )}
             />
 
-            <DocumentInfoSection isOpen={isOpen} setIsOpen={setIsOpen} />
+            <DocumentInfoSection isOpen={false} setIsOpen={() => {}} />
 
             <NavigationButtons 
               onBack={onBack}
