@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -6,9 +5,10 @@ import { motion } from "framer-motion";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { flightDocumentsSchema } from "@/components/claim-form/schemas";
 import NavigationButtons from "@/components/claim-form/passenger-details/NavigationButtons";
-import { FileText, Upload, HelpCircle, Info } from "lucide-react";
+import { FileText, Upload, HelpCircle, Info, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { AnimationTransitions } from "@/components/claim-form/types";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface FlightDocumentsStepProps {
   form: UseFormReturn<z.infer<typeof flightDocumentsSchema>>;
@@ -24,6 +24,7 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
   transitions
 }) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const allowedFileTypes = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg", "image/jpg"];
   const maxFileSize = 5 * 1024 * 1024; // 5MB
   
@@ -177,22 +178,33 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
             )}
           />
 
-          {/* New information section about boarding passes and e-tickets */}
+          {/* Updated information section with collapsible content */}
           <div className="mt-8 space-y-4">
-            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-              <div className="flex items-start gap-3">
-                <HelpCircle className="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" />
-                <div className="space-y-4">
+            <Collapsible
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              className="bg-gray-50 rounded-lg border border-gray-100"
+            >
+              <CollapsibleTrigger className="w-full p-4 flex items-center justify-between text-left">
+                <div className="flex items-center gap-3">
+                  <HelpCircle className="w-6 h-6 text-blue-500 flex-shrink-0" />
                   <h3 className="text-lg font-medium text-gray-900">What is a boarding pass or an e-ticket?</h3>
-                  <p className="text-gray-700">
-                    The boarding pass is the physical slip you receive after checking in at the airport, or an in-app document if you check-in online. You use this to board the plane and it has details like your name and seat number.
-                  </p>
-                  <p className="text-gray-700">
-                    <span className="font-medium text-gray-900">E-ticket</span> you'll receive your e-ticket after making your booking - it's an electronic confirmation that gets emailed to you containing the passenger's names, flight details, and booking reference.
-                  </p>
                 </div>
-              </div>
-            </div>
+                {isOpen ? (
+                  <ChevronUp className="w-5 h-5 text-gray-500" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-gray-500" />
+                )}
+              </CollapsibleTrigger>
+              <CollapsibleContent className="px-4 pb-4 pt-1 space-y-4">
+                <p className="text-gray-700">
+                  The boarding pass is the physical slip you receive after checking in at the airport, or an in-app document if you check-in online. You use this to board the plane and it has details like your name and seat number.
+                </p>
+                <p className="text-gray-700">
+                  <span className="font-medium text-gray-900">E-ticket</span> you'll receive your e-ticket after making your booking - it's an electronic confirmation that gets emailed to you containing the passenger's names, flight details, and booking reference.
+                </p>
+              </CollapsibleContent>
+            </Collapsible>
             
             <div className="bg-white rounded-lg p-4 border border-gray-100">
               <div className="flex items-center gap-3">
