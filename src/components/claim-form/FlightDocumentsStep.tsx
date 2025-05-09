@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { flightDocumentsSchema } from "@/components/claim-form/schemas";
 import NavigationButtons from "@/components/claim-form/passenger-details/NavigationButtons";
-import { FileText, Upload } from "lucide-react";
+import { FileText, Upload, HelpCircle, Info } from "lucide-react";
 import { toast } from "sonner";
 import { AnimationTransitions } from "@/components/claim-form/types";
 
@@ -176,6 +176,33 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
               </FormItem>
             )}
           />
+
+          {/* New information section about boarding passes and e-tickets */}
+          <div className="mt-8 space-y-4">
+            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+              <div className="flex items-start gap-3">
+                <HelpCircle className="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" />
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium text-gray-900">What is a boarding pass or an e-ticket?</h3>
+                  <p className="text-gray-700">
+                    The boarding pass is the physical slip you receive after checking in at the airport, or an in-app document if you check-in online. You use this to board the plane and it has details like your name and seat number.
+                  </p>
+                  <p className="text-gray-700">
+                    <span className="font-medium text-gray-900">E-ticket</span> you'll receive your e-ticket after making your booking - it's an electronic confirmation that gets emailed to you containing the passenger's names, flight details, and booking reference.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 border border-gray-100">
+              <div className="flex items-center gap-3">
+                <Info className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                <p className="text-gray-700 text-sm">
+                  We fully comply with data protection laws, and your data is safe with us.
+                </p>
+              </div>
+            </div>
+          </div>
 
           <NavigationButtons 
             onBack={onBack}
