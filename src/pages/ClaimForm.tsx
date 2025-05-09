@@ -45,6 +45,7 @@ const ClaimForm = () => {
     onPaymentDetailsSubmit,
     proceedToNextStep,
     onFlightRouteSubmit,
+    skipPaymentDetails,
   } = useClaimFormHandlers({
     setFormData,
     formData,
@@ -95,6 +96,7 @@ const ClaimForm = () => {
       onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
       onPaymentDetailsSubmit={onPaymentDetailsSubmit}
       proceedToNextStep={proceedToNextStep}
+      skipPaymentDetails={skipPaymentDetails}
       isChecking={isChecking}
       isEligible={isEligible}
       transitions={transitions}
