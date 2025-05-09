@@ -93,7 +93,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
           {/* Timeline sidebar */}
           <div className={`${isMobile ? 'mb-6' : 'md:col-span-1 pt-6'}`}>
             <ClaimFormTimeline 
-              step={showBoardingPassUpload && step < 2 ? 0 : step} 
+              step={step} 
               showBoardingPassUpload={showBoardingPassUpload} 
             />
           </div>
