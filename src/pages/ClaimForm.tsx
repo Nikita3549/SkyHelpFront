@@ -27,6 +27,7 @@ const ClaimForm = () => {
     passengerDetailsForm,
     bookingReferenceForm,
     signatureForm,
+    flightDocumentsForm,
     disruptionDetailsForm,
     paymentDetailsForm,
     connectionFlights,
@@ -40,6 +41,7 @@ const ClaimForm = () => {
     onDisruptionDetailsSubmit,
     onBookingReferenceSubmit,
     onSignatureSubmit,
+    onFlightDocumentsSubmit,
     onPaymentDetailsSubmit,
     proceedToNextStep,
     onFlightRouteSubmit,
@@ -78,6 +80,7 @@ const ClaimForm = () => {
       passengerDetailsForm={passengerDetailsForm}
       bookingReferenceForm={bookingReferenceForm}
       signatureForm={signatureForm}
+      flightDocumentsForm={flightDocumentsForm}
       disruptionDetailsForm={disruptionDetailsForm}
       paymentDetailsForm={paymentDetailsForm}
       connectionFlights={connectionFlights}
@@ -88,6 +91,7 @@ const ClaimForm = () => {
       onPassengerDetailsSubmit={onPassengerDetailsSubmit}
       onBookingReferenceSubmit={onBookingReferenceSubmit}
       onSignatureSubmit={onSignatureSubmit}
+      onFlightDocumentsSubmit={onFlightDocumentsSubmit}
       onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
       onPaymentDetailsSubmit={onPaymentDetailsSubmit}
       proceedToNextStep={proceedToNextStep}

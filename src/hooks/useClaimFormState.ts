@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -11,7 +10,8 @@ import {
   paymentDetailsSchema,
   flightRouteSchema,
   bookingReferenceSchema,
-  signatureSchema
+  signatureSchema,
+  flightDocumentsSchema
 } from "@/components/claim-form/schemas";
 
 export const useClaimFormState = () => {
@@ -38,6 +38,7 @@ export const useClaimFormState = () => {
     disruptionDetails: {},
     bookingReference: {},
     signature: {},
+    flightDocuments: {},
     paymentDetails: {},
   });
 
@@ -131,6 +132,13 @@ export const useClaimFormState = () => {
     },
   });
 
+  const flightDocumentsForm = useForm<z.infer<typeof flightDocumentsSchema>>({
+    resolver: zodResolver(flightDocumentsSchema),
+    defaultValues: {
+      documents: [],
+    },
+  });
+
   return {
     step,
     setStep,
@@ -150,6 +158,7 @@ export const useClaimFormState = () => {
     passengerDetailsForm,
     bookingReferenceForm,
     signatureForm,
+    flightDocumentsForm,
     disruptionDetailsForm,
     paymentDetailsForm,
     connectionFlights,

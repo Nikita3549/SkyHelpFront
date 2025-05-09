@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -9,7 +8,8 @@ import {
   paymentDetailsSchema,
   flightRouteSchema,
   bookingReferenceSchema,
-  signatureSchema
+  signatureSchema,
+  flightDocumentsSchema
 } from "@/components/claim-form/schemas";
 
 interface UseClaimFormHandlersProps {
@@ -132,6 +132,12 @@ export const useClaimFormHandlers = ({
   
   const onSignatureSubmit = (data: z.infer<typeof signatureSchema>) => {
     setFormData({ ...formData, signature: data });
+    setStep(4.9);  // Move to flight documents step
+    scrollToTop();
+  };
+
+  const onFlightDocumentsSubmit = (data: z.infer<typeof flightDocumentsSchema>) => {
+    setFormData({ ...formData, flightDocuments: data });
     setStep(5);  // Move to payment details
     scrollToTop();
   };
@@ -168,6 +174,7 @@ export const useClaimFormHandlers = ({
     onPassengerDetailsSubmit,
     onBookingReferenceSubmit,
     onSignatureSubmit,
+    onFlightDocumentsSubmit,
     onPaymentDetailsSubmit,
     proceedToNextStep,
   };

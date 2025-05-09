@@ -82,8 +82,12 @@ export const paymentDetailsSchema = z.object({
 });
 
 export const signatureSchema = z.object({
-  signature: z.string().min(1, { message: "Signature is required" }),
-  termsAgreed: z.boolean().refine(val => val === true, {
-    message: "You must agree to the terms and conditions"
-  })
+  signature: z.string().min(1, "Your signature is required"),
+  termsAgreed: z.boolean().refine(value => value === true, {
+    message: "You must agree to the terms",
+  }),
+});
+
+export const flightDocumentsSchema = z.object({
+  documents: z.array(z.instanceof(File)).min(1, "At least one document is required")
 });

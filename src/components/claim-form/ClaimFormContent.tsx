@@ -19,6 +19,7 @@ interface ClaimFormContentProps {
   disruptionDetailsForm: UseFormReturn<any>;
   paymentDetailsForm: UseFormReturn<any>;
   signatureForm: UseFormReturn<any>;
+  flightDocumentsForm: UseFormReturn<any>;
   connectionFlights: string[];
   setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
   onFlightRouteSubmit: (data: any) => void;
@@ -27,6 +28,7 @@ interface ClaimFormContentProps {
   onPassengerDetailsSubmit: (data: any) => void;
   onBookingReferenceSubmit: (data: any) => void;
   onSignatureSubmit: (data: any) => void;
+  onFlightDocumentsSubmit: (data: any) => void;
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
   proceedToNextStep: () => void;
@@ -52,6 +54,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   disruptionDetailsForm,
   paymentDetailsForm,
   signatureForm,
+  flightDocumentsForm,
   connectionFlights,
   setConnectionFlights,
   onFlightRouteSubmit,
@@ -60,6 +63,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   onPassengerDetailsSubmit,
   onBookingReferenceSubmit,
   onSignatureSubmit,
+  onFlightDocumentsSubmit,
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
   proceedToNextStep,
@@ -76,7 +80,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   const isMobile = useIsMobile();
   
   // Adjusted total steps to account for the new steps
-  const totalSteps = 8;
+  const totalSteps = 9; // Updated to include flight documents step
 
   return (
     <div className="py-8 md:py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -113,6 +117,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
                 disruptionDetailsForm={disruptionDetailsForm}
                 paymentDetailsForm={paymentDetailsForm}
                 signatureForm={signatureForm}
+                flightDocumentsForm={flightDocumentsForm}
                 connectionFlights={connectionFlights}
                 setConnectionFlights={setConnectionFlights}
                 onFlightRouteSubmit={onFlightRouteSubmit}
@@ -121,6 +126,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
                 onPassengerDetailsSubmit={onPassengerDetailsSubmit}
                 onBookingReferenceSubmit={onBookingReferenceSubmit}
                 onSignatureSubmit={onSignatureSubmit}
+                onFlightDocumentsSubmit={onFlightDocumentsSubmit}
                 onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
                 onPaymentDetailsSubmit={onPaymentDetailsSubmit}
                 proceedToNextStep={proceedToNextStep}

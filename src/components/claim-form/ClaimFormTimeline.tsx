@@ -44,6 +44,10 @@ const ClaimFormTimeline: React.FC<ClaimFormTimelineProps> = ({
           status: step > 4.8 ? "completed" as const : step === 4.8 ? "active" as const : "pending" as const
         },
         {
+          label: "Documents",
+          status: step > 4.9 ? "completed" as const : step === 4.9 ? "active" as const : "pending" as const
+        },
+        {
           label: "Payment",
           status: step === 5 ? "active" as const : "pending" as const
         }
@@ -78,6 +82,10 @@ const ClaimFormTimeline: React.FC<ClaimFormTimelineProps> = ({
       {
         label: "Signature",
         status: step > 4.8 ? "completed" as const : step === 4.8 ? "active" as const : "pending" as const
+      },
+      {
+        label: "Documents",
+        status: step > 4.9 ? "completed" as const : step === 4.9 ? "active" as const : "pending" as const
       },
       {
         label: "Payment",
