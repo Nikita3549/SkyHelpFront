@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -158,7 +159,19 @@ export const useClaimFormHandlers = ({
       description: "We'll process your claim and keep you updated.",
     });
     
-    navigate("/dashboard");
+    // Instead of going to dashboard, go to thank you step
+    setStep(6);
+    scrollToTop();
+  };
+  
+  // Handler for skipping payment details
+  const skipPaymentDetails = () => {
+    toast.info("You can add payment details later", {
+      description: "We'll request payment information when your claim is approved.",
+    });
+    
+    // Move to thank you step
+    setStep(6);
     scrollToTop();
   };
 
@@ -178,6 +191,7 @@ export const useClaimFormHandlers = ({
     onSignatureSubmit,
     onFlightDocumentsSubmit,
     onPaymentDetailsSubmit,
+    skipPaymentDetails,
     proceedToNextStep,
   };
 };

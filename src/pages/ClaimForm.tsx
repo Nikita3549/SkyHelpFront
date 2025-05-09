@@ -32,6 +32,7 @@ const ClaimForm = () => {
     paymentDetailsForm,
     connectionFlights,
     setConnectionFlights,
+    claimId,
   } = useClaimFormState();
 
   const {
@@ -43,6 +44,7 @@ const ClaimForm = () => {
     onSignatureSubmit,
     onFlightDocumentsSubmit,
     onPaymentDetailsSubmit,
+    skipPaymentDetails,
     proceedToNextStep,
     onFlightRouteSubmit,
   } = useClaimFormHandlers({
@@ -94,6 +96,7 @@ const ClaimForm = () => {
       onFlightDocumentsSubmit={onFlightDocumentsSubmit}
       onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
       onPaymentDetailsSubmit={onPaymentDetailsSubmit}
+      skipPaymentDetails={skipPaymentDetails}
       proceedToNextStep={proceedToNextStep}
       isChecking={isChecking}
       isEligible={isEligible}
@@ -104,6 +107,7 @@ const ClaimForm = () => {
       preFilledFlightNumber={preFilledFlightNumber}
       preFilledDepartureDate={preFilledDepartureDate}
       locationState={location.state}
+      claimId={claimId}
     />
   );
 };

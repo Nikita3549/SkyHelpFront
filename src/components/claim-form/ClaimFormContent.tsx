@@ -31,6 +31,7 @@ interface ClaimFormContentProps {
   onFlightDocumentsSubmit: (data: any) => void;
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
+  skipPaymentDetails: () => void;
   proceedToNextStep: () => void;
   isChecking: boolean;
   isEligible: boolean | null;
@@ -41,6 +42,7 @@ interface ClaimFormContentProps {
   preFilledFlightNumber: string;
   preFilledDepartureDate: string;
   locationState: any;
+  claimId?: string;
 }
 
 const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
@@ -66,6 +68,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   onFlightDocumentsSubmit,
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
+  skipPaymentDetails,
   proceedToNextStep,
   isChecking,
   isEligible,
@@ -75,12 +78,13 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   preFilledArrivalAirport,
   preFilledFlightNumber,
   preFilledDepartureDate,
-  locationState
+  locationState,
+  claimId
 }) => {
   const isMobile = useIsMobile();
   
   // Adjusted total steps to account for the new steps
-  const totalSteps = 9; // Updated to include flight documents step
+  const totalSteps = 10; // Updated to include thank you step
 
   return (
     <div className="py-8 md:py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -96,7 +100,9 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
           
           {/* Main form content */}
           <div className="md:col-span-3">
-            <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={totalSteps} />
+            {step < 6 && (
+              <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={totalSteps - 1} />
+            )}
             <PreFilledValuesSyncer
               form={flightDetailsForm}
               flightRouteForm={flightRouteForm}
@@ -129,12 +135,14 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
                 onFlightDocumentsSubmit={onFlightDocumentsSubmit}
                 onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
                 onPaymentDetailsSubmit={onPaymentDetailsSubmit}
+                skipPaymentDetails={skipPaymentDetails}
                 proceedToNextStep={proceedToNextStep}
                 setStep={setStep}
                 isChecking={isChecking}
                 isEligible={isEligible}
                 transitions={transitions}
                 disruptionType={disruptionType}
+                claimId={claimId}
               />
             </div>
           </div>

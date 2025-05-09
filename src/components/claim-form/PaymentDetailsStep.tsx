@@ -23,6 +23,7 @@ interface PaymentDetailsStepProps {
   onSubmit: (data: z.infer<typeof paymentDetailsSchema>) => void;
   onBack: () => void;
   transitions: AnimationTransitions;
+  onSkip: () => void;
 }
 
 const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
@@ -30,6 +31,7 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
   onSubmit,
   onBack,
   transitions,
+  onSkip
 }) => {
   return (
     <motion.div
@@ -63,7 +65,7 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
           <InfoBox />
 
           {/* Navigation buttons component */}
-          <PaymentNavigationButtons onBack={onBack} />
+          <PaymentNavigationButtons onBack={onBack} onSkip={onSkip} />
         </form>
       </Form>
     </motion.div>

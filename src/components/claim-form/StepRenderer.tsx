@@ -13,6 +13,7 @@ import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
 import BoardingPassUpload from "@/components/claim-form/BoardingPassUpload";
 import SignatureStep from "@/components/claim-form/SignatureStep";
 import FlightDocumentsStep from "@/components/claim-form/FlightDocumentsStep";
+import ThankYouStep from "@/components/claim-form/ThankYouStep";
 import { AnimationTransitions } from "@/components/claim-form/types";
 import { useBoardingPassUpload } from "@/hooks/useBoardingPassUpload";
 
@@ -38,12 +39,14 @@ interface StepRendererProps {
   onFlightDocumentsSubmit: (data: any) => void;
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
+  skipPaymentDetails: () => void;
   proceedToNextStep: () => void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   isChecking: boolean;
   isEligible: boolean | null;
   transitions: AnimationTransitions;
   disruptionType: string;
+  claimId?: string;
 }
 
 const StepRenderer: React.FC<StepRendererProps> = ({
@@ -68,18 +71,23 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   onFlightDocumentsSubmit,
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
+  skipPaymentDetails,
   proceedToNextStep,
   setStep,
   isChecking,
   isEligible,
   transitions,
-  disruptionType
+  disruptionType,
+  claimId
 }) => {
   // Use the boarding pass upload hook
   const { handleBoardingPassSubmit } = useBoardingPassUpload({
     flightDetailsForm,
     setStep
   });
+
+  // Get airline name from flightDetailsForm
+  const airlineName = flightDetailsForm.watch("airline");
 
   // Show boarding pass upload component if showBoardingPassUpload is true and step is 0 or 1
   if (showBoardingPassUpload && step < 2) {
@@ -179,6 +187,15 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           onSubmit={onPaymentDetailsSubmit}
           onBack={() => setStep(4.9)}
           transitions={transitions}
+          onSkip={skipPaymentDetails}
+        />
+      );
+    case 6:
+      return (
+        <ThankYouStep
+          transitions={transitions}
+          claimId={claimId || '5786537'}
+          airlineName={airlineName || 'the airline'}
         />
       );
     default:

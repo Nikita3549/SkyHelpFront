@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -13,6 +14,11 @@ import {
   signatureSchema,
   flightDocumentsSchema
 } from "@/components/claim-form/schemas";
+
+// Function to generate a random claim ID
+const generateClaimId = () => {
+  return Math.floor(1000000 + Math.random() * 9000000).toString();
+};
 
 export const useClaimFormState = () => {
   const location = useLocation();
@@ -31,6 +37,7 @@ export const useClaimFormState = () => {
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [connectionFlights, setConnectionFlights] = useState<string[]>([""]);
+  const [claimId, setClaimId] = useState<string>(generateClaimId());
   const [formData, setFormData] = useState({
     flightRoute: {},
     flightDetails: {},
@@ -163,5 +170,6 @@ export const useClaimFormState = () => {
     paymentDetailsForm,
     connectionFlights,
     setConnectionFlights,
+    claimId,
   };
 };
