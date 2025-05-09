@@ -52,9 +52,10 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
         <form onSubmit={handleSubmit} className="space-y-6">
           <SignatureField form={form} />
           
-          <TermsAgreementField form={form} />
-          
+          {/* Info box moved above terms agreement */}
           <InfoBox />
+          
+          <TermsAgreementField form={form} />
           
           <NavigationButtons 
             onBack={onBack}
