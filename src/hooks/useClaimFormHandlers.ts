@@ -20,6 +20,7 @@ interface UseClaimFormHandlersProps {
     disruptionDetails: Record<string, any>;
     bookingReference: Record<string, any>;
     signature: Record<string, any>;
+    flightDocuments: Record<string, any>;
     paymentDetails: Record<string, any>;
   }>>;
   formData: {
@@ -29,6 +30,7 @@ interface UseClaimFormHandlersProps {
     disruptionDetails: Record<string, any>;
     bookingReference: Record<string, any>;
     signature: Record<string, any>;
+    flightDocuments: Record<string, any>;
     paymentDetails: Record<string, any>;
   };
   setStep: React.Dispatch<React.SetStateAction<number>>;
