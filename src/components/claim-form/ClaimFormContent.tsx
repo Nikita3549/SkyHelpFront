@@ -32,6 +32,7 @@ interface ClaimFormContentProps {
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
   proceedToNextStep: () => void;
+  skipPaymentDetails: () => void;  // Add this property to the interface
   isChecking: boolean;
   isEligible: boolean | null;
   transitions: AnimationTransitions;
@@ -67,6 +68,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
   proceedToNextStep,
+  skipPaymentDetails,  // Add this parameter to the component
   isChecking,
   isEligible,
   transitions,
@@ -130,6 +132,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
                 onDisruptionDetailsSubmit={onDisruptionDetailsSubmit}
                 onPaymentDetailsSubmit={onPaymentDetailsSubmit}
                 proceedToNextStep={proceedToNextStep}
+                skipPaymentDetails={skipPaymentDetails}  // Pass this prop to StepRenderer
                 setStep={setStep}
                 isChecking={isChecking}
                 isEligible={isEligible}

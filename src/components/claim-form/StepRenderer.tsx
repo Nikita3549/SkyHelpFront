@@ -1,20 +1,20 @@
 
 import React from "react";
-import { UseFormReturn } from "react-hook-form";
-
-// Component imports
-import FlightDetailsStep from "@/components/claim-form/FlightDetailsStep";
-import DisruptionTypeStep from "@/components/claim-form/DisruptionTypeStep";
-import PassengerDetailsStep from "@/components/claim-form/PassengerDetailsStep";
-import BookingReferenceStep from "@/components/claim-form/BookingReferenceStep";
-import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep";
-import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
-import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
-import BoardingPassUpload from "@/components/claim-form/BoardingPassUpload";
-import SignatureStep from "@/components/claim-form/SignatureStep";
-import FlightDocumentsStep from "@/components/claim-form/FlightDocumentsStep";
-import { AnimationTransitions } from "@/components/claim-form/types";
+import { AnimatePresence } from "framer-motion";
+import BoardingPassUpload from "./BoardingPassUpload";
+import FlightRouteStep from "./FlightRouteStep";
+import FlightDetailsStep from "./FlightDetailsStep";
+import DisruptionTypeStep from "./DisruptionTypeStep";
+import EligibilityResult from "./flight-details/EligibilityResult";
+import PassengerDetailsStep from "./PassengerDetailsStep";
+import DisruptionDetailsStep from "./DisruptionDetailsStep";
+import PaymentDetailsStep from "./PaymentDetailsStep";
+import BookingReferenceStep from "./BookingReferenceStep";
+import SignatureStep from "./SignatureStep";
+import FlightDocumentsStep from "./FlightDocumentsStep";
 import { useBoardingPassUpload } from "@/hooks/useBoardingPassUpload";
+import { AnimationTransitions } from "@/components/claim-form/types";
+import { UseFormReturn } from "react-hook-form";
 
 interface StepRendererProps {
   step: number;
@@ -39,6 +39,7 @@ interface StepRendererProps {
   onDisruptionDetailsSubmit: (data: any) => void;
   onPaymentDetailsSubmit: (data: any) => void;
   proceedToNextStep: () => void;
+  skipPaymentDetails: () => void; // Add this property
   setStep: React.Dispatch<React.SetStateAction<number>>;
   isChecking: boolean;
   isEligible: boolean | null;
@@ -69,83 +70,95 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   onDisruptionDetailsSubmit,
   onPaymentDetailsSubmit,
   proceedToNextStep,
+  skipPaymentDetails, // Add this parameter
   setStep,
   isChecking,
   isEligible,
   transitions,
-  disruptionType
+  disruptionType,
 }) => {
-  // Use the boarding pass upload hook
+  // Custom hook for boarding pass upload
   const { handleBoardingPassSubmit } = useBoardingPassUpload({
     flightDetailsForm,
-    setStep
+    setStep,
   });
 
-  // Show boarding pass upload component if showBoardingPassUpload is true and step is 0 or 1
-  if (showBoardingPassUpload && step < 2) {
-    return (
-      <BoardingPassUpload 
-        onContinue={handleBoardingPassSubmit}
-        transitions={transitions}
-      />
-    );
-  }
-  
-  switch (step) {
-    case 1:
+  const renderStepContent = () => {
+    if (showBoardingPassUpload && step < 2) {
+      // Step 0: Boarding Pass Upload (Optional/Conditional)
+      return (
+        <BoardingPassUpload
+          onSubmit={handleBoardingPassSubmit}
+          transitions={transitions}
+          onNext={() => setStep(1)}
+        />
+      );
+    } else if (step === 1) {
+      // Step 1: Flight Route Selection
       return (
         <FlightRouteStep
           form={flightRouteForm}
           onSubmit={onFlightRouteSubmit}
           transitions={transitions}
-          connectionFlights={connectionFlights}
-          setConnectionFlights={setConnectionFlights}
-          flightDetailsForm={flightDetailsForm}
         />
       );
-    case 2:
+    } else if (step === 2) {
+      // Step 2: Flight Details
       return (
         <FlightDetailsStep
           form={flightDetailsForm}
           onSubmit={onFlightDetailsSubmit}
-          transitions={transitions}
           onBack={() => setStep(1)}
+          transitions={transitions}
           connectionFlights={connectionFlights}
           setConnectionFlights={setConnectionFlights}
         />
       );
-    case 2.5:
+    } else if (step === 2.5) {
+      // Step 2.5: Disruption Type
       return (
         <DisruptionTypeStep
           form={flightDetailsForm}
           onSubmit={onDisruptionTypeSubmit}
+          onBack={() => setStep(2)}
+          transitions={transitions}
           isChecking={isChecking}
           isEligible={isEligible}
-          onContinue={proceedToNextStep}
-          transitions={transitions}
-          onBack={() => setStep(2)}
         />
       );
-    case 3:
+    } else if (step === 2.75) {
+      // Step 2.75: Eligibility Result
       return (
-        <DisruptionDetailsStep
-          form={disruptionDetailsForm}
-          onSubmit={onDisruptionDetailsSubmit}
-          onBack={() => setStep(2.5)}
+        <EligibilityResult
+          onProceed={proceedToNextStep}
           transitions={transitions}
+          isEligible={isEligible}
           disruptionType={disruptionType}
         />
       );
-    case 4:
+    } else if (step === 3) {
+      // Step 3: Passenger Details
       return (
         <PassengerDetailsStep
           form={passengerDetailsForm}
           onSubmit={onPassengerDetailsSubmit}
-          onBack={() => setStep(3)}
+          onBack={() => setStep(2.75)}
           transitions={transitions}
         />
       );
-    case 4.5:
+    } else if (step === 4) {
+      // Step 4: Disruption Details
+      return (
+        <DisruptionDetailsStep
+          form={disruptionDetailsForm}
+          onSubmit={onDisruptionDetailsSubmit}
+          onBack={() => setStep(3)}
+          transitions={transitions}
+          disruptionType={disruptionType}
+        />
+      );
+    } else if (step === 4.5) {
+      // Step 4.5: Booking Reference
       return (
         <BookingReferenceStep
           form={bookingReferenceForm}
@@ -154,7 +167,8 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           transitions={transitions}
         />
       );
-    case 4.8:
+    } else if (step === 4.8) {
+      // Step 4.8: Signature
       return (
         <SignatureStep
           form={signatureForm}
@@ -163,7 +177,8 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           transitions={transitions}
         />
       );
-    case 4.9:
+    } else if (step === 4.9) {
+      // Step 4.9: Flight Documents
       return (
         <FlightDocumentsStep
           form={flightDocumentsForm}
@@ -172,18 +187,22 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           transitions={transitions}
         />
       );
-    case 5:
+    } else if (step === 5) {
+      // Step 5: Payment Details
       return (
         <PaymentDetailsStep
           form={paymentDetailsForm}
           onSubmit={onPaymentDetailsSubmit}
           onBack={() => setStep(4.9)}
+          onSkip={skipPaymentDetails} // Pass the skip function
           transitions={transitions}
         />
       );
-    default:
-      return null;
-  }
+    }
+    return null;
+  };
+
+  return <AnimatePresence mode="wait">{renderStepContent()}</AnimatePresence>;
 };
 
 export default StepRenderer;
