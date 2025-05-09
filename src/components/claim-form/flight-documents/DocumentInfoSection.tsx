@@ -21,7 +21,7 @@ const DocumentInfoSection: React.FC<DocumentInfoSectionProps> = ({ isOpen, setIs
           <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
             <AccordionTrigger className="flex items-center gap-3 p-0 hover:no-underline text-left w-full">
               <HelpCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
-              <span className="text-gray-800 text-sm font-medium">
+              <span className="text-gray-800 text-sm font-medium text-left">
                 What is a boarding pass or an e-ticket?
               </span>
               {/* The default chevron icon is handled by the AccordionTrigger component */}
