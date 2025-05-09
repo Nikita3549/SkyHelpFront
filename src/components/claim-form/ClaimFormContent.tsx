@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ProgressBar from "@/components/claim-form/ProgressBar";
@@ -83,8 +82,9 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
 }) => {
   const isMobile = useIsMobile();
   
-  // Adjusted total steps to account for the new steps
-  const totalSteps = 10; // Updated to include thank you step
+  // Define the total number of steps for the progress bar calculation
+  // Step 6 is the Thank You step (final step)
+  const totalSteps = 6;
 
   return (
     <div className="py-8 md:py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -101,7 +101,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
           {/* Main form content */}
           <div className="md:col-span-3">
             {step < 6 && (
-              <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={totalSteps - 1} />
+              <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={totalSteps} />
             )}
             <PreFilledValuesSyncer
               form={flightDetailsForm}
