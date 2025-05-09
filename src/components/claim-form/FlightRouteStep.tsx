@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import HelpTooltip from "@/components/ui-custom/HelpTooltip";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FlightRouteStepProps {
   form: UseFormReturn<z.infer<typeof flightRouteSchema>>;
@@ -33,6 +34,8 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
   setConnectionFlights,
   flightDetailsForm
 }) => {
+  const isMobile = useIsMobile();
+  
   const helpItems = [
     { 
       text: "Enter the data for all the flights that you have booked together - not only for the disrupted one." 
@@ -114,11 +117,14 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             setConnectionFlights={setConnectionFlights}
           />
 
-          {/* Free checking alert message */}
+          {/* Free checking alert message - improved for mobile responsiveness */}
           <Alert className="bg-blue-50 border-blue-100 mb-4">
-            <Info className="h-5 w-5 text-blue-600" />
-            <AlertDescription className="text-blue-800 flex items-center ml-2">
-              No risk. Checking compensation is absolutely <span className="font-semibold">&nbsp;free of charge</span>.
+            <Info className="h-5 w-5 text-blue-600 shrink-0" />
+            <AlertDescription className={`text-blue-800 ml-2 ${isMobile ? 'text-sm' : ''}`}>
+              <span className="flex flex-wrap items-center">
+                No risk. Checking compensation is absolutely 
+                <span className="font-semibold ml-1">free of charge</span>.
+              </span>
             </AlertDescription>
           </Alert>
 
