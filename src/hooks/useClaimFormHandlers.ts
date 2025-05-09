@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -163,16 +162,6 @@ export const useClaimFormHandlers = ({
     scrollToTop();
   };
 
-  // New function to skip the payment details step
-  const skipPaymentDetails = () => {
-    toast.success("Claim submitted successfully", {
-      description: "We'll process your claim and you can add payment details later.",
-    });
-    
-    navigate("/dashboard");
-    scrollToTop();
-  };
-
   // Navigation handlers
   const proceedToNextStep = () => {
     setStep(3);
@@ -189,7 +178,6 @@ export const useClaimFormHandlers = ({
     onSignatureSubmit,
     onFlightDocumentsSubmit,
     onPaymentDetailsSubmit,
-    skipPaymentDetails,
     proceedToNextStep,
   };
 };
