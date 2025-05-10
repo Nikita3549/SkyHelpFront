@@ -2,7 +2,7 @@
 import React from "react";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { AlertCircle, Users, Plane } from "lucide-react";
+import { AlertCircle, Users, Plane, Clock } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { flightDetailsSchema } from "@/components/claim-form/schemas";
@@ -53,6 +53,7 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                     className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   />
                   <label htmlFor="delay" className="flex items-center cursor-pointer">
+                    <Clock className="h-4 w-4 mr-2 text-blue-500" />
                     <span>Flight was delayed</span>
                   </label>
                 </div>
@@ -80,6 +81,8 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                     <span>Flight was cancelled</span>
                   </label>
                 </div>
+                {/* Invisible overlay to cover the entire area for better clicking */}
+                <div className="absolute inset-0 cursor-pointer" onClick={() => handleOptionClick("cancellation")}></div>
               </div>
 
               <div 
@@ -102,6 +105,8 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                     <span>Denied boarding (overbooking)</span>
                   </label>
                 </div>
+                {/* Invisible overlay to cover the entire area for better clicking */}
+                <div className="absolute inset-0 cursor-pointer" onClick={() => handleOptionClick("denied_boarding")}></div>
               </div>
 
               <div 
@@ -124,6 +129,8 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                     <span>Missed connecting flight</span>
                   </label>
                 </div>
+                {/* Invisible overlay to cover the entire area for better clicking */}
+                <div className="absolute inset-0 cursor-pointer" onClick={() => handleOptionClick("missed_connection")}></div>
               </div>
             </RadioGroup>
           </FormControl>
