@@ -53,7 +53,7 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
                     className="h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   />
                   <label htmlFor="delay" className="flex items-center cursor-pointer">
-                    <Clock className="h-4 w-4 mr-2 text-red-500" />
+                    <Clock className="h-4 w-4 mr-2 text-blue-500" />
                     <span>Flight was delayed</span>
                   </label>
                 </div>
