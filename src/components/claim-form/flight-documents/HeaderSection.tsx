@@ -13,8 +13,8 @@ const HeaderSection: React.FC = () => {
       </p>
       
       <div className="flex items-center gap-4 mb-6">
-        <div className="bg-green-50 p-4 rounded-full">
-          <TicketIcon className="w-8 h-8 text-green-600" />
+        <div className="bg-blue-50 p-4 rounded-full">
+          <TicketIcon className="w-8 h-8 text-blue-600" />
         </div>
         <p className="text-gray-700">
           Booking confirmation email, boarding pass, or any other document confirming your ticket reservation.
