@@ -1,3 +1,4 @@
+
 import React from "react";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
@@ -17,6 +18,11 @@ const DisruptionTypeRadioGroup: React.FC<DisruptionTypeRadioGroupProps> = ({ for
   // Fix: Update the function to accept only valid disruption types
   const handleOptionClick = (value: "delay" | "cancellation" | "denied_boarding" | "missed_connection") => {
     form.setValue("disruptionType", value);
+    
+    // Reset dependent fields when changing the disruption type
+    form.setValue("arrivalDelay", undefined);
+    form.setValue("notificationTime", undefined);
+    form.setValue("voluntaryDenial", undefined);
   };
 
   return (

@@ -1,5 +1,6 @@
+
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -46,11 +47,15 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   const departureAirport = form.watch("departureAirport");
   const arrivalAirport = form.watch("arrivalAirport");
   
+  // Check if a disruption type has been selected
+  const hasSelectedDisruptionType = disruptionType !== undefined && disruptionType !== "";
+    
   // Check if we should show the arrival delay question
-  const showArrivalDelayQuestion = 
+  const showArrivalDelayQuestion = hasSelectedDisruptionType && (
     disruptionType === "delay" || 
     disruptionType === "cancellation" || 
-    disruptionType === "denied_boarding";
+    disruptionType === "denied_boarding"
+  );
     
   // Check if we should show the notification time question
   const showNotificationTimeQuestion = 
@@ -76,6 +81,13 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
     disruptionType === "cancellation" && 
     notificationTime === "14days_or_more";
 
+  // Animation variants for the follow-up questions
+  const followUpQuestionAnimations = {
+    initial: { opacity: 0, height: 0, overflow: "hidden" },
+    animate: { opacity: 1, height: "auto", transition: { duration: 0.3 } },
+    exit: { opacity: 0, height: 0, transition: { duration: 0.2 } }
+  };
+
   return (
     <motion.div
       key="disruptionType"
@@ -96,24 +108,41 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
           {/* Disruption type radio group component */}
           <DisruptionTypeRadioGroup form={form} />
 
-          {/* Conditional additional questions */}
-          {showArrivalDelayQuestion && (
-            <ArrivalDelayQuestion 
-              form={form} 
-            />
-          )}
+          {/* Animated follow-up questions that appear after selection */}
+          <AnimatePresence>
+            {showArrivalDelayQuestion && (
+              <motion.div
+                key="arrivalDelayQuestion"
+                {...followUpQuestionAnimations}
+              >
+                <ArrivalDelayQuestion 
+                  form={form} 
+                />
+              </motion.div>
+            )}
 
-          {showNotificationTimeQuestion && (
-            <NotificationTimeQuestion 
-              form={form} 
-            />
-          )}
+            {showNotificationTimeQuestion && (
+              <motion.div
+                key="notificationTimeQuestion"
+                {...followUpQuestionAnimations}
+              >
+                <NotificationTimeQuestion 
+                  form={form} 
+                />
+              </motion.div>
+            )}
 
-          {showVoluntaryDenialQuestion && (
-            <VoluntaryDenialQuestion 
-              form={form} 
-            />
-          )}
+            {showVoluntaryDenialQuestion && (
+              <motion.div
+                key="voluntaryDenialQuestion"
+                {...followUpQuestionAnimations}
+              >
+                <VoluntaryDenialQuestion 
+                  form={form} 
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <div className="pt-4 flex justify-between items-center">
             <Button 
@@ -129,7 +158,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
             <Button 
               type="submit" 
               className="w-full sm:w-auto"
-              disabled={isChecking}
+              disabled={isChecking || !hasSelectedDisruptionType}
             >
               {isChecking ? (
                 <>

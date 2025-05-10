@@ -10,21 +10,21 @@ export const connectingFlightSchema = z.object({
 });
 
 export const flightDetailsSchema = z.object({
-  flightNumber: z.string().min(1, "Flight number is required"),
+  flightNumber: z.string().min(2, "Flight number is required").max(10),
   airline: z.string().min(1, "Airline is required"),
   departureDate: z.string().min(1, "Departure date is required"),
+  departureTime: z.string().optional(),
+  arrivalTime: z.string().optional(),
   departureAirport: z.string().min(1, "Departure airport is required"),
   arrivalAirport: z.string().min(1, "Arrival airport is required"),
-  disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection"], {
-    required_error: "Please select a disruption type",
-  }),
-  arrivalDelay: z.enum(["3hours_or_more", "less_than_3hours", "never_arrived"]).optional(),
-  notificationTime: z.enum(["less_than_14days", "14days_or_more"]).optional(),
-  voluntaryDenial: z.enum(["yes", "no"]).optional(),
-  connectingFlights: z.enum(["yes", "no"]).default("no"),
+  disruptionType: z.enum(["delay", "cancellation", "denied_boarding", "missed_connection", ""]).optional(),
+  connectingFlights: z.enum(["yes", "no"]),
   delayDuration: z.string().optional(),
   connectionAirports: z.array(z.string()).optional(),
   problematicFlightSegment: z.string().optional(),
+  arrivalDelay: z.enum(["3hours_or_more", "less_than_3hours", "never_arrived"]).optional(),
+  notificationTime: z.enum(["14days_or_more", "less_than_14days"]).optional(),
+  voluntaryDenial: z.enum(["yes", "no"]).optional(),
 });
 
 export const passengerDetailsSchema = z.object({
