@@ -80,13 +80,17 @@ const Index = () => {
   return (
     <>
       <Hero />
-      <DeparturesBoard />
       <Stats />
+      <section className="container-custom py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <QuickEligibilityCheck />
+          <DeparturesBoard />
+        </div>
+      </section>
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
       <WhyChooseUs />
       <PassengerRights />
-      <QuickEligibilityCheck />
       <Testimonials />
       <Faq faqRef={faqRef} faqs={faqs} />
       <Cta />
