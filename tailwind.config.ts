@@ -21,6 +21,7 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['Inter var', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				mono: ['Space Mono', 'monospace'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -101,13 +102,18 @@ export default {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' }
 				},
-				float: {
+				'float': {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-10px)' }
 				},
 				'blur-in': {
 					'0%': { filter: 'blur(12px)', opacity: '0' },
 					'100%': { filter: 'blur(0)', opacity: '1' }
+				},
+				'flip': {
+					'0%': { transform: 'rotateX(0)' },
+					'50%': { transform: 'rotateX(90deg)' },
+					'100%': { transform: 'rotateX(0)' }
 				}
 			},
 			animation: {
@@ -119,7 +125,8 @@ export default {
 				'slide-down': 'slide-down 0.6s ease-out',
 				'scale-in': 'scale-in 0.5s ease-out',
 				'float': 'float 6s ease-in-out infinite',
-				'blur-in': 'blur-in 0.7s ease-out'
+				'blur-in': 'blur-in 0.7s ease-out',
+				'flip': 'flip 0.5s ease-out'
 			},
 			backdropFilter: {
 				'none': 'none',

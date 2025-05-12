@@ -11,6 +11,7 @@ import Testimonials from "@/components/home/Testimonials";
 import Faq from "@/components/home/Faq";
 import Cta from "@/components/home/Cta";
 import PassengerRights from "@/components/home/PassengerRights";
+import DeparturesBoard from "@/components/common/DeparturesBoard";
 
 const Index = () => {
   // Create refs for scroll targets
@@ -40,7 +41,7 @@ const Index = () => {
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
         }
-      }, 100);  // Небольшая задержка для уверенности, что компоненты отрендерились
+      }, 100);
     }
   }, [location]);
 
@@ -79,6 +80,7 @@ const Index = () => {
   return (
     <>
       <Hero />
+      <DeparturesBoard />
       <Stats />
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Eligibility />
