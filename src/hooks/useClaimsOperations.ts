@@ -122,31 +122,6 @@ export function useClaimsOperations() {
     });
   };
 
-  const formatPaymentDetails = (claim: Claim | undefined) => {
-    if (!claim || !claim.paymentmethod || !claim.paymentdetails) {
-      return "No payment details available";
-    }
-
-    const details = claim.paymentdetails;
-    let formattedDetails = "";
-
-    switch (claim.paymentmethod) {
-      case "bank_transfer":
-        formattedDetails = `Bank: ${details.bankName || 'N/A'}\nAccount holder: ${details.accountHolderName || 'N/A'}\nIBAN: ${details.iban || 'N/A'}\nAccount number: ${details.accountNumber || 'N/A'}`;
-        break;
-      case "paypal":
-        formattedDetails = `PayPal email: ${details.paypalEmail || 'N/A'}`;
-        break;
-      case "wise":
-        formattedDetails = `Account holder: ${details.accountHolderName || 'N/A'}\nIBAN/Account: ${details.ibanOrAccount || 'N/A'}\nEmail: ${details.email || 'N/A'}`;
-        break;
-      default:
-        formattedDetails = "No payment details available";
-    }
-
-    return formattedDetails;
-  };
-
   return {
     claimsData,
     isLoading,
@@ -161,7 +136,6 @@ export function useClaimsOperations() {
     handleExportClaims,
     handleNewClaimSubmit,
     handleEditClaim,
-    handleEditClaimSubmit,
-    formatPaymentDetails
+    handleEditClaimSubmit
   };
 }

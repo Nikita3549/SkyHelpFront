@@ -10,7 +10,6 @@ type ClaimsTabProps = {
   handleSendEmail: (claimId: string) => void;
   handleUpdateStatus: (claimId: string, newStatus: string) => void;
   handleExportClaims: () => void;
-  formatPaymentDetails: (claim: Claim | undefined) => string;
   setIsNewClaimModalOpen: (value: boolean) => void;
   onEditClaim: (claim: Claim) => void;
 };
@@ -20,7 +19,6 @@ const ClaimsTab = ({
   handleSendEmail,
   handleUpdateStatus,
   handleExportClaims,
-  formatPaymentDetails,
   setIsNewClaimModalOpen,
   onEditClaim,
 }: ClaimsTabProps) => {
@@ -69,7 +67,6 @@ const ClaimsTab = ({
         setSelectedClaim={setSelectedClaim}
         claimsData={claimsData}
         handleSendEmail={handleSendEmail}
-        formatPaymentDetails={formatPaymentDetails}
         onEditClaim={onEditClaim}
       />
     </div>

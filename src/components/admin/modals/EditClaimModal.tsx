@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Claim } from "@/lib/supabase";
 import { X } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import { formatPaymentDetails } from "@/lib/paymentUtils";
 import CustomerInfoCard from "../claims/details/CustomerInfoCard";
 import FlightInfoCard from "../claims/details/FlightInfoCard";
 import ClaimStatusCard from "../claims/details/ClaimStatusCard";
@@ -39,34 +40,6 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     if (onSubmit) {
       onSubmit(claim);
     }
-  };
-
-  // Format payment details for PaymentDetailsCard
-  const formatPaymentDetails = (claim: Claim | undefined) => {
-    if (!claim || !claim.paymentdetails) return "No payment details provided";
-    
-    const details = claim.paymentdetails;
-    
-    if (claim.paymentmethod === "bank_transfer") {
-      return [
-        `Bank: ${details.bankName || 'N/A'}`,
-        `Account Holder: ${details.accountHolderName || 'N/A'}`,
-        `IBAN: ${details.iban || 'N/A'}`,
-        details.accountNumber ? `Account Number: ${details.accountNumber}` : ''
-      ].filter(Boolean).join('\n');
-    } 
-    else if (claim.paymentmethod === "paypal") {
-      return `PayPal Email: ${details.paypalEmail || 'N/A'}`;
-    } 
-    else if (claim.paymentmethod === "wise") {
-      return [
-        `Account Holder: ${details.accountHolderName || 'N/A'}`,
-        `IBAN/Account: ${details.ibanOrAccount || 'N/A'}`,
-        `Email: ${details.email || 'N/A'}`
-      ].filter(Boolean).join('\n');
-    }
-    
-    return "No details available for the selected payment method";
   };
 
   return (

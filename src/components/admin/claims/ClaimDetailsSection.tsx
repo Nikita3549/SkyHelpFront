@@ -19,7 +19,6 @@ type ClaimDetailsSectionProps = {
   setSelectedClaim: (id: string | null) => void;
   claimsData: Claim[];
   handleSendEmail: (claimId: string) => void;
-  formatPaymentDetails: (claim: Claim | undefined) => string;
   onEditClaim: (claim: Claim) => void;
 };
 
@@ -28,7 +27,6 @@ const ClaimDetailsSection = ({
   setSelectedClaim,
   claimsData,
   handleSendEmail,
-  formatPaymentDetails,
   onEditClaim,
 }: ClaimDetailsSectionProps) => {
   if (!selectedClaim) return null;
@@ -74,7 +72,7 @@ const ClaimDetailsSection = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <IssueDetailsCard claim={claim} />
-            <PaymentDetailsCard claim={claim} formatPaymentDetails={formatPaymentDetails} />
+            <PaymentDetailsCard claim={claim} />
           </div>
 
           <Separator className="my-6" />

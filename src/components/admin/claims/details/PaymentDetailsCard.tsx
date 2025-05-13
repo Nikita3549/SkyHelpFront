@@ -2,13 +2,13 @@
 import React from "react";
 import { CreditCard } from "lucide-react";
 import { Claim } from "@/lib/supabase";
+import { formatPaymentDetails } from "@/lib/paymentUtils";
 
 type PaymentDetailsCardProps = {
   claim: Claim;
-  formatPaymentDetails: (claim: Claim | undefined) => string;
 };
 
-const PaymentDetailsCard = ({ claim, formatPaymentDetails }: PaymentDetailsCardProps) => {
+const PaymentDetailsCard = ({ claim }: PaymentDetailsCardProps) => {
   return (
     <div>
       <h3 className="text-sm font-medium text-gray-500 mb-2 flex items-center">
