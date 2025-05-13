@@ -6,7 +6,6 @@ import { Separator } from "@/components/ui/separator";
 import { Claim } from "@/lib/supabase";
 import { X } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { formatPaymentDetails } from "@/lib/paymentUtils";
 import CustomerInfoCard from "../claims/details/CustomerInfoCard";
 import FlightInfoCard from "../claims/details/FlightInfoCard";
 import ClaimStatusCard from "../claims/details/ClaimStatusCard";
@@ -78,7 +77,7 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
           <IssueDetailsCard claim={claim} />
 
           {/* Payment Details Section */}
-          <PaymentDetailsCard claim={claim} formatPaymentDetails={formatPaymentDetails} />
+          <PaymentDetailsCard claim={claim} />
         </div>
 
         <Separator className="my-6" />

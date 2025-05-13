@@ -19,7 +19,6 @@ type AdminContentProps = {
   handleSendEmail: (claimId: string) => void;
   handleUpdateStatus: (claimId: string, newStatus: string) => void;
   handleExportClaims: () => void;
-  formatPaymentDetails: (claim: Claim | undefined) => string;
   handleNewClaimSubmit: (claimData: any) => void;
   handleEditClaim: (claim: Claim) => void;
   handleEditClaimSubmit: (claimData: Partial<Claim>) => void;
@@ -35,7 +34,6 @@ const AdminContent = ({
   handleSendEmail,
   handleUpdateStatus,
   handleExportClaims,
-  formatPaymentDetails,
   handleNewClaimSubmit,
   handleEditClaim,
   handleEditClaimSubmit,
@@ -72,7 +70,6 @@ const AdminContent = ({
               handleSendEmail={handleSendEmail}
               handleUpdateStatus={handleUpdateStatus}
               handleExportClaims={handleExportClaims}
-              formatPaymentDetails={formatPaymentDetails}
               setIsNewClaimModalOpen={setIsNewClaimModalOpen}
               onEditClaim={handleEditClaim}
             />

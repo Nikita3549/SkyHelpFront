@@ -20,8 +20,7 @@ const Admin = () => {
     handleExportClaims,
     handleNewClaimSubmit,
     handleEditClaim,
-    handleEditClaimSubmit,
-    formatPaymentDetails
+    handleEditClaimSubmit
   } = useClaimsOperations();
 
   if (isLoading) {
@@ -43,7 +42,6 @@ const Admin = () => {
       handleSendEmail={handleSendEmail}
       handleUpdateStatus={handleUpdateStatus}
       handleExportClaims={handleExportClaims}
-      formatPaymentDetails={formatPaymentDetails}
       handleNewClaimSubmit={handleNewClaimSubmit}
       handleEditClaim={handleEditClaim}
       handleEditClaimSubmit={handleEditClaimSubmit}
