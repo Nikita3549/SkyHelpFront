@@ -11,6 +11,7 @@ import UserRolesSection from "@/components/user-management/UserRolesSection";
 import InviteUserForm from "@/components/user-management/InviteUserForm";
 import LoadingState from "@/components/admin/LoadingState";
 import ErrorState from "@/components/admin/ErrorState";
+import { User } from "@/types/user";
 
 const UserManagement = () => {
   const [selectedTab, setSelectedTab] = useState("users");
@@ -20,7 +21,15 @@ const UserManagement = () => {
     queryFn: async () => {
       const { data, error } = await supabase.auth.admin.listUsers();
       if (error) throw error;
-      return data.users;
+      
+      // Transform Supabase users to our custom User type
+      return data.users.map(user => ({
+        id: user.id,
+        email: user.email || '', // Ensure email is always a string
+        role: user.user_metadata?.role || 'User',
+        last_sign_in_at: user.last_sign_in_at,
+        created_at: user.created_at
+      })) as User[];
     },
   });
 

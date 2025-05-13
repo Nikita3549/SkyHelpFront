@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -7,12 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Check, Plus, Shield } from "lucide-react";
-
-type User = {
-  id: string;
-  email: string;
-  role?: string;
-};
+import { User } from "@/types/user";
 
 type Role = {
   id: string;

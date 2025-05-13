@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Dialog,
@@ -20,14 +19,7 @@ import {
   Shield,
   User as UserIcon,
 } from "lucide-react";
-
-type User = {
-  id: string;
-  email: string;
-  role?: string;
-  last_sign_in_at?: string;
-  created_at?: string;
-};
+import { User } from "@/types/user";
 
 interface UserDetailsModalProps {
   user: User;

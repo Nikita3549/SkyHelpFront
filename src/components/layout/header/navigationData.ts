@@ -40,3 +40,26 @@ export const navigation: NavigationItem[] = [
   { name: "About Us", href: "/about" },
   { name: "Contact Us", href: "/contact" },
 ];
+
+export const passengerRightsLinks = [
+  { name: "Air Passenger Rights", href: "/rights/air-passenger-rights" },
+  { name: "Flight Compensation", href: "/rights/flight-compensation" },
+  { name: "Delayed Flight", href: "/rights/delayed-flight-compensation" },
+  { name: "Cancelled Flight", href: "/rights/cancelled-flight-compensation" },
+  { name: "Overbooked Flight", href: "/rights/overbooked-flight-compensation" },
+  { name: "Denied Boarding", href: "/rights/denied-boarding-compensation" },
+  { name: "Missed Connection", href: "/rights/missed-connection-compensation" },
+  { name: "Airline Strike", href: "/rights/airline-strike-compensation" },
+  { name: "Delayed Baggage", href: "/rights/delayed-baggage-compensation" },
+  { name: "UK 261 Regulation", href: "/rights/uk-261-flight-compensation" },
+  { name: "SHY Regulation (Turkey)", href: "/rights/shy-regulation-turkey" },
+  { name: "ANAC 400 Regulation", href: "/rights/anac-400-regulation" },
+];
+
+// Function to get navigation data
+export const getNavigationData = () => {
+  return {
+    navigation,
+    passengerRightsLinks
+  };
+};
