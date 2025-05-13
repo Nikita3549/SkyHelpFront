@@ -42,15 +42,24 @@ const UserManagement = () => {
 
       if (authUsers) {
         // Transform the Supabase user data to our User type
-        const transformedUsers: User[] = authUsers.users.map(user => ({
-          id: user.id,
-          email: user.email || "No email",
-          created_at: user.created_at,
-          last_sign_in_at: user.last_sign_in_at,
-          user_metadata: user.user_metadata || {},
-          role: "user", // Default role, you might want to fetch actual roles from another table
-          status: user.banned ? "INACTIVE" : "ACTIVE"
-        }));
+        const transformedUsers: User[] = authUsers.users.map(user => {
+          // Determine the status based on banned state, ensuring it's one of the allowed values
+          let status: "ACTIVE" | "INACTIVE" | "INVITED" = "ACTIVE";
+          if (user.banned) {
+            status = "INACTIVE";
+          }
+          // You could add additional logic here to determine if the user is "INVITED"
+          
+          return {
+            id: user.id,
+            email: user.email || "No email",
+            created_at: user.created_at,
+            last_sign_in_at: user.last_sign_in_at,
+            user_metadata: user.user_metadata || {},
+            role: "user", // Default role, you might want to fetch actual roles from another table
+            status: status
+          };
+        });
         
         setUsers(transformedUsers);
       } else {
