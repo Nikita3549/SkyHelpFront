@@ -35,6 +35,7 @@ import FlightCompensation from "./pages/rights/FlightCompensation";
 import ShyRegulationTurkey from "./pages/rights/ShyRegulationTurkey";
 import Anac400Regulation from "./pages/rights/Anac400Regulation";
 import Uk261FlightCompensation from "./pages/rights/Uk261FlightCompensation";
+import UserManagement from "./pages/UserManagement";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -83,6 +84,7 @@ const App = () => (
                       <Route path="/claim" element={<ClaimForm />} />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/admin" element={<Admin />} />
+                      <Route path="/admin/users" element={<UserManagement />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/about" element={<AboutUs />} />
                       <Route path="/affiliate" element={<AffiliateProgram />} />
