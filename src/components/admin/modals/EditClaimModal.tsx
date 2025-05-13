@@ -11,9 +11,10 @@ type EditClaimModalProps = {
   isOpen: boolean;
   onClose: () => void;
   claim: Claim;
+  onSubmit?: (claimData: Partial<Claim>) => void;
 };
 
-const EditClaimModal = ({ isOpen, onClose, claim }: EditClaimModalProps) => {
+const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProps) => {
   const handleSendEmail = () => {
     toast({
       title: "Email sent successfully",
@@ -26,6 +27,12 @@ const EditClaimModal = ({ isOpen, onClose, claim }: EditClaimModalProps) => {
       title: "Status updated",
       description: `Claim ${claim.id} status has been updated`,
     });
+  };
+
+  const handleEdit = () => {
+    if (onSubmit) {
+      onSubmit(claim);
+    }
   };
 
   return (
@@ -263,7 +270,11 @@ const EditClaimModal = ({ isOpen, onClose, claim }: EditClaimModalProps) => {
             <Mail className="h-4 w-4 mr-2" />
             Send Email
           </Button>
-          <Button variant="outline" size="sm">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleEdit}
+          >
             <Edit className="h-4 w-4 mr-2" />
             Edit Claim
           </Button>
