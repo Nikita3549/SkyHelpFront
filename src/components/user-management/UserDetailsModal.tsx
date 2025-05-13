@@ -7,6 +7,7 @@ import { toast } from "@/components/ui/use-toast";
 import UserProfileSection from "./UserProfileSection";
 import UserRolesSection from "./UserRolesSection";
 import UserActivitySection from "./UserActivitySection";
+import UserClaimsSection from "./UserClaimsSection";
 import type { User } from "@/pages/UserManagement";
 
 interface UserDetailsModalProps {
@@ -86,6 +87,7 @@ const UserDetailsModal = ({ isOpen, onClose, user, onUserUpdate }: UserDetailsMo
           <TabsList className="w-full mb-6">
             <TabsTrigger value="profile" className="flex-1">Profile</TabsTrigger>
             <TabsTrigger value="roles" className="flex-1">Roles & Permissions</TabsTrigger>
+            <TabsTrigger value="claims" className="flex-1">Claims</TabsTrigger>
             <TabsTrigger value="activity" className="flex-1">Activity</TabsTrigger>
           </TabsList>
           
@@ -95,6 +97,10 @@ const UserDetailsModal = ({ isOpen, onClose, user, onUserUpdate }: UserDetailsMo
           
           <TabsContent value="roles">
             <UserRolesSection user={user} onUserUpdate={onUserUpdate} />
+          </TabsContent>
+          
+          <TabsContent value="claims">
+            <UserClaimsSection userId={user.id} userEmail={user.email} />
           </TabsContent>
           
           <TabsContent value="activity">
