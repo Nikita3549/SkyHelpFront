@@ -2,21 +2,14 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Mail, Edit, CheckCircle2 } from "lucide-react";
-import { Claim } from "@/lib/supabase";
 
 type ActionButtonsProps = {
-  selectedClaimId: string;
-  claim: Claim;
-  handleSendEmail: (claimId: string) => void;
-  onEditClaim: (claim: Claim) => void;
+  onSendEmail: () => void;
+  onUpdateStatus: () => void;
+  onEdit: () => void;
 };
 
-const ActionButtons = ({ 
-  selectedClaimId, 
-  claim, 
-  handleSendEmail, 
-  onEditClaim 
-}: ActionButtonsProps) => {
+const ActionButtons = ({ onSendEmail, onUpdateStatus, onEdit }: ActionButtonsProps) => {
   return (
     <div className="flex flex-wrap gap-2 justify-end">
       <Button variant="outline" size="sm">
@@ -25,21 +18,24 @@ const ActionButtons = ({
       </Button>
       <Button 
         variant="outline" 
-        size="sm" 
-        onClick={() => handleSendEmail(selectedClaimId)}
+        size="sm"
+        onClick={onSendEmail}
       >
         <Mail className="h-4 w-4 mr-2" />
         Send Email
       </Button>
       <Button 
         variant="outline" 
-        size="sm" 
-        onClick={() => onEditClaim(claim)}
+        size="sm"
+        onClick={onEdit}
       >
         <Edit className="h-4 w-4 mr-2" />
         Edit Claim
       </Button>
-      <Button size="sm">
+      <Button 
+        size="sm"
+        onClick={onUpdateStatus}
+      >
         <CheckCircle2 className="h-4 w-4 mr-2" />
         Update Status
       </Button>

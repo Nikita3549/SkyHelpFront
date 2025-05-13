@@ -4,8 +4,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Claim } from "@/lib/supabase";
-import { FileText, Mail, Edit, CheckCircle2, X } from "lucide-react";
+import { X } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import CustomerInfoCard from "../claims/details/CustomerInfoCard";
+import FlightInfoCard from "../claims/details/FlightInfoCard";
+import ClaimStatusCard from "../claims/details/ClaimStatusCard";
+import IssueDetailsCard from "../claims/details/IssueDetailsCard";
+import PaymentDetailsCard from "../claims/details/PaymentDetailsCard";
+import ActionButtons from "../claims/details/ActionButtons";
 
 type EditClaimModalProps = {
   isOpen: boolean;
@@ -35,6 +41,34 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     }
   };
 
+  // Format payment details for PaymentDetailsCard
+  const formatPaymentDetails = (claim: Claim | undefined) => {
+    if (!claim || !claim.paymentdetails) return "No payment details provided";
+    
+    const details = claim.paymentdetails;
+    
+    if (claim.paymentmethod === "bank_transfer") {
+      return [
+        `Bank: ${details.bankName || 'N/A'}`,
+        `Account Holder: ${details.accountHolderName || 'N/A'}`,
+        `IBAN: ${details.iban || 'N/A'}`,
+        details.accountNumber ? `Account Number: ${details.accountNumber}` : ''
+      ].filter(Boolean).join('\n');
+    } 
+    else if (claim.paymentmethod === "paypal") {
+      return `PayPal Email: ${details.paypalEmail || 'N/A'}`;
+    } 
+    else if (claim.paymentmethod === "wise") {
+      return [
+        `Account Holder: ${details.accountHolderName || 'N/A'}`,
+        `IBAN/Account: ${details.ibanOrAccount || 'N/A'}`,
+        `Email: ${details.email || 'N/A'}`
+      ].filter(Boolean).join('\n');
+    }
+    
+    return "No details available for the selected payment method";
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
@@ -55,237 +89,33 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
           {/* Customer Information Section */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center">
-              <FileText className="h-4 w-4 mr-1" />
-              Customer Information
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Name:</span>
-                <span className="font-medium">
-                  {claim.customer}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Email:</span>
-                <span className="font-medium">
-                  {claim.email}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Phone:</span>
-                <span className="font-medium">
-                  {claim.phone || "N/A"}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Address:</span>
-                <span className="font-medium">
-                  {claim.address || "N/A"}
-                </span>
-              </div>
-            </div>
-          </div>
+          <CustomerInfoCard claim={claim} />
 
           {/* Flight Information Section */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center">
-              <FileText className="h-4 w-4 mr-1" />
-              Flight Information
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Airline:</span>
-                <span className="font-medium">
-                  {claim.airline}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Flight Number:</span>
-                <span className="font-medium">
-                  {claim.flightnumber}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Date:</span>
-                <span className="font-medium">
-                  {claim.date}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Departure:</span>
-                <span className="font-medium">
-                  {claim.departureairport || "N/A"}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Arrival:</span>
-                <span className="font-medium">
-                  {claim.arrivalairport || "N/A"}
-                </span>
-              </div>
-            </div>
-          </div>
+          <FlightInfoCard claim={claim} />
 
           {/* Claim Status Section */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center">
-              <FileText className="h-4 w-4 mr-1" />
-              Claim Status
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Status:</span>
-                <span className={`font-medium px-2 py-0.5 rounded-full text-xs ${
-                  claim.status === "completed" ? "bg-green-100 text-green-800" :
-                  claim.status === "rejected" ? "bg-red-100 text-red-800" :
-                  "bg-blue-100 text-blue-800"
-                }`}>
-                  {claim.status.replace("_", " ").toUpperCase()}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Stage:</span>
-                <span className="font-medium">
-                  {claim.stage.replace("_", " ")}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Amount:</span>
-                <span className="font-medium">
-                  {claim.amount}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Last Updated:</span>
-                <span className="font-medium">
-                  {claim.lastupdated}
-                </span>
-              </div>
-            </div>
-          </div>
+          <ClaimStatusCard claim={claim} />
         </div>
 
         <Separator className="my-6" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Issue Details Section */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center">
-              <FileText className="h-4 w-4 mr-1" />
-              Issue Details
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Flight Issue:</span>
-                <span className="font-medium">
-                  {claim.flightissue || "N/A"}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Reason Given by Airline:</span>
-                <span className="font-medium">
-                  {claim.reasongivenbyairline || "N/A"}
-                </span>
-              </div>
-              <div className="flex flex-col text-sm mb-2">
-                <span className="text-gray-500 mb-1">Additional Information:</span>
-                <span className="font-medium text-sm bg-gray-50 p-2 rounded-md min-h-[80px] whitespace-pre-wrap">
-                  {claim.additionalinformation || "None provided"}
-                </span>
-              </div>
-            </div>
-          </div>
+          <IssueDetailsCard claim={claim} />
 
           {/* Payment Details Section */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-3 flex items-center">
-              <FileText className="h-4 w-4 mr-1" />
-              Payment Details
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Payment Method:</span>
-                <span className="font-medium">
-                  {(claim.paymentmethod || "N/A")
-                    .replace("_", " ")
-                    .replace(/\b\w/g, (l) => l.toUpperCase())}
-                </span>
-              </div>
-              {claim.paymentmethod === "bank_transfer" && claim.paymentdetails && (
-                <>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Bank Name:</span>
-                    <span className="font-medium">{claim.paymentdetails.bankName || "N/A"}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Account Holder:</span>
-                    <span className="font-medium">{claim.paymentdetails.accountHolderName || "N/A"}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">IBAN:</span>
-                    <span className="font-medium">{claim.paymentdetails.iban || "N/A"}</span>
-                  </div>
-                </>
-              )}
-              {claim.paymentmethod === "paypal" && claim.paymentdetails && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">PayPal Email:</span>
-                  <span className="font-medium">{claim.paymentdetails.paypalEmail || "N/A"}</span>
-                </div>
-              )}
-              {claim.paymentmethod === "wise" && claim.paymentdetails && (
-                <>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Account Holder:</span>
-                    <span className="font-medium">{claim.paymentdetails.accountHolderName || "N/A"}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">IBAN/Account:</span>
-                    <span className="font-medium">{claim.paymentdetails.ibanOrAccount || "N/A"}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Email:</span>
-                    <span className="font-medium">{claim.paymentdetails.email || "N/A"}</span>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+          <PaymentDetailsCard claim={claim} formatPaymentDetails={formatPaymentDetails} />
         </div>
 
         <Separator className="my-6" />
 
-        <div className="flex flex-wrap gap-2 justify-end">
-          <Button variant="outline" size="sm">
-            <FileText className="h-4 w-4 mr-2" />
-            View Documents
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={handleSendEmail}
-          >
-            <Mail className="h-4 w-4 mr-2" />
-            Send Email
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={handleEdit}
-          >
-            <Edit className="h-4 w-4 mr-2" />
-            Edit Claim
-          </Button>
-          <Button 
-            size="sm"
-            onClick={handleUpdateStatus}
-          >
-            <CheckCircle2 className="h-4 w-4 mr-2" />
-            Update Status
-          </Button>
-        </div>
+        {/* Action Buttons */}
+        <ActionButtons 
+          onSendEmail={handleSendEmail} 
+          onUpdateStatus={handleUpdateStatus} 
+          onEdit={handleEdit}
+        />
       </DialogContent>
     </Dialog>
   );
