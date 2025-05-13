@@ -12,7 +12,6 @@ import Index from "./pages/Index";
 import ClaimForm from "./pages/ClaimForm";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
-import UserManagement from "./pages/UserManagement";
 import Contact from "./pages/Contact";
 import AboutUs from "./pages/AboutUs";
 import AffiliateProgram from "./pages/AffiliateProgram";
@@ -84,7 +83,6 @@ const App = () => (
                       <Route path="/claim" element={<ClaimForm />} />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/admin" element={<Admin />} />
-                      <Route path="/users" element={<UserManagement />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/about" element={<AboutUs />} />
                       <Route path="/affiliate" element={<AffiliateProgram />} />
