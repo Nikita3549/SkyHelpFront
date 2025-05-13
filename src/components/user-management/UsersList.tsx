@@ -166,39 +166,4 @@ const UsersList = ({ users, onRefresh }: UsersListProps) => {
   );
 };
 
-const handleUserAction = (action: string, user: User) => {
-  switch (action) {
-    case "view":
-      setSelectedUser(user);
-      setIsModalOpen(true);
-      break;
-    case "suspend":
-      toast.success("User suspended", {
-        description: `${user.email} has been suspended`,
-      });
-      break;
-    case "activate":
-      toast.success("User activated", {
-        description: `${user.email} has been activated`,
-      });
-      break;
-    case "delete":
-      toast.success("User deleted", {
-        description: `${user.email} has been deleted`,
-      });
-      break;
-    default:
-      break;
-  }
-};
-
-const formatDate = (dateString?: string) => {
-  if (!dateString) return "Never";
-  return new Date(dateString).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
-
 export default UsersList;
