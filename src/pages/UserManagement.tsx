@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "@/components/ui/use-toast";
-import { supabase } from "@/lib/supabase";
 import UsersList from "@/components/user-management/UsersList";
 import UserDetailsModal from "@/components/user-management/UserDetailsModal";
 import LoadingSpinner from "@/components/user-management/LoadingSpinner";
@@ -20,6 +19,70 @@ export type User = {
   status: "ACTIVE" | "INACTIVE" | "INVITED";
 };
 
+// Mock data to use instead of Supabase
+const mockUsers: User[] = [
+  {
+    id: "1",
+    email: "john.doe@example.com",
+    created_at: "2023-01-15T10:30:00Z",
+    last_sign_in_at: "2023-05-20T14:45:00Z",
+    user_metadata: {
+      name: "John Doe",
+      avatar_url: null
+    },
+    role: "admin",
+    status: "ACTIVE"
+  },
+  {
+    id: "2",
+    email: "sarah.smith@example.com",
+    created_at: "2023-02-10T09:15:00Z",
+    last_sign_in_at: "2023-05-19T11:20:00Z",
+    user_metadata: {
+      name: "Sarah Smith",
+      avatar_url: null
+    },
+    role: "moderator",
+    status: "ACTIVE"
+  },
+  {
+    id: "3",
+    email: "michael.brown@example.com",
+    created_at: "2023-03-05T16:45:00Z",
+    last_sign_in_at: "2023-05-15T08:30:00Z",
+    user_metadata: {
+      name: "Michael Brown",
+      avatar_url: null
+    },
+    role: "user",
+    status: "ACTIVE"
+  },
+  {
+    id: "4",
+    email: "emma.wilson@example.com",
+    created_at: "2023-03-20T13:10:00Z",
+    last_sign_in_at: null,
+    user_metadata: {
+      name: "Emma Wilson",
+      avatar_url: null
+    },
+    role: "user",
+    status: "INVITED"
+  },
+  {
+    id: "5",
+    email: "james.taylor@example.com",
+    created_at: "2023-04-12T11:25:00Z",
+    last_sign_in_at: "2023-04-30T16:15:00Z",
+    user_metadata: {
+      name: "James Taylor",
+      avatar_url: null
+    },
+    role: "user",
+    status: "INACTIVE"
+  }
+];
+
 const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,43 +97,16 @@ const UserManagement = () => {
     setError(null);
 
     try {
-      const { data: authUsers, error: fetchError } = await supabase.auth.admin.listUsers();
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      if (fetchError) {
-        throw fetchError;
-      }
-
-      if (authUsers) {
-        // Transform the Supabase user data to our User type
-        const transformedUsers: User[] = authUsers.users.map(user => {
-          // Determine the status based on banned state, ensuring it's one of the allowed values
-          let status: "ACTIVE" | "INACTIVE" | "INVITED" = "ACTIVE";
-          if (user.banned) {
-            status = "INACTIVE";
-          }
-          // You could add additional logic here to determine if the user is "INVITED"
-          
-          return {
-            id: user.id,
-            email: user.email || "No email",
-            created_at: user.created_at,
-            last_sign_in_at: user.last_sign_in_at,
-            user_metadata: user.user_metadata || {},
-            role: "user", // Default role, you might want to fetch actual roles from another table
-            status: status
-          };
-        });
-        
-        setUsers(transformedUsers);
-      } else {
-        setUsers([]);
-      }
+      setUsers(mockUsers);
     } catch (err: any) {
       console.error("Error fetching users:", err);
-      setError(err.message || "Failed to fetch users. Please try again later.");
+      setError("Failed to fetch users. Please try again later.");
       toast({
         title: "Error",
-        description: "Failed to load users. You might not have sufficient permissions.",
+        description: "Failed to load users.",
         variant: "destructive",
       });
     } finally {

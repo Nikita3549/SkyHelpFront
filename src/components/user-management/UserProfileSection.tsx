@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
-import { supabase } from "@/lib/supabase";
 import type { User } from "@/pages/UserManagement";
 
 interface UserProfileSectionProps {
@@ -31,16 +30,8 @@ const UserProfileSection = ({ user, onUserUpdate }: UserProfileSectionProps) => 
     setIsUpdating(true);
 
     try {
-      // Update user metadata
-      const { error } = await supabase.auth.admin.updateUserById(user.id, {
-        email,
-        user_metadata: {
-          ...user.user_metadata,
-          name
-        }
-      });
-
-      if (error) throw error;
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       toast({
         title: "Profile Updated",

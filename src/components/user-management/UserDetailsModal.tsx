@@ -4,7 +4,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { supabase } from "@/lib/supabase";
 import UserProfileSection from "./UserProfileSection";
 import UserRolesSection from "./UserRolesSection";
 import UserActivitySection from "./UserActivitySection";
@@ -28,12 +27,8 @@ const UserDetailsModal = ({ isOpen, onClose, user, onUserUpdate }: UserDetailsMo
     setIsUpdating(true);
 
     try {
-      // You might need to adjust this call based on your actual Supabase setup
-      const { error } = await supabase.auth.admin.updateUserById(user.id, {
-        ban_duration: '8760h' // 1 year ban
-      });
-
-      if (error) throw error;
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       toast({
         title: "User Deactivated",
@@ -58,12 +53,8 @@ const UserDetailsModal = ({ isOpen, onClose, user, onUserUpdate }: UserDetailsMo
     setIsUpdating(true);
 
     try {
-      // You might need to adjust this call based on your actual Supabase setup
-      const { error } = await supabase.auth.admin.updateUserById(user.id, {
-        ban_duration: '0h' // Remove ban
-      });
-
-      if (error) throw error;
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       toast({
         title: "User Reactivated",

@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
-import { supabase } from "@/lib/supabase";
 import type { User } from "@/pages/UserManagement";
 
 interface UserRolesSectionProps {
@@ -30,16 +29,8 @@ const UserRolesSection = ({ user, onUserUpdate }: UserRolesSectionProps) => {
     setIsUpdating(true);
 
     try {
-      // In a real application, you would update the user's role in your database
-      // Since we're simulating this, we'll just show a toast
-      
-      /* Example of how you might update a role in a real app:
-      const { error } = await supabase
-        .from('user_roles')
-        .upsert({ user_id: user.id, role: selectedRole });
-      */
-      
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated delay
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
         title: "Role Updated",
