@@ -37,6 +37,20 @@ const ClaimDetailsSection = ({
   
   if (!claim) return null;
 
+  // Create handler functions for ActionButtons component
+  const handleSendEmailClick = () => {
+    handleSendEmail(selectedClaim);
+  };
+
+  const handleUpdateStatusClick = () => {
+    // This can be updated later if needed to handle specific status updates
+    // For now, we'll just pass a function that can be implemented later
+  };
+
+  const handleEditClick = () => {
+    onEditClaim(claim);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -66,10 +80,9 @@ const ClaimDetailsSection = ({
           <Separator className="my-6" />
 
           <ActionButtons 
-            selectedClaimId={selectedClaim} 
-            claim={claim} 
-            handleSendEmail={handleSendEmail} 
-            onEditClaim={onEditClaim} 
+            onSendEmail={handleSendEmailClick}
+            onUpdateStatus={handleUpdateStatusClick}
+            onEdit={handleEditClick}
           />
         </CardContent>
       </Card>

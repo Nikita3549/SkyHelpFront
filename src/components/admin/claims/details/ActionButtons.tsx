@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Mail, Edit, CheckCircle2 } from "lucide-react";
+import { Claim } from "@/lib/supabase";
 
 type ActionButtonsProps = {
   onSendEmail: () => void;
