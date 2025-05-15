@@ -1,8 +1,9 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Claim } from "@/lib/supabase";
 
 // Import sub-components
@@ -13,6 +14,7 @@ import IssueDetailsCard from "./details/IssueDetailsCard";
 import PaymentDetailsCard from "./details/PaymentDetailsCard";
 import ActionButtons from "./details/ActionButtons";
 import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
+import CommunicationTab from "./details/CommunicationTab";
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
@@ -29,6 +31,8 @@ const ClaimDetailsSection = ({
   handleSendEmail,
   onEditClaim,
 }: ClaimDetailsSectionProps) => {
+  const [activeTab, setActiveTab] = useState("details");
+  
   if (!selectedClaim) return null;
 
   const claim = claimsData.find((claim) => claim.id === selectedClaim);
@@ -62,26 +66,46 @@ const ClaimDetailsSection = ({
           setSelectedClaim={setSelectedClaim} 
         />
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <CustomerInfoCard claim={claim} />
-            <FlightInfoCard claim={claim} />
-            <ClaimStatusCard claim={claim} />
-          </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid grid-cols-3 mb-4">
+              <TabsTrigger value="details">Claim Details</TabsTrigger>
+              <TabsTrigger value="communication">Communication</TabsTrigger>
+              <TabsTrigger value="documents">Documents</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="details" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <CustomerInfoCard claim={claim} />
+                <FlightInfoCard claim={claim} />
+                <ClaimStatusCard claim={claim} />
+              </div>
 
-          <Separator className="my-6" />
+              <Separator className="my-6" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <IssueDetailsCard claim={claim} />
-            <PaymentDetailsCard claim={claim} />
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <IssueDetailsCard claim={claim} />
+                <PaymentDetailsCard claim={claim} />
+              </div>
 
-          <Separator className="my-6" />
+              <Separator className="my-6" />
 
-          <ActionButtons 
-            onSendEmail={handleSendEmailClick}
-            onUpdateStatus={handleUpdateStatusClick}
-            onEdit={handleEditClick}
-          />
+              <ActionButtons 
+                onSendEmail={handleSendEmailClick}
+                onUpdateStatus={handleUpdateStatusClick}
+                onEdit={handleEditClick}
+              />
+            </TabsContent>
+            
+            <TabsContent value="communication" className="mt-6">
+              <CommunicationTab claim={claim} />
+            </TabsContent>
+            
+            <TabsContent value="documents" className="mt-6">
+              <div className="p-4 text-center text-gray-500">
+                Document management features will be added soon.
+              </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </motion.div>

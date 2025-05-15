@@ -64,9 +64,10 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="details">Claim Details</TabsTrigger>
-            <TabsTrigger value="communication">Communication Log</TabsTrigger>
+            <TabsTrigger value="communication">Communication</TabsTrigger>
+            <TabsTrigger value="documents">Documents</TabsTrigger>
           </TabsList>
           
           <TabsContent value="details" className="mt-6">
@@ -103,6 +104,12 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
           
           <TabsContent value="communication" className="mt-6">
             <CommunicationTab claim={claim} />
+          </TabsContent>
+          
+          <TabsContent value="documents" className="mt-6">
+            <div className="p-4 text-center text-gray-500">
+              Document management features will be added soon.
+            </div>
           </TabsContent>
         </Tabs>
       </DialogContent>
