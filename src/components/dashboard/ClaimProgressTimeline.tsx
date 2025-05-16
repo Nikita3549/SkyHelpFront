@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Calendar, Check, Clock, HelpCircle } from "lucide-react";
+import { Check, Clock, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type TimelineStep = {
@@ -25,13 +25,6 @@ const ClaimProgressTimeline = ({
 }: ClaimProgressTimelineProps) => {
   return (
     <div className="border-t pt-6 mt-8">
-      <div className="flex items-center mb-6">
-        <div className="flex items-center text-gray-600">
-          <Calendar className="h-4 w-4 mr-2" />
-          <span>Claim opened: {claimOpenedDate}</span>
-        </div>
-      </div>
-
       <h3 className="text-lg font-semibold mb-4">Claim Progress</h3>
 
       <div className="space-y-0">
