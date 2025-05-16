@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -36,6 +35,7 @@ import {
   CheckCircle2,
   MoreHorizontal,
   User,
+  HelpCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -46,6 +46,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import ClaimProgressTimeline from "@/components/dashboard/ClaimProgressTimeline";
 
 // Sample claims data
 const claims = [
@@ -207,6 +208,66 @@ const Dashboard = () => {
     // In a real app, this would open a file upload UI
   };
 
+  // Function to contact support
+  const contactSupport = () => {
+    console.log("Contact support clicked");
+    // In a real app, this would open a support contact form or chat
+  };
+
+  // Get status-based progress steps
+  const getProgressSteps = (claim) => {
+    const baseSteps = [
+      {
+        id: "received",
+        title: "Claim Received",
+        description: "We've received your claim and started the review process.",
+        date: new Date(claim.departureDate).toLocaleDateString(),
+        status: "completed" as const,
+      },
+      {
+        id: "verified",
+        title: "Documents Verified",
+        description: "Your documents have been reviewed and approved.",
+        date: claim.status !== "review" ? new Date(claim.lastUpdate).toLocaleDateString() : undefined,
+        status: claim.status === "review" ? "current" as const : "completed" as const,
+      },
+      {
+        id: "contacted",
+        title: "Airline Contacted",
+        description: "We've sent your compensation request to the airline.",
+        date: claim.status === "completed" || claim.status === "in_progress" ? new Date(claim.lastUpdate).toLocaleDateString() : undefined,
+        status: claim.status === "review" ? "upcoming" as const : claim.status === "in_progress" ? "current" as const : "completed" as const,
+      },
+      {
+        id: "awaiting",
+        title: "Awaiting Response",
+        description: "We are waiting for a response from the airline.",
+        date: claim.status === "completed" ? new Date(claim.lastUpdate).toLocaleDateString() : undefined,
+        status: claim.status !== "completed" && claim.status !== "in_progress" ? "upcoming" as const : claim.status === "in_progress" ? "current" as const : "completed" as const,
+      }
+    ];
+
+    // Add final step based on claim status
+    if (claim.status === "completed") {
+      baseSteps.push({
+        id: "completed",
+        title: "Compensation Paid",
+        description: `Your compensation of ${claim.compensation} has been processed.`,
+        date: claim.paymentDate ? new Date(claim.paymentDate).toLocaleDateString() : undefined,
+        status: "completed" as const,
+      });
+    } else {
+      baseSteps.push({
+        id: "pending",
+        title: "Compensation Pending",
+        description: "Once approved, your compensation will be processed.",
+        status: "upcoming" as const,
+      });
+    }
+
+    return baseSteps;
+  };
+
   return (
     <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
@@ -343,7 +404,7 @@ const Dashboard = () => {
                         <DropdownMenuItem className="cursor-pointer">
                           <Download className="mr-2 h-4 w-4" /> Export claim details
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer" onClick={generateNewMessage}>
+                        <DropdownMenuItem className="cursor-pointer" onClick={contactSupport}>
                           <MessageSquare className="mr-2 h-4 w-4" /> Contact support
                         </DropdownMenuItem>
                         {selectedClaim.status !== "completed" && (
@@ -364,7 +425,7 @@ const Dashboard = () => {
                       <TabsTrigger value="messages">Messages</TabsTrigger>
                     </TabsList>
                     
-                    <TabsContent value="overview" className="p-6 pt-2">
+                    <TabsContent value="overview" className="px-6 pt-2 pb-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-6">
                           <div>
@@ -382,35 +443,6 @@ const Dashboard = () => {
                                 <span className="text-sm text-gray-500">Date</span>
                                 <span className="text-sm font-medium">{new Date(selectedClaim.departureDate).toLocaleDateString()}</span>
                               </div>
-                            </div>
-                          </div>
-                          
-                          <div>
-                            <h3 className="text-sm font-medium text-gray-500 mb-2">Claim Progress</h3>
-                            <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-                              <div>
-                                <div className="flex justify-between text-sm mb-1">
-                                  <span>Status</span>
-                                  <span className="font-medium">{selectedClaim.statusText}</span>
-                                </div>
-                                <Progress value={selectedClaim.progress} className="h-2" />
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-sm text-gray-500">Last Update</span>
-                                <span className="text-sm font-medium">{new Date(selectedClaim.lastUpdate).toLocaleDateString()}</span>
-                              </div>
-                              {selectedClaim.status !== "completed" && (
-                                <div className="flex justify-between">
-                                  <span className="text-sm text-gray-500">Estimated Completion</span>
-                                  <span className="text-sm font-medium">{new Date(selectedClaim.estimatedCompletion || "").toLocaleDateString()}</span>
-                                </div>
-                              )}
-                              {selectedClaim.status === "completed" && selectedClaim.paymentDate && (
-                                <div className="flex justify-between">
-                                  <span className="text-sm text-gray-500">Payment Date</span>
-                                  <span className="text-sm font-medium">{new Date(selectedClaim.paymentDate).toLocaleDateString()}</span>
-                                </div>
-                              )}
                             </div>
                           </div>
                         </div>
@@ -474,7 +506,7 @@ const Dashboard = () => {
                                     <p className="text-xs text-gray-500 mt-1">
                                       We're working with the airline to process your claim. We'll update you on any developments.
                                     </p>
-                                    <Button onClick={generateNewMessage} variant="outline" size="sm" className="mt-3">
+                                    <Button onClick={contactSupport} variant="outline" size="sm" className="mt-3">
                                       <MessageSquare className="mr-2 h-3 w-3" />
                                       Contact Support
                                     </Button>
@@ -503,6 +535,13 @@ const Dashboard = () => {
                           </div>
                         </div>
                       </div>
+                      
+                      {/* New Claim Progress Timeline Section */}
+                      <ClaimProgressTimeline 
+                        steps={getProgressSteps(selectedClaim)}
+                        claimOpenedDate={new Date(selectedClaim.departureDate).toLocaleDateString()}
+                        onContactSupport={contactSupport}
+                      />
                     </TabsContent>
                     
                     <TabsContent value="documents" className="p-6 pt-2">
@@ -653,4 +692,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
