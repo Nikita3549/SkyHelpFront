@@ -1,13 +1,14 @@
 
 import React from "react";
-import { Calendar, Check, Clock, HelpCircle } from "lucide-react";
+import { Calendar, Check, Clock, HelpCircle, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type TimelineStep = {
   id: string;
   title: string;
   description: string;
-  date?: string; // Making date optional with the ? modifier
+  date?: string; // Date is optional
   status: "completed" | "current" | "upcoming";
   icon?: React.ReactNode;
 };
@@ -30,13 +31,15 @@ const ClaimProgressTimeline = ({
           <Calendar className="h-4 w-4 mr-2" />
           <span>Claim opened: {claimOpenedDate}</span>
         </div>
-        <button
+        <Button
           onClick={onContactSupport}
-          className="flex items-center px-4 py-2 bg-white border rounded-md hover:bg-gray-50 transition-colors"
+          variant="outline"
+          size="sm"
+          className="flex items-center"
         >
-          <HelpCircle className="h-4 w-4 mr-2" />
+          <MessageSquare className="h-4 w-4 mr-2" />
           Contact Support
-        </button>
+        </Button>
       </div>
 
       <h3 className="text-lg font-semibold mb-4">Claim Progress</h3>
