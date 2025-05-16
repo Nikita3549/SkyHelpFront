@@ -97,6 +97,9 @@ const ClaimsTable = ({
                         <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "rejected")}>
                           Mark as Rejected
                         </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "not_eligible")}>
+                          Mark as Not Eligible
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

@@ -61,6 +61,7 @@ const ClaimsTableHeader = ({
               <SelectItem value="escalated">Escalated</SelectItem>
               <SelectItem value="completed">Completed</SelectItem>
               <SelectItem value="rejected">Rejected</SelectItem>
+              <SelectItem value="not_eligible">Not Eligible</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -49,15 +49,27 @@ export function useClaimsOperations() {
     });
   };
 
-  const handleUpdateStatus = (claimId: string, newStatus: string) => {
+  const handleUpdateStatus = (claimId: string, newStatus: string, reason?: string) => {
+    const updates: Partial<Claim> = { 
+      status: newStatus as any,
+      lastupdated: new Date().toISOString().split('T')[0]
+    };
+    
+    // If a reason was provided (for not_eligible status), store it in additionalinformation
+    if (reason && newStatus === 'not_eligible') {
+      updates.additionalinformation = `Not eligible reason: ${reason}`;
+    }
+    
     updateClaimMutation.mutate({ 
       claimId, 
-      updates: { status: newStatus as any } 
+      updates
     });
     
-    toast.success("Status updated", {
-      description: `Claim ${claimId} status changed to ${newStatus}`,
-    });
+    if (newStatus !== 'not_eligible') {
+      toast.success("Status updated", {
+        description: `Claim ${claimId} status changed to ${newStatus}`,
+      });
+    }
   };
 
   const handleExportClaims = () => {

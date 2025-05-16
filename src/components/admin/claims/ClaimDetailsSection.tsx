@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Claim } from "@/lib/supabase";
+import { toast } from "sonner";
 
 // Import sub-components
 import CustomerInfoCard from "./details/CustomerInfoCard";
@@ -15,12 +16,14 @@ import PaymentDetailsCard from "./details/PaymentDetailsCard";
 import ActionButtons from "./details/ActionButtons";
 import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
 import CommunicationTab from "./details/CommunicationTab";
+import NotEligibleModal from "../modals/NotEligibleModal";
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
   setSelectedClaim: (id: string | null) => void;
   claimsData: Claim[];
   handleSendEmail: (claimId: string) => void;
+  handleUpdateStatus: (claimId: string, newStatus: string, reason?: string) => void;
   onEditClaim: (claim: Claim) => void;
 };
 
@@ -29,9 +32,11 @@ const ClaimDetailsSection = ({
   setSelectedClaim,
   claimsData,
   handleSendEmail,
+  handleUpdateStatus,
   onEditClaim,
 }: ClaimDetailsSectionProps) => {
   const [activeTab, setActiveTab] = useState("details");
+  const [isNotEligibleModalOpen, setIsNotEligibleModalOpen] = useState(false);
   
   if (!selectedClaim) return null;
 
@@ -51,6 +56,17 @@ const ClaimDetailsSection = ({
 
   const handleEditClick = () => {
     onEditClaim(claim);
+  };
+  
+  const handleMarkAsNotEligible = () => {
+    setIsNotEligibleModalOpen(true);
+  };
+  
+  const handleConfirmNotEligible = (reason: string, additionalNotes?: string) => {
+    handleUpdateStatus(selectedClaim, "not_eligible", reason);
+    toast.success("Claim marked as not eligible", {
+      description: `Reason: ${reason}`,
+    });
   };
 
   return (
@@ -93,6 +109,7 @@ const ClaimDetailsSection = ({
                 onSendEmail={handleSendEmailClick}
                 onUpdateStatus={handleUpdateStatusClick}
                 onEdit={handleEditClick}
+                onMarkNotEligible={handleMarkAsNotEligible}
               />
             </TabsContent>
             
@@ -108,6 +125,13 @@ const ClaimDetailsSection = ({
           </Tabs>
         </CardContent>
       </Card>
+      
+      <NotEligibleModal 
+        isOpen={isNotEligibleModalOpen}
+        onClose={() => setIsNotEligibleModalOpen(false)}
+        onConfirm={handleConfirmNotEligible}
+        claimId={selectedClaim}
+      />
     </motion.div>
   );
 };

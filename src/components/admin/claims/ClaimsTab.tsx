@@ -8,7 +8,7 @@ import ClaimDetailsSection from "./ClaimDetailsSection";
 type ClaimsTabProps = {
   claimsData: Claim[];
   handleSendEmail: (claimId: string) => void;
-  handleUpdateStatus: (claimId: string, newStatus: string) => void;
+  handleUpdateStatus: (claimId: string, newStatus: string, reason?: string) => void;
   handleExportClaims: () => void;
   setIsNewClaimModalOpen: (value: boolean) => void;
   onEditClaim: (claim: Claim) => void;
@@ -67,6 +67,7 @@ const ClaimsTab = ({
         setSelectedClaim={setSelectedClaim}
         claimsData={claimsData}
         handleSendEmail={handleSendEmail}
+        handleUpdateStatus={handleUpdateStatus}
         onEditClaim={onEditClaim}
       />
     </div>

@@ -1,45 +1,36 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { FileText, Mail, Edit, CheckCircle2 } from "lucide-react";
-import { Claim } from "@/lib/supabase";
+import { Mail, AlertCircle, Edit, Ban } from "lucide-react";
 
 type ActionButtonsProps = {
   onSendEmail: () => void;
   onUpdateStatus: () => void;
   onEdit: () => void;
+  onMarkNotEligible?: () => void;
 };
 
-const ActionButtons = ({ onSendEmail, onUpdateStatus, onEdit }: ActionButtonsProps) => {
+const ActionButtons = ({ onSendEmail, onUpdateStatus, onEdit, onMarkNotEligible }: ActionButtonsProps) => {
   return (
     <div className="flex flex-wrap gap-2 justify-end">
-      <Button variant="outline" size="sm">
-        <FileText className="h-4 w-4 mr-2" />
-        View Documents
-      </Button>
-      <Button 
-        variant="outline" 
-        size="sm"
-        onClick={onSendEmail}
-      >
-        <Mail className="h-4 w-4 mr-2" />
+      <Button variant="outline" onClick={onSendEmail} className="flex items-center">
+        <Mail className="mr-2 h-4 w-4" />
         Send Email
       </Button>
-      <Button 
-        variant="outline" 
-        size="sm"
-        onClick={onEdit}
-      >
-        <Edit className="h-4 w-4 mr-2" />
-        Edit Claim
-      </Button>
-      <Button 
-        size="sm"
-        onClick={onUpdateStatus}
-      >
-        <CheckCircle2 className="h-4 w-4 mr-2" />
+      <Button variant="outline" onClick={onUpdateStatus} className="flex items-center">
+        <AlertCircle className="mr-2 h-4 w-4" />
         Update Status
       </Button>
+      <Button variant="outline" onClick={onEdit} className="flex items-center">
+        <Edit className="mr-2 h-4 w-4" />
+        Edit Claim
+      </Button>
+      {onMarkNotEligible && (
+        <Button variant="outline" onClick={onMarkNotEligible} className="flex items-center">
+          <Ban className="mr-2 h-4 w-4" />
+          Mark as Not Eligible
+        </Button>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Plane, AlertCircle, CheckCircle2, XCircle } from "lucide-react";
+import { Clock, Plane, AlertCircle, CheckCircle2, XCircle, CircleSlash } from "lucide-react";
 
 type StatusBadgeProps = {
   status: string;
@@ -34,12 +34,17 @@ const StatusBadge = ({ status }: StatusBadgeProps) => {
       variant: "destructive",
       icon: <XCircle className="h-3 w-3 mr-1" />,
     },
+    not_eligible: {
+      label: "Not Eligible",
+      variant: "outline",
+      icon: <CircleSlash className="h-3 w-3 mr-1" />,
+    },
   };
 
   const { label, variant, icon } = statusConfig[status] || statusConfig.pending;
 
   return (
-    <Badge variant={variant} className="flex items-center">
+    <Badge variant={variant} className={`flex items-center ${status === 'not_eligible' ? 'bg-gray-400 text-white hover:bg-gray-500' : ''}`}>
       {icon}
       {label}
     </Badge>
