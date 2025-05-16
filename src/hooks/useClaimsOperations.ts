@@ -1,9 +1,23 @@
-
 import { useState } from "react";
 import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { claimsService } from "@/services/claimsService";
 import { Claim } from "@/lib/supabase";
+
+// Message type definition for communication logs
+export type MessageEntry = {
+  date: string;
+  type: 'email' | 'message';
+  direction: 'incoming' | 'outgoing' | 'system';
+  subject?: string;
+  body?: string;
+  content?: string;
+  sender?: 'client' | 'admin' | 'system';
+  recipient?: string;
+  status?: string;
+  read?: boolean;
+  tags?: string[];
+};
 
 export function useClaimsOperations() {
   const [isNewClaimModalOpen, setIsNewClaimModalOpen] = useState(false);
@@ -49,6 +63,44 @@ export function useClaimsOperations() {
     });
   };
 
+  // Add a new function to handle adding messages to the communication log
+  const addMessageToCommunicationLog = (claimId: string, message: MessageEntry) => {
+    // Find the claim
+    const claim = claimsData.find(c => c.id === claimId);
+    if (!claim) {
+      toast.error("Claim not found");
+      return;
+    }
+    
+    // Parse existing communication log or create new one
+    let communicationLog = [];
+    try {
+      if (claim.communicationlog) {
+        communicationLog = JSON.parse(claim.communicationlog);
+      }
+    } catch (e) {
+      console.error("Error parsing communication log", e);
+    }
+    
+    // Add new message to log
+    communicationLog.push(message);
+    
+    // Update the claim with the new log
+    const updates: Partial<Claim> = {
+      communicationlog: JSON.stringify(communicationLog),
+      lastupdated: new Date().toISOString().split('T')[0]
+    };
+    
+    updateClaimMutation.mutate({ 
+      claimId, 
+      updates
+    });
+    
+    toast.success("Message added", {
+      description: "Communication log has been updated",
+    });
+  };
+
   const handleUpdateStatus = (claimId: string, newStatus: string, reason?: string, emailData?: any) => {
     const updates: Partial<Claim> = { 
       status: newStatus as any,
@@ -85,8 +137,45 @@ export function useClaimsOperations() {
           status: "sent"
         });
         
+        // Add system message about status change
+        communicationLog.push({
+          date: currentDate,
+          type: "message",
+          direction: "system",
+          sender: "system",
+          content: `Claim status changed to Not Eligible. Reason: ${reason}`,
+          read: true
+        });
+        
         updates.communicationlog = JSON.stringify(communicationLog);
       }
+    }
+    
+    // For other status changes, also add a system message
+    else if (newStatus !== 'not_eligible') {
+      const currentDate = new Date().toISOString().split('T')[0];
+      const claim = claimsData.find(c => c.id === claimId);
+      let communicationLog = [];
+      
+      try {
+        if (claim && claim.communicationlog) {
+          communicationLog = JSON.parse(claim.communicationlog);
+        }
+      } catch (e) {
+        console.error("Error parsing communication log", e);
+      }
+      
+      // Add system message about status change
+      communicationLog.push({
+        date: currentDate,
+        type: "message",
+        direction: "system",
+        sender: "system",
+        content: `Claim status changed to ${newStatus}`,
+        read: true
+      });
+      
+      updates.communicationlog = JSON.stringify(communicationLog);
     }
     
     updateClaimMutation.mutate({ 
@@ -177,6 +266,7 @@ export function useClaimsOperations() {
     handleExportClaims,
     handleNewClaimSubmit,
     handleEditClaim,
-    handleEditClaimSubmit
+    handleEditClaimSubmit,
+    addMessageToCommunicationLog
   };
 }

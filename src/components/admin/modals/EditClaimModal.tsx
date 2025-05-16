@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import PaymentDetailsCard from "../claims/details/PaymentDetailsCard";
 import ActionButtons from "../claims/details/ActionButtons";
 import CommunicationTab from "../claims/details/CommunicationTab";
 import NotEligibleModal, { EmailData } from "./NotEligibleModal";
+import { MessageEntry } from "@/hooks/useClaimsOperations";
 
 type EditClaimModalProps = {
   isOpen: boolean;
@@ -28,6 +28,37 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
   const [isNotEligibleModalOpen, setIsNotEligibleModalOpen] = useState(false);
 
   const handleSendEmail = () => {
+    // Log the email to communication history
+    const currentDate = new Date().toISOString();
+    const emailEntry: MessageEntry = {
+      date: currentDate,
+      type: "email",
+      direction: "outgoing",
+      subject: "Email from Support",
+      body: "This is a placeholder for an email sent from the support team.",
+      status: "sent"
+    };
+    
+    // Add this email to communication log
+    let communicationLog = [];
+    try {
+      if (claim.communicationlog) {
+        communicationLog = JSON.parse(claim.communicationlog);
+      }
+    } catch (e) {
+      console.error("Error parsing communication log", e);
+    }
+    
+    communicationLog.push(emailEntry);
+    
+    // Submit updated claim with new communication log
+    if (onSubmit) {
+      onSubmit({
+        ...claim,
+        communicationlog: JSON.stringify(communicationLog)
+      });
+    }
+    
     toast.success("Email sent successfully", {
       description: `Notification email sent to ${claim.customer}`,
     });
@@ -60,7 +91,7 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     
     // If email is being sent, add to communication log
     if (emailData && emailData.sendEmail) {
-      const currentDate = new Date().toISOString().split('T')[0];
+      const currentDate = new Date().toISOString();
       
       let communicationLog = [];
       try {
@@ -79,6 +110,16 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
         subject: emailData.subject,
         body: emailData.body,
         status: "sent"
+      });
+      
+      // Also add a system message about status change
+      communicationLog.push({
+        date: currentDate,
+        type: "message",
+        direction: "system",
+        sender: "system",
+        content: `Claim status changed to Not Eligible. Reason: ${reason}`,
+        read: true
       });
       
       updatedClaim.communicationlog = JSON.stringify(communicationLog);
@@ -127,29 +168,20 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
           
           <TabsContent value="details" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Customer Information Section */}
               <CustomerInfoCard claim={claim} />
-
-              {/* Flight Information Section */}
               <FlightInfoCard claim={claim} />
-
-              {/* Claim Status Section */}
               <ClaimStatusCard claim={claim} />
             </div>
 
             <Separator className="my-6" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Issue Details Section */}
               <IssueDetailsCard claim={claim} />
-
-              {/* Payment Details Section */}
               <PaymentDetailsCard claim={claim} />
             </div>
 
             <Separator className="my-6" />
 
-            {/* Action Buttons */}
             <ActionButtons 
               onSendEmail={handleSendEmail} 
               onUpdateStatus={handleUpdateStatus} 

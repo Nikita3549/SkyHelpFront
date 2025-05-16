@@ -31,5 +31,5 @@ export type Claim = {
   additionalinformation?: string;
   paymentmethod?: string;
   paymentdetails?: any;
-  communicationlog?: string; // Added this field for storing communication history
+  communicationlog?: string; // Field for storing communication history (emails and messages)
 };
