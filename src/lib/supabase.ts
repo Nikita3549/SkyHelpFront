@@ -15,7 +15,7 @@ export type Claim = {
   airline: string;
   flightnumber: string; 
   date: string;
-  status: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected';
+  status: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected' | 'not_eligible';
   stage: string;
   amount: string;
   lastupdated: string;
@@ -31,4 +31,5 @@ export type Claim = {
   additionalinformation?: string;
   paymentmethod?: string;
   paymentdetails?: any;
+  communicationlog?: string; // Added this field for storing communication history
 };

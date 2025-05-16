@@ -51,7 +51,7 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
   
   const handleConfirmNotEligible = (reason: string, additionalNotes?: string, emailData?: EmailData) => {
     // Update claim data
-    const updatedClaim = { 
+    const updatedClaim: Partial<Claim> = { 
       ...claim, 
       status: "not_eligible",
       additionalinformation: `Not eligible reason: ${reason}`,
