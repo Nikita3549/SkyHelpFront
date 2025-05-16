@@ -25,18 +25,11 @@ const ClaimProgressTimeline = ({
 }: ClaimProgressTimelineProps) => {
   return (
     <div className="border-t pt-6 mt-8">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center mb-6">
         <div className="flex items-center text-gray-600">
           <Calendar className="h-4 w-4 mr-2" />
           <span>Claim opened: {claimOpenedDate}</span>
         </div>
-        <button
-          onClick={onContactSupport}
-          className="flex items-center px-4 py-2 bg-white border rounded-md hover:bg-gray-50 transition-colors"
-        >
-          <HelpCircle className="h-4 w-4 mr-2" />
-          Contact Support
-        </button>
       </div>
 
       <h3 className="text-lg font-semibold mb-4">Claim Progress</h3>
