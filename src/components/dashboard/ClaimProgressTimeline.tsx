@@ -7,7 +7,7 @@ type TimelineStep = {
   id: string;
   title: string;
   description: string;
-  date?: string;
+  date?: string; // Making date optional with the ? modifier
   status: "completed" | "current" | "upcoming";
   icon?: React.ReactNode;
 };
