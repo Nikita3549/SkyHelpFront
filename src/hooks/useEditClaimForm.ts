@@ -63,7 +63,7 @@ export function useEditClaimForm({ claim, onSubmit, onClose }: UseEditClaimFormP
     wiseEmail: paymentDetails.email || "",
     
     // Status
-    status: claim.status || "pending" as 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected',
+    status: claim.status || "pending" as 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected' | 'not_eligible',
     stage: claim.stage || "initial_review",
   });
 

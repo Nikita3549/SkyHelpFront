@@ -28,7 +28,7 @@ type FormStateWithId = {
   wiseAccountHolder: string;
   wiseIbanOrAccount: string;
   wiseEmail: string;
-  status: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected';
+  status: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected' | 'not_eligible';
   stage: string;
 };
 
@@ -83,3 +83,4 @@ export const prepareClaimDataForSubmission = (formState: FormStateWithId): Parti
   
   return claimData;
 };
+
