@@ -261,6 +261,7 @@ const Dashboard = () => {
         id: "pending",
         title: "Compensation Pending",
         description: "Once approved, your compensation will be processed.",
+        date: undefined, // Explicitly setting undefined for clarity
         status: "upcoming" as const,
       });
     }
