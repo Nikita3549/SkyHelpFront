@@ -507,10 +507,6 @@ const Dashboard = () => {
                                     <p className="text-xs text-gray-500 mt-1">
                                       We're working with the airline to process your claim. We'll update you on any developments.
                                     </p>
-                                    <Button onClick={contactSupport} variant="outline" size="sm" className="mt-3">
-                                      <MessageSquare className="mr-2 h-3 w-3" />
-                                      Contact Support
-                                    </Button>
                                   </div>
                                 </div>
                               )}
@@ -537,7 +533,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                       
-                      {/* New Claim Progress Timeline Section */}
+                      {/* Claim Progress Timeline Section */}
                       <ClaimProgressTimeline 
                         steps={getProgressSteps(selectedClaim)}
                         claimOpenedDate={new Date(selectedClaim.departureDate).toLocaleDateString()}
