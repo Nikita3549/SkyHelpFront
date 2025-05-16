@@ -507,6 +507,10 @@ const Dashboard = () => {
                                     <p className="text-xs text-gray-500 mt-1">
                                       We're working with the airline to process your claim. We'll update you on any developments.
                                     </p>
+                                    <Button onClick={contactSupport} variant="outline" size="sm" className="mt-3">
+                                      <MessageSquare className="mr-2 h-3 w-3" />
+                                      Contact Support
+                                    </Button>
                                   </div>
                                 </div>
                               )}
@@ -533,7 +537,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                       
-                      {/* Claim Progress Timeline Section */}
+                      {/* New Claim Progress Timeline Section */}
                       <ClaimProgressTimeline 
                         steps={getProgressSteps(selectedClaim)}
                         claimOpenedDate={new Date(selectedClaim.departureDate).toLocaleDateString()}
@@ -541,7 +545,7 @@ const Dashboard = () => {
                       />
                     </TabsContent>
                     
-                    <TabsContent value="documents" className="px-6 pt-2 pb-6">
+                    <TabsContent value="documents" className="p-6 pt-2">
                       <div className="space-y-6">
                         <div>
                           <h3 className="text-sm font-medium text-gray-500 mb-4">Required Documents</h3>
@@ -606,7 +610,7 @@ const Dashboard = () => {
                       </div>
                     </TabsContent>
                     
-                    <TabsContent value="messages" className="px-6 pt-2 pb-6">
+                    <TabsContent value="messages" className="p-6 pt-2">
                       <div className="space-y-6">
                         <div className="flex justify-between items-center">
                           <h3 className="text-sm font-medium text-gray-500">Communication History</h3>
@@ -663,6 +667,22 @@ const Dashboard = () => {
                     </TabsContent>
                   </Tabs>
                 </CardContent>
+
+                <CardFooter className="flex justify-between border-t p-6">
+                  <div className="text-sm text-gray-500">
+                    <span className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      Claim opened: {new Date(selectedClaim.departureDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                  
+                  <div>
+                    <Button variant="outline" size="sm" onClick={generateNewMessage}>
+                      <MessageSquare className="mr-2 h-4 w-4" />
+                      Contact Support
+                    </Button>
+                  </div>
+                </CardFooter>
               </Card>
             )}
           </motion.div>
