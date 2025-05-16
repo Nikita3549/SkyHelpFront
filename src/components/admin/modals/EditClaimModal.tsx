@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Claim } from "@/lib/supabase";
 import { X } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import CustomerInfoCard from "../claims/details/CustomerInfoCard";
 import FlightInfoCard from "../claims/details/FlightInfoCard";
 import ClaimStatusCard from "../claims/details/ClaimStatusCard";
@@ -14,6 +14,7 @@ import IssueDetailsCard from "../claims/details/IssueDetailsCard";
 import PaymentDetailsCard from "../claims/details/PaymentDetailsCard";
 import ActionButtons from "../claims/details/ActionButtons";
 import CommunicationTab from "../claims/details/CommunicationTab";
+import NotEligibleModal, { EmailData } from "./NotEligibleModal";
 
 type EditClaimModalProps = {
   isOpen: boolean;
@@ -24,17 +25,16 @@ type EditClaimModalProps = {
 
 const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProps) => {
   const [activeTab, setActiveTab] = useState("details");
+  const [isNotEligibleModalOpen, setIsNotEligibleModalOpen] = useState(false);
 
   const handleSendEmail = () => {
-    toast({
-      title: "Email sent successfully",
+    toast.success("Email sent successfully", {
       description: `Notification email sent to ${claim.customer}`,
     });
   };
 
   const handleUpdateStatus = () => {
-    toast({
-      title: "Status updated",
+    toast.success("Status updated", {
       description: `Claim ${claim.id} status has been updated`,
     });
   };
@@ -43,6 +43,61 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     if (onSubmit) {
       onSubmit(claim);
     }
+  };
+  
+  const handleMarkAsNotEligible = () => {
+    setIsNotEligibleModalOpen(true);
+  };
+  
+  const handleConfirmNotEligible = (reason: string, additionalNotes?: string, emailData?: EmailData) => {
+    // Update claim data
+    const updatedClaim = { 
+      ...claim, 
+      status: "not_eligible",
+      additionalinformation: `Not eligible reason: ${reason}`,
+      lastupdated: new Date().toISOString().split('T')[0]
+    };
+    
+    // If email is being sent, add to communication log
+    if (emailData && emailData.sendEmail) {
+      const currentDate = new Date().toISOString().split('T')[0];
+      
+      let communicationLog = [];
+      try {
+        if (claim.communicationlog) {
+          communicationLog = JSON.parse(claim.communicationlog);
+        }
+      } catch (e) {
+        console.error("Error parsing communication log", e);
+      }
+      
+      // Add new email to log
+      communicationLog.push({
+        date: currentDate,
+        type: "email",
+        direction: "outgoing",
+        subject: emailData.subject,
+        body: emailData.body,
+        status: "sent"
+      });
+      
+      updatedClaim.communicationlog = JSON.stringify(communicationLog);
+      
+      toast.success("Email sent to customer", {
+        description: `Explaining the ineligibility reason: ${reason}`,
+      });
+    } else {
+      toast.success("Claim marked as not eligible", {
+        description: `Reason: ${reason}`,
+      });
+    }
+    
+    // Submit the updated claim data
+    if (onSubmit) {
+      onSubmit(updatedClaim);
+    }
+    
+    setIsNotEligibleModalOpen(false);
   };
 
   return (
@@ -99,6 +154,7 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
               onSendEmail={handleSendEmail} 
               onUpdateStatus={handleUpdateStatus} 
               onEdit={handleEdit}
+              onMarkNotEligible={handleMarkAsNotEligible}
             />
           </TabsContent>
           
@@ -112,6 +168,16 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
             </div>
           </TabsContent>
         </Tabs>
+        
+        <NotEligibleModal 
+          isOpen={isNotEligibleModalOpen}
+          onClose={() => setIsNotEligibleModalOpen(false)}
+          onConfirm={handleConfirmNotEligible}
+          claimId={claim.id}
+          customerName={claim.customer}
+          flightNumber={claim.flightnumber}
+          flightDate={claim.date}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -49,15 +49,44 @@ export function useClaimsOperations() {
     });
   };
 
-  const handleUpdateStatus = (claimId: string, newStatus: string, reason?: string) => {
+  const handleUpdateStatus = (claimId: string, newStatus: string, reason?: string, emailData?: any) => {
     const updates: Partial<Claim> = { 
       status: newStatus as any,
       lastupdated: new Date().toISOString().split('T')[0]
     };
     
-    // If a reason was provided (for not_eligible status), store it in additionalinformation
+    // Store reason in additionalinformation
     if (reason && newStatus === 'not_eligible') {
       updates.additionalinformation = `Not eligible reason: ${reason}`;
+      
+      // Add email log if email was sent
+      if (emailData && emailData.sendEmail) {
+        const currentDate = new Date().toISOString().split('T')[0];
+        
+        // Check if there's existing communication log
+        const claim = claimsData.find(c => c.id === claimId);
+        let communicationLog = [];
+        
+        try {
+          if (claim && claim.communicationlog) {
+            communicationLog = JSON.parse(claim.communicationlog);
+          }
+        } catch (e) {
+          console.error("Error parsing communication log", e);
+        }
+        
+        // Add new email to log
+        communicationLog.push({
+          date: currentDate,
+          type: "email",
+          direction: "outgoing",
+          subject: emailData.subject,
+          body: emailData.body,
+          status: "sent"
+        });
+        
+        updates.communicationlog = JSON.stringify(communicationLog);
+      }
     }
     
     updateClaimMutation.mutate({ 
@@ -65,7 +94,7 @@ export function useClaimsOperations() {
       updates
     });
     
-    if (newStatus !== 'not_eligible') {
+    if (newStatus !== 'not_eligible' || !emailData || !emailData.sendEmail) {
       toast.success("Status updated", {
         description: `Claim ${claimId} status changed to ${newStatus}`,
       });

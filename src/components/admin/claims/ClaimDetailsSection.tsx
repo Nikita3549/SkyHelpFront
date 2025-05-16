@@ -23,7 +23,7 @@ type ClaimDetailsSectionProps = {
   setSelectedClaim: (id: string | null) => void;
   claimsData: Claim[];
   handleSendEmail: (claimId: string) => void;
-  handleUpdateStatus: (claimId: string, newStatus: string, reason?: string) => void;
+  handleUpdateStatus: (claimId: string, newStatus: string, reason?: string, emailData?: any) => void;
   onEditClaim: (claim: Claim) => void;
 };
 
@@ -62,11 +62,18 @@ const ClaimDetailsSection = ({
     setIsNotEligibleModalOpen(true);
   };
   
-  const handleConfirmNotEligible = (reason: string, additionalNotes?: string) => {
-    handleUpdateStatus(selectedClaim, "not_eligible", reason);
-    toast.success("Claim marked as not eligible", {
-      description: `Reason: ${reason}`,
-    });
+  const handleConfirmNotEligible = (reason: string, additionalNotes?: string, emailData?: any) => {
+    handleUpdateStatus(selectedClaim, "not_eligible", reason, emailData);
+    
+    if (emailData && emailData.sendEmail) {
+      toast.success("Email sent to customer", {
+        description: `Explaining the ineligibility reason: ${reason}`,
+      });
+    } else {
+      toast.success("Claim marked as not eligible", {
+        description: `Reason: ${reason}`,
+      });
+    }
   };
 
   return (
@@ -131,6 +138,9 @@ const ClaimDetailsSection = ({
         onClose={() => setIsNotEligibleModalOpen(false)}
         onConfirm={handleConfirmNotEligible}
         claimId={selectedClaim}
+        customerName={claim.customer}
+        flightNumber={claim.flightnumber}
+        flightDate={claim.date}
       />
     </motion.div>
   );

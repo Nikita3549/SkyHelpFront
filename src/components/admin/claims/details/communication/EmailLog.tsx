@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Table, 
   TableHeader, 
@@ -20,85 +20,57 @@ type EmailLogProps = {
 }
 
 type EmailLogEntry = {
-  id: string;
+  id?: string;
   date: string;
   direction: "incoming" | "outgoing";
-  from: string;
-  to: string;
+  from?: string;
+  to?: string;
   subject: string;
-  summary: string;
+  summary?: string;
   content?: string;
+  body?: string;
   attachments?: string[];
   isOverdue?: boolean;
+  status?: string;
 }
-
-// Mock data - in a real application, this would come from an API
-const mockEmails: EmailLogEntry[] = [
-  {
-    id: "email1",
-    date: "2025-05-15",
-    direction: "outgoing",
-    from: "SkyHelp",
-    to: "Ryanair",
-    subject: "Initial Claim Submission",
-    summary: "Initial claim for flight compensation",
-    content: `Dear Ryanair,
-
-We are writing on behalf of our client John Smith regarding flight FR1234 on 10/05/2025 from London to Madrid.
-
-Our client experienced a flight cancellation and is entitled to compensation of €600 under EU261 regulations.
-
-Please find attached supporting documentation. We kindly request your review and response within 14 days.
-
-Best regards,
-SkyHelp Claims Team`,
-    attachments: ["boarding_pass.pdf"]
-  },
-  {
-    id: "email2",
-    date: "2025-05-20",
-    direction: "incoming",
-    from: "Ryanair",
-    to: "SkyHelp",
-    subject: "RE: Flight Compensation Claim - FR1234",
-    summary: "Request for more documents",
-    content: `Dear SkyHelp,
-
-Thank you for your email regarding the compensation claim for John Smith.
-
-We require additional documentation to process this claim. Please provide:
-1. Proof of identity
-2. Original booking confirmation
-
-Regards,
-Ryanair Customer Service`,
-    attachments: ["request_form.pdf"]
-  },
-  {
-    id: "email3",
-    date: "2025-05-25",
-    direction: "outgoing",
-    from: "SkyHelp",
-    to: "Ryanair",
-    subject: "RE: Flight Compensation Claim - FR1234",
-    summary: "Reminder Email",
-    content: `Dear Ryanair,
-
-We are following up on our previous correspondence and have attached the requested documents.
-
-Please process the compensation claim within 7 days.
-
-Best regards,
-SkyHelp Claims Team`,
-    attachments: ["id_proof.pdf", "booking_confirmation.pdf"],
-    isOverdue: true
-  }
-];
 
 const EmailLog = ({ claim }: EmailLogProps) => {
   const [selectedEmail, setSelectedEmail] = useState<EmailLogEntry | null>(null);
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
   const [isAttachDialogOpen, setIsAttachDialogOpen] = useState(false);
+  const [emailEntries, setEmailEntries] = useState<EmailLogEntry[]>([]);
+  
+  // Parse communication log from claim data
+  useEffect(() => {
+    if (claim.communicationlog) {
+      try {
+        const parsedLog = JSON.parse(claim.communicationlog);
+        if (Array.isArray(parsedLog)) {
+          // Convert to our EmailLogEntry format
+          const formattedEntries = parsedLog.map((entry: any) => ({
+            date: entry.date,
+            direction: entry.direction,
+            from: entry.direction === "outgoing" ? "SkyHelp" : claim.airline,
+            to: entry.direction === "outgoing" ? claim.airline : "SkyHelp",
+            subject: entry.subject,
+            summary: entry.subject,
+            content: entry.body,
+            body: entry.body,
+            status: entry.status,
+            attachments: entry.attachments || []
+          }));
+          setEmailEntries([...formattedEntries, ...mockEmails]);
+        } else {
+          setEmailEntries(mockEmails);
+        }
+      } catch (e) {
+        console.error("Error parsing communication log", e);
+        setEmailEntries(mockEmails);
+      }
+    } else {
+      setEmailEntries(mockEmails);
+    }
+  }, [claim]);
   
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
@@ -109,6 +81,69 @@ const EmailLog = ({ claim }: EmailLogProps) => {
     setIsEmailDialogOpen(true);
   };
   
+  // Mock data - in a real application, this would come from an API
+  const mockEmails: EmailLogEntry[] = [
+    {
+      id: "email1",
+      date: "2025-05-15",
+      direction: "outgoing",
+      from: "SkyHelp",
+      to: "Ryanair",
+      subject: "Initial Claim Submission",
+      summary: "Initial claim for flight compensation",
+      content: `Dear Ryanair,
+
+We are writing on behalf of our client John Smith regarding flight FR1234 on 10/05/2025 from London to Madrid.
+
+Our client experienced a flight cancellation and is entitled to compensation of €600 under EU261 regulations.
+
+Please find attached supporting documentation. We kindly request your review and response within 14 days.
+
+Best regards,
+SkyHelp Claims Team`,
+      attachments: ["boarding_pass.pdf"]
+    },
+    {
+      id: "email2",
+      date: "2025-05-20",
+      direction: "incoming",
+      from: "Ryanair",
+      to: "SkyHelp",
+      subject: "RE: Flight Compensation Claim - FR1234",
+      summary: "Request for more documents",
+      content: `Dear SkyHelp,
+
+Thank you for your email regarding the compensation claim for John Smith.
+
+We require additional documentation to process this claim. Please provide:
+1. Proof of identity
+2. Original booking confirmation
+
+Regards,
+Ryanair Customer Service`,
+      attachments: ["request_form.pdf"]
+    },
+    {
+      id: "email3",
+      date: "2025-05-25",
+      direction: "outgoing",
+      from: "SkyHelp",
+      to: "Ryanair",
+      subject: "RE: Flight Compensation Claim - FR1234",
+      summary: "Reminder Email",
+      content: `Dear Ryanair,
+
+We are following up on our previous correspondence and have attached the requested documents.
+
+Please process the compensation claim within 7 days.
+
+Best regards,
+SkyHelp Claims Team`,
+      attachments: ["id_proof.pdf", "booking_confirmation.pdf"],
+      isOverdue: true
+    }
+  ];
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
@@ -132,8 +167,8 @@ const EmailLog = ({ claim }: EmailLogProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {mockEmails.map((email) => (
-              <TableRow key={email.id}>
+            {emailEntries.map((email, index) => (
+              <TableRow key={email.id || `email-${index}`}>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     {email.isOverdue && (
@@ -204,7 +239,7 @@ const EmailLog = ({ claim }: EmailLogProps) => {
             </div>
             
             <div className="border rounded-md p-4 whitespace-pre-line">
-              {selectedEmail?.content}
+              {selectedEmail?.content || selectedEmail?.body}
             </div>
             
             {selectedEmail?.attachments && selectedEmail.attachments.length > 0 && (
