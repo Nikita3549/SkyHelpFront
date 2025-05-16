@@ -17,7 +17,7 @@ const CommunicationTab = ({ claim }: CommunicationTabProps) => {
       <Tabs defaultValue="compose" className="w-full">
         <TabsList className="grid grid-cols-3 mb-4">
           <TabsTrigger value="compose">Compose Email</TabsTrigger>
-          <TabsTrigger value="log">Communication Log</TabsTrigger>
+          <TabsTrigger value="log">Email Log</TabsTrigger>
           <TabsTrigger value="messages">Messages Log</TabsTrigger>
         </TabsList>
         
