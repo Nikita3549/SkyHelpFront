@@ -32,4 +32,5 @@ export type Claim = {
   paymentmethod?: string;
   paymentdetails?: any;
   communicationlog?: string; // Field for storing communication history (emails and messages)
+  progressSteps?: string; // Field for storing claim progress steps as JSON string
 };

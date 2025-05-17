@@ -25,13 +25,18 @@ export function useStatusManagement() {
     claimId: string, 
     newStatus: string, 
     reason?: string, 
-    emailData?: EmailData,
+    emailData?: EmailData & { progressSteps?: string },
     claims?: Claim[]
   ) => {
     const updates: Partial<Claim> = { 
       status: newStatus as any,
       lastupdated: new Date().toISOString().split('T')[0]
     };
+    
+    // Add progress steps if provided
+    if (emailData && emailData.progressSteps) {
+      updates.progressSteps = emailData.progressSteps;
+    }
     
     // Store reason in additionalinformation
     if (reason && newStatus === 'not_eligible') {

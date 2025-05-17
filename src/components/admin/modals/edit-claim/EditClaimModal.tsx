@@ -21,6 +21,12 @@ type EditClaimModalProps = {
 const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProps) => {
   const [activeTab, setActiveTab] = useState("details");
   const [isNotEligibleModalOpen, setIsNotEligibleModalOpen] = useState(false);
+  const [localClaim, setLocalClaim] = useState<Claim>(claim);
+
+  // Update local claim when prop changes
+  React.useEffect(() => {
+    setLocalClaim(claim);
+  }, [claim]);
 
   const handleSendEmail = () => {
     // Log the email to communication history
@@ -37,8 +43,8 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     // Add this email to communication log
     let communicationLog = [];
     try {
-      if (claim.communicationlog) {
-        communicationLog = JSON.parse(claim.communicationlog);
+      if (localClaim.communicationlog) {
+        communicationLog = JSON.parse(localClaim.communicationlog);
       }
     } catch (e) {
       console.error("Error parsing communication log", e);
@@ -46,28 +52,33 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     
     communicationLog.push(emailEntry);
     
+    // Update local claim and submit
+    const updatedClaim = {
+      ...localClaim,
+      communicationlog: JSON.stringify(communicationLog)
+    };
+    
+    setLocalClaim(updatedClaim);
+    
     // Submit updated claim with new communication log
     if (onSubmit) {
-      onSubmit({
-        ...claim,
-        communicationlog: JSON.stringify(communicationLog)
-      });
+      onSubmit(updatedClaim);
     }
     
     toast.success("Email sent successfully", {
-      description: `Notification email sent to ${claim.customer}`,
+      description: `Notification email sent to ${localClaim.customer}`,
     });
   };
 
   const handleUpdateStatus = () => {
     toast.success("Status updated", {
-      description: `Claim ${claim.id} status has been updated`,
+      description: `Claim ${localClaim.id} status has been updated`,
     });
   };
 
   const handleEdit = () => {
     if (onSubmit) {
-      onSubmit(claim);
+      onSubmit(localClaim);
     }
   };
   
@@ -78,7 +89,7 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
   const handleConfirmNotEligible = (reason: string, additionalNotes?: string, emailData?: EmailData) => {
     // Update claim data
     const updatedClaim: Partial<Claim> = { 
-      ...claim, 
+      ...localClaim, 
       status: "not_eligible",
       additionalinformation: `Not eligible reason: ${reason}`,
       lastupdated: new Date().toISOString().split('T')[0]
@@ -90,8 +101,8 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
       
       let communicationLog = [];
       try {
-        if (claim.communicationlog) {
-          communicationLog = JSON.parse(claim.communicationlog);
+        if (localClaim.communicationlog) {
+          communicationLog = JSON.parse(localClaim.communicationlog);
         }
       } catch (e) {
         console.error("Error parsing communication log", e);
@@ -128,6 +139,9 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
       });
     }
     
+    // Update local claim
+    setLocalClaim(updatedClaim as Claim);
+    
     // Submit the updated claim data
     if (onSubmit) {
       onSubmit(updatedClaim);
@@ -135,14 +149,32 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     
     setIsNotEligibleModalOpen(false);
   };
+  
+  const handleUpdateClaim = (updates: Partial<Claim>) => {
+    const updatedClaim = {
+      ...localClaim,
+      ...updates,
+      lastupdated: new Date().toISOString().split('T')[0]
+    };
+    
+    setLocalClaim(updatedClaim);
+    
+    if (onSubmit) {
+      onSubmit(updatedClaim);
+    }
+    
+    toast.success("Claim updated", {
+      description: "Claim progress has been updated",
+    });
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
         <DialogHeader className="flex flex-row items-center justify-between">
           <div>
-            <DialogTitle className="text-xl font-semibold">Claim Details: {claim.id}</DialogTitle>
-            <p className="text-sm text-gray-500">{claim.customer}</p>
+            <DialogTitle className="text-xl font-semibold">Claim Details: {localClaim.id}</DialogTitle>
+            <p className="text-sm text-gray-500">{localClaim.customer}</p>
           </div>
           <Button
             variant="ghost"
@@ -157,21 +189,22 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
         <TabsContainer 
           activeTab={activeTab} 
           setActiveTab={setActiveTab} 
-          claim={claim} 
+          claim={localClaim} 
           onSendEmail={handleSendEmail}
           onUpdateStatus={handleUpdateStatus}
           onEdit={handleEdit}
           onMarkNotEligible={handleMarkAsNotEligible}
+          onUpdateClaim={handleUpdateClaim}
         />
         
         <NotEligibleModal 
           isOpen={isNotEligibleModalOpen}
           onClose={() => setIsNotEligibleModalOpen(false)}
           onConfirm={handleConfirmNotEligible}
-          claimId={claim.id}
-          customerName={claim.customer}
-          flightNumber={claim.flightnumber}
-          flightDate={claim.date}
+          claimId={localClaim.id}
+          customerName={localClaim.customer}
+          flightNumber={localClaim.flightnumber}
+          flightDate={localClaim.date}
         />
       </DialogContent>
     </Dialog>

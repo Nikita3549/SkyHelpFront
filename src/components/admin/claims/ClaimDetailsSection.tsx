@@ -17,6 +17,7 @@ import ActionButtons from "./details/ActionButtons";
 import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
 import CommunicationTab from "./details/CommunicationTab";
 import NotEligibleModal from "../modals/NotEligibleModal";
+import ClaimProgressManager, { ClaimStep } from "./details/ClaimProgressManager";
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
@@ -75,6 +76,24 @@ const ClaimDetailsSection = ({
       });
     }
   };
+  
+  const handleUpdateProgress = (steps: ClaimStep[]) => {
+    const updatedClaim = {
+      ...claim,
+      progressSteps: JSON.stringify(steps),
+      lastupdated: new Date().toISOString().split('T')[0]
+    };
+    
+    // Update the claim with new progress steps
+    handleUpdateStatus(selectedClaim, claim.status, undefined, {
+      sendEmail: false,
+      progressSteps: JSON.stringify(steps)
+    });
+    
+    toast.success("Claim progress updated", {
+      description: "The progress timeline has been updated successfully",
+    });
+  };
 
   return (
     <motion.div
@@ -102,6 +121,13 @@ const ClaimDetailsSection = ({
                 <FlightInfoCard claim={claim} />
                 <ClaimStatusCard claim={claim} />
               </div>
+
+              <Separator className="my-6" />
+              
+              <ClaimProgressManager 
+                claim={claim} 
+                onUpdateProgress={handleUpdateProgress} 
+              />
 
               <Separator className="my-6" />
 

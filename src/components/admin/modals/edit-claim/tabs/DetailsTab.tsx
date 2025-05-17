@@ -8,6 +8,7 @@ import ClaimStatusCard from "../../../claims/details/ClaimStatusCard";
 import IssueDetailsCard from "../../../claims/details/IssueDetailsCard";
 import PaymentDetailsCard from "../../../claims/details/PaymentDetailsCard";
 import ActionButtons from "../../../claims/details/ActionButtons";
+import ClaimProgressManager, { ClaimStep } from "../../../claims/details/ClaimProgressManager";
 
 type DetailsTabProps = {
   claim: Claim;
@@ -15,6 +16,7 @@ type DetailsTabProps = {
   onUpdateStatus: () => void;
   onEdit: () => void;
   onMarkNotEligible: () => void;
+  onUpdateClaim?: (updates: Partial<Claim>) => void;
 };
 
 const DetailsTab = ({
@@ -22,8 +24,18 @@ const DetailsTab = ({
   onSendEmail,
   onUpdateStatus,
   onEdit,
-  onMarkNotEligible
+  onMarkNotEligible,
+  onUpdateClaim
 }: DetailsTabProps) => {
+  
+  const handleUpdateProgress = (steps: ClaimStep[]) => {
+    if (onUpdateClaim) {
+      onUpdateClaim({
+        progressSteps: JSON.stringify(steps)
+      });
+    }
+  };
+  
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -31,6 +43,13 @@ const DetailsTab = ({
         <FlightInfoCard claim={claim} />
         <ClaimStatusCard claim={claim} />
       </div>
+
+      <Separator className="my-6" />
+      
+      <ClaimProgressManager 
+        claim={claim} 
+        onUpdateProgress={handleUpdateProgress} 
+      />
 
       <Separator className="my-6" />
 

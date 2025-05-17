@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import { Claim } from "@/lib/supabase";
 import DetailsTab from "./tabs/DetailsTab";
 import CommunicationTab from "../../claims/details/CommunicationTab";
@@ -14,6 +13,7 @@ type TabsContainerProps = {
   onUpdateStatus: () => void;
   onEdit: () => void;
   onMarkNotEligible: () => void;
+  onUpdateClaim?: (updates: Partial<Claim>) => void;
 };
 
 const TabsContainer = ({
@@ -23,7 +23,8 @@ const TabsContainer = ({
   onSendEmail,
   onUpdateStatus,
   onEdit,
-  onMarkNotEligible
+  onMarkNotEligible,
+  onUpdateClaim
 }: TabsContainerProps) => {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
@@ -40,6 +41,7 @@ const TabsContainer = ({
           onUpdateStatus={onUpdateStatus}
           onEdit={onEdit}
           onMarkNotEligible={onMarkNotEligible}
+          onUpdateClaim={onUpdateClaim}
         />
       </TabsContent>
       
