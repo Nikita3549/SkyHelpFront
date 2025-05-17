@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -134,7 +133,17 @@ export const useClaimFormHandlers = ({
   };
   
   const onSignatureSubmit = (data: z.infer<typeof signatureSchema>) => {
-    setFormData({ ...formData, signature: data });
+    // Here we'd also generate and store assignment agreement PDF with the signature
+    // For now, we're simulating this by just storing the signature
+    const assignmentAgreementPdf = "assignment_agreement_" + new Date().getTime() + ".pdf";
+    
+    setFormData({ 
+      ...formData, 
+      signature: { 
+        ...data, 
+        assignmentAgreement: assignmentAgreementPdf 
+      } 
+    });
     setStep(4.9);  // Move to flight documents step
     scrollToTop();
   };

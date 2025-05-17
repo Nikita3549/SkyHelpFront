@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ProgressBar from "@/components/claim-form/ProgressBar";
@@ -42,6 +43,7 @@ interface ClaimFormContentProps {
   preFilledDepartureDate: string;
   locationState: any;
   claimId?: string;
+  formData?: any;
 }
 
 const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
@@ -78,7 +80,8 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   preFilledFlightNumber,
   preFilledDepartureDate,
   locationState,
-  claimId
+  claimId,
+  formData
 }) => {
   const isMobile = useIsMobile();
   
@@ -143,6 +146,7 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
                 transitions={transitions}
                 disruptionType={disruptionType}
                 claimId={claimId}
+                formData={formData}
               />
             </div>
           </div>

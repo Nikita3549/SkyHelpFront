@@ -108,6 +108,7 @@ const ClaimForm = () => {
       preFilledDepartureDate={preFilledDepartureDate}
       locationState={location.state}
       claimId={claimId}
+      formData={formData}
     />
   );
 };

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -47,6 +46,7 @@ interface StepRendererProps {
   transitions: AnimationTransitions;
   disruptionType: string;
   claimId?: string;
+  formData?: any;
 }
 
 const StepRenderer: React.FC<StepRendererProps> = ({
@@ -78,7 +78,8 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   isEligible,
   transitions,
   disruptionType,
-  claimId
+  claimId,
+  formData
 }) => {
   // Use the boarding pass upload hook
   const { handleBoardingPassSubmit } = useBoardingPassUpload({
@@ -169,6 +170,8 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           onSubmit={onSignatureSubmit}
           onBack={() => setStep(4.5)}
           transitions={transitions}
+          formData={formData}
+          claimId={claimId}
         />
       );
     case 4.9:
