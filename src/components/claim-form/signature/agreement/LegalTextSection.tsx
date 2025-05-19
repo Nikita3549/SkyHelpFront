@@ -20,17 +20,17 @@ const LegalTextSection: React.FC<LegalTextSectionProps> = ({ companyAddress }) =
         If this Assignment Form cannot be considered valid in the particular country (jurisdiction) or when the parties agree on the provision of services by a separate agreement, this agreement shall be considered as a contract for services according to which SkyHelp administers Client's Assignment and undertakes to organize and finance the collection of the Assignment and to carry out all actions related thereto including but not limited to:
       </p>
       
-      <ul className="bullet-list">
-        <li className="bullet-item">
+      <ol className="numbered-list">
+        <li className="numbered-item">
           Instituting proceedings in the Client's name;
         </li>
-        <li className="bullet-item">
+        <li className="numbered-item">
           Organizing and financing legal representation of the Client before all third parties and institutions in relation to the Assignment, conducting communication with the flight operating carrier on all issues regarding the Assignment and carrying out all other related actions;
         </li>
-        <li className="bullet-item">
+        <li className="numbered-item">
           Collecting and receiving payments in relation to the Assignment on the Client's behalf and settling with the Client in accordance with the agreed terms and conditions provided in SkyHelp's webpage www.skyhelp.md.
         </li>
-      </ul>
+      </ol>
       
       <p>
         This agreement is terminated immediately if within 14 days since the conclusion of the agreement, the Client submits a withdrawal notice by email support@skyhelp.md. The right to terminate the agreement on this ground ends prematurely if the agreement is fully performed until the expiration of the above-mentioned time limit.
@@ -48,4 +48,3 @@ const LegalTextSection: React.FC<LegalTextSectionProps> = ({ companyAddress }) =
 };
 
 export default LegalTextSection;
-
