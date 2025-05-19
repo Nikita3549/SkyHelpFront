@@ -6,18 +6,11 @@ import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/f
 import { Checkbox } from "@/components/ui/checkbox";
 import { signatureSchema } from "@/components/claim-form/schemas";
 import AssignmentAgreement from "./AssignmentAgreement";
+import { ClaimData } from "./agreement/documentUtils";
 
 interface TermsAgreementFieldProps {
   form: UseFormReturn<z.infer<typeof signatureSchema>>;
-  claimData?: {
-    customer: string;
-    dateOfBirth?: string;
-    address?: string;
-    id: string;
-    airline: string;
-    flightnumber: string;
-    date: string;
-  };
+  claimData?: ClaimData;
 }
 
 const TermsAgreementField: React.FC<TermsAgreementFieldProps> = ({ form, claimData }) => {

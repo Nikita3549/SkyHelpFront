@@ -1,0 +1,144 @@
+
+/* Document styles */
+.document-container {
+  max-width: 21cm;
+  min-height: 29.7cm;
+  padding: 2cm;
+  margin: 0 auto;
+  background: white;
+  box-shadow: none;
+}
+
+.header { 
+  text-align: center; 
+  margin-bottom: 30px; 
+}
+
+.document-title { 
+  font-size: 24px; 
+  font-weight: 700; 
+  margin: 15px 0 5px; 
+  color: #333;
+  text-transform: uppercase;
+}
+
+.date { 
+  font-size: 14px; 
+  margin-top: 5px; 
+  color: #555; 
+}
+
+.client-info { 
+  text-align: center; 
+  margin-bottom: 30px; 
+  padding: 15px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.client-name { 
+  font-weight: bold; 
+  font-size: 16px; 
+}
+
+.client-details { 
+  font-size: 14px; 
+  color: #555; 
+}
+
+.client-caption { 
+  font-size: 12px; 
+  color: #777; 
+  font-style: italic; 
+  margin-top: 8px; 
+}
+
+.section-title { 
+  font-weight: bold; 
+  margin-bottom: 10px; 
+}
+
+.claim-details { 
+  margin-bottom: 20px; 
+}
+
+.claim-table { 
+  width: 100%; 
+  margin-bottom: 20px; 
+  border-collapse: collapse; 
+}
+
+.claim-table td { 
+  padding: 5px 0;
+  vertical-align: top; 
+}
+
+.claim-table td:first-child { 
+  width: 120px;
+  font-weight: 600;
+}
+
+.claim-id { 
+  font-weight: 600; 
+  margin-bottom: 10px; 
+}
+
+.legal-text { 
+  margin-bottom: 20px; 
+  text-align: justify; 
+  font-size: 14px; 
+}
+
+.legal-text p { 
+  margin-bottom: 15px; 
+}
+
+.bullet-list { 
+  padding-left: 20px; 
+  margin: 15px 0; 
+}
+
+.bullet-item { 
+  margin-bottom: 10px; 
+}
+
+.signature-section { 
+  display: flex; 
+  justify-content: space-between; 
+  margin-top: 60px; 
+}
+
+.signature-box { 
+  width: 45%; 
+}
+
+.signature-title { 
+  font-weight: bold; 
+  margin-bottom: 5px; 
+}
+
+.signature-name { 
+  margin-bottom: 20px; 
+}
+
+.signature-line { 
+  border-top: 1px solid #333; 
+  margin: 30px 0 5px 0; 
+  width: 100%;
+}
+
+.signature-label { 
+  font-size: 12px; 
+  color: #777; 
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
