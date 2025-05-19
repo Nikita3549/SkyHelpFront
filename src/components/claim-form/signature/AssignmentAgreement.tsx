@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Printer, Download } from "lucide-react";
 import { format } from "date-fns";
+import Logo from "@/components/ui-custom/Logo";
 
 interface AssignmentAgreementProps {
   isOpen: boolean;
@@ -43,30 +44,95 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
       printWindow.document.write('<link rel="stylesheet" href="/src/index.css" type="text/css" />');
       printWindow.document.write(`
         <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; }
-          .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+          body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            padding: 20px; 
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+          }
+          .document-container {
+            max-width: 21cm;
+            min-height: 29.7cm;
+            padding: 2cm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: none;
+          }
           .header { text-align: center; margin-bottom: 30px; }
-          .logo { max-width: 80px; margin-bottom: 10px; }
-          h1 { font-size: 18px; font-weight: bold; margin: 5px 0; color: #4CAF50; }
-          .date { font-size: 14px; margin-top: 5px; }
-          .client-info { text-align: center; margin-bottom: 30px; }
-          .client-name { font-weight: bold; }
+          .document-title { 
+            font-size: 24px; 
+            font-weight: 700; 
+            margin: 15px 0 5px; 
+            color: #333;
+            text-transform: uppercase;
+          }
+          .date { font-size: 14px; margin-top: 5px; color: #555; }
+          .client-info { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            padding: 15px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+          }
+          .client-name { font-weight: bold; font-size: 16px; }
           .client-details { font-size: 14px; color: #555; }
-          .client-caption { font-size: 12px; color: #777; font-style: italic; margin-top: 5px; }
-          .divider { border-top: 1px solid #eee; margin: 20px 0; }
+          .client-caption { 
+            font-size: 12px; 
+            color: #777; 
+            font-style: italic; 
+            margin-top: 8px; 
+          }
+          .section-title { font-weight: bold; margin-bottom: 10px; }
           .claim-details { margin-bottom: 20px; }
-          .claim-table { width: 100%; margin-bottom: 20px; }
-          .claim-table td { padding: 5px 0; }
-          .claim-table td:first-child { width: 120px; }
-          .legal-text { margin-bottom: 20px; text-align: justify; font-size: 14px; }
-          .signature-section { display: flex; justify-content: space-between; margin-top: 50px; }
-          .signature-box { width: 45%; }
-          .signature-line { border-top: 1px solid #ccc; margin: 30px 0 5px 0; }
-          .signature-label { font-size: 12px; color: #777; }
-          .bullet-list { padding-left: 20px; }
+          .claim-table { 
+            width: 100%; 
+            margin-bottom: 20px; 
+            border-collapse: collapse; 
+          }
+          .claim-table td { 
+            padding: 5px 0;
+            vertical-align: top; 
+          }
+          .claim-table td:first-child { 
+            width: 120px;
+            font-weight: 600;
+          }
+          .claim-id { font-weight: 600; margin-bottom: 10px; }
+          .legal-text { 
+            margin-bottom: 20px; 
+            text-align: justify; 
+            font-size: 14px; 
+          }
+          .legal-text p { margin-bottom: 15px; }
+          .bullet-list { padding-left: 20px; margin: 15px 0; }
           .bullet-item { margin-bottom: 10px; }
-          .company-logo { display: flex; justify-content: center; align-items: center; }
-          .company-logo-icon { width: 40px; height: 40px; background-color: #4CAF50; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 20px; }
+          .signature-section { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 60px; 
+          }
+          .signature-box { width: 45%; }
+          .signature-title { font-weight: bold; margin-bottom: 5px; }
+          .signature-name { margin-bottom: 20px; }
+          .signature-line { 
+            border-top: 1px solid #333; 
+            margin: 30px 0 5px 0; 
+            width: 100%;
+          }
+          .signature-label { font-size: 12px; color: #777; }
+          .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+          }
+          .logo {
+            width: 100px;
+            height: auto;
+          }
         </style>
       `);
       printWindow.document.write('</head><body>');
@@ -91,12 +157,12 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto p-0">
+        <DialogHeader className="p-6 pb-0">
           <DialogTitle className="text-xl font-bold text-center">Assignment Agreement</DialogTitle>
         </DialogHeader>
         
-        <div className="mt-4 flex justify-end space-x-2">
+        <div className="mt-4 flex justify-end px-6 space-x-2">
           <Button variant="outline" onClick={handlePrint} className="flex items-center">
             <Printer className="h-4 w-4 mr-2" />
             Print
@@ -107,13 +173,13 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
           </Button>
         </div>
         
-        <div id="assignment-agreement" className="p-6 bg-white rounded-lg">
-          <div className="container">
+        <div id="assignment-agreement" className="p-6 bg-white rounded-lg overflow-auto">
+          <div className="document-container">
             <div className="header">
-              <div className="company-logo mb-3">
-                <div className="company-logo-icon">S</div>
+              <div className="logo-wrapper">
+                <Logo size="md" withLink={false} />
               </div>
-              <h1>ASSIGNMENT FORM</h1>
+              <h1 className="document-title">ASSIGNMENT FORM</h1>
               <div className="date">{today}</div>
             </div>
             
@@ -124,12 +190,10 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
               <div className="client-caption">First name and last name, date of birth, address ("Client")</div>
             </div>
             
-            <div className="divider"></div>
-            
             <div className="claim-details">
-              <p><strong>Assignment details:</strong></p>
+              <p className="section-title">Assignment details:</p>
               
-              <p><strong>Claim ID:</strong> {claimData.id}</p>
+              <p className="claim-id">Claim ID: {claimData.id}</p>
               
               <table className="claim-table">
                 <tbody>
@@ -189,15 +253,15 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
             
             <div className="signature-section">
               <div className="signature-box">
-                <p><strong>Client</strong></p>
-                <p>{claimData.customer}</p>
+                <div className="signature-title">Client</div>
+                <div className="signature-name">{claimData.customer}</div>
                 <div className="signature-line"></div>
                 <div className="signature-label">Signature</div>
               </div>
               
               <div className="signature-box">
-                <p><strong>Head of Operations Department of SkyHelp</strong></p>
-                <p>{representativeName}</p>
+                <div className="signature-title">Head of Operations Department of SkyHelp</div>
+                <div className="signature-name">{representativeName}</div>
                 <div className="signature-line"></div>
                 <div className="signature-label">Signature</div>
               </div>
