@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 import html2pdf from 'html2pdf.js';
 
@@ -42,7 +41,7 @@ export const handlePrint = () => {
       }
       
       printWindow.document.write('<html><head><title>Assignment Agreement</title>');
-      printWindow.document.write('<link rel="stylesheet" href="/src/index.css" type="text/css" />');
+      printWindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">');
       printWindow.document.write(`
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -95,22 +94,24 @@ export const handlePrint = () => {
             border-collapse: collapse; 
           }
           .claim-table td { 
-            padding: 5px 0;
+            padding: 8px 0;
             vertical-align: top; 
+            line-height: 1.6;
           }
           .claim-table td:first-child { 
             width: 120px;
             font-weight: 600;
           }
-          .claim-id { font-weight: 600; margin-bottom: 10px; }
+          .claim-id { font-weight: 600; margin-bottom: 15px; }
           .legal-text { 
             margin-bottom: 20px; 
             text-align: justify; 
             font-size: 14px; 
+            line-height: 1.6;
           }
           .legal-text p { margin-bottom: 15px; }
           .bullet-list { padding-left: 20px; margin: 15px 0; }
-          .bullet-item { margin-bottom: 10px; }
+          .bullet-item { margin-bottom: 10px; line-height: 1.6; }
           .signature-section { 
             display: flex; 
             justify-content: space-between; 

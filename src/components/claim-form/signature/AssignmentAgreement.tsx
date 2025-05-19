@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import DocumentContent from './agreement/DocumentContent';
 import DocumentActions from './agreement/DocumentActions';
 import { ClaimData } from './agreement/documentUtils';
+import './agreement/agreementStyles.css';
 
 interface AssignmentAgreementProps {
   isOpen: boolean;
@@ -22,17 +23,19 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto p-0">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto print-container p-0">
         <DialogHeader className="p-6 pb-0">
           <DialogTitle className="text-xl font-bold text-center">Assignment Agreement</DialogTitle>
         </DialogHeader>
         
         <DocumentActions />
-        <DocumentContent 
-          claimData={claimData}
-          representativeName={representativeName}
-          companyAddress={companyAddress}
-        />
+        <div className="print-friendly-wrapper">
+          <DocumentContent 
+            claimData={claimData}
+            representativeName={representativeName}
+            companyAddress={companyAddress}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
