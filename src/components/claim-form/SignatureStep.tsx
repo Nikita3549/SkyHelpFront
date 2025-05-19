@@ -1,4 +1,3 @@
-
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -44,8 +43,7 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
       `${formData.passengerDetails.address}, ${formData.passengerDetails.city}, ${formData.passengerDetails.postalCode}, ${formData.passengerDetails.country}` : "",
     airline: formData?.flightDetails?.airline || "",
     flightnumber: formData?.flightDetails?.flightNumber || "",
-    date: formData?.flightDetails?.departureDate || "",
-    dateOfBirth: ""
+    date: formData?.flightDetails?.departureDate || ""
   };
 
   return (

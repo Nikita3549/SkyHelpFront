@@ -1,9 +1,10 @@
+
 import { format } from "date-fns";
 import html2pdf from 'html2pdf.js';
 
 export interface ClaimData {
   customer: string;
-  dateOfBirth?: string;
+  dateOfBirth?: string; // Keep as optional for backward compatibility
   address?: string;
   id: string;
   airline: string;
