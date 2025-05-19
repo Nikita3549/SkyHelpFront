@@ -9,10 +9,18 @@ import AssignmentAgreement from "./AssignmentAgreement";
 
 interface TermsAgreementFieldProps {
   form: UseFormReturn<z.infer<typeof signatureSchema>>;
-  claimData?: any;
+  claimData?: {
+    customer: string;
+    dateOfBirth?: string;
+    address?: string;
+    id: string;
+    airline: string;
+    flightnumber: string;
+    date: string;
+  };
 }
 
-const TermsAgreementField: React.FC<TermsAgreementFieldProps> = ({ form, claimData = {} }) => {
+const TermsAgreementField: React.FC<TermsAgreementFieldProps> = ({ form, claimData }) => {
   const [isAgreementOpen, setIsAgreementOpen] = useState(false);
 
   return (
@@ -61,20 +69,13 @@ const TermsAgreementField: React.FC<TermsAgreementFieldProps> = ({ form, claimDa
         )}
       />
 
-      {/* Assignment Agreement Modal */}
-      <AssignmentAgreement
-        isOpen={isAgreementOpen}
-        onClose={() => setIsAgreementOpen(false)}
-        claimData={{
-          customer: claimData.customer || form.getValues("firstName") + " " + form.getValues("lastName") || "",
-          dateOfBirth: claimData.dateOfBirth || "",
-          address: claimData.address || "",
-          id: claimData.id || "",
-          airline: claimData.airline || "",
-          flightnumber: claimData.flightnumber || "",
-          date: claimData.date || ""
-        }}
-      />
+      {claimData && (
+        <AssignmentAgreement
+          isOpen={isAgreementOpen}
+          onClose={() => setIsAgreementOpen(false)}
+          claimData={claimData}
+        />
+      )}
     </>
   );
 };

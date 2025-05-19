@@ -16,13 +16,17 @@ interface SignatureStepProps {
   onSubmit: (data: z.infer<typeof signatureSchema>) => void;
   onBack: () => void;
   transitions: AnimationTransitions;
+  formData?: any;
+  claimId?: string;
 }
 
 const SignatureStep: React.FC<SignatureStepProps> = ({
   form,
   onSubmit,
   onBack,
-  transitions
+  transitions,
+  formData,
+  claimId
 }) => {
   const handleSubmit = form.handleSubmit(onSubmit);
 
@@ -30,6 +34,19 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
   const isSignatureEmpty = !form.watch("signature");
   const isTermsChecked = form.watch("termsAgreed");
   const isContinueDisabled = isSignatureEmpty || !isTermsChecked;
+
+  // Prepare claim data for the assignment agreement
+  const claimData = {
+    id: claimId || "CLM" + Math.floor(100000 + Math.random() * 900000),
+    customer: formData?.passengerDetails?.firstName && formData?.passengerDetails?.lastName ? 
+      `${formData.passengerDetails.firstName} ${formData.passengerDetails.lastName}` : "",
+    address: formData?.passengerDetails?.address ? 
+      `${formData.passengerDetails.address}, ${formData.passengerDetails.city}, ${formData.passengerDetails.postalCode}, ${formData.passengerDetails.country}` : "",
+    airline: formData?.flightDetails?.airline || "",
+    flightnumber: formData?.flightDetails?.flightNumber || "",
+    date: formData?.flightDetails?.departureDate || "",
+    dateOfBirth: ""
+  };
 
   return (
     <motion.div
@@ -55,7 +72,7 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
           {/* Info box moved above terms agreement */}
           <InfoBox />
           
-          <TermsAgreementField form={form} />
+          <TermsAgreementField form={form} claimData={claimData} />
           
           <NavigationButtons 
             onBack={onBack}
