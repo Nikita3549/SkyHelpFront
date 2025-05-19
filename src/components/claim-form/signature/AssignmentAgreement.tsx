@@ -18,8 +18,8 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
   isOpen,
   onClose,
   claimData,
-  representativeName,
-  companyAddress
+  representativeName = "Max Iliasov",
+  companyAddress = "bd.mosova 16"
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -42,3 +42,4 @@ const AssignmentAgreement: React.FC<AssignmentAgreementProps> = ({
 };
 
 export default AssignmentAgreement;
+

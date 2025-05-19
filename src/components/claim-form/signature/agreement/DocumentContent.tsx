@@ -9,8 +9,8 @@ import { AgreementProps } from './documentUtils';
 
 const DocumentContent: React.FC<AgreementProps> = ({ 
   claimData,
-  representativeName = "Sigitas Kačiušis",
-  companyAddress = "Dariaus ir Girėno St. 21A, Vilnius, the Republic of Lithuania"
+  representativeName = "Max Iliasov",
+  companyAddress = "bd.mosova 16"
 }) => {
   return (
     <div id="assignment-agreement" className="p-6 bg-white rounded-lg overflow-auto">
@@ -26,3 +26,4 @@ const DocumentContent: React.FC<AgreementProps> = ({
 };
 
 export default DocumentContent;
+

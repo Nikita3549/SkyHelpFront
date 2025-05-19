@@ -9,7 +9,7 @@ const LegalTextSection: React.FC<LegalTextSectionProps> = ({ companyAddress }) =
   return (
     <div className="legal-text">
       <p>
-        In accordance with the Privacy Policy and General Terms & Conditions provided in UAB Skycop.com, legal entity code 304423851, registered address at {companyAddress} ("SkyHelp"), webpage www.skyhelp.md, which were confirmed by the Client after he/she got acquainted with them, by this assignment form ("Assignment Form") the Client assigns to SkyHelp and SkyHelp accepts from the Client full ownership and legal title to monetary claim pursuant to Regulation (EC) No 261/2004 of the European Parliament and of the Council of 11 February 2004 or under any other international or national regulation applicable in respect of the Client in another country establishing common rules on compensation and assistance to passengers in the event of denied boarding and of cancellation or long delay of flights, including all the amounts in relation to the above specified flight as well as taxes and other amounts, when passengers are not able to fly or their flight was disrupted and, any other monetary compensation for lost or damaged baggage ("Assignment").
+        In accordance with the Privacy Policy and General Terms & Conditions provided in UAB SkyHelp.com, legal entity code 304423851, registered address at {companyAddress} ("SkyHelp"), webpage www.skyhelp.md, which were confirmed by the Client after he/she got acquainted with them, by this assignment form ("Assignment Form") the Client assigns to SkyHelp and SkyHelp accepts from the Client full ownership and legal title to monetary claim pursuant to Regulation (EC) No 261/2004 of the European Parliament and of the Council of 11 February 2004 or under any other international or national regulation applicable in respect of the Client in another country establishing common rules on compensation and assistance to passengers in the event of denied boarding and of cancellation or long delay of flights, including all the amounts in relation to the above specified flight as well as taxes and other amounts, when passengers are not able to fly or their flight was disrupted and, any other monetary compensation for lost or damaged baggage ("Assignment").
       </p>
       
       <p>
@@ -48,3 +48,4 @@ const LegalTextSection: React.FC<LegalTextSectionProps> = ({ companyAddress }) =
 };
 
 export default LegalTextSection;
+

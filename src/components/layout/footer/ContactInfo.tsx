@@ -12,10 +12,10 @@ const ContactInfo: React.FC = () => {
         <li className="flex items-start">
           <Mail className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
           <a
-            href="mailto:support@cleverclaim.com"
+            href="mailto:support@skyhelp.md"
             className="text-sm text-gray-500 hover:text-primary transition-colors"
           >
-            support@cleverclaim.com
+            support@skyhelp.md
           </a>
         </li>
         <li className="flex items-start">
@@ -30,7 +30,7 @@ const ContactInfo: React.FC = () => {
         <li className="flex items-start">
           <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
           <span className="text-sm text-gray-500">
-            1234 Airport Avenue<br />
+            bd.mosova 16<br />
             Suite 567<br />
             London, UK
           </span>
@@ -41,3 +41,4 @@ const ContactInfo: React.FC = () => {
 };
 
 export default ContactInfo;
+
