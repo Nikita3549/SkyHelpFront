@@ -1,5 +1,6 @@
 
 import { format } from "date-fns";
+import html2pdf from 'html2pdf.js';
 
 export interface ClaimData {
   customer: string;
@@ -139,6 +140,48 @@ export const handlePrint = () => {
 };
 
 export const handleDownload = () => {
-  console.log("Download functionality to be implemented with proper PDF generation library");
-  alert("PDF download functionality will be implemented with a proper PDF generation library");
+  const element = document.getElementById("assignment-agreement");
+  
+  if (!element) {
+    console.error("Assignment agreement element not found");
+    return;
+  }
+
+  // Clone element to avoid modifying the visible document
+  const clonedElement = element.cloneNode(true) as HTMLElement;
+  
+  // Create a temporary container with A4 size constraints
+  const container = document.createElement('div');
+  container.appendChild(clonedElement);
+  
+  // Set up html2pdf options
+  const opt = {
+    margin: [10, 10],
+    filename: 'assignment_agreement.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { 
+      scale: 2,
+      useCORS: true,
+      logging: false
+    },
+    jsPDF: { 
+      unit: 'mm', 
+      format: 'a4', 
+      orientation: 'portrait' 
+    }
+  };
+  
+  // Generate PDF
+  html2pdf()
+    .from(clonedElement)
+    .set(opt)
+    .save()
+    .catch((err: Error) => {
+      console.error('Error generating PDF:', err);
+      alert('There was an error generating the PDF. Please try again.');
+    })
+    .finally(() => {
+      // Clean up
+      container.removeChild(clonedElement);
+    });
 };

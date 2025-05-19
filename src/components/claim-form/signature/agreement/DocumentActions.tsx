@@ -13,7 +13,7 @@ const DocumentActions: React.FC = () => {
       </Button>
       <Button variant="outline" onClick={handleDownload} className="flex items-center">
         <Download className="h-4 w-4 mr-2" />
-        Download
+        Download PDF
       </Button>
     </div>
   );
