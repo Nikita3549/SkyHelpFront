@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { signatureSchema } from "@/components/claim-form/schemas";
 import AssignmentAgreement from "./AssignmentAgreement";
 import { ClaimData } from "./agreement/documentUtils";
+import { LegalLinks } from "./LegalLinks";
 
 interface TermsAgreementFieldProps {
   form: UseFormReturn<z.infer<typeof signatureSchema>>;
@@ -15,6 +16,10 @@ interface TermsAgreementFieldProps {
 
 const TermsAgreementField: React.FC<TermsAgreementFieldProps> = ({ form, claimData }) => {
   const [isAgreementOpen, setIsAgreementOpen] = useState(false);
+
+  const handleOpenAssignmentAgreement = () => {
+    setIsAgreementOpen(true);
+  };
 
   return (
     <>
@@ -35,26 +40,7 @@ const TermsAgreementField: React.FC<TermsAgreementFieldProps> = ({ form, claimDa
                 htmlFor="termsAgreed"
                 className="text-sm font-medium text-gray-700 cursor-pointer"
               >
-                By signing you agree to{" "}
-                <a href="#" className="text-blue-600 hover:underline">
-                  Terms and Conditions
-                </a>{" "}
-                and{" "}
-                <a href="#" className="text-blue-600 hover:underline">
-                  Price List
-                </a>
-                , and you authorize us to show your signature on the{" "}
-                <a 
-                  href="#" 
-                  className="text-blue-600 hover:underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsAgreementOpen(true);
-                  }}
-                >
-                  Assignment Agreement
-                </a>
-                .
+                <LegalLinks onOpenAssignmentAgreement={handleOpenAssignmentAgreement} />
               </label>
               <FormMessage />
             </div>
