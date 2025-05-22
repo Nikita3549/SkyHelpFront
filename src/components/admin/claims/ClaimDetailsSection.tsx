@@ -17,7 +17,7 @@ import ActionButtons from "./details/ActionButtons";
 import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
 import CommunicationTab from "./details/CommunicationTab";
 import NotEligibleModal from "../modals/NotEligibleModal";
-import ClaimProgressManager, { ClaimStep } from "./details/ClaimProgressManager";
+import ClaimProgressManager, { type ClaimStep } from "./details/ClaimProgressManager";
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
@@ -109,9 +109,10 @@ const ClaimDetailsSection = ({
         />
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-3 mb-4">
+            <TabsList className="grid grid-cols-4 mb-4">
               <TabsTrigger value="details">Claim Details</TabsTrigger>
               <TabsTrigger value="communication">Communication</TabsTrigger>
+              <TabsTrigger value="progress">Progress</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
             </TabsList>
             
@@ -121,13 +122,6 @@ const ClaimDetailsSection = ({
                 <FlightInfoCard claim={claim} />
                 <ClaimStatusCard claim={claim} />
               </div>
-
-              <Separator className="my-6" />
-              
-              <ClaimProgressManager 
-                claim={claim} 
-                onUpdateProgress={handleUpdateProgress} 
-              />
 
               <Separator className="my-6" />
 
@@ -148,6 +142,13 @@ const ClaimDetailsSection = ({
             
             <TabsContent value="communication" className="mt-6">
               <CommunicationTab claim={claim} />
+            </TabsContent>
+            
+            <TabsContent value="progress" className="mt-6">
+              <ClaimProgressManager 
+                claim={claim} 
+                onUpdateProgress={handleUpdateProgress} 
+              />
             </TabsContent>
             
             <TabsContent value="documents" className="mt-6">
