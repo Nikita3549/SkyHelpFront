@@ -162,10 +162,6 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     if (onSubmit) {
       onSubmit(updatedClaim);
     }
-    
-    toast.success("Claim updated", {
-      description: "Claim progress has been updated",
-    });
   };
 
   return (
