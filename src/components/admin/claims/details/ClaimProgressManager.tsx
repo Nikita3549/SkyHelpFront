@@ -9,7 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import Timeline from "./progress/Timeline";
 import { ClaimStep } from "./progress/types";
 
-export { ClaimStep };
+export type { ClaimStep };
 
 const DEFAULT_CLAIM_STEPS: ClaimStep[] = [
   {
