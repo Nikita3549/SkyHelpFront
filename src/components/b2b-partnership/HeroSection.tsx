@@ -17,7 +17,7 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Unlock New Revenue with CleverClaim B2B Solutions
+              Unlock New Revenue with SkyHelp B2B Solutions
             </h1>
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
               Offer flight compensation services to your clients and travelers while earning commission. Seamless integration and full support provided.

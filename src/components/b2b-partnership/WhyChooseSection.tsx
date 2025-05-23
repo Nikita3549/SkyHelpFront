@@ -39,7 +39,7 @@ const WhyChooseSection: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Why Choose CleverClaim?
+            Why Choose SkyHelp?
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Partner with a platform that delivers results for both you and your customers.

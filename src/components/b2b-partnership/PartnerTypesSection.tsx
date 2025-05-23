@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Building, Briefcase, Shield, BadgeDollarSign, Link } from "lucide-react";
@@ -120,7 +121,7 @@ const PartnerTypesSection: React.FC = () => {
             Who Can Partner With Us?
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            CleverClaim works with a variety of businesses in the travel industry and beyond.
+            SkyHelp works with a variety of businesses in the travel industry and beyond.
           </p>
         </motion.div>
         

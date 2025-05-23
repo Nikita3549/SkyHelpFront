@@ -36,7 +36,7 @@ const HowItWorksSection: React.FC = () => {
             How It Works
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Getting started as a CleverClaim business partner is quick and straightforward.
+            Getting started as a SkyHelp business partner is quick and straightforward.
           </p>
         </motion.div>
         
