@@ -84,9 +84,6 @@ const ClaimsTable = ({
                         <DropdownMenuItem onClick={() => setSelectedClaim(claim.id)}>
                           View Details
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleSendEmail(claim.id)}>
-                          Send Email
-                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "in_progress")}>
                           Mark as In Progress
