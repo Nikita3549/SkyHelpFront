@@ -1,15 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, Clock } from "lucide-react";
-
 const ContactInfo = () => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="space-y-6"
-    >
+  return <motion.div initial={{
+    opacity: 0,
+    y: 20
+  }} animate={{
+    opacity: 1,
+    y: 0
+  }} transition={{
+    duration: 0.5
+  }} className="space-y-6">
       <div>
         <h1 className="text-4xl font-bold mb-2">
           <span className="text-primary">Contact</span> form
@@ -31,15 +32,13 @@ const ContactInfo = () => {
         </div>
         <div className="flex items-center space-x-3 text-gray-700">
           <Phone className="w-5 h-5 text-primary" />
-          <span>+44 123 456 7890</span>
+          <span>+373 797 787 00</span>
         </div>
         <div className="flex items-center space-x-3 text-gray-700">
           <Clock className="w-5 h-5 text-primary" />
           <span>Monday - Friday, 9:00 - 17:00</span>
         </div>
       </div>
-    </motion.div>
-  );
+    </motion.div>;
 };
-
 export default ContactInfo;
