@@ -15,7 +15,7 @@ const faqItems = [
   },
   {
     question: "Do I need to process the case myself?",
-    answer: "No. After referring the case to CleverClaim, our team takes care of all the processing, airline communication, documentation, and customer support. You simply refer the client and we handle the rest."
+    answer: "No. After referring the case to SkyHelp, our team takes care of all the processing, airline communication, documentation, and customer support. You simply refer the client and we handle the rest."
   },
   {
     question: "What happens if the airline rejects the claim?",
@@ -50,7 +50,7 @@ const FaqSection: React.FC = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Everything you need to know about partnering with CleverClaim.
+            Everything you need to know about partnering with SkyHelp.
           </p>
         </motion.div>
         

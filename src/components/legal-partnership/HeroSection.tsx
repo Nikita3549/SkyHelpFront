@@ -20,7 +20,7 @@ const HeroSection: React.FC = () => {
               Let's Partner to Bring Justice to Air Passengers
             </h1>
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
-              Join CleverClaim's legal partner network. Refer delayed or cancelled flight cases and earn by helping passengers claim what they're legally entitled to.
+              Join SkyHelp's growing network of legal professionals. Refer delayed or cancelled flight cases and earn by helping passengers claim what they're legally entitled to.
             </p>
             
             <Button 

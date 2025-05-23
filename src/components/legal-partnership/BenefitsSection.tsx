@@ -39,7 +39,7 @@ const BenefitsSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Why Partner with CleverClaim?
+            Why Partner with SkyHelp?
           </motion.h2>
           <motion.div 
             className="w-24 h-1 bg-primary mx-auto"

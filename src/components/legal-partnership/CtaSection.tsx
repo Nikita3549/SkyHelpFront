@@ -19,7 +19,7 @@ const CtaSection: React.FC = () => {
               Ready to grow your legal practice while helping passengers get what they deserve?
             </h2>
             <p className="text-xl text-gray-600 mb-10">
-              Join CleverClaim's growing network of legal professionals.
+              Join SkyHelp's growing network of legal professionals.
             </p>
             
             <form className="max-w-lg mx-auto space-y-6 text-left">

@@ -16,7 +16,7 @@ const steps = [
   },
   {
     title: "Track and earn",
-    description: "Get paid for every successful compensation claim processed through CleverClaim.",
+    description: "Get paid for every successful compensation claim processed through SkyHelp.",
     icon: <BadgeDollarSign className="h-10 w-10" />
   }
 ];
@@ -36,7 +36,7 @@ const HowItWorksSection: React.FC = () => {
             How It Works
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Getting started as a CleverClaim legal partner is simple and straightforward.
+            Getting started as a SkyHelp legal partner is simple and straightforward.
           </p>
         </motion.div>
         
