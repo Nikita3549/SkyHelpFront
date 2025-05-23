@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,8 +30,26 @@ const ClaimsTable = ({
   handleSendEmail,
   handleUpdateStatus,
 }: ClaimsTableProps) => {
+  // Add ref to be passed to parent component for scrolling
+  const tableRef = useRef<HTMLDivElement>(null);
+
+  // When a claim is selected, notify parent to scroll to details
+  useEffect(() => {
+    if (selectedClaim) {
+      // Use a slight delay to ensure the details section is rendered
+      setTimeout(() => {
+        // Find the claim details section
+        const detailsSection = document.getElementById('claim-details-section');
+        if (detailsSection) {
+          detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [selectedClaim]);
+
   return (
     <motion.div
+      ref={tableRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
