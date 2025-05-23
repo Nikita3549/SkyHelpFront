@@ -28,7 +28,7 @@ const Footer = () => {
       { name: "Legal Partnership", href: "/legal-partnership" },
       { name: "B2B Partnership", href: "/b2b-partnership" },
       { name: "Privacy Policy", href: "/privacy-policy" },
-      { name: "Terms of Service", href: "#" },
+      { name: "Terms of Service", href: "/terms" },
     ],
     social: [
       { name: "Twitter", href: "#", icon: (props: any) => (

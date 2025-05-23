@@ -21,6 +21,7 @@ import AffiliateDashboard from "./pages/AffiliateDashboard";
 import LegalPartnership from "./pages/LegalPartnership";
 import B2bPartnership from "./pages/B2bPartnership";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 
 // Rights pages
@@ -94,6 +95,7 @@ const App = () => (
                       <Route path="/legal-partnership" element={<LegalPartnership />} />
                       <Route path="/b2b-partnership" element={<B2bPartnership />} />
                       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                      <Route path="/terms" element={<TermsOfService />} />
                       
                       {/* Rights Pages */}
                       <Route path="/rights/air-passenger-rights" element={<AirPassengerRights />} />
