@@ -18,7 +18,6 @@ import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
 import CommunicationTab from "./details/CommunicationTab";
 import NotEligibleModal from "../modals/NotEligibleModal";
 import ClaimProgressManager, { type ClaimStep } from "./details/ClaimProgressManager";
-import ComprehensiveDetailsTab from "./details/comprehensive/ComprehensiveDetailsTab";
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
@@ -37,7 +36,7 @@ const ClaimDetailsSection = ({
   handleUpdateStatus,
   onEditClaim,
 }: ClaimDetailsSectionProps) => {
-  const [activeTab, setActiveTab] = useState("comprehensive");
+  const [activeTab, setActiveTab] = useState("details");
   const [isNotEligibleModalOpen, setIsNotEligibleModalOpen] = useState(false);
   
   if (!selectedClaim) return null;
@@ -111,25 +110,14 @@ const ClaimDetailsSection = ({
         />
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-5 mb-4">
-              <TabsTrigger value="comprehensive">Complete Details</TabsTrigger>
-              <TabsTrigger value="summary">Summary</TabsTrigger>
+            <TabsList className="grid grid-cols-4 mb-4">
+              <TabsTrigger value="details">Claim Details</TabsTrigger>
               <TabsTrigger value="communication">Communication</TabsTrigger>
               <TabsTrigger value="progress">Progress</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
             </TabsList>
             
-            <TabsContent value="comprehensive" className="space-y-6">
-              <ComprehensiveDetailsTab 
-                claim={claim}
-                onSendEmail={handleSendEmailClick}
-                onUpdateStatus={handleUpdateStatusClick}
-                onEdit={handleEditClick}
-                onMarkNotEligible={handleMarkAsNotEligible}
-              />
-            </TabsContent>
-
-            <TabsContent value="summary" className="space-y-6">
+            <TabsContent value="details" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <CustomerInfoCard claim={claim} />
                 <FlightInfoCard claim={claim} />
