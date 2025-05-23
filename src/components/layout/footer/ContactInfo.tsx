@@ -21,10 +21,10 @@ const ContactInfo: React.FC = () => {
         <li className="flex items-start">
           <Phone className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
           <a
-            href="tel:+442071234567"
+            href="tel:+37379778700"
             className="text-sm text-gray-500 hover:text-primary transition-colors"
           >
-            +44 20 7123 4567
+            +373 79778700
           </a>
         </li>
         <li className="flex items-start">
@@ -41,4 +41,3 @@ const ContactInfo: React.FC = () => {
 };
 
 export default ContactInfo;
-
