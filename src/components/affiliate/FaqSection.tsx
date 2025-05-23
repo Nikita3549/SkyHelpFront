@@ -12,7 +12,7 @@ const FaqSection: React.FC<{ reference: React.RefObject<HTMLDivElement> }> = ({ 
   const faqs = [
     {
       question: "How does the affiliate program work?",
-      answer: "Our affiliate program works on a revenue-sharing model. You get a unique affiliate link to share with your audience. When someone clicks your link and successfully files a claim with CleverClaim, you earn 25% of our commission once the claim is approved and paid."
+      answer: "Our affiliate program works on a revenue-sharing model. You get a unique affiliate link to share with your audience. When someone clicks your link and successfully files a claim with SkyHelp, you earn 25% of our commission once the claim is approved and paid."
     },
     {
       question: "How much can I earn?",

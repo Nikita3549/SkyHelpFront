@@ -1,3 +1,4 @@
+
 import React from "react";
 import { motion } from "framer-motion";
 const EarningsSection: React.FC = () => {
@@ -47,7 +48,7 @@ const EarningsSection: React.FC = () => {
                   2
                 </div>
                 <div>
-                  <h4 className="font-semibold text-xl">Average commission at CleverClaim ≈ €100 → Partner earns €25</h4>
+                  <h4 className="font-semibold text-xl">Average commission at SkyHelp ≈ €100 → Partner earns €25</h4>
                   <p className="text-gray-600">For a typical flight compensation case</p>
                 </div>
               </div>

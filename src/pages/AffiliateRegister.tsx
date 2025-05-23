@@ -38,7 +38,7 @@ const AffiliateRegister = () => {
             <div className="inline-block p-3 bg-[#D3E4FD] rounded-full mb-4">
               <Share className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">Become a CleverClaim Affiliate Partner</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">Become a SkyHelp Affiliate Partner</h1>
             <p className="text-lg text-gray-600">
               Fill out this form to join our affiliate program and start earning commissions.
             </p>
@@ -53,7 +53,7 @@ const AffiliateRegister = () => {
               <CardHeader>
                 <CardTitle>Affiliate Registration</CardTitle>
                 <CardDescription>
-                  Please provide your information to join the CleverClaim affiliate program.
+                  Please provide your information to join the SkyHelp affiliate program.
                 </CardDescription>
               </CardHeader>
               <CardContent>

@@ -22,7 +22,7 @@ const BenefitsSection: React.FC = () => {
     },
     {
       title: "High Conversion Rates",
-      description: "High conversion rates thanks to CleverClaim's trusted brand",
+      description: "High conversion rates thanks to SkyHelp's trusted brand",
       icon: <Share className="h-6 w-6" />
     },
     {
@@ -52,7 +52,7 @@ const BenefitsSection: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg text-gray-600"
           >
-            Join the CleverClaim affiliate program and enjoy these benefits
+            Join the SkyHelp affiliate program and enjoy these benefits
           </motion.p>
         </div>
         
