@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { format } from "date-fns";
@@ -78,7 +77,7 @@ const ClaimProgressManager: React.FC<ClaimProgressManagerProps> = ({ claim, onUp
   const [editingStep, setEditingStep] = useState<string | null>(null);
   const [editingField, setEditingField] = useState<"title" | "description" | null>(null);
   const [editValue, setEditValue] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true); // Changed to true so it's expanded by default
 
   const handleToggleComplete = (stepId: string) => {
     const updatedSteps = steps.map(step => {
