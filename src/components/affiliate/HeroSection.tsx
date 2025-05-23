@@ -1,14 +1,11 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui-custom/AnimatedButton";
 import { Link } from "react-router-dom";
-
 interface HeroSectionProps {
   scrollToSection: (ref: React.RefObject<HTMLDivElement>) => void;
   howItWorksRef: React.RefObject<HTMLDivElement>;
 }
-
 const HeroSection: React.FC<HeroSectionProps> = ({
   scrollToSection,
   howItWorksRef
@@ -28,9 +25,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           }} transition={{
             duration: 0.6
           }}>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Earn Money with CleverClaim!
-              </h1>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">Earn Money with SkyHelp!</h1>
               <p className="text-xl text-gray-600 mb-8 max-w-2xl">
                 Share our platform with friends, followers, and your audience — and earn generous commissions for every successful claim.
               </p>
@@ -80,5 +75,4 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
     </section>;
 };
-
 export default HeroSection;
