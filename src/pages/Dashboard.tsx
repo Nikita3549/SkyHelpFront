@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Clock,
   Plane,
@@ -700,18 +701,28 @@ const Dashboard = () => {
                       <MessageSquare className="h-4 w-4 text-gray-500" />
                       <span className="text-sm font-medium text-gray-700">Send a message to support</span>
                     </div>
-                    <div className="flex space-x-2">
-                      <Input
+                    <div className="space-y-3">
+                      <Textarea
                         placeholder="Type your message here..."
                         value={messageText}
                         onChange={(e) => setMessageText(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                        className="flex-1"
+                        className="min-h-[100px] resize-none"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                            e.preventDefault();
+                            handleSendMessage();
+                          }
+                        }}
                       />
-                      <Button onClick={handleSendMessage} disabled={!messageText.trim()}>
-                        <Send className="h-4 w-4 mr-2" />
-                        Send
-                      </Button>
+                      <div className="flex justify-between items-center">
+                        <p className="text-xs text-gray-500">
+                          Press Ctrl+Enter (Cmd+Enter on Mac) to send
+                        </p>
+                        <Button onClick={handleSendMessage} disabled={!messageText.trim()}>
+                          <Send className="h-4 w-4 mr-2" />
+                          Send Message
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </CardFooter>
