@@ -21,6 +21,7 @@ const claims = [
     progress: 60,
     lastUpdate: "2023-12-10",
     estimatedCompletion: "2024-01-20",
+    disruptionType: "delay",
     documents: [
       { name: "Boarding Pass", status: "uploaded" },
       { name: "Flight Ticket", status: "uploaded" },
@@ -51,6 +52,7 @@ const claims = [
     progress: 100,
     lastUpdate: "2023-11-30",
     paymentDate: "2023-11-30",
+    disruptionType: "cancellation",
     documents: [
       { name: "Boarding Pass", status: "uploaded" },
       { name: "Flight Ticket", status: "uploaded" },
@@ -81,6 +83,7 @@ const claims = [
     progress: 30,
     lastUpdate: "2023-12-12",
     estimatedCompletion: "2024-02-15",
+    disruptionType: "denied_boarding",
     documents: [
       { name: "Boarding Pass", status: "uploaded" },
       { name: "Flight Ticket", status: "requested" },

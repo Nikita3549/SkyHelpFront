@@ -8,6 +8,7 @@ interface Claim {
   departureDate: string;
   compensation: string;
   airline: string;
+  disruptionType?: string;
 }
 
 interface FlightDetailsCardProps {
@@ -15,6 +16,20 @@ interface FlightDetailsCardProps {
 }
 
 const FlightDetailsCard = ({ claim }: FlightDetailsCardProps) => {
+  // Format disruption type for display
+  const formatDisruptionType = (type?: string) => {
+    if (!type) return "Not specified";
+    
+    const typeMap: { [key: string]: string } = {
+      "delay": "Flight Delay",
+      "cancellation": "Flight Cancellation", 
+      "denied_boarding": "Denied Boarding",
+      "missed_connection": "Missed Connection"
+    };
+    
+    return typeMap[type] || type;
+  };
+
   return (
     <div>
       <h3 className="text-sm font-medium text-gray-500 mb-2">Flight Details</h3>
@@ -34,6 +49,10 @@ const FlightDetailsCard = ({ claim }: FlightDetailsCardProps) => {
         <div className="flex justify-between">
           <span className="text-sm text-gray-500">Date</span>
           <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm text-gray-500">Disruption Type</span>
+          <span className="text-sm font-medium">{formatDisruptionType(claim.disruptionType)}</span>
         </div>
       </div>
     </div>
