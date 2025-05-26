@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -22,6 +21,7 @@ const claims = [
     lastUpdate: "2023-12-10",
     estimatedCompletion: "2024-01-20",
     disruptionType: "delay",
+    passengerName: "John Smith",
     documents: [
       { name: "Boarding Pass", status: "uploaded" },
       { name: "Flight Ticket", status: "uploaded" },
@@ -53,6 +53,7 @@ const claims = [
     lastUpdate: "2023-11-30",
     paymentDate: "2023-11-30",
     disruptionType: "cancellation",
+    passengerName: "Sarah Johnson",
     documents: [
       { name: "Boarding Pass", status: "uploaded" },
       { name: "Flight Ticket", status: "uploaded" },
@@ -84,6 +85,7 @@ const claims = [
     lastUpdate: "2023-12-12",
     estimatedCompletion: "2024-02-15",
     disruptionType: "denied_boarding",
+    passengerName: "Michael Brown",
     documents: [
       { name: "Boarding Pass", status: "uploaded" },
       { name: "Flight Ticket", status: "requested" },

@@ -9,6 +9,7 @@ interface Claim {
   compensation: string;
   airline: string;
   disruptionType?: string;
+  passengerName?: string;
 }
 
 interface FlightDetailsCardProps {
@@ -34,6 +35,12 @@ const FlightDetailsCard = ({ claim }: FlightDetailsCardProps) => {
     <div>
       <h3 className="text-sm font-medium text-gray-500 mb-2">Flight Details</h3>
       <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+        {claim.passengerName && (
+          <div className="flex justify-between">
+            <span className="text-sm text-gray-500">Passenger Name</span>
+            <span className="text-sm font-medium">{claim.passengerName}</span>
+          </div>
+        )}
         <div className="flex justify-between">
           <span className="text-sm text-gray-500">Airline</span>
           <span className="text-sm font-medium">{claim.airline}</span>
