@@ -74,9 +74,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           </div>
           <Button 
             className="w-full mt-2 bg-primary hover:bg-primary/90"
-            onClick={() => navigate("/claim")}
+            onClick={() => navigate("/dashboard")}
           >
-            Start Claim
+            My Claims
           </Button>
         </div>
       </div>

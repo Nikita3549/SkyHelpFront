@@ -12,10 +12,10 @@ const DesktopActions = () => {
       <LanguageSelector />
       <Button 
         variant="outline" 
-        onClick={() => navigate("/claim")}
+        onClick={() => navigate("/dashboard")}
         className="border-primary text-primary hover:bg-primary hover:text-white"
       >
-        Start Claim
+        My Claims
       </Button>
     </div>
   );
