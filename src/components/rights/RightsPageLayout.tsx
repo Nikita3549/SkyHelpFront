@@ -75,7 +75,7 @@ const RightsPageLayout = ({
 
             <div className="mt-12">
               <Card>
-                <CardContent>
+                <CardContent className="pt-6">
                   <h3 className="text-2xl font-bold mb-4">Need help with your claim?</h3>
                   <p className="text-gray-600 mb-6">
                     Our team of experts is ready to help you get the compensation you deserve.
@@ -92,7 +92,7 @@ const RightsPageLayout = ({
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-8">
               <Card>
-                <CardContent>
+                <CardContent className="pt-6">
                   <h3 className="font-semibold text-xl mb-4">Related Information</h3>
                   <ul className="space-y-2">
                     {relatedLinks.map((link, index) => (
@@ -111,7 +111,7 @@ const RightsPageLayout = ({
               </Card>
 
               <Card>
-                <CardContent>
+                <CardContent className="pt-6">
                   <h3 className="font-semibold text-xl mb-4">Check If You're Eligible</h3>
                   <p className="text-gray-600 mb-4">
                     Find out in just a few clicks if you're eligible for compensation.
