@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Card,
@@ -72,6 +72,8 @@ const ClaimDetails = ({
   onUploadDocument,
   onGenerateNewMessage,
 }: ClaimDetailsProps) => {
+  const [activeTab, setActiveTab] = useState("overview");
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -117,7 +119,7 @@ const ClaimDetails = ({
         </CardHeader>
 
         <CardContent className="p-0">
-          <Tabs defaultValue="overview">
+          <Tabs defaultValue="overview" onValueChange={setActiveTab}>
             <TabsList className="mx-6 mb-2">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
@@ -148,13 +150,15 @@ const ClaimDetails = ({
           </Tabs>
         </CardContent>
 
-        <CardFooter className="flex flex-col border-t p-6 space-y-4">
-          <MessageWritingZone
-            messageText={messageText}
-            onMessageChange={onMessageChange}
-            onSendMessage={onSendMessage}
-          />
-        </CardFooter>
+        {activeTab === "messages" && (
+          <CardFooter className="flex flex-col border-t p-6 space-y-4">
+            <MessageWritingZone
+              messageText={messageText}
+              onMessageChange={onMessageChange}
+              onSendMessage={onSendMessage}
+            />
+          </CardFooter>
+        )}
       </Card>
     </motion.div>
   );
