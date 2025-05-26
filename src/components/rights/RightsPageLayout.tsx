@@ -75,7 +75,7 @@ const RightsPageLayout = ({
 
             <div className="mt-12">
               <Card>
-                <CardContent className="pt-6">
+                <CardContent>
                   <h3 className="text-2xl font-bold mb-4">Need help with your claim?</h3>
                   <p className="text-gray-600 mb-6">
                     Our team of experts is ready to help you get the compensation you deserve.
@@ -111,7 +111,7 @@ const RightsPageLayout = ({
               </Card>
 
               <Card>
-                <CardContent className="pt-6">
+                <CardContent>
                   <h3 className="font-semibold text-xl mb-4">Check If You're Eligible</h3>
                   <p className="text-gray-600 mb-4">
                     Find out in just a few clicks if you're eligible for compensation.
