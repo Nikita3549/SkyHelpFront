@@ -138,7 +138,7 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
           onKeyDown={handleKeyDown}
         />
         
-        {/* Mobile-first layout for controls */}
+        {/* Desktop and mobile layout for controls */}
         <div className="space-y-3">
           {/* Keyboard shortcut info for desktop */}
           <div className="hidden sm:flex sm:justify-end">
@@ -147,35 +147,38 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
             </p>
           </div>
           
-          {/* Send button - full width on mobile */}
-          <Button 
-            onClick={handleSendMessage} 
-            disabled={!messageText.trim() && attachedFiles.length === 0}
-            className="w-full sm:w-auto sm:ml-auto sm:flex"
-          >
-            <Send className="h-4 w-4 mr-2" />
-            Send Message
-          </Button>
-          
-          {/* Attach files button - below send button on mobile */}
-          <div className="flex items-center justify-center">
-            <input
-              type="file"
-              id="file-attachment"
-              multiple
-              className="hidden"
-              onChange={handleFileSelect}
-              disabled={attachedFiles.length >= 10}
-            />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => document.getElementById('file-attachment')?.click()}
-              disabled={attachedFiles.length >= 10}
-              className="flex items-center space-x-1"
+          {/* Button container - different layouts for mobile vs desktop */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            {/* Attach files button */}
+            <div className="flex justify-center sm:justify-start">
+              <input
+                type="file"
+                id="file-attachment"
+                multiple
+                className="hidden"
+                onChange={handleFileSelect}
+                disabled={attachedFiles.length >= 10}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => document.getElementById('file-attachment')?.click()}
+                disabled={attachedFiles.length >= 10}
+                className="flex items-center space-x-1"
+              >
+                <Paperclip className="h-4 w-4" />
+                <span>Attach Files</span>
+              </Button>
+            </div>
+            
+            {/* Send button */}
+            <Button 
+              onClick={handleSendMessage} 
+              disabled={!messageText.trim() && attachedFiles.length === 0}
+              className="w-full sm:w-auto"
             >
-              <Paperclip className="h-4 w-4" />
-              <span>Attach Files</span>
+              <Send className="h-4 w-4 mr-2" />
+              Send Message
             </Button>
           </div>
         </div>
