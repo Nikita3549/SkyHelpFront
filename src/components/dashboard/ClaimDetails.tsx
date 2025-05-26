@@ -15,21 +15,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  MoreHorizontal,
-  Download,
-  MessageSquare,
-  AlertCircle,
-} from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import MessageWritingZone from "./MessageWritingZone";
 import OverviewTab from "./OverviewTab";
@@ -90,28 +75,6 @@ const ClaimDetails = ({
                 <StatusBadge status={claim.status} className="ml-3" />
               </CardTitle>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreHorizontal className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Options</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
-                  <Download className="mr-2 h-4 w-4" /> Export claim details
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer" onClick={onContactSupport}>
-                  <MessageSquare className="mr-2 h-4 w-4" /> Contact support
-                </DropdownMenuItem>
-                {claim.status !== "completed" && (
-                  <DropdownMenuItem className="cursor-pointer text-destructive">
-                    <AlertCircle className="mr-2 h-4 w-4" /> Cancel claim
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </CardHeader>
 
