@@ -1,165 +1,76 @@
-
-import React, { useState } from "react";
-import { HelpCircle, X } from "lucide-react";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { 
-  AlertDialog, 
-  AlertDialogContent, 
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
-interface HelpTooltipProps {
-  items: {
-    text: string;
-    highlight?: boolean;
-  }[];
-  className?: string;
-  position?: "top" | "right" | "bottom" | "left";
-  variant?: "tooltip" | "dialog" | "popover";
+interface HelpItem {
+  text: string;
 }
 
-const HelpTooltip: React.FC<HelpTooltipProps> = ({ 
-  items, 
-  className,
-  position = "top",
-  variant = "tooltip"
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+interface HelpTooltipProps {
+  items: HelpItem[];
+  variant?: "tooltip" | "popover";
+  className?: string;
+}
 
-  // Dialog variant - keeping this for backward compatibility
-  if (variant === "dialog") {
-    return (
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        <AlertDialogTrigger asChild>
-          <button 
-            className={cn(
-              "inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors gap-1.5 text-sm font-medium bg-blue-50 px-3 py-1.5 rounded-full", 
-              className
-            )}
-            aria-label="Get help with filling the form"
-          >
-            Not sure how to fill? <HelpCircle className="h-4 w-4" />
-          </button>
-        </AlertDialogTrigger>
-        <AlertDialogContent className="w-[90%] max-w-md p-0 rounded-xl border border-blue-200 overflow-hidden">
-          <div className="relative p-5 pt-10 bg-white rounded-xl">
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
-              aria-label="Close help dialog"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <ul className="space-y-6">
-              {items.map((item, index) => (
-                <li key={index} className="flex gap-3">
-                  <span className="font-bold text-lg">•</span>
-                  <p className="text-gray-800">
-                    {item.text.split(/(\booked together\b|\benter\b|\boriginal flight\b)/g).map((part, i) => {
-                      if (part === "booked together" || part === "enter" || part === "original flight") {
-                        return <span key={i} className="text-blue-600 font-medium">{part}</span>;
-                      }
-                      return part;
-                    })}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
-    );
-  }
-  
-  // New popover variant
+const HelpTooltip = ({ items, variant = "tooltip", className }: HelpTooltipProps) => {
   if (variant === "popover") {
     return (
       <Popover>
         <PopoverTrigger asChild>
-          <button 
+          <Button 
+            variant="ghost" 
+            size="sm" 
             className={cn(
-              "inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors gap-1.5 text-sm font-medium bg-blue-50 px-3 py-1.5 rounded-full", 
+              "text-blue-500 hover:text-blue-700 hover:bg-blue-50 p-1 h-auto text-xs sm:text-sm",
               className
             )}
-            aria-label="Get help with filling the form"
           >
-            Not sure how to fill? <HelpCircle className="h-4 w-4" />
-          </button>
+            <HelpCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <span className="hidden sm:inline">Not sure how to fill?</span>
+            <span className="sm:hidden">Help</span>
+          </Button>
         </PopoverTrigger>
-        <PopoverContent 
-          className="w-80 p-4 bg-white rounded-xl border border-blue-200 shadow-lg"
-          side={position as "top" | "right" | "bottom" | "left"}
-          align="start"
-          sideOffset={5}
-        >
-          <ul className="space-y-4">
-            {items.map((item, index) => (
-              <li key={index} className="flex gap-2">
-                <span className="font-bold">•</span>
-                <p className="text-gray-800">
-                  {item.text.split(/(\booked together\b|\benter\b|\boriginal flight\b)/g).map((part, i) => {
-                    if (part === "booked together" || part === "enter" || part === "original flight") {
-                      return <span key={i} className="text-blue-600 font-medium">{part}</span>;
-                    }
-                    return part;
-                  })}
+        <PopoverContent className="w-72 sm:w-80 p-4">
+          <div className="space-y-3">
+            <h4 className="font-medium text-sm text-gray-900">Help</h4>
+            <div className="space-y-2">
+              {items.map((item, index) => (
+                <p key={index} className="text-sm text-gray-600 leading-relaxed">
+                  {item.text}
                 </p>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
     );
   }
 
-  // Original tooltip variant
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button 
-            className={cn(
-              "inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors gap-1.5 text-sm font-medium bg-blue-50 px-3 py-1.5 rounded-full", 
-              className
-            )}
-            aria-label="Get help with filling the form"
-          >
-            Not sure how to fill? <HelpCircle className="h-4 w-4" />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent 
-          side={position} 
-          className="w-80 p-5 bg-white rounded-xl border border-blue-200"
-        >
-          <ul className="space-y-4">
-            {items.map((item, index) => (
-              <li key={index} className="flex gap-2">
-                <span className="font-bold">•</span>
-                <p>
-                  {item.text.split(/(\booked together\b|\benter\b|\boriginal flight\b)/g).map((part, i) => {
-                    if (part === "booked together" || part === "enter" || part === "original flight") {
-                      return <span key={i} className="text-blue-600 font-medium">{part}</span>;
-                    }
-                    return part;
-                  })}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <div className={cn("group relative inline-block", className)}>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className="text-blue-500 hover:text-blue-700 hover:bg-blue-50 p-1 h-auto text-xs sm:text-sm"
+      >
+        <HelpCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+        <span className="hidden sm:inline">Not sure how to fill?</span>
+        <span className="sm:hidden">Help</span>
+      </Button>
+      
+      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 w-64">
+        <div className="space-y-2">
+          {items.map((item, index) => (
+            <p key={index} className="text-sm leading-relaxed">
+              {item.text}
+            </p>
+          ))}
+        </div>
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+      </div>
+    </div>
   );
 };
 
