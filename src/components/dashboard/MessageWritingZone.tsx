@@ -178,11 +178,6 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
               <span>Attach Files</span>
             </Button>
           </div>
-          
-          {/* Keyboard shortcut info for mobile */}
-          <p className="text-xs text-gray-500 text-center sm:hidden">
-            Press Ctrl+Enter (Cmd+Enter on Mac) to send
-          </p>
         </div>
       </div>
     </div>
