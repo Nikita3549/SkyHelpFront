@@ -47,12 +47,12 @@ const FlightDetailsCard = ({ claim }: FlightDetailsCardProps) => {
           <span className="text-sm font-medium">{claim.flightNumber}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-sm text-gray-500">Date</span>
-          <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
-        </div>
-        <div className="flex justify-between">
           <span className="text-sm text-gray-500">Disruption Type</span>
           <span className="text-sm font-medium">{formatDisruptionType(claim.disruptionType)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-sm text-gray-500">Date</span>
+          <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
         </div>
       </div>
     </div>
