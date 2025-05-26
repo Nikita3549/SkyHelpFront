@@ -694,15 +694,6 @@ const Dashboard = () => {
                 </CardContent>
 
                 <CardFooter className="flex flex-col border-t p-6 space-y-4">
-                  <div className="flex justify-between items-center w-full">
-                    <div className="text-sm text-gray-500">
-                      <span className="flex items-center">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        Claim opened: {new Date(selectedClaim.departureDate).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                  
                   {/* Message Writing Zone */}
                   <div className="w-full">
                     <div className="flex items-center space-x-2 mb-2">
