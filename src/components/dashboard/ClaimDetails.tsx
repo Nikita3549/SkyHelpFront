@@ -185,108 +185,110 @@ const ClaimDetails = ({
             </TabsList>
             
             <TabsContent value="overview" className="px-6 pt-2 pb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500 mb-2">Flight Details</h3>
-                    <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-500">Route</span>
-                        <span className="text-sm font-medium">{claim.route}</span>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 mb-2">Flight Details</h3>
+                      <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-500">Route</span>
+                          <span className="text-sm font-medium">{claim.route}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-500">Flight Number</span>
+                          <span className="text-sm font-medium">{claim.flightNumber}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-500">Date</span>
+                          <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-500">Flight Number</span>
-                        <span className="text-sm font-medium">{claim.flightNumber}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-500">Date</span>
-                        <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 mb-2">Compensation Details</h3>
+                      <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-500">Amount</span>
+                          <span className="text-lg font-semibold text-primary">{claim.compensation}</span>
+                        </div>
+                        <Separator />
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-500">Our Fee (25%)</span>
+                          <span className="text-sm font-medium">
+                            {claim.compensation.startsWith("€") 
+                              ? "€" + (parseFloat(claim.compensation.substring(1)) * 0.25).toFixed(2)
+                              : "Calculated on settlement"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-500">You Receive</span>
+                          <span className="text-sm font-medium">
+                            {claim.compensation.startsWith("€") 
+                              ? "€" + (parseFloat(claim.compensation.substring(1)) * 0.75).toFixed(2)
+                              : "Calculated on settlement"}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500 mb-2">Compensation Details</h3>
-                    <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-500">Amount</span>
-                        <span className="text-lg font-semibold text-primary">{claim.compensation}</span>
-                      </div>
-                      <Separator />
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-500">Our Fee (25%)</span>
-                        <span className="text-sm font-medium">
-                          {claim.compensation.startsWith("€") 
-                            ? "€" + (parseFloat(claim.compensation.substring(1)) * 0.25).toFixed(2)
-                            : "Calculated on settlement"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-500">You Receive</span>
-                        <span className="text-sm font-medium">
-                          {claim.compensation.startsWith("€") 
-                            ? "€" + (parseFloat(claim.compensation.substring(1)) * 0.75).toFixed(2)
-                            : "Calculated on settlement"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500 mb-2">Next Steps</h3>
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      {claim.status === "review" && (
-                        <div className="flex items-start space-x-3">
-                          <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
-                            <FileText className="h-3 w-3 text-primary" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium">Documents Required</p>
-                            <p className="text-xs text-gray-500 mt-1">
-                              Please upload the requested documents to proceed with your claim.
-                            </p>
-                            <Button onClick={onUploadDocument} variant="outline" size="sm" className="mt-3">
-                              <Upload className="mr-2 h-3 w-3" />
-                              Upload Documents
-                            </Button>
-                          </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-2">Next Steps</h3>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    {claim.status === "review" && (
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
+                          <FileText className="h-3 w-3 text-primary" />
                         </div>
-                      )}
-                      
-                      {claim.status === "in_progress" && (
-                        <div className="flex items-start space-x-3">
-                          <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
-                            <Clock className="h-3 w-3 text-primary" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium">Claim in Progress</p>
-                            <p className="text-xs text-gray-500 mt-1">
-                              We're working with the airline to process your claim. We'll update you on any developments.
-                            </p>
-                          </div>
+                        <div>
+                          <p className="text-sm font-medium">Documents Required</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Please upload the requested documents to proceed with your claim.
+                          </p>
+                          <Button onClick={onUploadDocument} variant="outline" size="sm" className="mt-3">
+                            <Upload className="mr-2 h-3 w-3" />
+                            Upload Documents
+                          </Button>
                         </div>
-                      )}
-                      
-                      {claim.status === "completed" && (
-                        <div className="flex items-start space-x-3">
-                          <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                            <Check className="h-3 w-3 text-green-600" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium">Claim Completed</p>
-                            <p className="text-xs text-gray-500 mt-1">
-                              Your claim has been successfully processed and payment has been made.
-                            </p>
-                            <Button variant="outline" size="sm" className="mt-3">
-                              <Download className="mr-2 h-3 w-3" />
-                              Download Receipt
-                            </Button>
-                          </div>
+                      </div>
+                    )}
+                    
+                    {claim.status === "in_progress" && (
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
+                          <Clock className="h-3 w-3 text-primary" />
                         </div>
-                      )}
-                    </div>
+                        <div>
+                          <p className="text-sm font-medium">Claim in Progress</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            We're working with the airline to process your claim. We'll update you on any developments.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {claim.status === "completed" && (
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                          <Check className="h-3 w-3 text-green-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Claim Completed</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Your claim has been successfully processed and payment has been made.
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3">
+                            <Download className="mr-2 h-3 w-3" />
+                            Download Receipt
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
