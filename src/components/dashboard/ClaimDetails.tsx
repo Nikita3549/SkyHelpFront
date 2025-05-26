@@ -89,7 +89,7 @@ const ClaimDetails = ({
                 Claim {claim.id}
                 <StatusBadge status={claim.status} className="ml-3" />
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="mt-1">
                 {claim.airline} · {claim.flightNumber} · {new Date(claim.departureDate).toLocaleDateString()}
               </CardDescription>
             </div>
