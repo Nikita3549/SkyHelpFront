@@ -92,7 +92,7 @@ const RightsPageLayout = ({
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-8">
               <Card>
-                <CardContent className="pt-6">
+                <CardContent>
                   <h3 className="font-semibold text-xl mb-4">Related Information</h3>
                   <ul className="space-y-2">
                     {relatedLinks.map((link, index) => (
