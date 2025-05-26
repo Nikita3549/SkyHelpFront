@@ -4,7 +4,7 @@ import html2pdf from 'html2pdf.js';
 
 export interface ClaimData {
   customer: string;
-  dateOfBirth?: string;
+  dateOfBirth?: string; // Keep as optional for backward compatibility
   address?: string;
   id: string;
   airline: string;
@@ -19,7 +19,7 @@ export interface AgreementProps {
 }
 
 export const getFormattedDate = () => {
-  return format(new Date(), "dd/MM/yyyy");
+  return format(new Date(), "yyyy-MM-dd");
 };
 
 export const handlePrint = () => {
@@ -41,199 +41,104 @@ export const handlePrint = () => {
         return;
       }
       
+      printWindow.document.write('<html><head><title>Assignment Agreement</title>');
+      printWindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">');
       printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Assignment Agreement - SkyHelp</title>
-          <meta charset="UTF-8">
-          <style>
-            @page {
-              size: A4;
-              margin: 2cm;
-            }
-            
-            body { 
-              font-family: 'Times New Roman', serif; 
-              line-height: 1.5; 
-              color: #000000; 
-              padding: 0;
-              margin: 0;
-              background-color: white;
-              font-size: 12px;
-            }
-            
-            .document-container {
-              max-width: 100%;
-              background: white;
-              color: #000000;
-            }
-            
-            .header { 
-              text-align: center; 
-              margin-bottom: 40px; 
-            }
-            
-            .document-title { 
-              font-size: 24px; 
-              font-weight: 700; 
-              margin: 20px 0 10px; 
-              color: #000000;
-              text-transform: uppercase;
-              letter-spacing: 2px;
-            }
-            
-            .date { 
-              font-size: 14px; 
-              margin-top: 10px; 
-              color: #000000; 
-              font-weight: 500;
-            }
-            
-            .client-info { 
-              text-align: center; 
-              margin-bottom: 40px; 
-              padding: 20px;
-              border: 2px solid #000000;
-            }
-            
-            .client-name { 
-              font-weight: bold; 
-              font-size: 16px; 
-              color: #000000;
-              margin-bottom: 5px;
-            }
-            
-            .client-details { 
-              font-size: 14px; 
-              color: #000000; 
-              margin-bottom: 5px;
-            }
-            
-            .client-caption { 
-              font-size: 12px; 
-              color: #000000; 
-              font-style: italic; 
-              margin-top: 10px; 
-            }
-            
-            .section-title { 
-              font-weight: bold; 
-              margin: 25px 0 15px 0; 
-              font-size: 14px;
-              color: #000000;
-              text-transform: uppercase;
-              text-decoration: underline;
-            }
-            
-            .claim-details { 
-              margin-bottom: 30px; 
-            }
-            
-            .claim-table { 
-              width: 100%; 
-              margin-bottom: 20px; 
-              border-collapse: collapse; 
-              border: 1px solid #000000;
-            }
-            
-            .claim-table td { 
-              padding: 12px;
-              vertical-align: top; 
-              line-height: 1.5;
-              border: 1px solid #000000;
-              color: #000000;
-            }
-            
-            .claim-table td:first-child { 
-              width: 150px;
-              font-weight: 600;
-              background-color: #f8f8f8;
-            }
-            
-            .claim-id { 
-              font-weight: 600; 
-              margin-bottom: 15px; 
-              font-size: 14px;
-              color: #000000;
-            }
-            
-            .legal-text { 
-              margin-bottom: 20px; 
-              text-align: justify; 
-              font-size: 12px; 
-              line-height: 1.6;
-              color: #000000;
-            }
-            
-            .legal-text p { 
-              margin-bottom: 15px; 
-            }
-            
-            .numbered-list {
-              padding-left: 25px;
-              margin: 15px 0;
-              list-style-type: decimal;
-            }
-            
-            .numbered-item {
-              margin-bottom: 12px;
-              line-height: 1.6;
-              padding-left: 5px;
-              color: #000000;
-            }
-            
-            .signature-section { 
-              display: flex; 
-              justify-content: space-between; 
-              margin-top: 80px; 
-              page-break-inside: avoid;
-            }
-            
-            .signature-box { 
-              width: 45%; 
-            }
-            
-            .signature-title { 
-              font-weight: bold; 
-              margin-bottom: 10px; 
-              color: #000000;
-              font-size: 12px;
-            }
-            
-            .signature-name { 
-              margin-bottom: 30px; 
-              color: #000000;
-              font-weight: 500;
-            }
-            
-            .signature-line { 
-              border-top: 2px solid #000000; 
-              margin: 40px 0 10px 0; 
-              width: 100%;
-            }
-            
-            .signature-label { 
-              font-size: 10px; 
-              color: #000000; 
-              text-align: center;
-              font-weight: 500;
-            }
-            
-            .logo-wrapper {
-              display: flex;
-              justify-content: center;
-              margin-bottom: 15px;
-            }
-            
-            .logo {
-              width: 100px;
-              height: auto;
-            }
-          </style>
-        </head>
-        <body>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+          body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            padding: 20px; 
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+          }
+          .document-container {
+            max-width: 21cm;
+            min-height: 29.7cm;
+            padding: 2cm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: none;
+          }
+          .header { text-align: center; margin-bottom: 30px; }
+          .document-title { 
+            font-size: 24px; 
+            font-weight: 700; 
+            margin: 15px 0 5px; 
+            color: #333;
+            text-transform: uppercase;
+          }
+          .date { font-size: 14px; margin-top: 5px; color: #555; }
+          .client-info { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            padding: 15px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+          }
+          .client-name { font-weight: bold; font-size: 16px; }
+          .client-details { font-size: 14px; color: #555; }
+          .client-caption { 
+            font-size: 12px; 
+            color: #777; 
+            font-style: italic; 
+            margin-top: 8px; 
+          }
+          .section-title { font-weight: bold; margin-bottom: 10px; }
+          .claim-details { margin-bottom: 20px; }
+          .claim-table { 
+            width: 100%; 
+            margin-bottom: 20px; 
+            border-collapse: collapse; 
+          }
+          .claim-table td { 
+            padding: 8px 0;
+            vertical-align: top; 
+            line-height: 1.6;
+          }
+          .claim-table td:first-child { 
+            width: 120px;
+            font-weight: 600;
+          }
+          .claim-id { font-weight: 600; margin-bottom: 15px; }
+          .legal-text { 
+            margin-bottom: 20px; 
+            text-align: justify; 
+            font-size: 14px; 
+            line-height: 1.6;
+          }
+          .legal-text p { margin-bottom: 15px; }
+          .bullet-list { padding-left: 20px; margin: 15px 0; }
+          .bullet-item { margin-bottom: 10px; line-height: 1.6; }
+          .signature-section { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 60px; 
+          }
+          .signature-box { width: 45%; }
+          .signature-title { font-weight: bold; margin-bottom: 5px; }
+          .signature-name { margin-bottom: 20px; }
+          .signature-line { 
+            border-top: 1px solid #333; 
+            margin: 30px 0 5px 0; 
+            width: 100%;
+          }
+          .signature-label { font-size: 12px; color: #777; }
+          .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+          }
+          .logo {
+            width: 100px;
+            height: auto;
+          }
+        </style>
       `);
+      printWindow.document.write('</head><body>');
       printWindow.document.write(printContent.innerHTML);
       printWindow.document.write('</body></html>');
       
@@ -244,7 +149,7 @@ export const handlePrint = () => {
         printWindow.print();
         printWindow.close();
         resolve();
-      }, 500);
+      }, 250);
     } catch (error) {
       reject(error);
     }
@@ -263,65 +168,40 @@ export const handleDownload = () => {
     // Clone element to avoid modifying the visible document
     const clonedElement = element.cloneNode(true) as HTMLElement;
     
-    // Apply print-specific styling
-    clonedElement.style.fontFamily = '"Times New Roman", serif';
-    clonedElement.style.color = '#000000';
-    clonedElement.style.backgroundColor = '#ffffff';
+    // Create a temporary container with A4 size constraints
+    const container = document.createElement('div');
+    container.appendChild(clonedElement);
     
-    // Set up html2pdf options for PDF/A compliance
+    // Set up html2pdf options
     const opt = {
-      margin: [15, 15, 15, 15],
-      filename: `assignment_agreement_${new Date().getTime()}.pdf`,
-      image: { 
-        type: 'jpeg', 
-        quality: 1.0 
-      },
+      margin: [10, 10],
+      filename: 'assignment_agreement.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { 
         scale: 2,
         useCORS: true,
-        logging: false,
-        letterRendering: true,
-        allowTaint: false,
-        backgroundColor: '#ffffff',
-        removeContainer: true
+        logging: false
       },
       jsPDF: { 
         unit: 'mm', 
         format: 'a4', 
-        orientation: 'portrait',
-        compress: true,
-        precision: 2
-      },
-      pagebreak: { 
-        mode: ['avoid-all', 'css', 'legacy'],
-        before: '.signature-section',
-        after: '.legal-text'
+        orientation: 'portrait' 
       }
     };
     
-    // Generate PDF with enhanced settings for compliance
+    // Generate PDF
     html2pdf()
       .from(clonedElement)
       .set(opt)
-      .toPdf()
-      .get('pdf')
-      .then((pdf: any) => {
-        // Add metadata for PDF/A compliance
-        pdf.setProperties({
-          title: 'Assignment Agreement - SkyHelp',
-          subject: 'Flight Compensation Assignment Agreement',
-          author: 'SkyHelp',
-          creator: 'SkyHelp Platform',
-          producer: 'SkyHelp Document Generator'
-        });
-        return pdf;
-      })
       .save()
       .then(() => {
+        // Clean up
+        container.removeChild(clonedElement);
         resolve();
       })
       .catch((err: Error) => {
         console.error('Error generating PDF:', err);
+        container.removeChild(clonedElement);
         reject(err);
       });
   });

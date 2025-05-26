@@ -39,7 +39,6 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
     id: claimId || "CLM" + Math.floor(100000 + Math.random() * 900000),
     customer: formData?.passengerDetails?.firstName && formData?.passengerDetails?.lastName ? 
       `${formData.passengerDetails.firstName} ${formData.passengerDetails.lastName}` : "",
-    dateOfBirth: formData?.passengerDetails?.dateOfBirth || "",
     address: formData?.passengerDetails?.address ? 
       `${formData.passengerDetails.address}, ${formData.passengerDetails.city}, ${formData.passengerDetails.postalCode}, ${formData.passengerDetails.country}` : "",
     airline: formData?.flightDetails?.airline || "",
