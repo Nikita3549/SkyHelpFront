@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
 import {
   Clock,
   Plane,
@@ -36,6 +37,7 @@ import {
   MoreHorizontal,
   User,
   HelpCircle,
+  Send,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -178,6 +180,7 @@ const StatusBadge = ({ status, className }: { status: string; className?: string
 
 const Dashboard = () => {
   const [selectedClaimId, setSelectedClaimId] = useState(claims[0].id);
+  const [messageText, setMessageText] = useState('');
   const selectedClaim = claims.find((claim) => claim.id === selectedClaimId);
 
   // Animation variants
@@ -267,6 +270,32 @@ const Dashboard = () => {
     }
 
     return baseSteps;
+  };
+
+  // Handle sending a new message
+  const handleSendMessage = () => {
+    if (!messageText.trim()) return;
+    
+    console.log("Sending message:", messageText);
+    // In a real app, this would send the message to the support team
+    
+    // Add the message to the claim's messages
+    const newMessage = {
+      date: new Date().toISOString().split('T')[0],
+      content: messageText,
+      isFromTeam: false,
+    };
+    
+    // Update the selected claim's messages (in a real app, this would update the backend)
+    const updatedClaim = {
+      ...selectedClaim,
+      messages: [...(selectedClaim?.messages || []), newMessage]
+    };
+    
+    setMessageText('');
+    
+    // Show success feedback
+    console.log("Message sent successfully");
   };
 
   return (
@@ -664,19 +693,35 @@ const Dashboard = () => {
                   </Tabs>
                 </CardContent>
 
-                <CardFooter className="flex justify-between border-t p-6">
-                  <div className="text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      Claim opened: {new Date(selectedClaim.departureDate).toLocaleDateString()}
-                    </span>
+                <CardFooter className="flex flex-col border-t p-6 space-y-4">
+                  <div className="flex justify-between items-center w-full">
+                    <div className="text-sm text-gray-500">
+                      <span className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        Claim opened: {new Date(selectedClaim.departureDate).toLocaleDateString()}
+                      </span>
+                    </div>
                   </div>
                   
-                  <div>
-                    <Button variant="outline" size="sm" onClick={generateNewMessage}>
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      Contact Support
-                    </Button>
+                  {/* Message Writing Zone */}
+                  <div className="w-full">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <MessageSquare className="h-4 w-4 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-700">Send a message to support</span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Input
+                        placeholder="Type your message here..."
+                        value={messageText}
+                        onChange={(e) => setMessageText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                        className="flex-1"
+                      />
+                      <Button onClick={handleSendMessage} disabled={!messageText.trim()}>
+                        <Send className="h-4 w-4 mr-2" />
+                        Send
+                      </Button>
+                    </div>
                   </div>
                 </CardFooter>
               </Card>
