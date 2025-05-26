@@ -140,29 +140,9 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
         
         {/* Mobile-first layout for controls */}
         <div className="space-y-3">
-          {/* Attach files button and keyboard shortcut info */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <div className="flex items-center space-x-2">
-              <input
-                type="file"
-                id="file-attachment"
-                multiple
-                className="hidden"
-                onChange={handleFileSelect}
-                disabled={attachedFiles.length >= 10}
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => document.getElementById('file-attachment')?.click()}
-                disabled={attachedFiles.length >= 10}
-                className="flex items-center space-x-1"
-              >
-                <Paperclip className="h-4 w-4" />
-                <span>Attach Files</span>
-              </Button>
-            </div>
-            <p className="text-xs text-gray-500 hidden sm:block">
+          {/* Keyboard shortcut info for desktop */}
+          <div className="hidden sm:flex sm:justify-end">
+            <p className="text-xs text-gray-500">
               Press Ctrl+Enter (Cmd+Enter on Mac) to send
             </p>
           </div>
@@ -176,6 +156,28 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
             <Send className="h-4 w-4 mr-2" />
             Send Message
           </Button>
+          
+          {/* Attach files button - below send button on mobile */}
+          <div className="flex items-center justify-center">
+            <input
+              type="file"
+              id="file-attachment"
+              multiple
+              className="hidden"
+              onChange={handleFileSelect}
+              disabled={attachedFiles.length >= 10}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => document.getElementById('file-attachment')?.click()}
+              disabled={attachedFiles.length >= 10}
+              className="flex items-center space-x-1"
+            >
+              <Paperclip className="h-4 w-4" />
+              <span>Attach Files</span>
+            </Button>
+          </div>
           
           {/* Keyboard shortcut info for mobile */}
           <p className="text-xs text-gray-500 text-center sm:hidden">
