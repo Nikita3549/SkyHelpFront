@@ -122,7 +122,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             <Info className="h-5 w-5 text-blue-600 shrink-0" />
             <AlertDescription className={`text-blue-800 ml-2 ${isMobile ? 'text-sm' : ''}`}>
               <span className="flex flex-wrap items-center">
-                No risk. Checking compensation is absolutely <span className="font-bold">free of charge</span>.
+                No risk. Checking compensation is absolutely free of charge.
               </span>
             </AlertDescription>
           </Alert>
