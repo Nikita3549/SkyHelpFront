@@ -12,82 +12,98 @@
   margin: 0 auto;
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Times New Roman', serif;
+  line-height: 1.5;
+  color: #000000;
 }
 
 .header { 
   text-align: center; 
-  margin-bottom: 30px; 
+  margin-bottom: 40px; 
 }
 
 .document-title { 
-  font-size: 24px; 
+  font-size: 28px; 
   font-weight: 700; 
-  margin: 15px 0 5px; 
-  color: #333;
+  margin: 20px 0 10px; 
+  color: #000000;
   text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .date { 
   font-size: 14px; 
-  margin-top: 5px; 
-  color: #555; 
+  margin-top: 10px; 
+  color: #000000; 
+  font-weight: 500;
 }
 
 .client-info { 
   text-align: center; 
-  margin-bottom: 30px; 
-  padding: 15px;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 40px; 
+  padding: 20px;
+  border: 2px solid #000000;
 }
 
 .client-name { 
   font-weight: bold; 
-  font-size: 16px; 
+  font-size: 18px; 
+  color: #000000;
+  margin-bottom: 5px;
 }
 
 .client-details { 
   font-size: 14px; 
-  color: #555; 
+  color: #000000; 
+  margin-bottom: 5px;
 }
 
 .client-caption { 
   font-size: 12px; 
-  color: #777; 
+  color: #000000; 
   font-style: italic; 
-  margin-top: 8px; 
+  margin-top: 10px; 
 }
 
 .section-title { 
   font-weight: bold; 
-  margin-bottom: 10px; 
+  margin: 25px 0 15px 0; 
+  font-size: 16px;
+  color: #000000;
+  text-transform: uppercase;
+  text-decoration: underline;
 }
 
 .claim-details { 
-  margin-bottom: 20px; 
+  margin-bottom: 30px; 
 }
 
 .claim-table { 
   width: 100%; 
   margin-bottom: 20px; 
   border-collapse: collapse; 
+  border: 1px solid #000000;
 }
 
 .claim-table td { 
-  padding: 8px 0;
+  padding: 12px;
   vertical-align: top; 
-  line-height: 1.6;
+  line-height: 1.5;
+  border: 1px solid #000000;
+  color: #000000;
 }
 
 .claim-table td:first-child { 
-  width: 120px;
+  width: 150px;
   font-weight: 600;
+  background-color: #f8f8f8;
 }
 
 .claim-id { 
   font-weight: 600; 
   margin-bottom: 15px; 
+  font-size: 16px;
+  color: #000000;
 }
 
 .legal-text { 
@@ -95,6 +111,7 @@
   text-align: justify; 
   font-size: 14px; 
   line-height: 1.6;
+  color: #000000;
 }
 
 .legal-text p { 
@@ -103,32 +120,23 @@
 
 /* Numbered list styles */
 .numbered-list {
-  padding-left: 20px;
+  padding-left: 25px;
   margin: 15px 0;
   list-style-type: decimal;
 }
 
 .numbered-item {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   line-height: 1.6;
   padding-left: 5px;
-}
-
-/* Keeping the bullet list styles for backward compatibility */
-.bullet-list { 
-  padding-left: 20px; 
-  margin: 15px 0; 
-}
-
-.bullet-item { 
-  margin-bottom: 10px; 
-  line-height: 1.6;
+  color: #000000;
 }
 
 .signature-section { 
   display: flex; 
   justify-content: space-between; 
-  margin-top: 60px; 
+  margin-top: 80px; 
+  page-break-inside: avoid;
 }
 
 .signature-box { 
@@ -137,32 +145,38 @@
 
 .signature-title { 
   font-weight: bold; 
-  margin-bottom: 5px; 
+  margin-bottom: 10px; 
+  color: #000000;
+  font-size: 14px;
 }
 
 .signature-name { 
-  margin-bottom: 20px; 
+  margin-bottom: 30px; 
+  color: #000000;
+  font-weight: 500;
 }
 
 .signature-line { 
-  border-top: 1px solid #333; 
-  margin: 30px 0 5px 0; 
+  border-top: 2px solid #000000; 
+  margin: 40px 0 10px 0; 
   width: 100%;
 }
 
 .signature-label { 
   font-size: 12px; 
-  color: #777; 
+  color: #000000; 
+  text-align: center;
+  font-weight: 500;
 }
 
 .logo-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .logo {
-  width: 100px;
+  width: 120px;
   height: auto;
 }
 
@@ -170,7 +184,8 @@
 @media print {
   .document-container {
     box-shadow: none;
-    padding: 0;
+    padding: 1.5cm;
+    font-size: 12px;
   }
   
   .print-container {
@@ -184,5 +199,17 @@
   .print-friendly-wrapper {
     padding: 0;
     background-color: white;
+  }
+  
+  .signature-section {
+    page-break-inside: avoid;
+  }
+  
+  .legal-text {
+    page-break-inside: avoid;
+  }
+  
+  .client-info {
+    page-break-inside: avoid;
   }
 }
