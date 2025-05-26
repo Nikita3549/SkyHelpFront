@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import {
@@ -421,12 +420,14 @@ const ClaimDetails = ({
           </Tabs>
         </CardContent>
 
-        <CardFooter className="flex flex-col border-t p-6 space-y-4">
-          <MessageWritingZone
-            messageText={messageText}
-            onMessageChange={onMessageChange}
-            onSendMessage={onSendMessage}
-          />
+        <CardFooter className="border-t p-0">
+          <div className="w-full p-6">
+            <MessageWritingZone
+              messageText={messageText}
+              onMessageChange={onMessageChange}
+              onSendMessage={onSendMessage}
+            />
+          </div>
         </CardFooter>
       </Card>
     </motion.div>
