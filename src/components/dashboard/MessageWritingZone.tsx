@@ -138,37 +138,49 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
           onKeyDown={handleKeyDown}
         />
         
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <input
-              type="file"
-              id="file-attachment"
-              multiple
-              className="hidden"
-              onChange={handleFileSelect}
-              disabled={attachedFiles.length >= 10}
-            />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => document.getElementById('file-attachment')?.click()}
-              disabled={attachedFiles.length >= 10}
-              className="flex items-center space-x-1"
-            >
-              <Paperclip className="h-4 w-4" />
-              <span>Attach Files</span>
-            </Button>
-            <p className="text-xs text-gray-500">
+        {/* Mobile-first layout for controls */}
+        <div className="space-y-3">
+          {/* Attach files button and keyboard shortcut info */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="flex items-center space-x-2">
+              <input
+                type="file"
+                id="file-attachment"
+                multiple
+                className="hidden"
+                onChange={handleFileSelect}
+                disabled={attachedFiles.length >= 10}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => document.getElementById('file-attachment')?.click()}
+                disabled={attachedFiles.length >= 10}
+                className="flex items-center space-x-1"
+              >
+                <Paperclip className="h-4 w-4" />
+                <span>Attach Files</span>
+              </Button>
+            </div>
+            <p className="text-xs text-gray-500 hidden sm:block">
               Press Ctrl+Enter (Cmd+Enter on Mac) to send
             </p>
           </div>
+          
+          {/* Send button - full width on mobile */}
           <Button 
             onClick={handleSendMessage} 
             disabled={!messageText.trim() && attachedFiles.length === 0}
+            className="w-full sm:w-auto sm:ml-auto sm:flex"
           >
             <Send className="h-4 w-4 mr-2" />
             Send Message
           </Button>
+          
+          {/* Keyboard shortcut info for mobile */}
+          <p className="text-xs text-gray-500 text-center sm:hidden">
+            Press Ctrl+Enter (Cmd+Enter on Mac) to send
+          </p>
         </div>
       </div>
     </div>
