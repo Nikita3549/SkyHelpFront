@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -190,18 +191,6 @@ const OverbookedFlightCompensation = () => {
         Airlines have a legal obligation to inform you of your rights when you're denied boarding and to provide 
         the compensation you're entitled to.
       </p>
-
-      <div className="bg-blue-50 p-6 rounded-lg my-8">
-        <h3 className="text-xl font-semibold mb-3">Need Help With Your Claim?</h3>
-        <p className="mb-4">
-          SkyHelp specializes in helping passengers get the compensation they deserve. Our simple process and 
-          no-win, no-fee approach means there's no risk to you. Let us handle the complexity of dealing with airlines 
-          while you focus on what matters.
-        </p>
-        <Button asChild>
-          <Link to="/claim">Start Your Claim Now</Link>
-        </Button>
-      </div>
     </RightsPageLayout>
   );
 };
