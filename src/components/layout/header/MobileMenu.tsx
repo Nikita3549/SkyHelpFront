@@ -1,22 +1,21 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import LanguageSelector from "./LanguageSelector";
 
 interface MobileMenuProps {
   isOpen: boolean;
   navigation: Array<{
     name: string;
     href: string;
+    current?: boolean;
+    hasDropdown?: boolean;
+    subItems?: Array<{ name: string; href: string; description?: string; }>;
   }>;
-  passengerRightsLinks: Array<{
-    name: string;
-    href: string;
-  }>;
-  location: {
-    pathname: string;
-  };
+  passengerRightsLinks: Array<{ name: string; href: string; description?: string; }>;
+  location: { pathname: string };
   handleNavClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 }
 
@@ -25,71 +24,61 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   navigation,
   passengerRightsLinks,
   location,
-  handleNavClick,
+  handleNavClick
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div
       className={cn(
-        "md:hidden absolute left-0 right-0 top-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-hidden z-50",
-        isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        "md:hidden transition-all duration-300 ease-in-out overflow-hidden",
+        isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
       )}
     >
-      <div className="px-4 py-6 space-y-3">
+      <div className="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg rounded-lg mt-2">
         {navigation.map((item) => (
-          <Link
-            key={item.name}
-            to={item.href}
-            onClick={(e) => handleNavClick(e, item.href)}
-            className={cn(
-              "block py-2 px-3 rounded-lg font-medium transition-colors",
-              location.pathname === item.href && !item.href.includes('#')
-                ? "text-primary bg-blue-50"
-                : "text-gray-600 hover:text-primary hover:bg-blue-50"
+          <div key={item.name}>
+            <a
+              href={item.href}
+              className={cn(
+                "block px-3 py-2 text-base font-medium rounded-md transition-colors",
+                location.pathname === item.href
+                  ? "bg-primary text-white"
+                  : "text-gray-700 hover:bg-gray-100"
+              )}
+              onClick={(e) => handleNavClick(e, item.href)}
+            >
+              {item.name}
+            </a>
+            {item.name === "Passenger Rights" && (
+              <div className="ml-4 space-y-1">
+                {passengerRightsLinks.map((subItem) => (
+                  <a
+                    key={subItem.name}
+                    href={subItem.href}
+                    className="block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                    onClick={(e) => handleNavClick(e, subItem.href)}
+                  >
+                    {subItem.name}
+                  </a>
+                ))}
+              </div>
             )}
-          >
-            {item.name}
-          </Link>
+          </div>
         ))}
         
-        <div className="py-2">
-          <div 
-            className="flex justify-between items-center px-3 py-2 rounded-lg font-medium text-gray-600 hover:text-primary hover:bg-blue-50"
-            onClick={() => {
-              const rightsMenu = document.getElementById('mobile-rights-menu');
-              if (rightsMenu) {
-                rightsMenu.classList.toggle('hidden');
-              }
-            }}
+        <div className="pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-between px-3 py-2">
+            <span className="text-sm font-medium text-gray-700">Language</span>
+            <LanguageSelector />
+          </div>
+          <Button 
+            className="w-full mt-2 bg-primary hover:bg-primary/90"
+            onClick={() => navigate("/claim")}
           >
-            <span>Know Your Rights</span>
-            <ChevronDown className="h-4 w-4" />
-          </div>
-          <div id="mobile-rights-menu" className="hidden pl-4 mt-1 space-y-2">
-            {passengerRightsLinks.map((link) => (
-              <Link 
-                key={link.name}
-                to={link.href}
-                className="block py-1 px-3 text-sm text-gray-600 hover:text-primary"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
+            Start Claim
+          </Button>
         </div>
-        
-        <hr className="my-2 border-gray-100" />
-        <Link
-          to="/dashboard"
-          className="block py-2 px-3 rounded-lg font-medium text-gray-600 hover:text-primary hover:bg-blue-50 transition-colors"
-        >
-          My Claims
-        </Link>
-        <Link
-          to="/claim"
-          className="block py-2 px-3 rounded-lg text-center font-medium text-white bg-primary hover:bg-blue-600 transition-colors"
-        >
-          Start Your Claim
-        </Link>
       </div>
     </div>
   );

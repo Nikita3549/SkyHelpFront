@@ -1,22 +1,22 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import LanguageSelector from "./LanguageSelector";
 
-const DesktopActions: React.FC = () => {
+const DesktopActions = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="hidden md:flex items-center space-x-4">
-      <Link
-        to="/dashboard"
-        className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+      <LanguageSelector />
+      <Button 
+        variant="outline" 
+        onClick={() => navigate("/claim")}
+        className="border-primary text-primary hover:bg-primary hover:text-white"
       >
-        My Claims
-      </Link>
-      <Link
-        to="/claim"
-        className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-full hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-      >
-        Start Your Claim
-      </Link>
+        Start Claim
+      </Button>
     </div>
   );
 };
