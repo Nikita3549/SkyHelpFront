@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build:
+      context: .
+    container_name: frontend
+    ports:
+      - "${PORT}:${PORT}"
+    restart: always
+    profiles:
+      - front
+    command: sh -c "cd /opt/app/ && serve -s dist -l ${PORT}"
