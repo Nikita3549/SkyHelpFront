@@ -1,7 +1,6 @@
-
-import React from "react";
-import { Separator } from "@/components/ui/separator";
-import AnimatedButton from "@/components/ui-custom/AnimatedButton";
+import React from 'react';
+import { Separator } from '@/components/ui/separator';
+import AnimatedButton from '@/components/ui-custom/AnimatedButton';
 
 interface RightsCallToActionProps {
   title?: string;
@@ -20,24 +19,27 @@ interface RightsCallToActionProps {
  * Reusable call to action component for rights pages
  */
 const RightsCallToAction = ({
-  title = "Tired of Fighting Airlines?",
-  description = "Let our experts handle your flight compensation claim. With our specialized knowledge of air passenger rights and years of experience dealing with resistant airlines, we can maximize your chances of receiving the compensation you deserve.",
-  buttonText = "Start Your Compensation Claim Now",
-  buttonLink = "/claim",
+  title = 'Tired of Fighting Airlines?',
+  description = 'Let our experts handle your flight compensation claim. With our specialized knowledge of air passenger rights and years of experience dealing with resistant airlines, we can maximize your chances of receiving the compensation you deserve.',
+  buttonText = 'Start Your Compensation Claim Now',
+  buttonLink = '/claim',
   stats,
-  additionalInfo = ["Claim takes just 3 minutes to start", "Most claims resolved within 12 weeks"],
-  className = ""
+  additionalInfo = [
+    'Claim takes just 3 minutes to start',
+    'Most claims resolved within 12 weeks',
+  ],
+  className = '',
 }: RightsCallToActionProps) => {
   return (
     <>
       <Separator className="my-10" />
 
-      <div className={`grid md:grid-cols-2 gap-8 my-10 bg-blue-50 p-8 rounded-xl ${className}`}>
+      <div
+        className={`grid md:grid-cols-2 gap-8 my-10 bg-blue-50 p-8 rounded-xl ${className}`}
+      >
         <div>
           <h3 className="text-2xl font-semibold mb-4">{title}</h3>
-          <p className="mb-6">
-            {description}
-          </p>
+          <p className="mb-6">{description}</p>
           <ul className="list-disc pl-6 space-y-2 mb-6">
             <li>No win, no fee policy - we only get paid if you do</li>
             <li>We handle all airline communications and paperwork</li>
@@ -45,17 +47,26 @@ const RightsCallToAction = ({
             <li>Expert knowledge of case law and precedents</li>
             <li>Regular updates on your claim's progress</li>
           </ul>
-          <AnimatedButton to={buttonLink} variant="primary" size="lg" className="mt-4">
+          <AnimatedButton
+            to={buttonLink}
+            variant="primary"
+            size="lg"
+            className="mt-4"
+          >
             {buttonText}
           </AnimatedButton>
         </div>
         {stats && (
           <div className="flex items-center justify-center">
             <div className="text-center">
-              <div className="text-5xl font-bold text-primary mb-3">{stats.value}</div>
+              <div className="text-5xl font-bold text-primary mb-3">
+                {stats.value}
+              </div>
               <p className="text-xl">{stats.label}</p>
               {additionalInfo.map((info, index) => (
-                <p key={index} className="text-sm mt-2 text-gray-600">{info}</p>
+                <p key={index} className="text-sm mt-2 text-gray-600">
+                  {info}
+                </p>
               ))}
             </div>
           </div>

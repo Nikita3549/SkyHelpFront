@@ -1,14 +1,13 @@
-
-import React from "react";
-import { AlertTriangle, ArrowRight, FileClock, Plane } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+import { AlertTriangle, ArrowRight, FileClock, Plane } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 interface EligibilityResultModalProps {
   open: boolean;
@@ -40,15 +39,21 @@ const EligibilityResultModal: React.FC<EligibilityResultModalProps> = ({
               <div className="text-blue-500">
                 <FileClock className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-medium text-blue-900">Your flight details</h3>
+              <h3 className="text-lg font-medium text-blue-900">
+                Your flight details
+              </h3>
             </div>
 
             <div className="h-px bg-gray-200 my-4"></div>
 
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-sm font-semibold text-gray-500 uppercase mb-1">DEPARTED</p>
-                <p className="text-lg font-medium text-blue-900">{departureAirport || "Departure Airport"}</p>
+                <p className="text-sm font-semibold text-gray-500 uppercase mb-1">
+                  DEPARTED
+                </p>
+                <p className="text-lg font-medium text-blue-900">
+                  {departureAirport || 'Departure Airport'}
+                </p>
               </div>
 
               <div className="text-gray-300">
@@ -56,8 +61,12 @@ const EligibilityResultModal: React.FC<EligibilityResultModalProps> = ({
               </div>
 
               <div className="text-right">
-                <p className="text-sm font-semibold text-gray-500 uppercase mb-1">ARRIVED</p>
-                <p className="text-lg font-medium text-blue-900">{arrivalAirport || "Arrival Airport"}</p>
+                <p className="text-sm font-semibold text-gray-500 uppercase mb-1">
+                  ARRIVED
+                </p>
+                <p className="text-lg font-medium text-blue-900">
+                  {arrivalAirport || 'Arrival Airport'}
+                </p>
               </div>
             </div>
           </div>
@@ -65,13 +74,16 @@ const EligibilityResultModal: React.FC<EligibilityResultModalProps> = ({
 
         <div className="p-6">
           <p className="text-blue-900 mb-4">
-            For cancellations, airlines don't have to pay compensation if they gave passengers 14 days notice, as it appears they have done in this case.
+            For cancellations, airlines don't have to pay compensation if they
+            gave passengers 14 days notice, as it appears they have done in this
+            case.
           </p>
-          
+
           <p className="text-blue-900 font-medium mb-6">
-            While we couldn't help this time, we're always here to help you understand your rights and check for compensation.
+            While we couldn't help this time, we're always here to help you
+            understand your rights and check for compensation.
           </p>
-          
+
           <Button onClick={onContinue} className="w-full">
             Continue anyway
             <ArrowRight className="ml-2 h-4 w-4" />

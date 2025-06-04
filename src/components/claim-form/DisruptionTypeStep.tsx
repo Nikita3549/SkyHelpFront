@@ -1,23 +1,22 @@
-
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
-import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
+import { Form } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 
 // Schema and types
-import { flightDetailsSchema } from "@/components/claim-form/schemas";
-import { AnimationTransitions } from "@/components/claim-form/types";
+import { flightDetailsSchema } from '@/components/claim-form/schemas';
+import { AnimationTransitions } from '@/components/claim-form/types';
 
 // Component imports
-import DisruptionTypeRadioGroup from "./flight-details/DisruptionTypeRadioGroup";
-import EligibilityResult from "./flight-details/EligibilityResult";
-import EligibilityResultModal from "./flight-details/EligibilityResultModal";
-import ArrivalDelayQuestion from "./flight-details/ArrivalDelayQuestion";
-import NotificationTimeQuestion from "./flight-details/NotificationTimeQuestion";
-import VoluntaryDenialQuestion from "./flight-details/VoluntaryDenialQuestion";
+import DisruptionTypeRadioGroup from './flight-details/DisruptionTypeRadioGroup';
+import EligibilityResult from './flight-details/EligibilityResult';
+import EligibilityResultModal from './flight-details/EligibilityResultModal';
+import ArrivalDelayQuestion from './flight-details/ArrivalDelayQuestion';
+import NotificationTimeQuestion from './flight-details/NotificationTimeQuestion';
+import VoluntaryDenialQuestion from './flight-details/VoluntaryDenialQuestion';
 
 interface DisruptionTypeStepProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
@@ -39,53 +38,56 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
   onBack,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  
+
   // Get the current values from the form
-  const disruptionType = form.watch("disruptionType");
-  const arrivalDelay = form.watch("arrivalDelay");
-  const notificationTime = form.watch("notificationTime");
-  const departureAirport = form.watch("departureAirport");
-  const arrivalAirport = form.watch("arrivalAirport");
-  
+  const disruptionType = form.watch('disruptionType');
+  const arrivalDelay = form.watch('arrivalDelay');
+  const notificationTime = form.watch('notificationTime');
+  const departureAirport = form.watch('departureAirport');
+  const arrivalAirport = form.watch('arrivalAirport');
+
   // Check if a disruption type has been selected
-  const hasSelectedDisruptionType = disruptionType !== undefined && disruptionType !== "";
-    
+  const hasSelectedDisruptionType =
+    disruptionType !== undefined && disruptionType !== '';
+
   // Check if we should show the arrival delay question
-  const showArrivalDelayQuestion = hasSelectedDisruptionType && (
-    disruptionType === "delay" || 
-    disruptionType === "cancellation" || 
-    disruptionType === "denied_boarding"
-  );
-    
+  const showArrivalDelayQuestion =
+    hasSelectedDisruptionType &&
+    (disruptionType === 'delay' ||
+      disruptionType === 'cancellation' ||
+      disruptionType === 'denied_boarding');
+
   // Check if we should show the notification time question
-  const showNotificationTimeQuestion = 
-    disruptionType === "cancellation" && arrivalDelay !== undefined;
-    
+  const showNotificationTimeQuestion =
+    disruptionType === 'cancellation' && arrivalDelay !== undefined;
+
   // Check if we should show the voluntary denial question
-  const showVoluntaryDenialQuestion = 
-    disruptionType === "denied_boarding" && arrivalDelay !== undefined;
+  const showVoluntaryDenialQuestion =
+    disruptionType === 'denied_boarding' && arrivalDelay !== undefined;
 
   // Handle form submission
   const handleSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
     // Special case: If flight was cancelled with 14+ days notice, show the modal instead
-    if (data.disruptionType === "cancellation" && data.notificationTime === "14days_or_more") {
+    if (
+      data.disruptionType === 'cancellation' &&
+      data.notificationTime === '14days_or_more'
+    ) {
       setShowModal(true);
     } else {
       // Otherwise proceed with normal submission
       onSubmit(data);
     }
   };
-  
+
   // Special case for cancellations with 14+ days notice
-  const isCancellationWithSufficientNotice = 
-    disruptionType === "cancellation" && 
-    notificationTime === "14days_or_more";
+  const isCancellationWithSufficientNotice =
+    disruptionType === 'cancellation' && notificationTime === '14days_or_more';
 
   // Animation variants for the follow-up questions
   const followUpQuestionAnimations = {
-    initial: { opacity: 0, height: 0, overflow: "hidden" },
-    animate: { opacity: 1, height: "auto", transition: { duration: 0.3 } },
-    exit: { opacity: 0, height: 0, transition: { duration: 0.2 } }
+    initial: { opacity: 0, height: 0, overflow: 'hidden' },
+    animate: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
+    exit: { opacity: 0, height: 0, transition: { duration: 0.2 } },
   };
 
   return (
@@ -99,7 +101,8 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-2">What Happened?</h2>
         <p className="text-gray-600">
-          Tell us what happened to your flight to check eligibility for compensation.
+          Tell us what happened to your flight to check eligibility for
+          compensation.
         </p>
       </div>
 
@@ -115,9 +118,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
                 key="arrivalDelayQuestion"
                 {...followUpQuestionAnimations}
               >
-                <ArrivalDelayQuestion 
-                  form={form} 
-                />
+                <ArrivalDelayQuestion form={form} />
               </motion.div>
             )}
 
@@ -126,9 +127,7 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
                 key="notificationTimeQuestion"
                 {...followUpQuestionAnimations}
               >
-                <NotificationTimeQuestion 
-                  form={form} 
-                />
+                <NotificationTimeQuestion form={form} />
               </motion.div>
             )}
 
@@ -137,26 +136,24 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
                 key="voluntaryDenialQuestion"
                 {...followUpQuestionAnimations}
               >
-                <VoluntaryDenialQuestion 
-                  form={form} 
-                />
+                <VoluntaryDenialQuestion form={form} />
               </motion.div>
             )}
           </AnimatePresence>
 
           <div className="pt-4 flex justify-between items-center">
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={onBack}
               className="flex items-center"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Flight Details
             </Button>
-            
-            <Button 
-              type="submit" 
+
+            <Button
+              type="submit"
               className="w-full sm:w-auto"
               disabled={isChecking || !hasSelectedDisruptionType}
             >
@@ -178,8 +175,8 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
 
       {/* Regular eligibility result (non-modal) */}
       {!isCancellationWithSufficientNotice && (
-        <EligibilityResult 
-          isEligible={isEligible} 
+        <EligibilityResult
+          isEligible={isEligible}
           onContinue={onContinue}
           disruptionType={disruptionType}
           notificationTime={notificationTime}

@@ -1,14 +1,17 @@
-
-import React, { useState } from "react";
-import { Claim } from "@/lib/supabase";
-import ClaimsTableHeader from "./ClaimsTableHeader";
-import ClaimsTable from "./ClaimsTable";
-import ClaimDetailsSection from "./ClaimDetailsSection";
+import React, { useState } from 'react';
+import { Claim } from '@/lib/supabase';
+import ClaimsTableHeader from './ClaimsTableHeader';
+import ClaimsTable from './ClaimsTable';
+import ClaimDetailsSection from './ClaimDetailsSection';
 
 type ClaimsTabProps = {
   claimsData: Claim[];
   handleSendEmail: (claimId: string) => void;
-  handleUpdateStatus: (claimId: string, newStatus: string, reason?: string) => void;
+  handleUpdateStatus: (
+    claimId: string,
+    newStatus: string,
+    reason?: string,
+  ) => void;
   handleExportClaims: () => void;
   setIsNewClaimModalOpen: (value: boolean) => void;
   onEditClaim: (claim: Claim) => void;
@@ -23,20 +26,21 @@ const ClaimsTab = ({
   onEditClaim,
 }: ClaimsTabProps) => {
   const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [selectedClaim, setSelectedClaim] = useState<string | null>(null);
 
   const filteredClaims = claimsData.filter((claim) => {
-    const matchesSearch = 
+    const matchesSearch =
       claim.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       claim.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       claim.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       claim.airline.toLowerCase().includes(searchTerm.toLowerCase()) ||
       claim.flightnumber.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = statusFilter === "all" || claim.status === statusFilter;
-    
+
+    const matchesStatus =
+      statusFilter === 'all' || claim.status === statusFilter;
+
     return matchesSearch && matchesStatus;
   });
 

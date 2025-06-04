@@ -1,5 +1,4 @@
-
-import { format } from "date-fns";
+import { format } from 'date-fns';
 import html2pdf from 'html2pdf.js';
 
 export interface ClaimData {
@@ -19,30 +18,38 @@ export interface AgreementProps {
 }
 
 export const getFormattedDate = () => {
-  return format(new Date(), "yyyy-MM-dd");
+  return format(new Date(), 'yyyy-MM-dd');
 };
 
 export const handlePrint = () => {
   return new Promise<void>((resolve, reject) => {
     try {
-      const printContent = document.getElementById("assignment-agreement");
+      const printContent = document.getElementById('assignment-agreement');
       if (!printContent) {
-        reject(new Error("Assignment agreement element not found"));
+        reject(new Error('Assignment agreement element not found'));
         return;
       }
-      
+
       const windowUrl = 'about:blank';
       const uniqueName = new Date().getTime();
       const windowName = `Print_${uniqueName}`;
-      const printWindow = window.open(windowUrl, windowName, 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-      
+      const printWindow = window.open(
+        windowUrl,
+        windowName,
+        'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0',
+      );
+
       if (!printWindow) {
-        reject(new Error("Could not open print window"));
+        reject(new Error('Could not open print window'));
         return;
       }
-      
-      printWindow.document.write('<html><head><title>Assignment Agreement</title>');
-      printWindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">');
+
+      printWindow.document.write(
+        '<html><head><title>Assignment Agreement</title>',
+      );
+      printWindow.document.write(
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">',
+      );
       printWindow.document.write(`
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -141,10 +148,10 @@ export const handlePrint = () => {
       printWindow.document.write('</head><body>');
       printWindow.document.write(printContent.innerHTML);
       printWindow.document.write('</body></html>');
-      
+
       printWindow.document.close();
       printWindow.focus();
-      
+
       setTimeout(() => {
         printWindow.print();
         printWindow.close();
@@ -158,37 +165,37 @@ export const handlePrint = () => {
 
 export const handleDownload = () => {
   return new Promise<void>((resolve, reject) => {
-    const element = document.getElementById("assignment-agreement");
-    
+    const element = document.getElementById('assignment-agreement');
+
     if (!element) {
-      reject(new Error("Assignment agreement element not found"));
+      reject(new Error('Assignment agreement element not found'));
       return;
     }
 
     // Clone element to avoid modifying the visible document
     const clonedElement = element.cloneNode(true) as HTMLElement;
-    
+
     // Create a temporary container with A4 size constraints
     const container = document.createElement('div');
     container.appendChild(clonedElement);
-    
+
     // Set up html2pdf options
     const opt = {
       margin: [10, 10],
       filename: 'assignment_agreement.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
+      html2canvas: {
         scale: 2,
         useCORS: true,
-        logging: false
+        logging: false,
       },
-      jsPDF: { 
-        unit: 'mm', 
-        format: 'a4', 
-        orientation: 'portrait' 
-      }
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait',
+      },
     };
-    
+
     // Generate PDF
     html2pdf()
       .from(clonedElement)

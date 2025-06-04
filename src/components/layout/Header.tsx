@@ -1,13 +1,13 @@
-
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
-import Logo from "@/components/ui-custom/Logo";
-import DesktopNav from "./header/DesktopNav";
-import DesktopActions from "./header/DesktopActions";
-import MobileMenu from "./header/MobileMenu";
-import { getNavigationData } from "./header/navigationData";
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { Menu, X } from 'lucide-react';
+import Logo from '@/components/ui-custom/Logo';
+import DesktopNav from './header/DesktopNav';
+import DesktopActions from './header/DesktopActions';
+import MobileMenu from './header/MobileMenu';
+import { getNavigationData } from './header/navigationData';
+import { useAuth } from '@/contexts/AuthContext.tsx';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,28 +25,31 @@ const Header = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
     if (href.includes('#')) {
       e.preventDefault();
-      
+
       const isOnHomePage = location.pathname === '/';
       const elementId = href.split('#')[1];
       const element = document.getElementById(elementId);
-      
+
       if (isOnHomePage && element) {
         element.scrollIntoView({ behavior: 'smooth' });
       } else {
         navigate('/', { state: { scrollTo: elementId } });
       }
-      
+
       setIsOpen(false);
     }
   };
@@ -54,10 +57,8 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300 ease-in-out",
-        scrolled
-          ? "bg-white/80 backdrop-blur-md shadow-sm py-2"
-          : "bg-transparent py-4"
+        'fixed top-0 w-full z-50 transition-all duration-300 ease-in-out py-2',
+        scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent',
       )}
     >
       <div className="container-custom">
@@ -66,7 +67,7 @@ const Header = () => {
             <Logo size="lg" />
           </div>
 
-          <DesktopNav 
+          <DesktopNav
             navigation={navigation}
             passengerRightsLinks={passengerRightsLinks}
             location={location}
@@ -90,7 +91,7 @@ const Header = () => {
           </div>
         </div>
 
-        <MobileMenu 
+        <MobileMenu
           isOpen={isOpen}
           navigation={navigation}
           passengerRightsLinks={passengerRightsLinks}

@@ -1,26 +1,25 @@
-
-import React from "react";
-import { Link } from "react-router-dom";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 interface LogoProps {
   className?: string;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
   withLink?: boolean;
 }
 
-const Logo = ({ className, size = "md", withLink = true }: LogoProps) => {
+const Logo = ({ className, size = 'md', withLink = true }: LogoProps) => {
   const sizeClasses = {
-    sm: "h-8",
-    md: "h-10",
-    lg: "h-12"
+    sm: 'h-8',
+    md: 'h-10',
+    lg: 'h-12',
   };
-  
+
   const logo = (
-    <div className={cn("flex items-center", className)}>
-      <img 
-        src="/lovable-uploads/3f1c5959-4782-4709-9550-0f3cb0a7581a.png" 
-        alt="SkyHelp Logo" 
+    <div className={cn('flex items-center', className)}>
+      <img
+        src="/lovable-uploads/3f1c5959-4782-4709-9550-0f3cb0a7581a.png"
+        alt="SkyHelp Logo"
         className={cn(sizeClasses[size])}
       />
     </div>

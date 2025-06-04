@@ -1,21 +1,24 @@
-
-import React from "react";
-import { Badge } from "@/components/ui/badge";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
+import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 type MessageHeaderProps = {
   messageCount: number;
   filter: 'all' | 'client' | 'admin' | 'system';
   onFilterChange: (value: 'all' | 'client' | 'admin' | 'system') => void;
-}
+};
 
-const MessageHeader = ({ messageCount, filter, onFilterChange }: MessageHeaderProps) => {
+const MessageHeader = ({
+  messageCount,
+  filter,
+  onFilterChange,
+}: MessageHeaderProps) => {
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center space-x-2">
@@ -24,10 +27,10 @@ const MessageHeader = ({ messageCount, filter, onFilterChange }: MessageHeaderPr
           {messageCount}
         </Badge>
       </div>
-      
+
       <div className="flex items-center space-x-2">
         <span className="text-sm text-gray-500">Filter:</span>
-        <Select 
+        <Select
           value={filter}
           onValueChange={(value) => onFilterChange(value as any)}
         >

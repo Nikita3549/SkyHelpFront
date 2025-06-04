@@ -1,22 +1,21 @@
-
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Send } from 'lucide-react';
 
 type MessageInputProps = {
   onSendMessage: (message: string) => void;
-}
+};
 
 const MessageInput = ({ onSendMessage }: MessageInputProps) => {
   const [text, setText] = useState('');
-  
+
   const handleSend = () => {
     if (!text.trim()) return;
     onSendMessage(text);
     setText('');
   };
-  
+
   return (
     <div className="flex space-x-2">
       <Input

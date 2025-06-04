@@ -1,8 +1,7 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Database, Zap, TrendingUp } from "lucide-react";
-import InfoCard from "../common/InfoCard";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Database, Zap, TrendingUp } from 'lucide-react';
+import InfoCard from '../common/InfoCard';
 
 const TechSection = () => {
   return (
@@ -34,32 +33,34 @@ const TechSection = () => {
             >
               <div className="space-y-6">
                 <p className="text-lg font-medium text-gray-800">
-                  Extensive data and the latest tech allow us to check thousands of flights every day.
+                  Extensive data and the latest tech allow us to check thousands
+                  of flights every day.
                 </p>
                 <p className="text-base text-gray-700">
-                  So you'll know what compensation you're owed within minutes, for free. 
-                  And we work with travel agents, airlines, and governments to improve care for passengers.
+                  So you'll know what compensation you're owed within minutes,
+                  for free. And we work with travel agents, airlines, and
+                  governments to improve care for passengers.
                 </p>
               </div>
             </motion.div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <InfoCard 
+            <InfoCard
               icon={<Database size={24} />}
               title="Advanced Data Processing"
               description="Our systems process flight data in real-time, allowing for instant claim eligibility assessment."
               className="bg-white"
             />
-            
-            <InfoCard 
+
+            <InfoCard
               icon={<Zap size={24} />}
               title="Instant Decisions"
               description="Get immediate answers about your compensation eligibility without waiting for manual reviews."
               className="bg-white"
             />
-            
-            <InfoCard 
+
+            <InfoCard
               icon={<TrendingUp size={24} />}
               title="Continuous Improvement"
               description="We're constantly refining our technology to make the claims process even faster and more accurate."

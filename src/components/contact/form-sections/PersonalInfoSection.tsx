@@ -1,7 +1,6 @@
-
-import React from "react";
-import { User, Phone, Mail } from "lucide-react";
-import { UseFormReturn } from "react-hook-form";
+import React from 'react';
+import { User, Phone, Mail } from 'lucide-react';
+import { UseFormReturn } from 'react-hook-form';
 
 import {
   FormControl,
@@ -9,9 +8,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { ContactFormValues } from "../schema";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { ContactFormValues } from '../schema';
 
 interface PersonalInfoSectionProps {
   form: UseFormReturn<ContactFormValues>;
@@ -31,11 +30,7 @@ const PersonalInfoSection: React.FC<PersonalInfoSectionProps> = ({ form }) => {
             <FormControl>
               <div className="relative">
                 <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <Input 
-                  placeholder="John Doe" 
-                  className="pl-10" 
-                  {...field} 
-                />
+                <Input placeholder="John Doe" className="pl-10" {...field} />
               </div>
             </FormControl>
             <FormMessage />
@@ -53,10 +48,10 @@ const PersonalInfoSection: React.FC<PersonalInfoSectionProps> = ({ form }) => {
             <FormControl>
               <div className="relative">
                 <Phone className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <Input 
-                  placeholder="+40 770770770" 
-                  className="pl-10" 
-                  {...field} 
+                <Input
+                  placeholder="+40 770770770"
+                  className="pl-10"
+                  {...field}
                 />
               </div>
             </FormControl>

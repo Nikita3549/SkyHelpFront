@@ -1,23 +1,25 @@
-
-import React from "react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ChevronRight } from 'lucide-react';
 
 const Cta = () => {
   return (
     <section className="py-20 bg-gradient-to-br from-primary/90 to-blue-600/90 text-white">
       <div className="container-custom">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           className="max-w-3xl mx-auto text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Ready to claim your compensation?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+            Ready to claim your compensation?
+          </h2>
           <p className="text-lg text-white/80 mb-8">
-            Check if you're eligible for up to €600 in compensation for your delayed or cancelled flight. No win, no fee.
+            Check if you're eligible for up to €600 in compensation for your
+            delayed or cancelled flight. No win, no fee.
           </p>
           <Link
             to="/claim"

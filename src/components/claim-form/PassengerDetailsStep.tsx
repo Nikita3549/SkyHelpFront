@@ -1,16 +1,15 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Form } from "@/components/ui/form";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Form } from '@/components/ui/form';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 
 // Schema and components
-import { passengerDetailsSchema } from "@/components/claim-form/schemas";
-import { AnimationTransitions } from "@/components/claim-form/types";
-import PersonalInfoFields from "./passenger-details/PersonalInfoFields";
-import AddressFields from "./passenger-details/AddressFields";
-import NavigationButtons from "./passenger-details/NavigationButtons";
+import { passengerDetailsSchema } from '@/components/claim-form/schemas';
+import { AnimationTransitions } from '@/components/claim-form/types';
+import PersonalInfoFields from './passenger-details/PersonalInfoFields';
+import AddressFields from './passenger-details/AddressFields';
+import NavigationButtons from './passenger-details/NavigationButtons';
 
 interface PassengerDetailsStepProps {
   form: UseFormReturn<z.infer<typeof passengerDetailsSchema>>;
@@ -45,7 +44,7 @@ const PassengerDetailsStep: React.FC<PassengerDetailsStepProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Personal information fields component */}
             <PersonalInfoFields form={form} />
-            
+
             {/* Address fields component */}
             <AddressFields form={form} />
           </div>

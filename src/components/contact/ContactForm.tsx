@@ -1,17 +1,16 @@
+import React from 'react';
+import { motion } from 'framer-motion';
 
-import React from "react";
-import { motion } from "framer-motion";
-
-import { Form } from "@/components/ui/form";
-import { type ContactFormValues } from "./schema";
-import { useContactForm } from "./hooks/useContactForm";
+import { Form } from '@/components/ui/form';
+import { type ContactFormValues } from './schema';
+import { useContactForm } from './hooks/useContactForm';
 
 // Import form section components
-import PersonalInfoSection from "./form-sections/PersonalInfoSection";
-import EmailSubjectSection from "./form-sections/EmailSubjectSection";
-import MessageSection from "./form-sections/MessageSection";
-import TermsAgreementSection from "./form-sections/TermsAgreementSection";
-import SubmitButtonSection from "./form-sections/SubmitButtonSection";
+import PersonalInfoSection from './form-sections/PersonalInfoSection';
+import EmailSubjectSection from './form-sections/EmailSubjectSection';
+import MessageSection from './form-sections/MessageSection';
+import TermsAgreementSection from './form-sections/TermsAgreementSection';
+import SubmitButtonSection from './form-sections/SubmitButtonSection';
 
 const ContactForm = () => {
   const { form, onSubmit } = useContactForm();

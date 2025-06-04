@@ -1,4 +1,3 @@
-
 export type ClaimStep = {
   id: string;
   title: string;

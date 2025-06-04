@@ -1,10 +1,15 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Plane } from "lucide-react";
-import StatusBadge from "./StatusBadge";
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Plane } from 'lucide-react';
+import StatusBadge from './StatusBadge';
 
 interface Claim {
   id: string;
@@ -29,7 +34,11 @@ interface ClaimsListProps {
   onClaimSelect: (claimId: string) => void;
 }
 
-const ClaimsList = ({ claims, selectedClaimId, onClaimSelect }: ClaimsListProps) => {
+const ClaimsList = ({
+  claims,
+  selectedClaimId,
+  onClaimSelect,
+}: ClaimsListProps) => {
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -56,7 +65,7 @@ const ClaimsList = ({ claims, selectedClaimId, onClaimSelect }: ClaimsListProps)
         <CardHeader>
           <CardTitle>My Claims</CardTitle>
           <CardDescription>
-            {claims.length} {claims.length === 1 ? "claim" : "claims"} in total
+            {claims.length} {claims.length === 1 ? 'claim' : 'claims'} in total
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -75,8 +84,8 @@ const ClaimsList = ({ claims, selectedClaimId, onClaimSelect }: ClaimsListProps)
                 <Card
                   className={`cursor-pointer hover:shadow-md transition-shadow ${
                     selectedClaimId === claim.id
-                      ? "border-primary shadow-md"
-                      : ""
+                      ? 'border-primary shadow-md'
+                      : ''
                   }`}
                   onClick={() => onClaimSelect(claim.id)}
                 >
@@ -91,15 +100,23 @@ const ClaimsList = ({ claims, selectedClaimId, onClaimSelect }: ClaimsListProps)
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span className="text-sm text-gray-500">Flight</span>
-                        <span className="text-sm font-medium">{claim.flightNumber}</span>
+                        <span className="text-sm font-medium">
+                          {claim.flightNumber}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-gray-500">Date</span>
-                        <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
+                        <span className="text-sm font-medium">
+                          {new Date(claim.departureDate).toLocaleDateString()}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm text-gray-500">Compensation</span>
-                        <span className="text-sm font-medium">{claim.compensation}</span>
+                        <span className="text-sm text-gray-500">
+                          Compensation
+                        </span>
+                        <span className="text-sm font-medium">
+                          {claim.compensation}
+                        </span>
                       </div>
                     </div>
                     <div className="mt-3">

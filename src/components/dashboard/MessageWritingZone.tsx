@@ -1,9 +1,8 @@
-
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { MessageSquare, Send, Paperclip, X } from "lucide-react";
-import { toast } from "sonner";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { MessageSquare, Send, Paperclip, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface AttachedFile {
   file: File;
@@ -16,7 +15,11 @@ interface MessageWritingZoneProps {
   onSendMessage: () => void;
 }
 
-const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: MessageWritingZoneProps) => {
+const MessageWritingZone = ({
+  messageText,
+  onMessageChange,
+  onSendMessage,
+}: MessageWritingZoneProps) => {
   const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -28,29 +31,30 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    
+
     // Check if adding these files would exceed the limit
     if (attachedFiles.length + files.length > 10) {
-      toast.error("Maximum 10 files allowed");
+      toast.error('Maximum 10 files allowed');
       return;
     }
 
     // Validate each file
     const validFiles: AttachedFile[] = [];
     for (const file of files) {
-      if (file.size > 50 * 1024 * 1024) { // 50MB limit
+      if (file.size > 50 * 1024 * 1024) {
+        // 50MB limit
         toast.error(`File "${file.name}" is too large. Maximum size is 50MB.`);
         continue;
       }
-      
+
       validFiles.push({
         file,
-        id: `${Date.now()}-${Math.random()}`
+        id: `${Date.now()}-${Math.random()}`,
       });
     }
 
     if (validFiles.length > 0) {
-      setAttachedFiles(prev => [...prev, ...validFiles]);
+      setAttachedFiles((prev) => [...prev, ...validFiles]);
       toast.success(`${validFiles.length} file(s) attached`);
     }
 
@@ -59,7 +63,7 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
   };
 
   const removeFile = (fileId: string) => {
-    setAttachedFiles(prev => prev.filter(f => f.id !== fileId));
+    setAttachedFiles((prev) => prev.filter((f) => f.id !== fileId));
   };
 
   const formatFileSize = (bytes: number) => {
@@ -72,14 +76,17 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
 
   const handleSendMessage = () => {
     if (!messageText.trim() && attachedFiles.length === 0) {
-      toast.error("Please enter a message or attach files");
+      toast.error('Please enter a message or attach files');
       return;
     }
 
     // In a real implementation, you would upload the files here
-    console.log("Sending message with attachments:", {
+    console.log('Sending message with attachments:', {
       message: messageText,
-      files: attachedFiles.map(f => ({ name: f.file.name, size: f.file.size }))
+      files: attachedFiles.map((f) => ({
+        name: f.file.name,
+        size: f.file.size,
+      })),
     });
 
     onSendMessage();
@@ -90,9 +97,11 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
     <div className="w-full">
       <div className="flex items-center space-x-2 mb-2">
         <MessageSquare className="h-4 w-4 text-gray-500" />
-        <span className="text-sm font-medium text-gray-700">Send a message to support</span>
+        <span className="text-sm font-medium text-gray-700">
+          Send a message to support
+        </span>
       </div>
-      
+
       <div className="space-y-3">
         {/* File attachments display */}
         {attachedFiles.length > 0 && (
@@ -104,7 +113,10 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
             </div>
             <div className="space-y-2">
               {attachedFiles.map((attachedFile) => (
-                <div key={attachedFile.id} className="flex items-center justify-between p-2 bg-white border rounded">
+                <div
+                  key={attachedFile.id}
+                  className="flex items-center justify-between p-2 bg-white border rounded"
+                >
                   <div className="flex items-center space-x-2">
                     <Paperclip className="h-4 w-4 text-gray-400" />
                     <div>
@@ -137,7 +149,7 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
           className="min-h-[100px] resize-none"
           onKeyDown={handleKeyDown}
         />
-        
+
         {/* Desktop and mobile layout for controls */}
         <div className="space-y-3">
           {/* Button container - different layouts for mobile vs desktop */}
@@ -156,7 +168,9 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => document.getElementById('file-attachment')?.click()}
+                  onClick={() =>
+                    document.getElementById('file-attachment')?.click()
+                  }
                   disabled={attachedFiles.length >= 10}
                   className="flex items-center space-x-1"
                 >
@@ -164,7 +178,7 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
                   <span>Attach Files</span>
                 </Button>
               </div>
-              
+
               {/* Keyboard shortcut info for desktop - now positioned next to attach button */}
               <div className="hidden sm:block">
                 <p className="text-xs text-gray-500">
@@ -172,10 +186,10 @@ const MessageWritingZone = ({ messageText, onMessageChange, onSendMessage }: Mes
                 </p>
               </div>
             </div>
-            
+
             {/* Send button */}
-            <Button 
-              onClick={handleSendMessage} 
+            <Button
+              onClick={handleSendMessage}
               disabled={!messageText.trim() && attachedFiles.length === 0}
               className="w-full sm:w-auto"
             >

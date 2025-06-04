@@ -1,22 +1,21 @@
-
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import { Check, Plane, Ticket } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { Check, Plane, Ticket } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const HeroForm = () => {
-  const [departureAirport, setDepartureAirport] = useState("");
-  const [arrivalAirport, setArrivalAirport] = useState("");
+  const [departureAirport, setDepartureAirport] = useState('');
+  const [arrivalAirport, setArrivalAirport] = useState('');
   const navigate = useNavigate();
 
   const handleBoardingPassCheck = () => {
     navigate('/claim', {
       state: {
-        checkType: 'boardingPass'
-      }
+        checkType: 'boardingPass',
+      },
     });
   };
 
@@ -29,13 +28,15 @@ const HeroForm = () => {
     >
       <div className="glass rounded-2xl p-6 md:p-8 shadow-xl">
         <div className="flex flex-col space-y-5">
-          <h3 className="text-xl font-medium text-gray-800">Check your eligibility</h3>
+          <h3 className="text-xl font-medium text-gray-800">
+            Check your eligibility
+          </h3>
           <div className="grid gap-4">
             <div>
               <div className="relative">
-                <Input 
-                  type="text" 
-                  placeholder="Departure Airport" 
+                <Input
+                  type="text"
+                  placeholder="Departure Airport"
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
                   value={departureAirport}
                   onChange={(e) => setDepartureAirport(e.target.value)}
@@ -43,12 +44,12 @@ const HeroForm = () => {
                 <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
             </div>
-            
+
             <div>
               <div className="relative">
-                <Input 
-                  type="text" 
-                  placeholder="Arrival Airport" 
+                <Input
+                  type="text"
+                  placeholder="Arrival Airport"
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
                   value={arrivalAirport}
                   onChange={(e) => setArrivalAirport(e.target.value)}
@@ -57,23 +58,23 @@ const HeroForm = () => {
               </div>
             </div>
           </div>
-          
-          <Link 
-            to="/claim" 
-            state={{ 
-              departureAirport, 
-              arrivalAirport
+
+          <Link
+            to="/claim"
+            state={{
+              departureAirport,
+              arrivalAirport,
             }}
             className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-center"
           >
             Check Now
           </Link>
-          
+
           <div className="flex items-center justify-center gap-2">
             <span className="text-xs text-gray-500">or</span>
-            <Button 
+            <Button
               type="button"
-              variant="ghost" 
+              variant="ghost"
               className="p-0 h-auto text-blue-500 hover:text-blue-700 hover:bg-transparent font-medium text-sm flex items-center gap-1 group"
               onClick={handleBoardingPassCheck}
             >
@@ -81,7 +82,7 @@ const HeroForm = () => {
               Fast check with boarding pass
             </Button>
           </div>
-          
+
           <div className="text-xs text-gray-500 space-y-2 pt-2">
             <p className="flex items-start">
               <Check className="h-4 w-4 text-primary flex-shrink-0 mr-1.5 mt-0.5" />
@@ -98,40 +99,44 @@ const HeroForm = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Replace plane icons in yellow circles with blue circles */}
-      <motion.div 
-        className="absolute -bottom-6 -right-6" 
-        animate={{ 
+      <motion.div
+        className="absolute -bottom-6 -right-6"
+        animate={{
           y: [0, -10, 0],
-          rotate: [0, 5, 0]
+          rotate: [0, 5, 0],
         }}
-        transition={{ 
+        transition={{
           duration: 4,
           repeat: Infinity,
-          repeatType: "reverse"
+          repeatType: 'reverse',
         }}
       >
         <div className="bg-[#D3E4FD] rounded-full p-2 shadow-md">
           <Plane size={26} strokeWidth={2} className="text-gray-800" />
         </div>
       </motion.div>
-      
-      <motion.div 
-        className="absolute -top-4 -left-4" 
-        animate={{ 
+
+      <motion.div
+        className="absolute -top-4 -left-4"
+        animate={{
           y: [0, -8, 0],
-          rotate: [0, -5, 0]
+          rotate: [0, -5, 0],
         }}
-        transition={{ 
+        transition={{
           duration: 3.5,
           repeat: Infinity,
-          repeatType: "reverse",
-          delay: 1
+          repeatType: 'reverse',
+          delay: 1,
         }}
       >
         <div className="bg-[#D3E4FD] rounded-full p-2 shadow-sm">
-          <Plane size={20} strokeWidth={2} className="text-gray-800 rotate-180" />
+          <Plane
+            size={20}
+            strokeWidth={2}
+            className="text-gray-800 rotate-180"
+          />
         </div>
       </motion.div>
     </motion.div>

@@ -1,12 +1,11 @@
-
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
 interface FaqProps {
   faqRef: React.RefObject<HTMLDivElement>;
@@ -15,10 +14,10 @@ interface FaqProps {
 
 const Faq = ({ faqRef, faqs }: FaqProps) => {
   return (
-    <section 
-      ref={faqRef} 
-      id="faq" 
-      className="py-20 bg-gray-50 relative scroll-mt-20" 
+    <section
+      ref={faqRef}
+      id="faq"
+      className="py-20 bg-gray-50 relative scroll-mt-20"
       tabIndex={-1}
     >
       <div className="container-custom">
@@ -29,7 +28,9 @@ const Faq = ({ faqRef, faqs }: FaqProps) => {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            Frequently Asked Questions
+          </h2>
           <p className="text-lg text-gray-600">
             Find answers to common questions about flight compensation claims.
           </p>

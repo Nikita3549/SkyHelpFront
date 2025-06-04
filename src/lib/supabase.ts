@@ -1,9 +1,9 @@
-
 import { createClient } from '@supabase/supabase-js';
 
 // Use the direct Supabase URL and anon key instead of environment variables
-const supabaseUrl = "https://lyxhxlvshcsvoqdicqhm.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5eGh4bHZzaGNzdm9xZGljcWhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY3ODAsImV4cCI6MjA1ODEyMjc4MH0.pV26CUDC1Igsr2lKOB3AKGT3bAsqAB20YEw8PTyAzBU";
+const supabaseUrl = 'https://lyxhxlvshcsvoqdicqhm.supabase.co';
+const supabaseAnonKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5eGh4bHZzaGNzdm9xZGljcWhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NDY3ODAsImV4cCI6MjA1ODEyMjc4MH0.pV26CUDC1Igsr2lKOB3AKGT3bAsqAB20YEw8PTyAzBU';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -13,9 +13,15 @@ export type Claim = {
   customer: string;
   email: string;
   airline: string;
-  flightnumber: string; 
+  flightnumber: string;
   date: string;
-  status: 'pending' | 'in_progress' | 'escalated' | 'completed' | 'rejected' | 'not_eligible';
+  status:
+    | 'pending'
+    | 'in_progress'
+    | 'escalated'
+    | 'completed'
+    | 'rejected'
+    | 'not_eligible';
   stage: string;
   amount: string;
   lastupdated: string;

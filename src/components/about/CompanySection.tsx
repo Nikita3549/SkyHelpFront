@@ -1,24 +1,26 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import InfoCard from "../common/InfoCard";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import InfoCard from '../common/InfoCard';
 
 const CompanySection = () => {
   const companyValues = [
     {
-      title: "Expertise",
-      description: "Our team includes legal experts specialized in air passenger rights who understand the intricacies of regulations like EU 261/2004."
+      title: 'Expertise',
+      description:
+        'Our team includes legal experts specialized in air passenger rights who understand the intricacies of regulations like EU 261/2004.',
     },
     {
-      title: "Technology",
-      description: "We've developed proprietary technology that automates claim eligibility checks and streamlines the compensation process."
+      title: 'Technology',
+      description:
+        "We've developed proprietary technology that automates claim eligibility checks and streamlines the compensation process.",
     },
     {
-      title: "Transparency",
-      description: "We believe in being transparent about our process and fees, ensuring our customers always know what to expect."
-    }
+      title: 'Transparency',
+      description:
+        'We believe in being transparent about our process and fees, ensuring our customers always know what to expect.',
+    },
   ];
 
   return (
@@ -33,7 +35,8 @@ const CompanySection = () => {
         >
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Values</h2>
           <p className="text-base text-gray-700 max-w-3xl mx-auto">
-            We're committed to transparency, expertise, and using technology to ensure passengers receive the compensation they deserve.
+            We're committed to transparency, expertise, and using technology to
+            ensure passengers receive the compensation they deserve.
           </p>
         </motion.div>
 

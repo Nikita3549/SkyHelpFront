@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Printer, Download, Loader2 } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Printer, Download, Loader2 } from 'lucide-react';
 import { handlePrint, handleDownload } from './documentUtils';
-import { toast } from "@/components/ui/use-toast";
+import { toast } from '@/components/ui/use-toast';
 
 const DocumentActions: React.FC = () => {
   const [isPrinting, setIsPrinting] = useState(false);
@@ -14,15 +13,16 @@ const DocumentActions: React.FC = () => {
     try {
       await handlePrint();
       toast({
-        title: "Print dialog opened",
-        description: "The document has been sent to your printer.",
+        title: 'Print dialog opened',
+        description: 'The document has been sent to your printer.',
       });
     } catch (error) {
-      console.error("Error printing document:", error);
+      console.error('Error printing document:', error);
       toast({
-        title: "Print error",
-        description: "There was an error opening the print dialog. Please try again.",
-        variant: "destructive",
+        title: 'Print error',
+        description:
+          'There was an error opening the print dialog. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setIsPrinting(false);
@@ -34,15 +34,15 @@ const DocumentActions: React.FC = () => {
     try {
       await handleDownload();
       toast({
-        title: "PDF generated",
-        description: "Your PDF has been generated and downloaded.",
+        title: 'PDF generated',
+        description: 'Your PDF has been generated and downloaded.',
       });
     } catch (error) {
-      console.error("Error generating PDF:", error);
+      console.error('Error generating PDF:', error);
       toast({
-        title: "Download error",
-        description: "There was an error generating the PDF. Please try again.",
-        variant: "destructive",
+        title: 'Download error',
+        description: 'There was an error generating the PDF. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setIsDownloading(false);
@@ -51,9 +51,9 @@ const DocumentActions: React.FC = () => {
 
   return (
     <div className="mt-4 flex justify-end px-6 space-x-2">
-      <Button 
-        variant="outline" 
-        onClick={onPrint} 
+      <Button
+        variant="outline"
+        onClick={onPrint}
         className="flex items-center"
         disabled={isPrinting}
       >
@@ -64,9 +64,9 @@ const DocumentActions: React.FC = () => {
         )}
         Print
       </Button>
-      <Button 
-        variant="outline" 
-        onClick={onDownload} 
+      <Button
+        variant="outline"
+        onClick={onDownload}
         className="flex items-center"
         disabled={isDownloading}
       >

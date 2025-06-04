@@ -1,6 +1,5 @@
-
-import React, { useState } from "react";
-import { Play } from "lucide-react";
+import React, { useState } from 'react';
+import { Play } from 'lucide-react';
 
 interface VideoPlayerProps {
   videoUrl: string | null;
@@ -19,7 +18,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   isPlaying,
   setIsPlaying,
   isMuted,
-  setIsMuted
+  setIsMuted,
 }) => {
   const togglePlayPause = () => {
     if (!isVideoExpanded) {
@@ -33,12 +32,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   return (
-    <div 
+    <div
       className={`relative w-full transition-all duration-500 ease-in-out ${isVideoExpanded ? 'aspect-video' : 'h-[300px]'}`}
     >
       {videoUrl ? (
-        <video 
-          src={videoUrl} 
+        <video
+          src={videoUrl}
           className="absolute top-0 left-0 w-full h-full object-cover cursor-pointer"
           autoPlay={true}
           muted={isMuted}
@@ -54,10 +53,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           <p className="text-lg text-gray-500">No company video uploaded yet</p>
         </div>
       )}
-      
+
       {!isVideoExpanded && videoUrl && (
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-20 transition-all">
-          <div 
+          <div
             className="w-12 h-12 rounded-full bg-primary flex items-center justify-center cursor-pointer hover:bg-primary/90 transition-colors"
             onClick={togglePlayPause}
           >

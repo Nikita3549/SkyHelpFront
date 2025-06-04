@@ -1,12 +1,11 @@
-
-import React from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import ProgressBar from "@/components/claim-form/ProgressBar";
-import PreFilledValuesSyncer from "@/components/claim-form/PreFilledValuesSyncer";
-import ClaimFormTimeline from "@/components/claim-form/ClaimFormTimeline";
-import StepRenderer from "@/components/claim-form/StepRenderer";
-import { AnimationTransitions } from "@/components/claim-form/types";
-import { UseFormReturn } from "react-hook-form";
+import React from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import ProgressBar from '@/components/claim-form/ProgressBar';
+import PreFilledValuesSyncer from '@/components/claim-form/PreFilledValuesSyncer';
+import ClaimFormTimeline from '@/components/claim-form/ClaimFormTimeline';
+import StepRenderer from '@/components/claim-form/StepRenderer';
+import { AnimationTransitions } from '@/components/claim-form/types';
+import { UseFormReturn } from 'react-hook-form';
 
 interface ClaimFormContentProps {
   step: number;
@@ -81,10 +80,10 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   preFilledDepartureDate,
   locationState,
   claimId,
-  formData
+  formData,
 }) => {
   const isMobile = useIsMobile();
-  
+
   // Define the total number of steps for the progress bar calculation
   // Step 6 is the Thank You step (final step)
   const totalSteps = 6;
@@ -95,16 +94,19 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
           {/* Timeline sidebar */}
           <div className={`${isMobile ? 'mb-6' : 'md:col-span-1 pt-6'}`}>
-            <ClaimFormTimeline 
-              step={step} 
-              showBoardingPassUpload={showBoardingPassUpload} 
+            <ClaimFormTimeline
+              step={step}
+              showBoardingPassUpload={showBoardingPassUpload}
             />
           </div>
-          
+
           {/* Main form content */}
           <div className="md:col-span-3">
             {step < 6 && (
-              <ProgressBar step={showBoardingPassUpload && step < 2 ? 1 : step} totalSteps={totalSteps} />
+              <ProgressBar
+                step={showBoardingPassUpload && step < 2 ? 1 : step}
+                totalSteps={totalSteps}
+              />
             )}
             <PreFilledValuesSyncer
               form={flightDetailsForm}

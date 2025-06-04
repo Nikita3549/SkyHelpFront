@@ -1,13 +1,12 @@
-
-import React from "react";
-import { Separator } from "@/components/ui/separator";
-import { Claim } from "@/lib/supabase";
-import CustomerInfoCard from "../../../claims/details/CustomerInfoCard";
-import FlightInfoCard from "../../../claims/details/FlightInfoCard";
-import ClaimStatusCard from "../../../claims/details/ClaimStatusCard";
-import IssueDetailsCard from "../../../claims/details/IssueDetailsCard";
-import PaymentDetailsCard from "../../../claims/details/PaymentDetailsCard";
-import ActionButtons from "../../../claims/details/ActionButtons";
+import React from 'react';
+import { Separator } from '@/components/ui/separator';
+import { Claim } from '@/lib/supabase';
+import CustomerInfoCard from '../../../claims/details/CustomerInfoCard';
+import FlightInfoCard from '../../../claims/details/FlightInfoCard';
+import ClaimStatusCard from '../../../claims/details/ClaimStatusCard';
+import IssueDetailsCard from '../../../claims/details/IssueDetailsCard';
+import PaymentDetailsCard from '../../../claims/details/PaymentDetailsCard';
+import ActionButtons from '../../../claims/details/ActionButtons';
 
 type DetailsTabProps = {
   claim: Claim;
@@ -24,7 +23,7 @@ const DetailsTab = ({
   onUpdateStatus,
   onEdit,
   onMarkNotEligible,
-  onUpdateClaim
+  onUpdateClaim,
 }: DetailsTabProps) => {
   return (
     <>
@@ -43,9 +42,9 @@ const DetailsTab = ({
 
       <Separator className="my-6" />
 
-      <ActionButtons 
-        onSendEmail={onSendEmail} 
-        onUpdateStatus={onUpdateStatus} 
+      <ActionButtons
+        onSendEmail={onSendEmail}
+        onUpdateStatus={onUpdateStatus}
         onEdit={onEdit}
         onMarkNotEligible={onMarkNotEligible}
       />

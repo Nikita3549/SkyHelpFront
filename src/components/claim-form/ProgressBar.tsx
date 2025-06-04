@@ -1,5 +1,4 @@
-
-import React from "react";
+import React from 'react';
 
 interface ProgressBarProps {
   step: number;
@@ -9,7 +8,7 @@ interface ProgressBarProps {
 const ProgressBar = ({ step, totalSteps }: ProgressBarProps) => {
   // Calculate the percentage based on current step and total steps
   let percentage = 0;
-  
+
   // Final step (thank you step) always shows 100%
   if (step === 6) {
     percentage = 100;
@@ -26,8 +25,8 @@ const ProgressBar = ({ step, totalSteps }: ProgressBarProps) => {
 
   return (
     <div className="w-full h-1 bg-gray-200 rounded-full mb-8">
-      <div 
-        className="h-1 bg-primary rounded-full transition-all duration-500 ease-in-out" 
+      <div
+        className="h-1 bg-primary rounded-full transition-all duration-500 ease-in-out"
         style={{ width: `${percentage}%` }}
       />
     </div>

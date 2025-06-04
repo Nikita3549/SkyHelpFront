@@ -1,11 +1,10 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Check } from "lucide-react";
-import Marquee from "@/components/ui-custom/Marquee";
-import HeroButtons from "./HeroButtons";
-import HeroTrustBadge from "./HeroTrustBadge";
-import EuFlag from "@/components/ui-custom/EuFlag";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
+import Marquee from '@/components/ui-custom/Marquee';
+import HeroButtons from './HeroButtons';
+import HeroTrustBadge from './HeroTrustBadge';
+import EuFlag from '@/components/ui-custom/EuFlag';
 
 const HeroTitle = () => {
   return (
@@ -27,33 +26,35 @@ const HeroTitle = () => {
         <EuFlag size={16} className="mr-2" />
         EU Regulation 261/2004
       </motion.a>
-      
+
       <motion.h1
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.8 }}
         className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance"
       >
-        Get up to <span className="text-primary">€600</span> for your delayed flight
+        Get up to <span className="text-primary">€600</span> for your delayed
+        flight
       </motion.h1>
-      
+
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.8 }}
         className="text-lg text-gray-600 max-w-xl"
       >
-        No paperwork. No hassle. We handle your flight compensation claim from start to finish on a no-win, no-fee basis.
+        No paperwork. No hassle. We handle your flight compensation claim from
+        start to finish on a no-win, no-fee basis.
       </motion.p>
-      
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.8 }}
         className="mt-2 mb-4"
       >
-        <Marquee 
-          className="h-10 bg-blue-50/80 backdrop-blur-sm rounded-lg border border-blue-100 shadow-sm" 
+        <Marquee
+          className="h-10 bg-blue-50/80 backdrop-blur-sm rounded-lg border border-blue-100 shadow-sm"
           speed={40}
           pauseDuration={3000}
         >
@@ -73,9 +74,9 @@ const HeroTitle = () => {
           </div>
         </Marquee>
       </motion.div>
-      
+
       <HeroButtons />
-      
+
       <HeroTrustBadge />
     </motion.div>
   );

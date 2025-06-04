@@ -1,21 +1,26 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Plane, Info } from "lucide-react";
-import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Plane, Info } from 'lucide-react';
+import { Form } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 
 // Schema and types imports
-import { flightRouteSchema } from "@/components/claim-form/schemas";
-import { AnimationTransitions } from "@/components/claim-form/types";
-import ConnectingFlightsSection from "./flight-details/ConnectingFlightsSection";
-import { Input } from "@/components/ui/input";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import HelpTooltip from "@/components/ui-custom/HelpTooltip";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { flightRouteSchema } from '@/components/claim-form/schemas';
+import { AnimationTransitions } from '@/components/claim-form/types';
+import ConnectingFlightsSection from './flight-details/ConnectingFlightsSection';
+import { Input } from '@/components/ui/input';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import HelpTooltip from '@/components/ui-custom/HelpTooltip';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface FlightRouteStepProps {
   form: UseFormReturn<z.infer<typeof flightRouteSchema>>;
@@ -32,19 +37,19 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
   transitions,
   connectionFlights,
   setConnectionFlights,
-  flightDetailsForm
+  flightDetailsForm,
 }) => {
   const isMobile = useIsMobile();
-  
+
   const helpItems = [
-    { 
-      text: "Enter the data for all the flights that you have booked together - not only for the disrupted one." 
+    {
+      text: 'Enter the data for all the flights that you have booked together - not only for the disrupted one.',
     },
-    { 
-      text: "If you were given a substitute flight, its data may differ - so enter only the original flight details." 
-    }
+    {
+      text: 'If you were given a substitute flight, its data may differ - so enter only the original flight details.',
+    },
   ];
-  
+
   return (
     <motion.div
       key="step1"
@@ -57,14 +62,11 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
         <div>
           <h2 className="text-2xl font-semibold mb-2">Flight Route</h2>
           <p className="text-gray-600">
-            Let's start with your flight information to get you compensated quickly.
+            Let's start with your flight information to get you compensated
+            quickly.
           </p>
         </div>
-        <HelpTooltip 
-          items={helpItems} 
-          variant="popover" 
-          className="mt-1" 
-        />
+        <HelpTooltip items={helpItems} variant="popover" className="mt-1" />
       </div>
 
       <Form {...form}>
@@ -82,7 +84,11 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                         <Plane className="h-4 w-4" />
                       </span>
-                      <Input placeholder="e.g. JFK" {...field} className="pl-10" />
+                      <Input
+                        placeholder="e.g. JFK"
+                        {...field}
+                        className="pl-10"
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -101,7 +107,11 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                         <Plane className="h-4 w-4 transform rotate-90" />
                       </span>
-                      <Input placeholder="e.g. LAX" {...field} className="pl-10" />
+                      <Input
+                        placeholder="e.g. LAX"
+                        {...field}
+                        className="pl-10"
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -111,8 +121,8 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
           </div>
 
           {/* Connecting flights section - added to step 1 */}
-          <ConnectingFlightsSection 
-            form={flightDetailsForm} 
+          <ConnectingFlightsSection
+            form={flightDetailsForm}
             connectionFlights={connectionFlights}
             setConnectionFlights={setConnectionFlights}
           />
@@ -120,9 +130,12 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
           {/* Free checking alert message - improved for mobile responsiveness */}
           <Alert className="bg-blue-50 border-blue-100 mb-4">
             <Info className="h-5 w-5 text-blue-600 shrink-0" />
-            <AlertDescription className={`text-blue-800 ml-2 ${isMobile ? 'text-sm' : ''}`}>
+            <AlertDescription
+              className={`text-blue-800 ml-2 ${isMobile ? 'text-sm' : ''}`}
+            >
               <span className="flex items-center">
-                No risk. Checking compensation is absolutely <strong>free of charge</strong>.
+                No risk. Checking compensation is absolutely{' '}
+                <strong>free of charge</strong>.
               </span>
             </AlertDescription>
           </Alert>

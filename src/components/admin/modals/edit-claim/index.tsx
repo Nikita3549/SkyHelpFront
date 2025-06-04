@@ -1,3 +1,2 @@
-
-import EditClaimModal from "./EditClaimModal";
+import EditClaimModal from './EditClaimModal';
 export default EditClaimModal;

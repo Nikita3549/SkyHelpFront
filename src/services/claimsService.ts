@@ -1,4 +1,3 @@
-
 import { Claim } from '@/lib/supabase';
 import { claimsCrudService } from './api/claimsCrudService';
 import { claimCreateService } from './api/claimCreateService';
@@ -12,5 +11,5 @@ export const claimsService = {
   getClaims: claimsCrudService.getClaims,
   createClaim: claimCreateService.createClaim,
   updateClaim: claimUpdateService.updateClaim,
-  deleteClaim: claimsCrudService.deleteClaim
+  deleteClaim: claimsCrudService.deleteClaim,
 };

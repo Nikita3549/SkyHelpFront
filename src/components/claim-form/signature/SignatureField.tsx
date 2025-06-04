@@ -1,10 +1,14 @@
-
-import React, { useRef, useState, useEffect } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Signature } from "lucide-react";
-import { signatureSchema } from "@/components/claim-form/schemas";
+import React, { useRef, useState, useEffect } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { Signature } from 'lucide-react';
+import { signatureSchema } from '@/components/claim-form/schemas';
 
 interface SignatureFieldProps {
   form: UseFormReturn<z.infer<typeof signatureSchema>>;
@@ -21,14 +25,14 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
-      
+
       if (context) {
         context.lineWidth = 2;
         context.lineCap = 'round';
         context.strokeStyle = '#1a1f2c';
         setCtx(context);
       }
-      
+
       // Adjust canvas size to match parent container dimensions
       const resizeCanvas = () => {
         const container = canvas.parentElement;
@@ -37,10 +41,10 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
           canvas.height = container.clientHeight;
         }
       };
-      
+
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
-      
+
       return () => {
         window.removeEventListener('resize', resizeCanvas);
       };
@@ -65,16 +69,20 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
   };
 
   // Drawing functions
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+  const startDrawing = (
+    e:
+      | React.MouseEvent<HTMLCanvasElement>
+      | React.TouchEvent<HTMLCanvasElement>,
+  ) => {
     setIsDrawing(true);
     setIsEmpty(false);
-    
+
     if (ctx) {
       ctx.beginPath();
-      
+
       // Get coordinates based on event type
       let clientX, clientY;
-      
+
       if ('touches' in e) {
         // Touch event
         const rect = canvasRef.current?.getBoundingClientRect();
@@ -90,20 +98,24 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
           clientY = e.clientY - rect.top;
         }
       }
-      
+
       if (clientX !== undefined && clientY !== undefined) {
         ctx.moveTo(clientX, clientY);
       }
     }
   };
-  
-  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+
+  const draw = (
+    e:
+      | React.MouseEvent<HTMLCanvasElement>
+      | React.TouchEvent<HTMLCanvasElement>,
+  ) => {
     if (!isDrawing) return;
-    
+
     if (ctx) {
       // Get coordinates based on event type
       let clientX, clientY;
-      
+
       if ('touches' in e) {
         // Touch event
         const rect = canvasRef.current?.getBoundingClientRect();
@@ -119,14 +131,14 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
           clientY = e.clientY - rect.top;
         }
       }
-      
+
       if (clientX !== undefined && clientY !== undefined) {
         ctx.lineTo(clientX, clientY);
         ctx.stroke();
       }
     }
   };
-  
+
   const endDrawing = () => {
     if (isDrawing) {
       setIsDrawing(false);
@@ -145,15 +157,15 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
         <FormItem>
           <FormControl>
             <div className="relative w-full">
-              <div 
-                className="border-2 border-gray-200 rounded-lg h-40 overflow-hidden hover:border-primary transition-colors cursor-crosshair relative"
-              >
+              <div className="border-2 border-gray-200 rounded-lg h-40 overflow-hidden hover:border-primary transition-colors cursor-crosshair relative">
                 {isEmpty && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none gap-4 text-gray-400">
                     <div className="rounded-full bg-blue-100 p-4">
                       <Signature className="h-6 w-6 text-blue-500" />
                     </div>
-                    <p className="text-xl font-medium text-center text-gray-600">Click and draw your signature</p>
+                    <p className="text-xl font-medium text-center text-gray-600">
+                      Click and draw your signature
+                    </p>
                   </div>
                 )}
                 <canvas

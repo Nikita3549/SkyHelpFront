@@ -1,28 +1,30 @@
-
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/components/ui/use-toast";
-import type { User } from "@/pages/UserManagement";
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/use-toast';
+import type { User } from '@/pages/UserManagement';
 
 interface UserProfileSectionProps {
   user: User;
   onUserUpdate: () => void;
 }
 
-const UserProfileSection = ({ user, onUserUpdate }: UserProfileSectionProps) => {
-  const [name, setName] = useState(user.user_metadata.name || "");
+const UserProfileSection = ({
+  user,
+  onUserUpdate,
+}: UserProfileSectionProps) => {
+  const [name, setName] = useState(user.user_metadata.name || '');
   const [email, setEmail] = useState(user.email);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleUpdateProfile = async () => {
     if (!name.trim() || !email.trim()) {
       toast({
-        title: "Validation Error",
-        description: "Name and email are required.",
-        variant: "destructive",
+        title: 'Validation Error',
+        description: 'Name and email are required.',
+        variant: 'destructive',
       });
       return;
     }
@@ -31,20 +33,20 @@ const UserProfileSection = ({ user, onUserUpdate }: UserProfileSectionProps) => 
 
     try {
       // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       toast({
-        title: "Profile Updated",
-        description: "User information has been updated successfully.",
+        title: 'Profile Updated',
+        description: 'User information has been updated successfully.',
       });
-      
+
       onUserUpdate();
     } catch (error: any) {
-      console.error("Error updating profile:", error);
+      console.error('Error updating profile:', error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to update profile.",
-        variant: "destructive",
+        title: 'Error',
+        description: error.message || 'Failed to update profile.',
+        variant: 'destructive',
       });
     } finally {
       setIsUpdating(false);
@@ -66,7 +68,7 @@ const UserProfileSection = ({ user, onUserUpdate }: UserProfileSectionProps) => 
             placeholder="Enter full name"
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="email">Email Address</Label>
           <Input
@@ -77,14 +79,14 @@ const UserProfileSection = ({ user, onUserUpdate }: UserProfileSectionProps) => 
             placeholder="Enter email address"
           />
         </div>
-        
+
         <div className="pt-4">
-          <Button 
-            onClick={handleUpdateProfile} 
+          <Button
+            onClick={handleUpdateProfile}
             disabled={isUpdating}
             className="w-full md:w-auto"
           >
-            {isUpdating ? "Updating..." : "Update Profile"}
+            {isUpdating ? 'Updating...' : 'Update Profile'}
           </Button>
         </div>
       </CardContent>

@@ -1,20 +1,20 @@
-import React from "react";
-import { UseFormReturn } from "react-hook-form";
+import React from 'react';
+import { UseFormReturn } from 'react-hook-form';
 
 // Component imports
-import FlightDetailsStep from "@/components/claim-form/FlightDetailsStep";
-import DisruptionTypeStep from "@/components/claim-form/DisruptionTypeStep";
-import PassengerDetailsStep from "@/components/claim-form/PassengerDetailsStep";
-import BookingReferenceStep from "@/components/claim-form/BookingReferenceStep";
-import DisruptionDetailsStep from "@/components/claim-form/DisruptionDetailsStep";
-import PaymentDetailsStep from "@/components/claim-form/PaymentDetailsStep";
-import FlightRouteStep from "@/components/claim-form/FlightRouteStep";
-import BoardingPassUpload from "@/components/claim-form/BoardingPassUpload";
-import SignatureStep from "@/components/claim-form/SignatureStep";
-import FlightDocumentsStep from "@/components/claim-form/FlightDocumentsStep";
-import ThankYouStep from "@/components/claim-form/ThankYouStep";
-import { AnimationTransitions } from "@/components/claim-form/types";
-import { useBoardingPassUpload } from "@/hooks/useBoardingPassUpload";
+import FlightDetailsStep from '@/components/claim-form/FlightDetailsStep';
+import DisruptionTypeStep from '@/components/claim-form/DisruptionTypeStep';
+import PassengerDetailsStep from '@/components/claim-form/PassengerDetailsStep';
+import BookingReferenceStep from '@/components/claim-form/BookingReferenceStep';
+import DisruptionDetailsStep from '@/components/claim-form/DisruptionDetailsStep';
+import PaymentDetailsStep from '@/components/claim-form/PaymentDetailsStep';
+import FlightRouteStep from '@/components/claim-form/FlightRouteStep';
+import BoardingPassUpload from '@/components/claim-form/BoardingPassUpload';
+import SignatureStep from '@/components/claim-form/SignatureStep';
+import FlightDocumentsStep from '@/components/claim-form/FlightDocumentsStep';
+import ThankYouStep from '@/components/claim-form/ThankYouStep';
+import { AnimationTransitions } from '@/components/claim-form/types';
+import { useBoardingPassUpload } from '@/hooks/useBoardingPassUpload';
 
 interface StepRendererProps {
   step: number;
@@ -79,27 +79,27 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   transitions,
   disruptionType,
   claimId,
-  formData
+  formData,
 }) => {
   // Use the boarding pass upload hook
   const { handleBoardingPassSubmit } = useBoardingPassUpload({
     flightDetailsForm,
-    setStep
+    setStep,
   });
 
   // Get airline name from flightDetailsForm
-  const airlineName = flightDetailsForm.watch("airline");
+  const airlineName = flightDetailsForm.watch('airline');
 
   // Show boarding pass upload component if showBoardingPassUpload is true and step is 0 or 1
   if (showBoardingPassUpload && step < 2) {
     return (
-      <BoardingPassUpload 
+      <BoardingPassUpload
         onContinue={handleBoardingPassSubmit}
         transitions={transitions}
       />
     );
   }
-  
+
   switch (step) {
     case 1:
       return (

@@ -1,8 +1,7 @@
-
-import React from "react";
-import EmailTemplates from "./EmailTemplates";
-import RecentCommunications from "./RecentCommunications";
-import NewEmailForm from "./NewEmailForm";
+import React from 'react';
+import EmailTemplates from './EmailTemplates';
+import RecentCommunications from './RecentCommunications';
+import NewEmailForm from './NewEmailForm';
 
 const CommunicationsTab = () => {
   return (

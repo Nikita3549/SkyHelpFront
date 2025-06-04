@@ -1,16 +1,15 @@
-
-import React from "react";
-import TimelineStep from "./TimelineStep";
-import { ClaimStep } from "./types";
+import React from 'react';
+import TimelineStep from './TimelineStep';
+import { ClaimStep } from './types';
 
 type TimelineProps = {
   steps: ClaimStep[];
   editingStep: string | null;
-  editingField: "title" | "description" | null;
+  editingField: 'title' | 'description' | null;
   editValue: string;
   setEditValue: (value: string) => void;
   onToggleComplete: (stepId: string) => void;
-  onEditStep: (step: ClaimStep, field: "title" | "description") => void;
+  onEditStep: (step: ClaimStep, field: 'title' | 'description') => void;
   onSaveEdit: () => void;
   onCancelEdit: () => void;
   onDateChange: (stepId: string, date: Date | undefined) => void;

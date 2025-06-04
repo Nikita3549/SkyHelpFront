@@ -1,9 +1,14 @@
-
-import React from "react";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { paymentDetailsSchema } from "@/components/claim-form/schemas";
+import React from 'react';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
+import { paymentDetailsSchema } from '@/components/claim-form/schemas';
 
 interface TermsAgreementProps {
   form: UseFormReturn<z.infer<typeof paymentDetailsSchema>>;
@@ -28,11 +33,15 @@ const TermsAgreement: React.FC<TermsAgreementProps> = ({ form }) => {
           </FormControl>
           <div className="leading-tight">
             <FormLabel className="font-normal text-sm text-gray-700">
-              I agree to the{" "}
-              <a href="#" className="text-primary underline hover:text-blue-600">
+              I agree to the{' '}
+              <a
+                href="#"
+                className="text-primary underline hover:text-blue-600"
+              >
                 terms and conditions
-              </a>{" "}
-              and authorize FlightEaseClaim to act on my behalf to claim compensation from the airline.
+              </a>{' '}
+              and authorize FlightEaseClaim to act on my behalf to claim
+              compensation from the airline.
             </FormLabel>
             <FormMessage />
           </div>

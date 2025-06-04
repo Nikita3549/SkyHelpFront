@@ -1,4 +1,3 @@
-
 import { supabase, Claim } from '@/lib/supabase';
 import { baseApiClient } from './baseApiClient';
 
@@ -14,25 +13,26 @@ export const claimUpdateService = {
    */
   updateClaim: async (id: string, updates: Partial<Claim>): Promise<Claim> => {
     console.log('Updating claim with data:', updates);
-    
+
     // Ensure we're updating lastupdated (not lastUpdated)
     const updatedData = {
       ...updates,
-      lastupdated: updates.lastupdated || new Date().toISOString().split('T')[0]
+      lastupdated:
+        updates.lastupdated || new Date().toISOString().split('T')[0],
     };
-    
+
     const { data, error } = await supabase
       .from('claims')
       .update(updatedData)
       .eq('id', id)
       .select()
       .single();
-    
+
     if (error) {
       baseApiClient.logError('Error updating claim', error);
       throw error;
     }
-    
+
     return data;
-  }
+  },
 };

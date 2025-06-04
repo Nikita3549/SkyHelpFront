@@ -1,22 +1,21 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Form } from "@/components/ui/form";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Form } from '@/components/ui/form';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 
 // Schema definition and types
-import { paymentDetailsSchema } from "@/components/claim-form/schemas";
-import { AnimationTransitions } from "@/components/claim-form/types";
+import { paymentDetailsSchema } from '@/components/claim-form/schemas';
+import { AnimationTransitions } from '@/components/claim-form/types';
 
 // Component imports
-import PaymentMethodSelector from "./payment-details/PaymentMethodSelector";
-import BankTransferFields from "./payment-details/BankTransferFields";
-import PayPalFields from "./payment-details/PayPalFields";
-import WiseFields from "./payment-details/WiseFields";
-import TermsAgreement from "./payment-details/TermsAgreement";
-import InfoBox from "./payment-details/InfoBox";
-import PaymentNavigationButtons from "./payment-details/PaymentNavigationButtons";
+import PaymentMethodSelector from './payment-details/PaymentMethodSelector';
+import BankTransferFields from './payment-details/BankTransferFields';
+import PayPalFields from './payment-details/PayPalFields';
+import WiseFields from './payment-details/WiseFields';
+import TermsAgreement from './payment-details/TermsAgreement';
+import InfoBox from './payment-details/InfoBox';
+import PaymentNavigationButtons from './payment-details/PaymentNavigationButtons';
 
 interface PaymentDetailsStepProps {
   form: UseFormReturn<z.infer<typeof paymentDetailsSchema>>;
@@ -31,7 +30,7 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
   onSubmit,
   onBack,
   transitions,
-  onSkip
+  onSkip,
 }) => {
   return (
     <motion.div
@@ -54,9 +53,13 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
           <PaymentMethodSelector form={form} />
 
           {/* Conditional rendering based on payment method */}
-          {form.watch("paymentMethod") === "bank_transfer" && <BankTransferFields form={form} />}
-          {form.watch("paymentMethod") === "paypal" && <PayPalFields form={form} />}
-          {form.watch("paymentMethod") === "wise" && <WiseFields form={form} />}
+          {form.watch('paymentMethod') === 'bank_transfer' && (
+            <BankTransferFields form={form} />
+          )}
+          {form.watch('paymentMethod') === 'paypal' && (
+            <PayPalFields form={form} />
+          )}
+          {form.watch('paymentMethod') === 'wise' && <WiseFields form={form} />}
 
           {/* Terms agreement component */}
           <TermsAgreement form={form} />

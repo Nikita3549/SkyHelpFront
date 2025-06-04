@@ -1,87 +1,251 @@
+// src/context/AuthContext.tsx
+import { createContext, useContext, useEffect, useState } from 'react';
+import { getToken, setToken, clearToken } from '@/utils/auth';
+import api from '@/api/axios';
+import { AxiosError, AxiosResponse, HttpStatusCode } from 'axios';
+import { toast } from '@/hooks/use-toast.ts';
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  MODERATOR = 'MODERATOR',
+  CLIENT = 'CLIENT',
+}
 
-type AuthUser = {
+interface User {
   id: string;
   email: string;
   name: string;
-  isAffiliate: boolean;
-};
+  secondName: string;
+  role: UserRole;
+  isActive: boolean;
+}
 
 interface AuthContextType {
-  user: AuthUser | null;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
-  logout: () => void;
+  user: User | null;
   isAuthenticated: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  register: (registerDto: {
+    email: string;
+    password: string;
+    name: string;
+    secondName: string;
+  }) => Promise<void>;
+  verifyRegister: (email: string, code: number) => Promise<void>;
+  resendCode: (email: string) => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
+  verifyResetCode: (email: string, code: number) => Promise<void>;
+  resetPassword: (
+    email: string,
+    code: number,
+    newPassword: string,
+  ) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Check if user is already logged in on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem("affiliateUser");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const token = getToken();
+    if (token) {
+      api
+        .get('/auth/me')
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch(() => {
+          clearToken();
+          setUser(null);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
-  // Simulated login function
   const login = async (email: string, password: string) => {
-    // Simple validation
-    if (!email || !password) {
-      return { success: false, message: "Email and password are required" };
-    }
+    const res = await api
+      .post('/auth/login', { email, password })
+      .catch((e: AxiosError) => {
+        if (e.status == HttpStatusCode.Unauthorized) {
+          toast({
+            title: 'Wrong credentials',
+            description: 'Incorrect email or password',
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        throw new Error('unknown');
+      });
+    const token = res.data.jwt;
+    setToken(token);
 
-    // For demo purposes, let's accept any email with a valid format and password length > 5
-    if (!email.includes("@") || password.length < 6) {
-      return { success: false, message: "Invalid email or password (must be at least 6 characters)" };
-    }
-
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
-    // Mock successful login
-    const mockUser: AuthUser = {
-      id: "aff-" + Math.random().toString(36).substring(2, 10),
-      email,
-      name: email.split("@")[0], // Use part of email as name
-      isAffiliate: true,
-    };
-
-    // Store in localStorage
-    localStorage.setItem("affiliateUser", JSON.stringify(mockUser));
-    setUser(mockUser);
-
-    return { success: true, message: "Login successful" };
+    const userRes = await api.get('/auth/me');
+    setUser(userRes.data);
   };
 
-  // Logout function
   const logout = () => {
-    localStorage.removeItem("affiliateUser");
+    clearToken();
     setUser(null);
   };
+  const register = async (registerDto) => {
+    const res: AxiosResponse<string> = await api
+      .post('/auth/register', {
+        ...registerDto,
+      })
+      .catch((e: AxiosError) => {
+        if (e.status == HttpStatusCode.Conflict) {
+          toast({
+            title: 'Conflict',
+            description: 'This email already registered',
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        if (e.status == HttpStatusCode.BadRequest) {
+          toast({
+            title: 'Wrong Email',
+            description: 'Email must be an email',
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        throw new Error('unknown');
+      });
 
-  const value = {
-    user,
-    isLoading,
-    login,
-    logout,
-    isAuthenticated: !!user,
+    if (res.status != HttpStatusCode.Ok) {
+      throw new Error();
+    }
+  };
+  const verifyRegister = async (email: string, code: number) => {
+    const res = await api
+      .post('/auth/verify-register', {
+        email,
+        code: code,
+      })
+      .catch((e: AxiosError) => {
+        if (e.status == HttpStatusCode.BadRequest) {
+          toast({
+            title: 'Wrong credentials',
+            description: 'Email is wrong or code is expired',
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        throw new Error('unknown');
+      });
+
+    const token = res.data.jwt;
+    setToken(token);
+
+    const userRes = await api.get('/auth/me');
+    setUser(userRes.data);
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  const resendCode = async (email: string) => {
+    await api
+      .post('/auth/resend-code/', {
+        email,
+      })
+      .catch((e: AxiosError) => {
+        if (e.status == HttpStatusCode.BadRequest) {
+          toast({
+            title: 'Wrong credentials',
+            description: 'Email is wrong or code is expired',
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        throw new Error('unknown');
+      });
+  };
+
+  const forgotPassword = async (email: string) => {
+    const res: AxiosResponse = await api
+      .post('/auth/forgot-password', {
+        email,
+      })
+      .catch((e: AxiosError) => {
+        if (e.status == HttpStatusCode.BadRequest) {
+          toast({
+            title: 'Wrong email',
+            description: "This email isn't registered",
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        throw new Error('unknown');
+      });
+  };
+
+  const verifyResetCode = async (email: string, code: number) => {
+    await api
+      .post('/auth/verify-reset-password', {
+        email,
+        code,
+      })
+      .catch((e: AxiosError) => {
+        if (e.status == HttpStatusCode.BadRequest) {
+          toast({
+            title: 'Wrong code',
+            description: 'Code is wrong or expired',
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        throw new Error('unknown');
+      });
+  };
+
+  const resetPassword = async (
+    email: string,
+    code: number,
+    newPassword: string,
+  ) => {
+    await api
+      .post('/auth/reset-password', {
+        email,
+        code,
+        newPassword,
+      })
+      .catch((e: AxiosError) => {
+        if (e.status == HttpStatusCode.BadRequest) {
+          toast({
+            title: 'Oops..',
+            description: 'Unknown error was occurred',
+            variant: 'destructive',
+          });
+          throw e;
+        }
+        throw new Error('unknown');
+      });
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        login,
+        logout,
+        register,
+        verifyRegister,
+        resendCode,
+        forgotPassword,
+        verifyResetCode,
+        resetPassword,
+      }}
+    >
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
   return context;
 };

@@ -1,14 +1,20 @@
-
-import React, { useEffect } from "react";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { passengerDetailsSchema } from "@/components/claim-form/schemas";
-import { MessageSquare } from "lucide-react";
-import CountrySelect from "./CountrySelect";
+import React, { useEffect } from 'react';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription,
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
+import { passengerDetailsSchema } from '@/components/claim-form/schemas';
+import { MessageSquare } from 'lucide-react';
+import CountrySelect from './CountrySelect';
 
 interface AddressFieldsProps {
   form: UseFormReturn<z.infer<typeof passengerDetailsSchema>>;
@@ -18,8 +24,8 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
   // When country changes, update the phone field if needed
   const handleCountryChange = (value: string) => {
     // First update the country field
-    form.setValue("country", value, { shouldValidate: true });
-    
+    form.setValue('country', value, { shouldValidate: true });
+
     // We'll let the PhoneInput component handle the phone number update
     // since it already watches for country changes in its useEffect
   };
@@ -39,7 +45,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="addressLine2"
@@ -53,7 +59,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="city"
@@ -67,7 +73,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="postalCode"
@@ -81,7 +87,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="state"
@@ -95,22 +101,22 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="country"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Country</FormLabel>
-            <CountrySelect 
-              value={field.value} 
-              onValueChange={handleCountryChange} 
+            <CountrySelect
+              value={field.value}
+              onValueChange={handleCountryChange}
             />
             <FormMessage />
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="whatsappNotifications"
@@ -135,11 +141,12 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
           </FormItem>
         )}
       />
-      
+
       <div className="md:col-span-2 bg-blue-50 border border-blue-100 p-4 rounded-md">
         <p className="text-sm text-blue-800">
-          <strong>Disclaimer:</strong> An early submission can increase your chances of getting your compensation. 
-          More than half of early submissions are compensated in the same month.
+          <strong>Disclaimer:</strong> An early submission can increase your
+          chances of getting your compensation. More than half of early
+          submissions are compensated in the same month.
         </p>
       </div>
     </>

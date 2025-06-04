@@ -1,8 +1,14 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { BarChart4 } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { BarChart4 } from 'lucide-react';
 
 const PerformanceOverview = () => {
   return (
@@ -15,14 +21,18 @@ const PerformanceOverview = () => {
       <Card className="h-full">
         <CardHeader>
           <CardTitle className="text-lg">Performance Overview</CardTitle>
-          <CardDescription>Claims status and processing metrics</CardDescription>
+          <CardDescription>
+            Claims status and processing metrics
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[300px] flex items-center justify-center">
             <div className="text-center text-gray-500">
               <BarChart4 className="h-16 w-16 mx-auto opacity-30" />
               <p className="mt-2">Charts and metrics visualization</p>
-              <p className="text-sm">(Actual charts would be implemented here)</p>
+              <p className="text-sm">
+                (Actual charts would be implemented here)
+              </p>
             </div>
           </div>
         </CardContent>

@@ -1,8 +1,7 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Plane } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { Plane } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -14,12 +13,14 @@ const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-8 relative"
         >
-          <span className="text-primary text-sm font-medium uppercase tracking-wider">ABOUT US</span>
-          
+          <span className="text-primary text-sm font-medium uppercase tracking-wider">
+            ABOUT US
+          </span>
+
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 my-4">
             Our tech turns flight disruptions into something good
           </h1>
-          
+
           {/* Trustpilot Rating */}
           <div className="flex items-center justify-center mt-4">
             <div className="flex flex-col sm:flex-row items-center gap-2">
@@ -33,40 +34,44 @@ const HeroSection = () => {
               </span>
             </div>
           </div>
-          
+
           {/* Update plane icons in yellow circles to light blue */}
-          <motion.div 
-            className="absolute -bottom-16 -right-16 hidden md:block" 
-            animate={{ 
+          <motion.div
+            className="absolute -bottom-16 -right-16 hidden md:block"
+            animate={{
               y: [0, -15, 0],
-              rotate: [0, 10, 0]
+              rotate: [0, 10, 0],
             }}
-            transition={{ 
+            transition={{
               duration: 5,
               repeat: Infinity,
-              repeatType: "reverse"
+              repeatType: 'reverse',
             }}
           >
             <div className="bg-[#D3E4FD] rounded-full p-3 shadow-md">
               <Plane size={34} strokeWidth={2} className="text-gray-800" />
             </div>
           </motion.div>
-          
-          <motion.div 
-            className="absolute -top-10 -left-16 hidden md:block" 
-            animate={{ 
+
+          <motion.div
+            className="absolute -top-10 -left-16 hidden md:block"
+            animate={{
               y: [0, -10, 0],
-              rotate: [0, -5, 0]
+              rotate: [0, -5, 0],
             }}
-            transition={{ 
+            transition={{
               duration: 4,
               repeat: Infinity,
-              repeatType: "reverse",
-              delay: 0.5
+              repeatType: 'reverse',
+              delay: 0.5,
             }}
           >
             <div className="bg-[#D3E4FD] rounded-full p-2 shadow-sm">
-              <Plane size={26} strokeWidth={2} className="text-gray-800 rotate-180" />
+              <Plane
+                size={26}
+                strokeWidth={2}
+                className="text-gray-800 rotate-180"
+              />
             </div>
           </motion.div>
         </motion.div>

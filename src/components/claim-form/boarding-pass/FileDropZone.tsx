@@ -1,6 +1,5 @@
-
-import React, { useRef } from "react";
-import { Upload, Camera, QrCode } from "lucide-react";
+import React, { useRef } from 'react';
+import { Upload, Camera, QrCode } from 'lucide-react';
 
 interface FileDropZoneProps {
   isDragging: boolean;
@@ -27,7 +26,7 @@ const FileDropZone = ({
   handleCameraClick,
   isMobile,
   fileInputRef,
-  cameraInputRef
+  cameraInputRef,
 }: FileDropZoneProps) => {
   return (
     <div
@@ -46,7 +45,7 @@ const FileDropZone = ({
         accept=".png,.jpg,.jpeg,.pdf"
         onChange={handleFileInputChange}
       />
-      
+
       <input
         type="file"
         ref={cameraInputRef}
@@ -55,22 +54,29 @@ const FileDropZone = ({
         capture="environment"
         onChange={handleFileInputChange}
       />
-      
+
       <div className="flex flex-col items-center justify-center space-y-4">
         <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
           <Upload className="h-8 w-8 text-primary" />
         </div>
-        
+
         <div className="space-y-2">
           <p className="text-lg font-medium">
-            Drag & drop documents or <span className="text-primary cursor-pointer" onClick={handleBrowseClick}>select</span> file to upload
+            Drag & drop documents or{' '}
+            <span
+              className="text-primary cursor-pointer"
+              onClick={handleBrowseClick}
+            >
+              select
+            </span>{' '}
+            file to upload
           </p>
           <p className="text-sm text-gray-500">
             We support PNG, JPG and PDF. Max size 15MB.
           </p>
         </div>
       </div>
-      
+
       {/* Camera function highlighted section - fixed for mobile */}
       <div className="mt-8 flex justify-center">
         <div className="relative group">
@@ -81,20 +87,25 @@ const FileDropZone = ({
           >
             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
               {isMobile ? (
-                <Camera className="h-5 w-5 text-primary" style={{ minWidth: '20px' }} />
+                <Camera
+                  className="h-5 w-5 text-primary"
+                  style={{ minWidth: '20px' }}
+                />
               ) : (
-                <QrCode className="h-5 w-5 text-primary" style={{ minWidth: '20px' }} />
+                <QrCode
+                  className="h-5 w-5 text-primary"
+                  style={{ minWidth: '20px' }}
+                />
               )}
             </div>
             <div className="text-left">
               <p className="font-semibold text-gray-800">
-                {isMobile ? "Use your camera" : "Scan with your phone"}
+                {isMobile ? 'Use your camera' : 'Scan with your phone'}
               </p>
               <p className="text-xs text-gray-500">
-                {isMobile 
-                  ? "Our AI will read the data automatically" 
-                  : "Use your mobile device to take a photo"
-                }
+                {isMobile
+                  ? 'Our AI will read the data automatically'
+                  : 'Use your mobile device to take a photo'}
               </p>
             </div>
           </button>

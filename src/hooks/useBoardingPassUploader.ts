@@ -1,13 +1,12 @@
-
-import { useState, useRef, useEffect } from "react";
-import { toast } from "sonner";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useState, useRef, useEffect } from 'react';
+import { toast } from 'sonner';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const useBoardingPassUploader = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [showQrCode, setShowQrCode] = useState(false);
-  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [qrCodeUrl, setQrCodeUrl] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
@@ -17,7 +16,7 @@ export const useBoardingPassUploader = () => {
     // Create a URL that points to the boarding pass upload step
     // Include the origin for absolute URL and add checkType parameter
     const origin = window.location.origin;
-    
+
     // Create a URL that ensures we're directed to the claim page with boardingPass parameter
     const qrUrl = `${origin}/claim?checkType=boardingPass`;
     setQrCodeUrl(qrUrl);
@@ -44,7 +43,7 @@ export const useBoardingPassUploader = () => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-    
+
     const files = e.dataTransfer.files;
     if (files && files.length > 0) {
       handleFileSelect(files[0]);
@@ -104,6 +103,6 @@ export const useBoardingPassUploader = () => {
     handleDrop,
     handleFileInputChange,
     handleBrowseClick,
-    handleCameraClick
+    handleCameraClick,
   };
 };

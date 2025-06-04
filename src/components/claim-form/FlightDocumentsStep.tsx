@@ -1,17 +1,16 @@
-
-import React from "react";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { motion } from "framer-motion";
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { flightDocumentsSchema } from "@/components/claim-form/schemas";
-import NavigationButtons from "@/components/claim-form/passenger-details/NavigationButtons";
-import { AnimationTransitions } from "@/components/claim-form/types";
-import FileDropZone from "./flight-documents/FileDropZone";
-import UploadedFilesList from "./flight-documents/UploadedFilesList";
-import DocumentInfoSection from "./flight-documents/DocumentInfoSection";
-import HeaderSection from "./flight-documents/HeaderSection";
-import { useFileUpload } from "./flight-documents/useFileUpload";
+import React from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
+import { motion } from 'framer-motion';
+import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { flightDocumentsSchema } from '@/components/claim-form/schemas';
+import NavigationButtons from '@/components/claim-form/passenger-details/NavigationButtons';
+import { AnimationTransitions } from '@/components/claim-form/types';
+import FileDropZone from './flight-documents/FileDropZone';
+import UploadedFilesList from './flight-documents/UploadedFilesList';
+import DocumentInfoSection from './flight-documents/DocumentInfoSection';
+import HeaderSection from './flight-documents/HeaderSection';
+import { useFileUpload } from './flight-documents/useFileUpload';
 
 interface FlightDocumentsStepProps {
   form: UseFormReturn<z.infer<typeof flightDocumentsSchema>>;
@@ -24,7 +23,7 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
   form,
   onSubmit,
   onBack,
-  transitions
+  transitions,
 }) => {
   const {
     isDragging,
@@ -32,12 +31,12 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
     handleDragLeave,
     handleDrop,
     handleFileInputChange,
-    removeFile
+    removeFile,
   } = useFileUpload({ form });
-  
-  const documents = form.watch("documents") || [];
+
+  const documents = form.watch('documents') || [];
   const isValid = documents.length > 0;
-  
+
   const handleSubmit = form.handleSubmit(onSubmit);
 
   return (
@@ -50,7 +49,7 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
     >
       <div>
         <HeaderSection />
-        
+
         <Form {...form}>
           <form onSubmit={handleSubmit} className="space-y-6">
             <FormField
@@ -65,7 +64,7 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
                     handleDrop={handleDrop}
                     handleFileInputChange={handleFileInputChange}
                   />
-                  <UploadedFilesList 
+                  <UploadedFilesList
                     documents={documents}
                     removeFile={removeFile}
                   />
@@ -76,7 +75,7 @@ const FlightDocumentsStep: React.FC<FlightDocumentsStepProps> = ({
 
             <DocumentInfoSection isOpen={false} setIsOpen={() => {}} />
 
-            <NavigationButtons 
+            <NavigationButtons
               onBack={onBack}
               continueText="Continue"
               isSubmitting={form.formState.isSubmitting}

@@ -1,17 +1,16 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Form } from "@/components/ui/form";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { disruptionDetailsSchema } from "@/components/claim-form/schemas";
-import { AnimationTransitions } from "@/components/claim-form/types";
-import NavigationButtons from "./passenger-details/NavigationButtons";
-import ReasonProvidedQuestion from "./disruption-details/ReasonProvidedQuestion";
-import AirlineReasonQuestion from "./disruption-details/AirlineReasonQuestion";
-import AdditionalInfoField from "./disruption-details/AdditionalInfoField";
-import DisclaimerBox from "./disruption-details/DisclaimerBox";
-import { Card, CardContent } from "@/components/ui/card";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Form } from '@/components/ui/form';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
+import { disruptionDetailsSchema } from '@/components/claim-form/schemas';
+import { AnimationTransitions } from '@/components/claim-form/types';
+import NavigationButtons from './passenger-details/NavigationButtons';
+import ReasonProvidedQuestion from './disruption-details/ReasonProvidedQuestion';
+import AirlineReasonQuestion from './disruption-details/AirlineReasonQuestion';
+import AdditionalInfoField from './disruption-details/AdditionalInfoField';
+import DisclaimerBox from './disruption-details/DisclaimerBox';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface DisruptionDetailsStepProps {
   form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
@@ -28,15 +27,20 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
   transitions,
   disruptionType,
 }) => {
-  const reasonProvided = form.watch("reasonProvided");
+  const reasonProvided = form.watch('reasonProvided');
 
   const getDisruptionTypeLabel = () => {
     switch (disruptionType) {
-      case "delay": return "flight delay";
-      case "cancellation": return "flight cancellation";
-      case "denied_boarding": return "denied boarding";
-      case "missed_connection": return "missed connection";
-      default: return "flight disruption";
+      case 'delay':
+        return 'flight delay';
+      case 'cancellation':
+        return 'flight cancellation';
+      case 'denied_boarding':
+        return 'denied boarding';
+      case 'missed_connection':
+        return 'missed connection';
+      default:
+        return 'flight disruption';
     }
   };
 
@@ -49,9 +53,12 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
       transition={transitions.transition}
     >
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2 text-black">Disruption Details</h2>
+        <h2 className="text-2xl font-semibold mb-2 text-black">
+          Disruption Details
+        </h2>
         <p className="text-gray-600">
-          Please tell us more about your {getDisruptionTypeLabel()} experience to help strengthen your claim.
+          Please tell us more about your {getDisruptionTypeLabel()} experience
+          to help strengthen your claim.
         </p>
       </div>
 
@@ -64,7 +71,7 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
               </CardContent>
             </Card>
 
-            {reasonProvided === "yes" && (
+            {reasonProvided === 'yes' && (
               <Card className="animate-fade-in">
                 <CardContent className="p-6">
                   <AirlineReasonQuestion form={form} />
@@ -77,7 +84,7 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
                 <AdditionalInfoField form={form} />
               </CardContent>
             </Card>
-            
+
             <DisclaimerBox />
           </div>
 

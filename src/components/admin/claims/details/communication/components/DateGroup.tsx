@@ -1,17 +1,16 @@
-
-import React from "react";
-import { Calendar } from "lucide-react";
-import { format } from "date-fns";
-import MessageBubble from "./MessageBubble";
-import { MessageType } from "../types";
-import { Claim } from "@/lib/supabase";
+import React from 'react';
+import { Calendar } from 'lucide-react';
+import { format } from 'date-fns';
+import MessageBubble from './MessageBubble';
+import { MessageType } from '../types';
+import { Claim } from '@/lib/supabase';
 
 type DateGroupProps = {
   date: string;
   messages: MessageType[];
   claim: Claim;
   isToday: boolean;
-}
+};
 
 const DateGroup = ({ date, messages, claim, isToday }: DateGroupProps) => {
   const formatDisplayDate = (dateString: string) => {
@@ -26,12 +25,12 @@ const DateGroup = ({ date, messages, claim, isToday }: DateGroupProps) => {
           {isToday ? 'Today' : formatDisplayDate(date)}
         </div>
       </div>
-      
+
       <div className="space-y-4">
-        {messages.map(message => (
-          <MessageBubble 
-            key={message.id} 
-            message={message} 
+        {messages.map((message) => (
+          <MessageBubble
+            key={message.id}
+            message={message}
             customerName={claim.customer}
           />
         ))}

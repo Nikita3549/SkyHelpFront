@@ -1,8 +1,7 @@
-
-import React from "react";
-import { CreditCard } from "lucide-react";
-import { Claim } from "@/lib/supabase";
-import { formatPaymentDetails } from "@/lib/paymentUtils";
+import React from 'react';
+import { CreditCard } from 'lucide-react';
+import { Claim } from '@/lib/supabase';
+import { formatPaymentDetails } from '@/lib/paymentUtils';
 
 type PaymentDetailsCardProps = {
   claim: Claim;
@@ -19,8 +18,8 @@ const PaymentDetailsCard = ({ claim }: PaymentDetailsCardProps) => {
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Payment Method:</span>
           <span className="font-medium">
-            {(claim?.paymentmethod || "N/A")
-              .replace("_", " ")
+            {(claim?.paymentmethod || 'N/A')
+              .replace('_', ' ')
               .replace(/\b\w/g, (l) => l.toUpperCase())}
           </span>
         </div>

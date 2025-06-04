@@ -1,6 +1,5 @@
-
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 
 type Airline = {
   name: string;
@@ -26,13 +25,13 @@ const AirlinesSection: React.FC<AirlinesSectionProps> = ({ airlines }) => {
               whileHover={{ scale: 1.1 }}
             >
               <div className="h-12 w-28 relative flex items-center justify-center">
-                <img 
-                  src={airline.imgSrc} 
-                  alt={`${airline.name} logo`} 
+                <img
+                  src={airline.imgSrc}
+                  alt={`${airline.name} logo`}
                   className="h-full w-full object-contain"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "/placeholder.svg";
+                    target.src = '/placeholder.svg';
                     target.onerror = null;
                   }}
                 />

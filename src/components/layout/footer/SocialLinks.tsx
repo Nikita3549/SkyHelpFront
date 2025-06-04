@@ -1,7 +1,6 @@
-
-import React from "react";
-import Logo from "@/components/ui-custom/Logo";
-import { SocialLink } from "../Footer";
+import React from 'react';
+import Logo from '@/components/ui-custom/Logo';
+import { SocialLink } from '../Footer';
 
 interface SocialLinksProps {
   social: SocialLink[];
@@ -12,7 +11,8 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ social }) => {
     <div className="space-y-6">
       <Logo size="lg" withLink={false} />
       <p className="text-gray-500 text-sm max-w-xs">
-        Helping air passengers get the compensation they deserve when flights are delayed or canceled.
+        Helping air passengers get the compensation they deserve when flights
+        are delayed or canceled.
       </p>
       <div className="flex space-x-4">
         {social.map((item) => (

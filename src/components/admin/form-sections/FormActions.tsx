@@ -1,6 +1,5 @@
-
-import React from "react";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+import { Button } from '@/components/ui/button';
 
 type FormActionsProps = {
   onCancel: () => void;
@@ -12,9 +11,7 @@ const FormActions = ({ onCancel }: FormActionsProps) => {
       <Button variant="outline" type="button" onClick={onCancel}>
         Cancel
       </Button>
-      <Button type="submit">
-        Create Claim
-      </Button>
+      <Button type="submit">Create Claim</Button>
     </div>
   );
 };

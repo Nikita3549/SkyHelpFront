@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { supabase } from "@/lib/supabase";
-import VideoPlayer from "./video/VideoPlayer";
-import AdminControls from "./video/AdminControls";
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { supabase } from '@/lib/supabase';
+import VideoPlayer from './video/VideoPlayer';
+import AdminControls from './video/AdminControls';
 
 const VideoSection = () => {
   const [isVideoExpanded, setIsVideoExpanded] = useState(false);
@@ -17,32 +16,30 @@ const VideoSection = () => {
     const checkForVideo = async () => {
       try {
         // List videos in the bucket
-        const { data, error } = await supabase
-          .storage
+        const { data, error } = await supabase.storage
           .from('videos')
           .list('', { limit: 1 });
-          
+
         if (error) {
           console.error('Error fetching videos:', error);
           return;
         }
-        
+
         // If we found at least one video, get its URL
         if (data && data.length > 0) {
-          const { data: publicUrlData } = supabase
-            .storage
+          const { data: publicUrlData } = supabase.storage
             .from('videos')
             .getPublicUrl(data[0].name);
-            
+
           setVideoUrl(publicUrlData.publicUrl);
         }
       } catch (error) {
         console.error('Error checking for videos:', error);
       }
     };
-    
+
     checkForVideo();
-    
+
     // For simplicity, let's consider admins based on URL param
     // In a real app, this would be part of auth
     if (window.location.href.includes('admin=true')) {
@@ -59,7 +56,7 @@ const VideoSection = () => {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="rounded-xl overflow-hidden shadow-lg bg-white mb-8"
         >
-          <VideoPlayer 
+          <VideoPlayer
             videoUrl={videoUrl}
             isVideoExpanded={isVideoExpanded}
             setIsVideoExpanded={setIsVideoExpanded}
@@ -68,12 +65,10 @@ const VideoSection = () => {
             isMuted={isMuted}
             setIsMuted={setIsMuted}
           />
-          
-          <AdminControls 
-            isAdmin={isAdmin}
-          />
+
+          <AdminControls isAdmin={isAdmin} />
         </motion.div>
-        
+
         <div className="text-center pb-4">
           <span className="text-primary text-sm font-medium uppercase tracking-wider">
             WE'RE THE GLOBAL LEADER IN FLIGHT COMPENSATION

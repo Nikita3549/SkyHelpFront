@@ -1,16 +1,22 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Mail, Phone, Clock } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Phone, Clock } from 'lucide-react';
 const ContactInfo = () => {
-  return <motion.div initial={{
-    opacity: 0,
-    y: 20
-  }} animate={{
-    opacity: 1,
-    y: 0
-  }} transition={{
-    duration: 0.5
-  }} className="space-y-6">
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 20,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.5,
+      }}
+      className="space-y-6"
+    >
       <div>
         <h1 className="text-4xl font-bold mb-2">
           <span className="text-primary">Contact</span> form
@@ -19,9 +25,9 @@ const ContactInfo = () => {
           HIT US WITH A MESSAGE
         </h2>
         <p className="text-gray-600">
-          Alternatively, you can use the following contact form to
-          send us a message. One of our operators will get in touch
-          with you regarding the information you need.
+          Alternatively, you can use the following contact form to send us a
+          message. One of our operators will get in touch with you regarding the
+          information you need.
         </p>
       </div>
 
@@ -39,6 +45,7 @@ const ContactInfo = () => {
           <span>Monday - Friday, 9:00 - 17:00</span>
         </div>
       </div>
-    </motion.div>;
+    </motion.div>
+  );
 };
 export default ContactInfo;

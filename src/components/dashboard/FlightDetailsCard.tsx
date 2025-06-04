@@ -1,6 +1,5 @@
-
-import React from "react";
-import { Separator } from "@/components/ui/separator";
+import React from 'react';
+import { Separator } from '@/components/ui/separator';
 
 interface Claim {
   route: string;
@@ -20,15 +19,15 @@ interface FlightDetailsCardProps {
 const FlightDetailsCard = ({ claim }: FlightDetailsCardProps) => {
   // Format disruption type for display
   const formatDisruptionType = (type?: string) => {
-    if (!type) return "Not specified";
-    
+    if (!type) return 'Not specified';
+
     const typeMap: { [key: string]: string } = {
-      "delay": "Flight Delay",
-      "cancellation": "Flight Cancellation", 
-      "denied_boarding": "Denied Boarding",
-      "missed_connection": "Missed Connection"
+      delay: 'Flight Delay',
+      cancellation: 'Flight Cancellation',
+      denied_boarding: 'Denied Boarding',
+      missed_connection: 'Missed Connection',
     };
-    
+
     return typeMap[type] || type;
   };
 
@@ -56,16 +55,22 @@ const FlightDetailsCard = ({ claim }: FlightDetailsCardProps) => {
         </div>
         <div className="flex justify-between">
           <span className="text-sm text-gray-500">Disruption Type</span>
-          <span className="text-sm font-medium">{formatDisruptionType(claim.disruptionType)}</span>
+          <span className="text-sm font-medium">
+            {formatDisruptionType(claim.disruptionType)}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-sm text-gray-500">Flight Date</span>
-          <span className="text-sm font-medium">{new Date(claim.departureDate).toLocaleDateString()}</span>
+          <span className="text-sm font-medium">
+            {new Date(claim.departureDate).toLocaleDateString()}
+          </span>
         </div>
         {claim.lastUpdate && (
           <div className="flex justify-between">
             <span className="text-sm text-gray-500">Claim Submitted</span>
-            <span className="text-sm font-medium">{new Date(claim.lastUpdate).toLocaleDateString()}</span>
+            <span className="text-sm font-medium">
+              {new Date(claim.lastUpdate).toLocaleDateString()}
+            </span>
           </div>
         )}
       </div>

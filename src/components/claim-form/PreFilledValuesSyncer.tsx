@@ -1,8 +1,7 @@
-
-import { useEffect } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { flightDetailsSchema, flightRouteSchema } from "./schemas";
+import { useEffect } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
+import { flightDetailsSchema, flightRouteSchema } from './schemas';
 
 interface PreFilledValuesSyncerProps {
   form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
@@ -37,7 +36,15 @@ const PreFilledValuesSyncer: React.FC<PreFilledValuesSyncerProps> = ({
     if (preFilledDepartureDate) {
       form.setValue('departureDate', preFilledDepartureDate);
     }
-  }, [locationState, form, flightRouteForm, preFilledDepartureAirport, preFilledArrivalAirport, preFilledFlightNumber, preFilledDepartureDate]);
+  }, [
+    locationState,
+    form,
+    flightRouteForm,
+    preFilledDepartureAirport,
+    preFilledArrivalAirport,
+    preFilledFlightNumber,
+    preFilledDepartureDate,
+  ]);
 
   // Sync values from flight route to flight details
   useEffect(() => {

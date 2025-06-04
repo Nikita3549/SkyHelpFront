@@ -1,5 +1,4 @@
-
-import { Claim } from "@/lib/supabase";
+import { Claim } from '@/lib/supabase';
 
 // Message type definition for communication logs
 export type MessageEntry = {

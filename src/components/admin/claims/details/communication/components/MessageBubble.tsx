@@ -1,14 +1,13 @@
-
-import React from "react";
-import { Badge } from "@/components/ui/badge";
-import { User, UserCircle2, BellRing } from "lucide-react";
-import { format } from "date-fns";
-import { MessageType } from "../types";
+import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { User, UserCircle2, BellRing } from 'lucide-react';
+import { format } from 'date-fns';
+import { MessageType } from '../types';
 
 type MessageBubbleProps = {
   message: MessageType;
   customerName: string;
-}
+};
 
 const MessageBubble = ({ message, customerName }: MessageBubbleProps) => {
   // Render sender icon based on sender type
@@ -26,10 +25,10 @@ const MessageBubble = ({ message, customerName }: MessageBubbleProps) => {
   };
 
   return (
-    <div 
+    <div
       className={`flex ${message.sender === 'client' ? 'justify-start' : message.sender === 'system' ? 'justify-center' : 'justify-end'}`}
     >
-      <div 
+      <div
         className={`
           max-w-[80%] p-3 rounded-lg 
           ${message.sender === 'client' ? 'bg-white border' : ''} 
@@ -40,18 +39,26 @@ const MessageBubble = ({ message, customerName }: MessageBubbleProps) => {
         <div className="flex items-center space-x-2 mb-1">
           {renderSenderIcon(message.sender)}
           <span className="text-xs font-medium">
-            {message.sender === 'client' ? customerName : 
-              message.sender === 'admin' ? 'Support Agent' : 'System'}
+            {message.sender === 'client'
+              ? customerName
+              : message.sender === 'admin'
+                ? 'Support Agent'
+                : 'System'}
           </span>
           <span className="text-xs text-gray-400">
             {format(new Date(message.timestamp), 'HH:mm')}
           </span>
-          {message.read === false && <Badge variant="outline" className="ml-2 bg-red-50">Unread</Badge>}
-          {message.tags && message.tags.map(tag => (
-            <Badge key={tag} variant="secondary" className="text-xs">
-              {tag}
+          {message.read === false && (
+            <Badge variant="outline" className="ml-2 bg-red-50">
+              Unread
             </Badge>
-          ))}
+          )}
+          {message.tags &&
+            message.tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
         </div>
         <div className="text-sm whitespace-pre-wrap">{message.content}</div>
       </div>

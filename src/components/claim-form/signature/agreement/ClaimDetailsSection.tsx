@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ClaimData } from './documentUtils';
 
@@ -6,13 +5,15 @@ interface ClaimDetailsSectionProps {
   claimData: ClaimData;
 }
 
-const ClaimDetailsSection: React.FC<ClaimDetailsSectionProps> = ({ claimData }) => {
+const ClaimDetailsSection: React.FC<ClaimDetailsSectionProps> = ({
+  claimData,
+}) => {
   return (
     <div className="claim-details">
       <p className="section-title">Assignment details:</p>
-      
+
       <p className="claim-id">Claim ID: {claimData.id}</p>
-      
+
       <table className="claim-table">
         <tbody>
           <tr>

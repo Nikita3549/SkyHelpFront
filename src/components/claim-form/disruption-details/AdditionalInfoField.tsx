@@ -1,10 +1,15 @@
-
-import React from "react";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { disruptionDetailsSchema } from "@/components/claim-form/schemas";
+import React from 'react';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
+import { disruptionDetailsSchema } from '@/components/claim-form/schemas';
 
 interface AdditionalInfoFieldProps {
   form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
@@ -21,7 +26,8 @@ const AdditionalInfoField: React.FC<AdditionalInfoFieldProps> = ({ form }) => {
             Additional Information
           </FormLabel>
           <p className="text-gray-600 mb-3">
-            Please provide any additional details about the disruption that might help with your claim.
+            Please provide any additional details about the disruption that
+            might help with your claim.
           </p>
           <FormControl>
             <Textarea
@@ -32,7 +38,8 @@ const AdditionalInfoField: React.FC<AdditionalInfoFieldProps> = ({ form }) => {
           </FormControl>
           <FormMessage />
           <p className="text-xs text-gray-500 mt-2">
-            Adding details specific to your experience can significantly strengthen your claim.
+            Adding details specific to your experience can significantly
+            strengthen your claim.
           </p>
         </FormItem>
       )}

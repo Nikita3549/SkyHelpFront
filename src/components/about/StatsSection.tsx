@@ -1,29 +1,28 @@
-
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const StatsSection = () => {
   const stats = [
     {
-      number: "180+",
-      label: "million",
-      description: "flights checked last year"
+      number: '180+',
+      label: 'million',
+      description: 'flights checked last year',
     },
     {
-      number: "9+",
-      label: "million",
-      description: "have protected their flights with AirHelp+"
+      number: '9+',
+      label: 'million',
+      description: 'have protected their flights with AirHelp+',
     },
     {
-      number: "2.7+",
-      label: "million",
-      description: "passengers successfully paid compensation"
+      number: '2.7+',
+      label: 'million',
+      description: 'passengers successfully paid compensation',
     },
     {
-      number: "60+",
-      label: "",
-      description: "partnerships with the best-known travel brands"
-    }
+      number: '60+',
+      label: '',
+      description: 'partnerships with the best-known travel brands',
+    },
   ];
 
   return (
@@ -40,8 +39,12 @@ const StatsSection = () => {
               className="text-center"
             >
               <div className="flex items-end justify-center">
-                <span className="text-3xl md:text-4xl font-bold text-primary">{stat.number}</span>
-                <span className="text-xl md:text-2xl font-semibold text-gray-800 ml-1">{stat.label}</span>
+                <span className="text-3xl md:text-4xl font-bold text-primary">
+                  {stat.number}
+                </span>
+                <span className="text-xl md:text-2xl font-semibold text-gray-800 ml-1">
+                  {stat.label}
+                </span>
               </div>
               <p className="text-sm mt-2 text-gray-600">{stat.description}</p>
             </motion.div>

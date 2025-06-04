@@ -1,5 +1,8 @@
-
-import { TargetAndTransition, VariantLabels, AnimationControls } from "framer-motion";
+import {
+  TargetAndTransition,
+  VariantLabels,
+  AnimationControls,
+} from 'framer-motion';
 
 export interface AnimationTransitions {
   initial: VariantLabels | TargetAndTransition;

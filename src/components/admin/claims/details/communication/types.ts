@@ -1,4 +1,3 @@
-
 export type MessageType = {
   id: string;
   timestamp: string; // ISO date string

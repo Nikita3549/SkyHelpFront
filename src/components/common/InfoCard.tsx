@@ -1,6 +1,5 @@
-
-import React, { ReactNode } from "react";
-import { motion } from "framer-motion";
+import React, { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 
 interface InfoCardProps {
   icon?: ReactNode;
@@ -9,7 +8,12 @@ interface InfoCardProps {
   className?: string;
 }
 
-const InfoCard = ({ icon, title, description, className = "" }: InfoCardProps) => {
+const InfoCard = ({
+  icon,
+  title,
+  description,
+  className = '',
+}: InfoCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -20,9 +24,7 @@ const InfoCard = ({ icon, title, description, className = "" }: InfoCardProps) =
     >
       {icon && (
         <div className="flex items-start gap-4 mb-4">
-          <div className="bg-primary p-3 rounded-lg text-white">
-            {icon}
-          </div>
+          <div className="bg-primary p-3 rounded-lg text-white">{icon}</div>
         </div>
       )}
       <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>

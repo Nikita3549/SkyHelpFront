@@ -1,13 +1,26 @@
-
-import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, ChevronRight, ChevronLeft, Eye } from "lucide-react";
-import StatusBadge from "./StatusBadge";
-import { Claim } from "@/lib/supabase";
+import React, { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { MoreHorizontal, ChevronRight, ChevronLeft, Eye } from 'lucide-react';
+import StatusBadge from './StatusBadge';
+import { Claim } from '@/lib/supabase';
 
 type ClaimsTableProps = {
   filteredClaims: Claim[];
@@ -70,7 +83,12 @@ const ClaimsTable = ({
             </TableHeader>
             <TableBody>
               {filteredClaims.map((claim) => (
-                <TableRow key={claim.id} className={selectedClaim === claim.id ? "bg-blue-50" : undefined}>
+                <TableRow
+                  key={claim.id}
+                  className={
+                    selectedClaim === claim.id ? 'bg-blue-50' : undefined
+                  }
+                >
                   <TableCell className="font-medium">{claim.id}</TableCell>
                   <TableCell>
                     <div>
@@ -81,19 +99,23 @@ const ClaimsTable = ({
                   <TableCell>
                     <div>
                       <div className="font-medium">{claim.airline}</div>
-                      <div className="text-xs text-gray-500">{claim.flightnumber}</div>
+                      <div className="text-xs text-gray-500">
+                        {claim.flightnumber}
+                      </div>
                     </div>
                   </TableCell>
-                  <TableCell>{new Date(claim.date).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    {new Date(claim.date).toLocaleDateString()}
+                  </TableCell>
                   <TableCell>{claim.amount}</TableCell>
                   <TableCell>
                     <StatusBadge status={claim.status} />
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end items-center">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => setSelectedClaim(claim.id)}
                         className="mr-1"
                         title="View Details"
@@ -109,20 +131,38 @@ const ClaimsTable = ({
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={() => setSelectedClaim(claim.id)}>
+                          <DropdownMenuItem
+                            onClick={() => setSelectedClaim(claim.id)}
+                          >
                             View Details
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "in_progress")}>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleUpdateStatus(claim.id, 'in_progress')
+                            }
+                          >
                             Mark as In Progress
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "completed")}>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleUpdateStatus(claim.id, 'completed')
+                            }
+                          >
                             Mark as Completed
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "rejected")}>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleUpdateStatus(claim.id, 'rejected')
+                            }
+                          >
                             Mark as Rejected
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleUpdateStatus(claim.id, "not_eligible")}>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleUpdateStatus(claim.id, 'not_eligible')
+                            }
+                          >
                             Mark as Not Eligible
                           </DropdownMenuItem>
                         </DropdownMenuContent>

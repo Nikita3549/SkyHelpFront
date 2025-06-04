@@ -1,8 +1,7 @@
-
-import React from "react";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Clock, FileText, AlertCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { CheckCircle2, Clock, FileText, AlertCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface StatusBadgeProps {
   status: string;
@@ -10,21 +9,27 @@ interface StatusBadgeProps {
 }
 
 const StatusBadge = ({ status, className }: StatusBadgeProps) => {
-  const variants: Record<string, { variant: "default" | "outline" | "secondary" | "destructive", icon: React.ReactNode }> = {
+  const variants: Record<
+    string,
+    {
+      variant: 'default' | 'outline' | 'secondary' | 'destructive';
+      icon: React.ReactNode;
+    }
+  > = {
     completed: {
-      variant: "default",
+      variant: 'default',
       icon: <CheckCircle2 className="h-3 w-3 mr-1" />,
     },
     in_progress: {
-      variant: "secondary",
+      variant: 'secondary',
       icon: <Clock className="h-3 w-3 mr-1" />,
     },
     review: {
-      variant: "outline",
+      variant: 'outline',
       icon: <FileText className="h-3 w-3 mr-1" />,
     },
     rejected: {
-      variant: "destructive",
+      variant: 'destructive',
       icon: <AlertCircle className="h-3 w-3 mr-1" />,
     },
   };
@@ -32,12 +37,12 @@ const StatusBadge = ({ status, className }: StatusBadgeProps) => {
   const { variant, icon } = variants[status] || variants.review;
 
   return (
-    <Badge variant={variant} className={cn("flex items-center", className)}>
+    <Badge variant={variant} className={cn('flex items-center', className)}>
       {icon}
-      {status === "completed" && "Completed"}
-      {status === "in_progress" && "In Progress"}
-      {status === "review" && "Under Review"}
-      {status === "rejected" && "Rejected"}
+      {status === 'completed' && 'Completed'}
+      {status === 'in_progress' && 'In Progress'}
+      {status === 'review' && 'Under Review'}
+      {status === 'rejected' && 'Rejected'}
     </Badge>
   );
 };

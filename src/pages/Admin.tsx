@@ -1,9 +1,8 @@
-
-import React from "react";
-import { useClaimsOperations } from "@/hooks/useClaimsOperations";
-import LoadingState from "@/components/admin/LoadingState";
-import ErrorState from "@/components/admin/ErrorState";
-import AdminContent from "@/components/admin/AdminContent";
+import React from 'react';
+import { useClaimsOperations } from '@/hooks/useClaimsOperations';
+import LoadingState from '@/components/admin/LoadingState';
+import ErrorState from '@/components/admin/ErrorState';
+import AdminContent from '@/components/admin/AdminContent';
 
 const Admin = () => {
   const {
@@ -20,7 +19,7 @@ const Admin = () => {
     handleExportClaims,
     handleNewClaimSubmit,
     handleEditClaim,
-    handleEditClaimSubmit
+    handleEditClaimSubmit,
   } = useClaimsOperations();
 
   if (isLoading) {

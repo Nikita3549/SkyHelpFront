@@ -1,20 +1,25 @@
-import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Claim } from "@/lib/supabase";
-import { X } from "lucide-react";
-import { toast } from "sonner";
-import CustomerInfoCard from "../claims/details/CustomerInfoCard";
-import FlightInfoCard from "../claims/details/FlightInfoCard";
-import ClaimStatusCard from "../claims/details/ClaimStatusCard";
-import IssueDetailsCard from "../claims/details/IssueDetailsCard";
-import PaymentDetailsCard from "../claims/details/PaymentDetailsCard";
-import ActionButtons from "../claims/details/ActionButtons";
-import CommunicationTab from "../claims/details/CommunicationTab";
-import NotEligibleModal, { EmailData } from "./NotEligibleModal";
-import { MessageEntry } from "@/hooks/useClaimsOperations";
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Claim } from '@/lib/supabase';
+import { X } from 'lucide-react';
+import { toast } from 'sonner';
+import CustomerInfoCard from '../claims/details/CustomerInfoCard';
+import FlightInfoCard from '../claims/details/FlightInfoCard';
+import ClaimStatusCard from '../claims/details/ClaimStatusCard';
+import IssueDetailsCard from '../claims/details/IssueDetailsCard';
+import PaymentDetailsCard from '../claims/details/PaymentDetailsCard';
+import ActionButtons from '../claims/details/ActionButtons';
+import CommunicationTab from '../claims/details/CommunicationTab';
+import NotEligibleModal, { EmailData } from './NotEligibleModal';
+import { MessageEntry } from '@/hooks/useClaimsOperations';
 
 type EditClaimModalProps = {
   isOpen: boolean;
@@ -23,8 +28,13 @@ type EditClaimModalProps = {
   onSubmit?: (claimData: Partial<Claim>) => void;
 };
 
-const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProps) => {
-  const [activeTab, setActiveTab] = useState("details");
+const EditClaimModal = ({
+  isOpen,
+  onClose,
+  claim,
+  onSubmit,
+}: EditClaimModalProps) => {
+  const [activeTab, setActiveTab] = useState('details');
   const [isNotEligibleModalOpen, setIsNotEligibleModalOpen] = useState(false);
 
   const handleSendEmail = () => {
@@ -32,13 +42,13 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
     const currentDate = new Date().toISOString();
     const emailEntry: MessageEntry = {
       date: currentDate,
-      type: "email",
-      direction: "outgoing",
-      subject: "Email from Support",
-      body: "This is a placeholder for an email sent from the support team.",
-      status: "sent"
+      type: 'email',
+      direction: 'outgoing',
+      subject: 'Email from Support',
+      body: 'This is a placeholder for an email sent from the support team.',
+      status: 'sent',
     };
-    
+
     // Add this email to communication log
     let communicationLog = [];
     try {
@@ -46,26 +56,26 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
         communicationLog = JSON.parse(claim.communicationlog);
       }
     } catch (e) {
-      console.error("Error parsing communication log", e);
+      console.error('Error parsing communication log', e);
     }
-    
+
     communicationLog.push(emailEntry);
-    
+
     // Submit updated claim with new communication log
     if (onSubmit) {
       onSubmit({
         ...claim,
-        communicationlog: JSON.stringify(communicationLog)
+        communicationlog: JSON.stringify(communicationLog),
       });
     }
-    
-    toast.success("Email sent successfully", {
+
+    toast.success('Email sent successfully', {
       description: `Notification email sent to ${claim.customer}`,
     });
   };
 
   const handleUpdateStatus = () => {
-    toast.success("Status updated", {
+    toast.success('Status updated', {
       description: `Claim ${claim.id} status has been updated`,
     });
   };
@@ -75,69 +85,73 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
       onSubmit(claim);
     }
   };
-  
+
   const handleMarkAsNotEligible = () => {
     setIsNotEligibleModalOpen(true);
   };
-  
-  const handleConfirmNotEligible = (reason: string, additionalNotes?: string, emailData?: EmailData) => {
+
+  const handleConfirmNotEligible = (
+    reason: string,
+    additionalNotes?: string,
+    emailData?: EmailData,
+  ) => {
     // Update claim data
-    const updatedClaim: Partial<Claim> = { 
-      ...claim, 
-      status: "not_eligible",
+    const updatedClaim: Partial<Claim> = {
+      ...claim,
+      status: 'not_eligible',
       additionalinformation: `Not eligible reason: ${reason}`,
-      lastupdated: new Date().toISOString().split('T')[0]
+      lastupdated: new Date().toISOString().split('T')[0],
     };
-    
+
     // If email is being sent, add to communication log
     if (emailData && emailData.sendEmail) {
       const currentDate = new Date().toISOString();
-      
+
       let communicationLog = [];
       try {
         if (claim.communicationlog) {
           communicationLog = JSON.parse(claim.communicationlog);
         }
       } catch (e) {
-        console.error("Error parsing communication log", e);
+        console.error('Error parsing communication log', e);
       }
-      
+
       // Add new email to log
       communicationLog.push({
         date: currentDate,
-        type: "email",
-        direction: "outgoing",
+        type: 'email',
+        direction: 'outgoing',
         subject: emailData.subject,
         body: emailData.body,
-        status: "sent"
+        status: 'sent',
       });
-      
+
       // Also add a system message about status change
       communicationLog.push({
         date: currentDate,
-        type: "message",
-        direction: "system",
-        sender: "system",
+        type: 'message',
+        direction: 'system',
+        sender: 'system',
         content: `Claim status changed to Not Eligible. Reason: ${reason}`,
-        read: true
+        read: true,
       });
-      
+
       updatedClaim.communicationlog = JSON.stringify(communicationLog);
-      
-      toast.success("Email sent to customer", {
+
+      toast.success('Email sent to customer', {
         description: `Explaining the ineligibility reason: ${reason}`,
       });
     } else {
-      toast.success("Claim marked as not eligible", {
+      toast.success('Claim marked as not eligible', {
         description: `Reason: ${reason}`,
       });
     }
-    
+
     // Submit the updated claim data
     if (onSubmit) {
       onSubmit(updatedClaim);
     }
-    
+
     setIsNotEligibleModalOpen(false);
   };
 
@@ -146,7 +160,9 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
         <DialogHeader className="flex flex-row items-center justify-between">
           <div>
-            <DialogTitle className="text-xl font-semibold">Claim Details: {claim.id}</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">
+              Claim Details: {claim.id}
+            </DialogTitle>
             <p className="text-sm text-gray-500">{claim.customer}</p>
           </div>
           <Button
@@ -159,13 +175,17 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
           </Button>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full mt-4"
+        >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="details">Claim Details</TabsTrigger>
             <TabsTrigger value="communication">Communication</TabsTrigger>
             <TabsTrigger value="documents">Documents</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="details" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <CustomerInfoCard claim={claim} />
@@ -182,26 +202,26 @@ const EditClaimModal = ({ isOpen, onClose, claim, onSubmit }: EditClaimModalProp
 
             <Separator className="my-6" />
 
-            <ActionButtons 
-              onSendEmail={handleSendEmail} 
-              onUpdateStatus={handleUpdateStatus} 
+            <ActionButtons
+              onSendEmail={handleSendEmail}
+              onUpdateStatus={handleUpdateStatus}
               onEdit={handleEdit}
               onMarkNotEligible={handleMarkAsNotEligible}
             />
           </TabsContent>
-          
+
           <TabsContent value="communication" className="mt-6">
             <CommunicationTab claim={claim} />
           </TabsContent>
-          
+
           <TabsContent value="documents" className="mt-6">
             <div className="p-4 text-center text-gray-500">
               Document management features will be added soon.
             </div>
           </TabsContent>
         </Tabs>
-        
-        <NotEligibleModal 
+
+        <NotEligibleModal
           isOpen={isNotEligibleModalOpen}
           onClose={() => setIsNotEligibleModalOpen(false)}
           onConfirm={handleConfirmNotEligible}

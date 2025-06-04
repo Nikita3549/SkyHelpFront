@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface SignatureSectionProps {
@@ -6,7 +5,10 @@ interface SignatureSectionProps {
   representativeName: string;
 }
 
-const SignatureSection: React.FC<SignatureSectionProps> = ({ customerName, representativeName }) => {
+const SignatureSection: React.FC<SignatureSectionProps> = ({
+  customerName,
+  representativeName,
+}) => {
   return (
     <div className="signature-section">
       <div className="signature-box">
@@ -15,9 +17,11 @@ const SignatureSection: React.FC<SignatureSectionProps> = ({ customerName, repre
         <div className="signature-line"></div>
         <div className="signature-label">Signature</div>
       </div>
-      
+
       <div className="signature-box">
-        <div className="signature-title">Head of Operations Department of SkyHelp</div>
+        <div className="signature-title">
+          Head of Operations Department of SkyHelp
+        </div>
         <div className="signature-name">{representativeName}</div>
         <div className="signature-line"></div>
         <div className="signature-label">Signature</div>

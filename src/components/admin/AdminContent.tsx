@@ -1,13 +1,12 @@
-
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import NewClaimModal from "@/components/admin/NewClaimModal";
-import EditClaimModal from "@/components/admin/EditClaimModal";
-import { Claim } from "@/lib/supabase";
-import DashboardTab from "@/components/admin/dashboard/DashboardTab";
-import ClaimsTab from "@/components/admin/claims/ClaimsTab";
-import CommunicationsTab from "@/components/admin/communications/CommunicationsTab";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import NewClaimModal from '@/components/admin/NewClaimModal';
+import EditClaimModal from '@/components/admin/EditClaimModal';
+import { Claim } from '@/lib/supabase';
+import DashboardTab from '@/components/admin/dashboard/DashboardTab';
+import ClaimsTab from '@/components/admin/claims/ClaimsTab';
+import CommunicationsTab from '@/components/admin/communications/CommunicationsTab';
 
 type AdminContentProps = {
   claimsData: Claim[];
@@ -65,7 +64,7 @@ const AdminContent = ({
           </TabsContent>
 
           <TabsContent value="claims">
-            <ClaimsTab 
+            <ClaimsTab
               claimsData={claimsData}
               handleSendEmail={handleSendEmail}
               handleUpdateStatus={handleUpdateStatus}
@@ -80,7 +79,7 @@ const AdminContent = ({
           </TabsContent>
         </Tabs>
       </div>
-      
+
       {isNewClaimModalOpen && (
         <NewClaimModal
           isOpen={isNewClaimModalOpen}

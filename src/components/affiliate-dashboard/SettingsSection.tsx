@@ -1,13 +1,19 @@
-
-import React, { useState } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
-import { User, Bell, LogOut } from "lucide-react";
+import React, { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/hooks/use-toast';
+import { User, Bell, LogOut } from 'lucide-react';
 
 type SettingsSectionProps = {
   userData: {
@@ -21,53 +27,53 @@ type SettingsSectionProps = {
 const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
   const [name, setName] = useState(userData.name);
   const [email, setEmail] = useState(userData.email);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [paymentNotifications, setPaymentNotifications] = useState(true);
   const [marketingEmails, setMarketingEmails] = useState(false);
-  
+
   const handleProfileSave = () => {
     toast({
-      title: "Profile updated",
-      description: "Your profile information has been saved successfully.",
+      title: 'Profile updated',
+      description: 'Your profile information has been saved successfully.',
     });
   };
-  
+
   const handlePasswordChange = () => {
     if (password !== confirmPassword) {
       toast({
         title: "Passwords don't match",
-        description: "Please make sure both passwords match.",
-        variant: "destructive",
+        description: 'Please make sure both passwords match.',
+        variant: 'destructive',
       });
       return;
     }
-    
+
     if (password.length < 8) {
       toast({
-        title: "Password too short",
-        description: "Your password should be at least 8 characters long.",
-        variant: "destructive",
+        title: 'Password too short',
+        description: 'Your password should be at least 8 characters long.',
+        variant: 'destructive',
       });
       return;
     }
-    
+
     toast({
-      title: "Password updated",
-      description: "Your password has been changed successfully.",
+      title: 'Password updated',
+      description: 'Your password has been changed successfully.',
     });
-    
+
     // Reset password fields
-    setPassword("");
-    setConfirmPassword("");
+    setPassword('');
+    setConfirmPassword('');
   };
-  
+
   const handleLogout = () => {
     // In a real app, this would log the user out and redirect to login page
     toast({
-      title: "Logged out",
-      description: "You have been logged out successfully.",
+      title: 'Logged out',
+      description: 'You have been logged out successfully.',
     });
   };
 
@@ -79,7 +85,7 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
           Manage your account settings and preferences.
         </p>
       </div>
-      
+
       {/* Profile Settings */}
       <Card>
         <CardHeader>
@@ -87,9 +93,7 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
             <User className="mr-2 h-5 w-5" />
             <span>Profile Settings</span>
           </CardTitle>
-          <CardDescription>
-            Update your personal information
-          </CardDescription>
+          <CardDescription>Update your personal information</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -101,7 +105,7 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
               placeholder="Your full name"
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
             <Input
@@ -120,14 +124,12 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
           <Button onClick={handleProfileSave}>Save Profile</Button>
         </CardFooter>
       </Card>
-      
+
       {/* Password Settings */}
       <Card>
         <CardHeader>
           <CardTitle>Password</CardTitle>
-          <CardDescription>
-            Change your password
-          </CardDescription>
+          <CardDescription>Change your password</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -140,7 +142,7 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
               placeholder="New password"
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="confirm-password">Confirm New Password</Label>
             <Input
@@ -156,7 +158,7 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
           <Button onClick={handlePasswordChange}>Update Password</Button>
         </CardFooter>
       </Card>
-      
+
       {/* Notification Settings */}
       <Card>
         <CardHeader>
@@ -182,9 +184,9 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
               onCheckedChange={setEmailNotifications}
             />
           </div>
-          
+
           <Separator />
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="payment-notifications">Payment Alerts</Label>
@@ -198,9 +200,9 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
               onCheckedChange={setPaymentNotifications}
             />
           </div>
-          
+
           <Separator />
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="marketing-emails">Marketing Emails</Label>
@@ -216,7 +218,7 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Account Actions */}
       <Card>
         <CardHeader>
@@ -224,7 +226,11 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({ userData }) => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="destructive" onClick={handleLogout} className="sm:w-auto">
+            <Button
+              variant="destructive"
+              onClick={handleLogout}
+              className="sm:w-auto"
+            >
               <LogOut className="mr-2 h-4 w-4" />
               Log Out
             </Button>

@@ -1,30 +1,36 @@
-
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Claim } from "@/lib/supabase";
-import { toast } from "sonner";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Claim } from '@/lib/supabase';
+import { toast } from 'sonner';
 
 // Import sub-components
-import CustomerInfoCard from "./details/CustomerInfoCard";
-import FlightInfoCard from "./details/FlightInfoCard";
-import ClaimStatusCard from "./details/ClaimStatusCard";
-import IssueDetailsCard from "./details/IssueDetailsCard";
-import PaymentDetailsCard from "./details/PaymentDetailsCard";
-import ActionButtons from "./details/ActionButtons";
-import ClaimDetailsHeader from "./details/ClaimDetailsHeader";
-import CommunicationTab from "./details/CommunicationTab";
-import NotEligibleModal from "../modals/NotEligibleModal";
-import ClaimProgressManager, { type ClaimStep } from "./details/ClaimProgressManager";
+import CustomerInfoCard from './details/CustomerInfoCard';
+import FlightInfoCard from './details/FlightInfoCard';
+import ClaimStatusCard from './details/ClaimStatusCard';
+import IssueDetailsCard from './details/IssueDetailsCard';
+import PaymentDetailsCard from './details/PaymentDetailsCard';
+import ActionButtons from './details/ActionButtons';
+import ClaimDetailsHeader from './details/ClaimDetailsHeader';
+import CommunicationTab from './details/CommunicationTab';
+import NotEligibleModal from '../modals/NotEligibleModal';
+import ClaimProgressManager, {
+  type ClaimStep,
+} from './details/ClaimProgressManager';
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
   setSelectedClaim: (id: string | null) => void;
   claimsData: Claim[];
   handleSendEmail: (claimId: string) => void;
-  handleUpdateStatus: (claimId: string, newStatus: string, reason?: string, emailData?: any) => void;
+  handleUpdateStatus: (
+    claimId: string,
+    newStatus: string,
+    reason?: string,
+    emailData?: any,
+  ) => void;
   onEditClaim: (claim: Claim) => void;
 };
 
@@ -36,13 +42,13 @@ const ClaimDetailsSection = ({
   handleUpdateStatus,
   onEditClaim,
 }: ClaimDetailsSectionProps) => {
-  const [activeTab, setActiveTab] = useState("details");
+  const [activeTab, setActiveTab] = useState('details');
   const [isNotEligibleModalOpen, setIsNotEligibleModalOpen] = useState(false);
-  
+
   if (!selectedClaim) return null;
 
   const claim = claimsData.find((claim) => claim.id === selectedClaim);
-  
+
   if (!claim) return null;
 
   // Create handler functions for ActionButtons component
@@ -58,40 +64,44 @@ const ClaimDetailsSection = ({
   const handleEditClick = () => {
     onEditClaim(claim);
   };
-  
+
   const handleMarkAsNotEligible = () => {
     setIsNotEligibleModalOpen(true);
   };
-  
-  const handleConfirmNotEligible = (reason: string, additionalNotes?: string, emailData?: any) => {
-    handleUpdateStatus(selectedClaim, "not_eligible", reason, emailData);
-    
+
+  const handleConfirmNotEligible = (
+    reason: string,
+    additionalNotes?: string,
+    emailData?: any,
+  ) => {
+    handleUpdateStatus(selectedClaim, 'not_eligible', reason, emailData);
+
     if (emailData && emailData.sendEmail) {
-      toast.success("Email sent to customer", {
+      toast.success('Email sent to customer', {
         description: `Explaining the ineligibility reason: ${reason}`,
       });
     } else {
-      toast.success("Claim marked as not eligible", {
+      toast.success('Claim marked as not eligible', {
         description: `Reason: ${reason}`,
       });
     }
   };
-  
+
   const handleUpdateProgress = (steps: ClaimStep[]) => {
     const updatedClaim = {
       ...claim,
       progressSteps: JSON.stringify(steps),
-      lastupdated: new Date().toISOString().split('T')[0]
+      lastupdated: new Date().toISOString().split('T')[0],
     };
-    
+
     // Update the claim with new progress steps
     handleUpdateStatus(selectedClaim, claim.status, undefined, {
       sendEmail: false,
-      progressSteps: JSON.stringify(steps)
+      progressSteps: JSON.stringify(steps),
     });
-    
-    toast.success("Claim progress updated", {
-      description: "The progress timeline has been updated successfully",
+
+    toast.success('Claim progress updated', {
+      description: 'The progress timeline has been updated successfully',
     });
   };
 
@@ -103,20 +113,24 @@ const ClaimDetailsSection = ({
       transition={{ duration: 0.3 }}
     >
       <Card>
-        <ClaimDetailsHeader 
-          selectedClaim={selectedClaim} 
-          claim={claim} 
-          setSelectedClaim={setSelectedClaim} 
+        <ClaimDetailsHeader
+          selectedClaim={selectedClaim}
+          claim={claim}
+          setSelectedClaim={setSelectedClaim}
         />
         <CardContent>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
             <TabsList className="grid grid-cols-4 mb-4">
               <TabsTrigger value="details">Claim Details</TabsTrigger>
               <TabsTrigger value="communication">Communication</TabsTrigger>
               <TabsTrigger value="progress">Progress</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="details" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <CustomerInfoCard claim={claim} />
@@ -133,25 +147,25 @@ const ClaimDetailsSection = ({
 
               <Separator className="my-6" />
 
-              <ActionButtons 
+              <ActionButtons
                 onSendEmail={handleSendEmailClick}
                 onUpdateStatus={handleUpdateStatusClick}
                 onEdit={handleEditClick}
                 onMarkNotEligible={handleMarkAsNotEligible}
               />
             </TabsContent>
-            
+
             <TabsContent value="communication" className="mt-6">
               <CommunicationTab claim={claim} />
             </TabsContent>
-            
+
             <TabsContent value="progress" className="mt-6">
-              <ClaimProgressManager 
-                claim={claim} 
-                onUpdateProgress={handleUpdateProgress} 
+              <ClaimProgressManager
+                claim={claim}
+                onUpdateProgress={handleUpdateProgress}
               />
             </TabsContent>
-            
+
             <TabsContent value="documents" className="mt-6">
               <div className="p-4 text-center text-gray-500">
                 Document management features will be added soon.
@@ -160,8 +174,8 @@ const ClaimDetailsSection = ({
           </Tabs>
         </CardContent>
       </Card>
-      
-      <NotEligibleModal 
+
+      <NotEligibleModal
         isOpen={isNotEligibleModalOpen}
         onClose={() => setIsNotEligibleModalOpen(false)}
         onConfirm={handleConfirmNotEligible}

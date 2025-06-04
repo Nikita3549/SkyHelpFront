@@ -1,14 +1,33 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { FileText, Clock, CheckCircle2, Banknote } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
+import { FileText, Clock, CheckCircle2, Banknote } from 'lucide-react';
 
 const dashboardStats = [
-  { title: "Total Claims", value: "156", icon: <FileText className="h-5 w-5 text-blue-500" />, change: "+12%" },
-  { title: "Active Claims", value: "87", icon: <Clock className="h-5 w-5 text-orange-500" />, change: "+5%" },
-  { title: "Successful Claims", value: "42", icon: <CheckCircle2 className="h-5 w-5 text-green-500" />, change: "+8%" },
-  { title: "Total Compensation", value: "€53,250", icon: <Banknote className="h-5 w-5 text-emerald-500" />, change: "+15%" },
+  {
+    title: 'Total Claims',
+    value: '156',
+    icon: <FileText className="h-5 w-5 text-blue-500" />,
+    change: '+12%',
+  },
+  {
+    title: 'Active Claims',
+    value: '87',
+    icon: <Clock className="h-5 w-5 text-orange-500" />,
+    change: '+5%',
+  },
+  {
+    title: 'Successful Claims',
+    value: '42',
+    icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
+    change: '+8%',
+  },
+  {
+    title: 'Total Compensation',
+    value: '€53,250',
+    icon: <Banknote className="h-5 w-5 text-emerald-500" />,
+    change: '+15%',
+  },
 ];
 
 const DashboardStats = () => {
@@ -30,9 +49,7 @@ const DashboardStats = () => {
                   {stat.change} from last month
                 </p>
               </div>
-              <div className="p-2 rounded-full bg-gray-50">
-                {stat.icon}
-              </div>
+              <div className="p-2 rounded-full bg-gray-50">{stat.icon}</div>
             </div>
           </CardContent>
         </Card>

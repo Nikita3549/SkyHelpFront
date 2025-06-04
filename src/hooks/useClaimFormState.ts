@@ -1,10 +1,9 @@
-
-import { useState, useEffect } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { 
+import { useState, useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
   flightDetailsSchema,
   passengerDetailsSchema,
   disruptionDetailsSchema,
@@ -12,8 +11,8 @@ import {
   flightRouteSchema,
   bookingReferenceSchema,
   signatureSchema,
-  flightDocumentsSchema
-} from "@/components/claim-form/schemas";
+  flightDocumentsSchema,
+} from '@/components/claim-form/schemas';
 
 // Function to generate a random claim ID
 const generateClaimId = () => {
@@ -23,20 +22,22 @@ const generateClaimId = () => {
 export const useClaimFormState = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  
+
   // Check for checkType in both location state and URL query parameters
   const checkTypeFromState = location.state?.checkType;
   const checkTypeFromUrl = searchParams.get('checkType');
-  const isBoardingPass = checkTypeFromState === 'boardingPass' || checkTypeFromUrl === 'boardingPass';
-  
+  const isBoardingPass =
+    checkTypeFromState === 'boardingPass' ||
+    checkTypeFromUrl === 'boardingPass';
+
   // If we came from the boarding pass option, start at step 0 (boarding pass upload)
   // Otherwise start at step 1 (flight route)
   const initialStep = isBoardingPass ? 0 : 1;
-  
+
   const [step, setStep] = useState(initialStep);
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
-  const [connectionFlights, setConnectionFlights] = useState<string[]>([""]);
+  const [connectionFlights, setConnectionFlights] = useState<string[]>(['']);
   const [claimId, setClaimId] = useState<string>(generateClaimId());
   const [formData, setFormData] = useState({
     flightRoute: {},
@@ -50,10 +51,16 @@ export const useClaimFormState = () => {
   });
 
   // Get pre-filled values from location state or URL parameters
-  const preFilledDepartureAirport = location.state?.departureAirport || searchParams.get('departureAirport') || "";
-  const preFilledArrivalAirport = location.state?.arrivalAirport || searchParams.get('arrivalAirport') || "";
-  const preFilledFlightNumber = location.state?.flightNumber || searchParams.get('flightNumber') || "";
-  const preFilledDepartureDate = location.state?.departureDate || searchParams.get('departureDate') || "";
+  const preFilledDepartureAirport =
+    location.state?.departureAirport ||
+    searchParams.get('departureAirport') ||
+    '';
+  const preFilledArrivalAirport =
+    location.state?.arrivalAirport || searchParams.get('arrivalAirport') || '';
+  const preFilledFlightNumber =
+    location.state?.flightNumber || searchParams.get('flightNumber') || '';
+  const preFilledDepartureDate =
+    location.state?.departureDate || searchParams.get('departureDate') || '';
 
   // Initialize flight route form
   const flightRouteForm = useForm<z.infer<typeof flightRouteSchema>>({
@@ -69,15 +76,15 @@ export const useClaimFormState = () => {
     resolver: zodResolver(flightDetailsSchema),
     defaultValues: {
       flightNumber: preFilledFlightNumber,
-      airline: "",
+      airline: '',
       departureDate: preFilledDepartureDate,
       departureAirport: preFilledDepartureAirport,
       arrivalAirport: preFilledArrivalAirport,
-      disruptionType: "", // No default disruption type
-      connectingFlights: "no",
-      delayDuration: "1 hour",
+      disruptionType: '', // No default disruption type
+      connectingFlights: 'no',
+      delayDuration: '1 hour',
       connectionAirports: [],
-      problematicFlightSegment: "",
+      problematicFlightSegment: '',
       arrivalDelay: undefined,
       notificationTime: undefined,
       voluntaryDenial: undefined,
@@ -87,16 +94,16 @@ export const useClaimFormState = () => {
   const passengerDetailsForm = useForm<z.infer<typeof passengerDetailsSchema>>({
     resolver: zodResolver(passengerDetailsSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      address: "",
-      addressLine2: "",
-      city: "",
-      postalCode: "",
-      state: "",
-      country: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      address: '',
+      addressLine2: '',
+      city: '',
+      postalCode: '',
+      state: '',
+      country: '',
       whatsappNotifications: false,
     },
   });
@@ -104,37 +111,39 @@ export const useClaimFormState = () => {
   const bookingReferenceForm = useForm<z.infer<typeof bookingReferenceSchema>>({
     resolver: zodResolver(bookingReferenceSchema),
     defaultValues: {
-      bookingReference: "",
+      bookingReference: '',
     },
   });
-  
+
   const signatureForm = useForm<z.infer<typeof signatureSchema>>({
     resolver: zodResolver(signatureSchema),
     defaultValues: {
-      signature: "",
+      signature: '',
       termsAgreed: false,
     },
   });
 
-  const disruptionDetailsForm = useForm<z.infer<typeof disruptionDetailsSchema>>({
+  const disruptionDetailsForm = useForm<
+    z.infer<typeof disruptionDetailsSchema>
+  >({
     resolver: zodResolver(disruptionDetailsSchema),
     defaultValues: {
       reasonProvided: undefined,
       airlineReason: undefined,
-      additionalInfo: "",
+      additionalInfo: '',
     },
   });
 
   const paymentDetailsForm = useForm<z.infer<typeof paymentDetailsSchema>>({
     resolver: zodResolver(paymentDetailsSchema),
     defaultValues: {
-      paymentMethod: "bank_transfer",
-      bankName: "",
-      accountName: "",
-      accountNumber: "",
-      routingNumber: "",
-      iban: "",
-      paypalEmail: "",
+      paymentMethod: 'bank_transfer',
+      bankName: '',
+      accountName: '',
+      accountNumber: '',
+      routingNumber: '',
+      iban: '',
+      paypalEmail: '',
       termsAgreed: false,
     },
   });

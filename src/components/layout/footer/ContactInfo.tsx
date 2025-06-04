@@ -1,6 +1,5 @@
-
-import React from "react";
-import { Mail, Phone, MapPin } from "lucide-react";
+import React from 'react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const ContactInfo: React.FC = () => {
   return (
@@ -30,8 +29,10 @@ const ContactInfo: React.FC = () => {
         <li className="flex items-start">
           <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
           <span className="text-sm text-gray-500">
-            bd.mosova 16<br />
-            Suite 567<br />
+            bd.mosova 16
+            <br />
+            Suite 567
+            <br />
             London, UK
           </span>
         </li>

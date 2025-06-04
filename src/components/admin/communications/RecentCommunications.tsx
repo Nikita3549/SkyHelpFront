@@ -1,10 +1,16 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ChevronRight } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ChevronRight } from 'lucide-react';
 
 const RecentCommunications = () => {
   return (
@@ -17,14 +23,18 @@ const RecentCommunications = () => {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Recent Communications</CardTitle>
-          <CardDescription>Latest emails sent to customers and airlines</CardDescription>
+          <CardDescription>
+            Latest emails sent to customers and airlines
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="rounded-lg border p-4">
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h3 className="font-medium">Claim Update Notification</h3>
-                <p className="text-xs text-gray-500">Sent to customer@example.com</p>
+                <p className="text-xs text-gray-500">
+                  Sent to customer@example.com
+                </p>
               </div>
               <Badge>2 hours ago</Badge>
             </div>
@@ -48,7 +58,9 @@ const RecentCommunications = () => {
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h3 className="font-medium">Document Request</h3>
-                <p className="text-xs text-gray-500">Sent to customer@example.com</p>
+                <p className="text-xs text-gray-500">
+                  Sent to customer@example.com
+                </p>
               </div>
               <Badge>3 days ago</Badge>
             </div>

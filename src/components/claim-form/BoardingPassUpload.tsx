@@ -1,20 +1,22 @@
-
-import React from "react";
-import { motion } from "framer-motion";
-import { AnimationTransitions } from "./types";
-import QRCodeDialog from "./boarding-pass/QRCodeDialog";
-import FileDropZone from "./boarding-pass/FileDropZone";
-import FilePreview from "./boarding-pass/FilePreview";
-import HeaderSection from "./boarding-pass/HeaderSection";
-import SubmitButton from "./boarding-pass/SubmitButton";
-import { useBoardingPassUploader } from "@/hooks/useBoardingPassUploader";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { AnimationTransitions } from './types';
+import QRCodeDialog from './boarding-pass/QRCodeDialog';
+import FileDropZone from './boarding-pass/FileDropZone';
+import FilePreview from './boarding-pass/FilePreview';
+import HeaderSection from './boarding-pass/HeaderSection';
+import SubmitButton from './boarding-pass/SubmitButton';
+import { useBoardingPassUploader } from '@/hooks/useBoardingPassUploader';
 
 interface BoardingPassUploadProps {
   onContinue: (file: File) => void;
   transitions: AnimationTransitions;
 }
 
-const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps) => {
+const BoardingPassUpload = ({
+  onContinue,
+  transitions,
+}: BoardingPassUploadProps) => {
   const {
     file,
     isDragging,
@@ -30,7 +32,7 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
     handleDrop,
     handleFileInputChange,
     handleBrowseClick,
-    handleCameraClick
+    handleCameraClick,
   } = useBoardingPassUploader();
 
   const handleSubmit = () => {
@@ -49,7 +51,7 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
     >
       <div>
         <HeaderSection />
-        
+
         <FileDropZone
           isDragging={isDragging}
           handleDragEnter={handleDragEnter}
@@ -63,16 +65,16 @@ const BoardingPassUpload = ({ onContinue, transitions }: BoardingPassUploadProps
           fileInputRef={fileInputRef}
           cameraInputRef={cameraInputRef}
         />
-        
+
         {file && <FilePreview file={file} />}
       </div>
 
       <SubmitButton isDisabled={!file} onSubmit={handleSubmit} />
 
-      <QRCodeDialog 
-        open={showQrCode} 
-        onOpenChange={setShowQrCode} 
-        qrCodeUrl={qrCodeUrl} 
+      <QRCodeDialog
+        open={showQrCode}
+        onOpenChange={setShowQrCode}
+        qrCodeUrl={qrCodeUrl}
       />
     </motion.div>
   );

@@ -1,15 +1,34 @@
-
-import React, { useState } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
-import { CreditCard, ChevronsUpDown, FileText } from "lucide-react";
+import React, { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/hooks/use-toast';
+import { CreditCard, ChevronsUpDown, FileText } from 'lucide-react';
 
 // Define the types for the payouts data
 type PayoutsData = {
@@ -31,45 +50,48 @@ type PayoutsSectionProps = {
   userData: UserData;
 };
 
-const PayoutsSection: React.FC<PayoutsSectionProps> = ({ payoutsData, userData }) => {
+const PayoutsSection: React.FC<PayoutsSectionProps> = ({
+  payoutsData,
+  userData,
+}) => {
   const [paymentMethod, setPaymentMethod] = useState(userData.paymentMethod);
   const [paymentDetails, setPaymentDetails] = useState(userData.paymentDetails);
-  
+
   // Format date for display
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString();
   };
-  
+
   // Function to get status badge color
   const getStatusBadgeColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case "paid":
-        return "bg-green-100 text-green-800 hover:bg-green-100";
-      case "processing":
-        return "bg-blue-100 text-blue-800 hover:bg-blue-100";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100";
+      case 'paid':
+        return 'bg-green-100 text-green-800 hover:bg-green-100';
+      case 'processing':
+        return 'bg-blue-100 text-blue-800 hover:bg-blue-100';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100';
       default:
-        return "bg-gray-100 text-gray-800 hover:bg-gray-100";
+        return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
     }
   };
 
   const handlePaymentSave = () => {
     // In a real app, this would make an API call to update the user's payment details
     toast({
-      title: "Payment details updated",
-      description: "Your payment preferences have been saved successfully.",
+      title: 'Payment details updated',
+      description: 'Your payment preferences have been saved successfully.',
     });
   };
 
   // Calculate totals
   const totalPaid = payoutsData
-    .filter(payout => payout.status.toLowerCase() === "paid")
+    .filter((payout) => payout.status.toLowerCase() === 'paid')
     .reduce((sum, payout) => sum + payout.amount, 0);
-  
+
   const totalPending = payoutsData
-    .filter(payout => payout.status.toLowerCase() !== "paid")
+    .filter((payout) => payout.status.toLowerCase() !== 'paid')
     .reduce((sum, payout) => sum + payout.amount, 0);
 
   return (
@@ -80,7 +102,7 @@ const PayoutsSection: React.FC<PayoutsSectionProps> = ({ payoutsData, userData }
           Manage your payment history and preferences.
         </p>
       </div>
-      
+
       {/* Payment Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
@@ -104,27 +126,36 @@ const PayoutsSection: React.FC<PayoutsSectionProps> = ({ payoutsData, userData }
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-muted/50 p-4 rounded-md">
               <div className="flex items-start gap-3">
                 <CreditCard className="text-muted-foreground mt-0.5" />
                 <div>
                   <h4 className="font-medium">Payment Threshold</h4>
-                  <p className="text-sm text-muted-foreground">Payouts are processed automatically when your balance reaches €50.</p>
+                  <p className="text-sm text-muted-foreground">
+                    Payouts are processed automatically when your balance
+                    reaches €50.
+                  </p>
                 </div>
               </div>
             </div>
           </CardContent>
         </Card>
-        
+
         {/* Payment Method Selection */}
         <Card>
           <CardHeader>
             <CardTitle>Payment Method</CardTitle>
-            <CardDescription>Choose how you want to receive your earnings</CardDescription>
+            <CardDescription>
+              Choose how you want to receive your earnings
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-4">
+            <RadioGroup
+              value={paymentMethod}
+              onValueChange={setPaymentMethod}
+              className="space-y-4"
+            >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="PayPal" id="payment-paypal" />
                 <Label htmlFor="payment-paypal">PayPal</Label>
@@ -138,24 +169,28 @@ const PayoutsSection: React.FC<PayoutsSectionProps> = ({ payoutsData, userData }
                 <Label htmlFor="payment-wise">Wise / Revolut</Label>
               </div>
             </RadioGroup>
-            
+
             <div className="mt-4">
               <Label htmlFor="payment-details">Payment Details</Label>
-              <Input 
+              <Input
                 id="payment-details"
                 value={paymentDetails}
                 onChange={(e) => setPaymentDetails(e.target.value)}
                 placeholder={
-                  paymentMethod === "PayPal" ? "PayPal email address" : 
-                  paymentMethod === "IBAN" ? "IBAN number" : 
-                  "Wise/Revolut email or account ID"
+                  paymentMethod === 'PayPal'
+                    ? 'PayPal email address'
+                    : paymentMethod === 'IBAN'
+                      ? 'IBAN number'
+                      : 'Wise/Revolut email or account ID'
                 }
                 className="mt-1"
               />
               <p className="text-xs text-muted-foreground mt-1">
-                {paymentMethod === "PayPal" ? "Enter the email address associated with your PayPal account." : 
-                paymentMethod === "IBAN" ? "Enter your full IBAN number for bank transfers." : 
-                "Enter your Wise or Revolut email or account ID."}
+                {paymentMethod === 'PayPal'
+                  ? 'Enter the email address associated with your PayPal account.'
+                  : paymentMethod === 'IBAN'
+                    ? 'Enter your full IBAN number for bank transfers.'
+                    : 'Enter your Wise or Revolut email or account ID.'}
               </p>
             </div>
           </CardContent>
@@ -164,7 +199,7 @@ const PayoutsSection: React.FC<PayoutsSectionProps> = ({ payoutsData, userData }
           </CardFooter>
         </Card>
       </div>
-      
+
       {/* Payout History Table */}
       <Card>
         <CardHeader>
@@ -189,7 +224,10 @@ const PayoutsSection: React.FC<PayoutsSectionProps> = ({ payoutsData, userData }
             <TableBody>
               {payoutsData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
+                  <TableCell
+                    colSpan={4}
+                    className="text-center py-6 text-muted-foreground"
+                  >
                     No payment history available yet.
                   </TableCell>
                 </TableRow>
@@ -199,7 +237,10 @@ const PayoutsSection: React.FC<PayoutsSectionProps> = ({ payoutsData, userData }
                     <TableCell>{formatDate(payout.date)}</TableCell>
                     <TableCell>€{payout.amount}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className={getStatusBadgeColor(payout.status)}>
+                      <Badge
+                        variant="outline"
+                        className={getStatusBadgeColor(payout.status)}
+                      >
                         {payout.status}
                       </Badge>
                     </TableCell>

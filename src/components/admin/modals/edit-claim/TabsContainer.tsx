@@ -1,10 +1,9 @@
-
-import React from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Claim } from "@/lib/supabase";
-import DetailsTab from "./tabs/DetailsTab";
-import CommunicationTab from "../../claims/details/CommunicationTab";
-import ProgressTab from "./tabs/ProgressTab";
+import React from 'react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Claim } from '@/lib/supabase';
+import DetailsTab from './tabs/DetailsTab';
+import CommunicationTab from '../../claims/details/CommunicationTab';
+import ProgressTab from './tabs/ProgressTab';
 
 type TabsContainerProps = {
   activeTab: string;
@@ -25,19 +24,23 @@ const TabsContainer = ({
   onUpdateStatus,
   onEdit,
   onMarkNotEligible,
-  onUpdateClaim
+  onUpdateClaim,
 }: TabsContainerProps) => {
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
+    <Tabs
+      value={activeTab}
+      onValueChange={setActiveTab}
+      className="w-full mt-4"
+    >
       <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="details">Claim Details</TabsTrigger>
         <TabsTrigger value="communication">Communication</TabsTrigger>
         <TabsTrigger value="progress">Progress</TabsTrigger>
         <TabsTrigger value="documents">Documents</TabsTrigger>
       </TabsList>
-      
+
       <TabsContent value="details" className="mt-6">
-        <DetailsTab 
+        <DetailsTab
           claim={claim}
           onSendEmail={onSendEmail}
           onUpdateStatus={onUpdateStatus}
@@ -46,18 +49,15 @@ const TabsContainer = ({
           onUpdateClaim={onUpdateClaim}
         />
       </TabsContent>
-      
+
       <TabsContent value="communication" className="mt-6">
         <CommunicationTab claim={claim} />
       </TabsContent>
-      
+
       <TabsContent value="progress" className="mt-6">
-        <ProgressTab 
-          claim={claim}
-          onUpdateClaim={onUpdateClaim}
-        />
+        <ProgressTab claim={claim} onUpdateClaim={onUpdateClaim} />
       </TabsContent>
-      
+
       <TabsContent value="documents" className="mt-6">
         <div className="p-4 text-center text-gray-500">
           Document management features will be added soon.

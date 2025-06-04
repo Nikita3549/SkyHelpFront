@@ -1,13 +1,8 @@
-
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  FileText,
-  Upload,
-  Check,
-} from "lucide-react";
+import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { FileText, Upload, Check } from 'lucide-react';
 
 interface Document {
   name: string;
@@ -23,7 +18,9 @@ const DocumentsTab = ({ documents, onUploadDocument }: DocumentsTabProps) => {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-medium text-gray-500 mb-4">Required Documents</h3>
+        <h3 className="text-sm font-medium text-gray-500 mb-4">
+          Required Documents
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {documents.map((doc, index) => (
             <Card key={index} className="overflow-hidden">
@@ -34,18 +31,25 @@ const DocumentsTab = ({ documents, onUploadDocument }: DocumentsTabProps) => {
                     <div>
                       <p className="font-medium">{doc.name}</p>
                       <p className="text-xs text-gray-500 mt-0.5">
-                        {doc.status === "uploaded" ? "Uploaded" : "Required"}
+                        {doc.status === 'uploaded' ? 'Uploaded' : 'Required'}
                       </p>
                     </div>
                   </div>
-                  
-                  {doc.status === "uploaded" ? (
-                    <Badge variant="outline" className="text-green-600 bg-green-50 border-green-200">
+
+                  {doc.status === 'uploaded' ? (
+                    <Badge
+                      variant="outline"
+                      className="text-green-600 bg-green-50 border-green-200"
+                    >
                       <Check className="h-3 w-3 mr-1" />
                       Uploaded
                     </Badge>
                   ) : (
-                    <Button onClick={onUploadDocument} size="sm" variant="outline">
+                    <Button
+                      onClick={onUploadDocument}
+                      size="sm"
+                      variant="outline"
+                    >
                       <Upload className="h-3 w-3 mr-1" />
                       Upload
                     </Button>
@@ -56,9 +60,11 @@ const DocumentsTab = ({ documents, onUploadDocument }: DocumentsTabProps) => {
           ))}
         </div>
       </div>
-      
+
       <div>
-        <h3 className="text-sm font-medium text-gray-500 mb-4">Document Guidelines</h3>
+        <h3 className="text-sm font-medium text-gray-500 mb-4">
+          Document Guidelines
+        </h3>
         <Card>
           <CardContent className="p-4 text-sm">
             <ul className="space-y-2 text-gray-600">
@@ -76,7 +82,9 @@ const DocumentsTab = ({ documents, onUploadDocument }: DocumentsTabProps) => {
               </li>
               <li className="flex items-start">
                 <Check className="h-4 w-4 text-primary mt-0.5 mr-2 flex-shrink-0" />
-                <span>ID documents must match the passenger name in the claim</span>
+                <span>
+                  ID documents must match the passenger name in the claim
+                </span>
               </li>
             </ul>
           </CardContent>

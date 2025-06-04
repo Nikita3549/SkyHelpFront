@@ -1,39 +1,45 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Download, Copy, Check } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import React, { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Download, Copy, Check } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 const sampleBanners = [
   {
-    id: "banner-1",
-    name: "Flight Delays Banner (728x90)",
-    description: "Leaderboard banner for websites and blogs",
-    preview: "/lovable-uploads/5f38c0aa-45f7-4d7f-94c8-a9b7889ec866.png",
-    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/728x90-flight-delays.png" alt="Get flight compensation with SkyHelp" width="728" height="90"/></a>'
+    id: 'banner-1',
+    name: 'Flight Delays Banner (728x90)',
+    description: 'Leaderboard banner for websites and blogs',
+    preview: '/lovable-uploads/5f38c0aa-45f7-4d7f-94c8-a9b7889ec866.png',
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/728x90-flight-delays.png" alt="Get flight compensation with SkyHelp" width="728" height="90"/></a>',
   },
   {
-    id: "banner-2",
-    name: "Flight Cancellation Banner (300x250)",
-    description: "Medium rectangle for sidebars",
-    preview: "/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png",
-    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/300x250-cancellation.png" alt="Claim compensation for cancelled flights" width="300" height="250"/></a>'
+    id: 'banner-2',
+    name: 'Flight Cancellation Banner (300x250)',
+    description: 'Medium rectangle for sidebars',
+    preview: '/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png',
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/300x250-cancellation.png" alt="Claim compensation for cancelled flights" width="300" height="250"/></a>',
   },
   {
-    id: "banner-3",
-    name: "SkyHelp Promo (468x60)",
-    description: "Standard banner for header sections",
-    preview: "/lovable-uploads/5b13fe1b-e415-4ceb-8e01-454b5a7b81c8.png",
-    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/468x60-clever-claim.png" alt="SkyHelp - Flight compensation made easy" width="468" height="60"/></a>'
+    id: 'banner-3',
+    name: 'SkyHelp Promo (468x60)',
+    description: 'Standard banner for header sections',
+    preview: '/lovable-uploads/5b13fe1b-e415-4ceb-8e01-454b5a7b81c8.png',
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/468x60-clever-claim.png" alt="SkyHelp - Flight compensation made easy" width="468" height="60"/></a>',
   },
 ];
 
 const sampleTextContent = [
   {
-    id: "text-1",
-    name: "Blog Post Template",
-    description: "Ready-to-use blog article about flight compensation",
+    id: 'text-1',
+    name: 'Blog Post Template',
+    description: 'Ready-to-use blog article about flight compensation',
     content: `# How to Get Compensation for Flight Disruptions
 
 Did you know that you could be entitled to up to €600 in compensation for flight delays, cancellations, or overbookings? Under EU Regulation 261/2004, passengers have rights that many airlines don't readily inform them about.
@@ -51,12 +57,12 @@ You may be eligible for compensation ranging from €250 to €600, depending on
 
 Instead of struggling with complex claim forms and airline resistance, let SkyHelp handle everything for you. Their automated system analyzes your case, prepares the necessary documentation, and fights for your rightful compensation.
 
-[Check if you're eligible for compensation](https://skyhelp.com/ref/user123)`
+[Check if you're eligible for compensation](https://skyhelp.com/ref/user123)`,
   },
   {
-    id: "text-2",
-    name: "Email Newsletter Template",
-    description: "Email content to send to your subscribers",
+    id: 'text-2',
+    name: 'Email Newsletter Template',
+    description: 'Email content to send to your subscribers',
     content: `Subject: Were You on a Delayed or Cancelled Flight? Get Compensated!
 
 Hello [Name],
@@ -76,12 +82,12 @@ Check your eligibility here: https://skyhelp.com/ref/user123
 
 Safe travels!
 
-[Your Name]`
+[Your Name]`,
   },
   {
-    id: "text-3",
-    name: "Social Media Posts",
-    description: "Ready-made posts for social media platforms",
+    id: 'text-3',
+    name: 'Social Media Posts',
+    description: 'Ready-made posts for social media platforms',
     content: `#1: 
 ✈️ Flight delayed or cancelled? You could be owed up to €600 in compensation! SkyHelp makes it easy to check your eligibility and claim what you're entitled to. No paperwork hassle, just results! #TravelTip #FlightCompensation
 🔗 https://skyhelp.com/ref/user123
@@ -92,41 +98,41 @@ Did you know? Airlines won't volunteer to pay you compensation for delays or can
 
 #3:
 Vacation ruined by flight problems? Get some money back! ✈️💰 You might be entitled to compensation. SkyHelp's service has already helped thousands of travelers get what they deserve. It only takes 3 minutes to check your flight!
-🔗 https://skyhelp.com/ref/user123`
+🔗 https://skyhelp.com/ref/user123`,
   },
 ];
 
 const brandAssets = [
   {
-    id: "brand-1",
-    name: "SkyHelp Logo Package",
-    description: "Various formats and sizes of the company logo",
-    preview: "/lovable-uploads/8f6afcb7-d3dd-4758-825f-5b1f287ca7d5.png",
+    id: 'brand-1',
+    name: 'SkyHelp Logo Package',
+    description: 'Various formats and sizes of the company logo',
+    preview: '/lovable-uploads/8f6afcb7-d3dd-4758-825f-5b1f287ca7d5.png',
   },
   {
-    id: "brand-2",
-    name: "Brand Style Guide",
-    description: "Complete brand guidelines including colors and typography",
-    preview: "/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png",
+    id: 'brand-2',
+    name: 'Brand Style Guide',
+    description: 'Complete brand guidelines including colors and typography',
+    preview: '/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png',
   },
   {
-    id: "brand-3",
-    name: "Social Media Templates",
-    description: "Ready-made templates for Instagram, Facebook, and Twitter",
-    preview: "/lovable-uploads/26442131-787a-4059-8398-0aef3dc143ab.png",
+    id: 'brand-3',
+    name: 'Social Media Templates',
+    description: 'Ready-made templates for Instagram, Facebook, and Twitter',
+    preview: '/lovable-uploads/26442131-787a-4059-8398-0aef3dc143ab.png',
   },
 ];
 
 const PromoMaterialsSection = () => {
-  const [activeTab, setActiveTab] = useState("banners");
+  const [activeTab, setActiveTab] = useState('banners');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     toast({
-      title: "Copied to clipboard!",
-      description: "You can now paste this content where you need it.",
+      title: 'Copied to clipboard!',
+      description: 'You can now paste this content where you need it.',
     });
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -134,19 +140,21 @@ const PromoMaterialsSection = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Promotional Materials</h1>
+        <h1 className="text-2xl font-bold tracking-tight">
+          Promotional Materials
+        </h1>
         <p className="text-muted-foreground">
           Marketing assets to help you promote SkyHelp effectively.
         </p>
       </div>
-      
+
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid grid-cols-3 mb-6">
           <TabsTrigger value="banners">Banners</TabsTrigger>
           <TabsTrigger value="text">Text Content</TabsTrigger>
           <TabsTrigger value="brand">Brand Assets</TabsTrigger>
         </TabsList>
-        
+
         {/* Banners Tab */}
         <TabsContent value="banners" className="mt-0">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,15 +165,15 @@ const PromoMaterialsSection = () => {
                   <CardDescription>{banner.description}</CardDescription>
                 </CardHeader>
                 <div className="border-y px-4 py-3 flex items-center justify-center bg-muted/30">
-                  <img 
-                    src={banner.preview} 
-                    alt={banner.name} 
-                    className="max-w-full h-auto" 
+                  <img
+                    src={banner.preview}
+                    alt={banner.name}
+                    className="max-w-full h-auto"
                   />
                 </div>
                 <CardContent className="p-4 space-y-3">
                   <div className="flex flex-col gap-2">
-                    <Button 
+                    <Button
                       onClick={() => copyToClipboard(banner.code, banner.id)}
                       variant="outline"
                       className="w-full"
@@ -192,7 +200,7 @@ const PromoMaterialsSection = () => {
             ))}
           </div>
         </TabsContent>
-        
+
         {/* Text Content Tab */}
         <TabsContent value="text" className="mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -206,7 +214,7 @@ const PromoMaterialsSection = () => {
                   <div className="bg-muted p-4 rounded-md h-64 overflow-auto whitespace-pre-wrap mb-4 text-sm">
                     {content.content}
                   </div>
-                  <Button 
+                  <Button
                     onClick={() => copyToClipboard(content.content, content.id)}
                     className="w-full"
                     variant="outline"
@@ -228,7 +236,7 @@ const PromoMaterialsSection = () => {
             ))}
           </div>
         </TabsContent>
-        
+
         {/* Brand Assets Tab */}
         <TabsContent value="brand" className="mt-0">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -239,10 +247,10 @@ const PromoMaterialsSection = () => {
                   <CardDescription>{asset.description}</CardDescription>
                 </CardHeader>
                 <div className="border-y px-4 py-6 flex items-center justify-center bg-muted/30">
-                  <img 
-                    src={asset.preview} 
-                    alt={asset.name} 
-                    className="max-w-full h-auto max-h-40" 
+                  <img
+                    src={asset.preview}
+                    alt={asset.name}
+                    className="max-w-full h-auto max-h-40"
                   />
                 </div>
                 <CardContent className="p-4">
@@ -253,12 +261,16 @@ const PromoMaterialsSection = () => {
                 </CardContent>
               </Card>
             ))}
-            
+
             {/* Color Palette Card */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">SkyHelp Color Palette</CardTitle>
-                <CardDescription>Official brand colors for marketing materials</CardDescription>
+                <CardTitle className="text-base">
+                  SkyHelp Color Palette
+                </CardTitle>
+                <CardDescription>
+                  Official brand colors for marketing materials
+                </CardDescription>
               </CardHeader>
               <div className="px-4 py-4 border-y">
                 <div className="space-y-2">

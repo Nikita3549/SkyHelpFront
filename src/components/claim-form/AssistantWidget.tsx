@@ -1,6 +1,5 @@
-
-import React from "react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import React from 'react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface AssistantWidgetProps {
   name?: string;
@@ -9,9 +8,9 @@ interface AssistantWidgetProps {
 }
 
 const AssistantWidget: React.FC<AssistantWidgetProps> = ({
-  name = "Alex",
-  role = "Your CleverClaim Assistant",
-  avatarSrc = "/lovable-uploads/8f6afcb7-d3dd-4758-825f-5b1f287ca7d5.png"
+  name = 'Alex',
+  role = 'Your CleverClaim Assistant',
+  avatarSrc = '/lovable-uploads/8f6afcb7-d3dd-4758-825f-5b1f287ca7d5.png',
 }) => {
   return (
     <div className="flex items-center p-4 bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
