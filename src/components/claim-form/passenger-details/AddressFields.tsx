@@ -26,7 +26,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
     // First update the country field
     form.setValue('country', value, { shouldValidate: true });
 
-    // We'll let the PhoneInput component handle the phone number update
+    // We'll let the PhoneInput component handle.svg the phone number update
     // since it already watches for country changes in its useEffect
   };
 

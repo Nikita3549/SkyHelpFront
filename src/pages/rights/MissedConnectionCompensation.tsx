@@ -25,23 +25,26 @@ const MissedConnectionCompensation = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'Delayed Flight Compensation',
-      href: '/rights/delayed-flight-compensation',
+      href: '/rights/delayed-flight-compensation.svg',
     },
-    { title: 'Flight Compensation', href: '/rights/flight-compensation' },
+    { title: 'Flight Compensation', href: '/rights/flight-compensation.svg' },
     {
       title: 'Cancelled Flight Compensation',
-      href: '/rights/cancelled-flight-compensation',
+      href: '/rights/cancelled-flight-compensation.svg',
     },
     {
       title: 'Denied Boarding Compensation',
-      href: '/rights/denied-boarding-compensation',
+      href: '/rights/denied-boarding-compensation.svg',
     },
   ];
 
   const tableOfContents = [
     { id: 'what-are', title: 'What are Missed Connections?' },
     { id: 'eligibility', title: 'When Are You Eligible for Compensation?' },
-    { id: 'compensation-amount', title: 'How Much Compensation Can You Get?' },
+    {
+      id: 'compensation.svg-amount',
+      title: 'How Much Compensation Can You Get?',
+    },
     { id: 'time-limits', title: 'Time Limits for Missed Connection Claims' },
     {
       id: 'additional-rights',

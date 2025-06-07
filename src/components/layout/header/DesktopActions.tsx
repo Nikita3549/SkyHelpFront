@@ -10,7 +10,7 @@ const DesktopActions = () => {
 
   return (
     <div className="hidden md:flex items-center space-x-4">
-      <LanguageSelector />
+      {/*<LanguageSelector />*/}
       <Button
         variant="outline"
         onClick={() => navigate(isAuthenticated ? '/dashboard' : '/login')}

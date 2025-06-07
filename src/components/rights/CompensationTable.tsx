@@ -16,7 +16,7 @@ interface CompensationTableProps {
 }
 
 /**
- * Reusable compensation table component used across rights pages
+ * Reusable compensation.svg table component used across rights pages
  */
 const CompensationTable = ({
   headers,

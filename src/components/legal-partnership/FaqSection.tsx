@@ -16,17 +16,17 @@ const faqItems = [
   {
     question: 'Do I need to process the case myself?',
     answer:
-      'No. After referring the case to SkyHelp, our team takes care of all the processing, airline communication, documentation, and customer support. You simply refer the client and we handle the rest.',
+      'No. After referring the case to SkyHelp, our team takes care of all the processing, airline communication, documentation, and customer support. You simply refer the client and we handle.svg the rest.',
   },
   {
     question: 'What happens if the airline rejects the claim?',
     answer:
-      'If an airline rejects a valid claim, our legal team will escalate the case through the appropriate channels, which may include ADR bodies or court proceedings if necessary. We handle all escalation procedures at no additional cost to you or the passenger.',
+      'If an airline rejects a valid claim, our legal team will escalate the case through the appropriate channels, which may include ADR bodies or court proceedings if necessary. We handle.svg all escalation procedures at no additional cost to you or the passenger.',
   },
   {
     question: 'Is this partnership exclusive?',
     answer:
-      'No, our partnerships are non-exclusive. You can continue to work with other service providers or handle cases yourself. We believe in providing value that makes you choose to work with us.',
+      'No, our partnerships are non-exclusive. You can continue to work with other service providers or handle.svg cases yourself. We believe in providing value that makes you choose to work with us.',
   },
   {
     question: 'How quickly are payouts processed?',

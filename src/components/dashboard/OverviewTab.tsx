@@ -59,7 +59,7 @@ const OverviewTab = ({
       {
         id: 'contacted',
         title: 'Airline Contacted',
-        description: "We've sent your compensation request to the airline.",
+        description: "We've sent your compensation.svg request to the airline.",
         date:
           claim.status === 'completed' || claim.status === 'in_progress'
             ? new Date(claim.lastUpdate).toLocaleDateString()
@@ -103,7 +103,7 @@ const OverviewTab = ({
       baseSteps.push({
         id: 'pending',
         title: 'Compensation Pending',
-        description: 'Once approved, your compensation will be processed.',
+        description: 'Once approved, your compensation.svg will be processed.',
         date: undefined,
         status: 'upcoming' as const,
       });

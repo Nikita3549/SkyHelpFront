@@ -19,7 +19,7 @@ const Uk261FlightCompensation = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'EU 261 Flight Compensation',
-      href: '/rights/flight-compensation',
+      href: '/rights/flight-compensation.svg',
     },
     { title: 'SHY Regulation Turkey', href: '/rights/shy-regulation-turkey' },
     { title: 'ANAC 400 Regulation', href: '/rights/anac-400-regulation' },

@@ -17,16 +17,16 @@ const CancelledFlightCompensation = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'Delayed Flight Compensation',
-      href: '/rights/delayed-flight-compensation',
+      href: '/rights/delayed-flight-compensation.svg',
     },
-    { title: 'Flight Compensation', href: '/rights/flight-compensation' },
+    { title: 'Flight Compensation', href: '/rights/flight-compensation.svg' },
     {
       title: 'Missed Connection Compensation',
-      href: '/rights/missed-connection-compensation',
+      href: '/rights/missed-connection-compensation.svg',
     },
     {
       title: 'Airline Strike Compensation',
-      href: '/rights/airline-strike-compensation',
+      href: '/rights/airline-strike-compensation.svg',
     },
   ];
 
@@ -34,7 +34,7 @@ const CancelledFlightCompensation = () => {
     { id: 'understanding', title: 'Understanding Flight Cancellations' },
     { id: 'eligibility', title: 'When Can You Claim Compensation?' },
     {
-      id: 'compensation-amount',
+      id: 'compensation.svg-amount',
       title: 'How Much Compensation Can You Claim?',
     },
     {

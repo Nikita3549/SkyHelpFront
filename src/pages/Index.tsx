@@ -10,6 +10,7 @@ import Testimonials from '@/components/home/Testimonials';
 import Faq from '@/components/home/Faq';
 import Cta from '@/components/home/Cta';
 import PassengerRights from '@/components/home/PassengerRights';
+import Ticket from '@/components/home/Ticket.tsx';
 
 const Index = () => {
   // Create refs for scroll targets
@@ -39,7 +40,7 @@ const Index = () => {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100); // Небольшая задержка для уверенности, что компоненты отрендерились
+      }, 100);
     }
   }, [location]);
 
@@ -66,12 +67,12 @@ const Index = () => {
         'The time limit for filing claims varies by country. In most EU countries, you can claim for flights within the past 2-3 years. Some countries like the UK allow claims up to 6 years back.',
     },
     {
-      question: 'How does CleverClaim process my claim?',
+      question: 'How does SkyClaim process my claim?',
       answer:
-        'We collect your flight details and verify eligibility. If eligible, we handle all communication with the airline, from submitting the initial claim to negotiating your compensation. We keep you updated throughout the process, and once we receive the compensation, we transfer your share directly to your account.',
+        'We collect your flight details and verify eligibility. If eligible, we handle all communication with the airline, from submitting the initial claim to negotiating your compensation We keep you updated throughout the process, and once we receive the compensation, we transfer your share directly to your account.',
     },
     {
-      question: 'What does CleverClaim charge?',
+      question: 'What does SkyClaim charge?',
       answer:
         "We work on a no-win, no-fee basis. If we don't secure your compensation, you pay nothing. If we succeed, we take a 25% commission (plus VAT where applicable) from the compensation amount.",
     },
@@ -85,14 +86,15 @@ const Index = () => {
   return (
     <>
       <Hero />
-      <Stats />
+      {/*<Stats />*/}
       <HowItWorks howItWorksRef={howItWorksRef} />
+      <Ticket />
       <Eligibility />
       <WhyChooseUs />
       <PassengerRights />
       <QuickEligibilityCheck />
-      <Testimonials />
       <Faq faqRef={faqRef} faqs={faqs} />
+      <Testimonials />
       <Cta />
     </>
   );

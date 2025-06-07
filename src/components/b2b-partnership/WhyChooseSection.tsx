@@ -7,7 +7,7 @@ const features = [
   {
     title: 'Fully automated and AI-powered eligibility engine',
     description:
-      'Our advanced technology accurately determines passenger eligibility for compensation.',
+      'Our advanced technology accurately determines passenger eligibility for compensation.svg.',
     icon: <Bot size={24} />,
   },
   {

@@ -14,17 +14,17 @@ const AirPassengerRights = () => {
   const relatedLinks = [
     {
       title: 'Delayed Flight Compensation',
-      href: '/rights/delayed-flight-compensation',
+      href: '/rights/delayed-flight-compensation.svg',
     },
     {
       title: 'Cancelled Flight Compensation',
-      href: '/rights/cancelled-flight-compensation',
+      href: '/rights/cancelled-flight-compensation.svg',
     },
     {
       title: 'Denied Boarding Compensation',
-      href: '/rights/denied-boarding-compensation',
+      href: '/rights/denied-boarding-compensation.svg',
     },
-    { title: 'Flight Compensation', href: '/rights/flight-compensation' },
+    { title: 'Flight Compensation', href: '/rights/flight-compensation.svg' },
   ];
 
   const tableOfContents = [
@@ -52,17 +52,17 @@ const AirPassengerRights = () => {
         'Your flight is covered if it departs from any EU airport, or if it arrives in the EU and is operated by an EU-based airline. This regulation also applies to Iceland, Norway, and Switzerland.',
     },
     {
-      question: 'How far back can I claim compensation?',
+      question: 'How far back can I claim compensation.svg?',
       answer:
         "The time limit depends on the country where the airline is based or where you're making the claim. In most EU countries, you can claim for flights from the last 2-3 years, while some countries like the UK allow claims up to 6 years back.",
     },
     {
-      question: 'Do I need a lawyer to claim compensation?',
+      question: 'Do I need a lawyer to claim compensation.svg?',
       answer:
-        "No, you don't need a lawyer. You can claim directly with the airline or use a specialized service like CleverClaim. We handle all the legal aspects and communication with the airline on your behalf.",
+        "No, you don't need a lawyer. You can claim directly with the airline or use a specialized service like CleverClaim. We handle.svg all the legal aspects and communication with the airline on your behalf.",
     },
     {
-      question: 'What if the airline refuses to pay compensation?',
+      question: 'What if the airline refuses to pay compensation.svg?',
       answer:
         'If an airline rejects your claim, you can escalate it to the national enforcement body in the country where the incident occurred, or where the airline is based. Alternatively, services like CleverClaim can pursue the claim for you, including taking legal action if necessary.',
     },
@@ -171,7 +171,7 @@ const AirPassengerRights = () => {
             icon: <CheckIcon className="w-6 h-6" />,
             title: 'Flight Delays',
             description:
-              'If your flight arrives 3+ hours late at your final destination, you may be eligible for compensation up to €600, depending on flight distance.',
+              'If your flight arrives 3+ hours late at your final destination, you may be eligible for compensation.svg up to €600, depending on flight distance.',
           },
           {
             icon: <CheckIcon className="w-6 h-6" />,
@@ -183,7 +183,7 @@ const AirPassengerRights = () => {
             icon: <CheckIcon className="w-6 h-6" />,
             title: 'Denied Boarding',
             description:
-              "If you're denied boarding against your will (often due to overbooking), you're entitled to immediate compensation.",
+              "If you're denied boarding against your will (often due to overbooking), you're entitled to immediate compensation.svg.",
           },
         ]}
       />

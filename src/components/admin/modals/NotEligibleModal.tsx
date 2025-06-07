@@ -55,30 +55,30 @@ const PREDEFINED_REASONS = [
 // Email templates for each reason
 const EMAIL_TEMPLATES: Record<string, { subject: string; body: string }> = {
   'Flight outside EU/UK jurisdiction': {
-    subject: 'Your compensation claim could not proceed - Jurisdiction',
-    body: "Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nAfter reviewing your case, we found that the flight does not fall under EU261 or UK261 jurisdiction, which means compensation rights don't apply in this case.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team",
+    subject: 'Your compensation.svg claim could not proceed - Jurisdiction',
+    body: "Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nAfter reviewing your case, we found that the flight does not fall under EU261 or UK261 jurisdiction, which means compensation.svg rights don't apply in this case.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team",
   },
   'Extraordinary circumstances (weather, strikes, etc.)': {
     subject:
-      'Your compensation claim could not proceed - Extraordinary circumstances',
-    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nAfter reviewing your case, we found that the disruption was caused by extraordinary circumstances (such as weather or strikes), which are not eligible under EC261 compensation rules.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
+      'Your compensation.svg claim could not proceed - Extraordinary circumstances',
+    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nAfter reviewing your case, we found that the disruption was caused by extraordinary circumstances (such as weather or strikes), which are not eligible under EC261 compensation.svg rules.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
   },
   'Claim submitted too late (>6 years UK/2 years EU)': {
-    subject: 'Your compensation claim could not proceed - Time limitation',
-    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nUnfortunately, your claim has been submitted outside the legal time limitation (6 years for UK claims, 2 years for EU claims). As a result, we cannot proceed with your compensation request.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
+    subject: 'Your compensation.svg claim could not proceed - Time limitation',
+    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nUnfortunately, your claim has been submitted outside the legal time limitation (6 years for UK claims, 2 years for EU claims). As a result, we cannot proceed with your compensation.svg request.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
   },
   'Airline already provided compensation': {
     subject:
-      'Your compensation claim could not proceed - Previous compensation',
-    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nOur records indicate that compensation has already been provided by the airline for this disruption, which means we cannot pursue this claim further.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
+      'Your compensation.svg claim could not proceed - Previous compensation.svg',
+    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nOur records indicate that compensation.svg has already been provided by the airline for this disruption, which means we cannot pursue this claim further.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
   },
   'Insufficient documentation provided': {
     subject:
-      'Your compensation claim could not proceed - Insufficient documentation',
-    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nDespite our requests, we have not received sufficient documentation to support your claim. Without adequate proof, we cannot pursue compensation from the airline.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
+      'Your compensation.svg claim could not proceed - Insufficient documentation',
+    body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nDespite our requests, we have not received sufficient documentation to support your claim. Without adequate proof, we cannot pursue compensation.svg from the airline.\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
   },
   'Other (please specify)': {
-    subject: 'Your compensation claim could not proceed',
+    subject: 'Your compensation.svg claim could not proceed',
     body: 'Dear [CUSTOMER_NAME],\n\nThank you for submitting your claim regarding flight [FLIGHT_NUMBER] on [FLIGHT_DATE].\n\nAfter reviewing your case, we found that: [CUSTOM_REASON]\n\nWe appreciate your understanding.\n\nBest regards,\nSkyHelp Claims Team',
   },
 };

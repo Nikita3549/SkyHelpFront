@@ -8,13 +8,13 @@ const OverbookedFlightCompensation = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'Denied Boarding Compensation',
-      href: '/rights/denied-boarding-compensation',
+      href: '/rights/denied-boarding-compensation.svg',
     },
     {
       title: 'Cancelled Flight Compensation',
-      href: '/rights/cancelled-flight-compensation',
+      href: '/rights/cancelled-flight-compensation.svg',
     },
-    { title: 'Flight Compensation', href: '/rights/flight-compensation' },
+    { title: 'Flight Compensation', href: '/rights/flight-compensation.svg' },
   ];
 
   const tableOfContents = [

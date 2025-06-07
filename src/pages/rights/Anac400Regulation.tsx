@@ -18,12 +18,12 @@ const Anac400Regulation = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'EU 261 Flight Compensation',
-      href: '/rights/flight-compensation',
+      href: '/rights/flight-compensation.svg',
     },
     { title: 'SHY Regulation Turkey', href: '/rights/shy-regulation-turkey' },
     {
       title: 'UK 261 Flight Compensation',
-      href: '/rights/uk-261-flight-compensation',
+      href: '/rights/uk-261-flight-compensation.svg',
     },
   ];
 
@@ -54,12 +54,12 @@ const Anac400Regulation = () => {
   const faqs = [
     {
       question:
-        'Do I get monetary compensation for delayed flights under ANAC 400?',
+        'Do I get monetary compensation.svg for delayed flights under ANAC 400?',
       answer:
-        "Unlike EU261, ANAC 400 doesn't provide standardized financial compensation for delays. Instead, it focuses on immediate material assistance (communication, meals, accommodation) and offers refund/rebooking options. However, you may still seek compensation through the Brazilian judicial system for damages.",
+        "Unlike EU261, ANAC 400 doesn't provide standardized financial compensation.svg for delays. Instead, it focuses on immediate material assistance (communication, meals, accommodation) and offers refund/rebooking options. However, you may still seek compensation.svg through the Brazilian judicial system for damages.",
     },
     {
-      question: 'How does ANAC 400 handle flight cancellations?',
+      question: 'How does ANAC 400 handle.svg flight cancellations?',
       answer:
         'When your flight is cancelled, ANAC 400 requires the airline to offer you a choice between: a full refund of your ticket (including taxes), re-routing on another flight to your destination (with any airline), or rebooking the flight for another date at your convenience. These alternatives must be provided free of charge.',
     },
@@ -134,7 +134,7 @@ const Anac400Regulation = () => {
             icon: <AlertTriangleIcon className="w-6 h-6" />,
             title: 'Baggage Issues',
             description:
-              'Lost, damaged, or delayed baggage handling and compensation',
+              'Lost, damaged, or delayed baggage handling and compensation.svg',
           },
           {
             icon: <CheckIcon className="w-6 h-6" />,

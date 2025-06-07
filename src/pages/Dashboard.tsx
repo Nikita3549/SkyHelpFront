@@ -37,7 +37,7 @@ const claims = [
       {
         date: '2023-12-05',
         content:
-          "Your claim has been reviewed and is valid for compensation. We'll now contact the airline.",
+          "Your claim has been reviewed and is valid for compensation.svg. We'll now contact the airline.",
         isFromTeam: true,
       },
     ],
@@ -65,13 +65,13 @@ const claims = [
       {
         date: '2023-11-30',
         content:
-          'Your compensation of €250 has been transferred to your account. Thank you for using our service!',
+          'Your compensation.svg of €250 has been transferred to your account. Thank you for using our service!',
         isFromTeam: true,
       },
       {
         date: '2023-11-25',
         content:
-          'Good news! British Airways has approved your claim and agreed to pay compensation.',
+          'Good news! British Airways has approved your claim and agreed to pay compensation.svg.',
         isFromTeam: true,
       },
     ],

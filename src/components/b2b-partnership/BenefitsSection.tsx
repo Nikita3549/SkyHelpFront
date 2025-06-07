@@ -13,7 +13,7 @@ const benefits = [
   {
     title: 'Earn From Every Successful Case',
     description:
-      'Monetize delayed and canceled flights — we handle processing and payouts, you earn commission from each claim.',
+      'Monetize delayed and canceled flights — we handle.svg processing and payouts, you earn commission from each claim.',
     icon: <BadgeDollarSign className="h-10 w-10 text-primary" />,
   },
   {
@@ -25,7 +25,7 @@ const benefits = [
   {
     title: 'Full Back-Office Support',
     description:
-      'We manage customer support, legal follow-ups, documentation, and compensation tracking.',
+      'We manage customer support, legal follow-ups, documentation, and compensation.svg tracking.',
     icon: <Package className="h-10 w-10 text-primary" />,
   },
   {
@@ -37,7 +37,7 @@ const benefits = [
   {
     title: 'Proven Conversion Rates',
     description:
-      'High claim success rate and average compensation of €250–€600 — users are motivated to claim.',
+      'High claim success rate and average compensation.svg of €250–€600 — users are motivated to claim.',
     icon: <ChartBar className="h-10 w-10 text-primary" />,
   },
 ];

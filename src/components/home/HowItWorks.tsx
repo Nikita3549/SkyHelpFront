@@ -70,7 +70,7 @@ const HowItWorks = ({
             className="flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-5">
-              <Plane className="h-8 w-8 text-primary" />
+              <img src="/landing/how-it-works/submit.svg" alt="img" />
             </div>
             <h3 className="text-xl font-semibold mb-3">
               1. Submit Your Flight Details
@@ -86,7 +86,7 @@ const HowItWorks = ({
             className="flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-5">
-              <FileText className="h-8 w-8 text-primary" />
+              <img src="/landing/how-it-works/handle.svg" alt="img" />
             </div>
             <h3 className="text-xl font-semibold mb-3">
               2. We Handle The Paperwork
@@ -102,7 +102,7 @@ const HowItWorks = ({
             className="flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-5">
-              <CreditCard className="h-8 w-8 text-primary" />
+              <img src="/landing/how-it-works/compensation.svg" alt="img" />
             </div>
             <h3 className="text-xl font-semibold mb-3">
               3. Receive Your Compensation

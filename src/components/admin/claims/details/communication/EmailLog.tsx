@@ -104,7 +104,7 @@ const EmailLog = ({ claim }: EmailLogProps) => {
       from: 'SkyHelp',
       to: 'Ryanair',
       subject: 'Initial Claim Submission',
-      summary: 'Initial claim for flight compensation',
+      summary: 'Initial claim for flight compensation.svg',
       content: `Dear Ryanair,
 
 We are writing on behalf of our client John Smith regarding flight FR1234 on 10/05/2025 from London to Madrid.

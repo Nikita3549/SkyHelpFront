@@ -5,7 +5,7 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 const benefits = [
   {
-    title: 'Focus on law – let us handle the rest',
+    title: 'Focus on law – let us handle.svg the rest',
     description:
       'We take care of claim processing, documentation, and customer support. You focus on legal expertise.',
     icon: <Scale className="h-10 w-10 text-primary" />,

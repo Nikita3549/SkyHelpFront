@@ -11,7 +11,7 @@ export const UK261_FAQS: FaqItem[] = [
     question:
       'What if my flight is disrupted due to extraordinary circumstances?',
     answer:
-      'Like EU261, UK261 exempts airlines from paying compensation if the disruption was caused by extraordinary circumstances that could not have been avoided even if all reasonable measures had been taken. These include severe weather, political instability, security risks, air traffic control restrictions, and unexpected flight safety shortcomings. However, the airline must still provide care and assistance during the disruption.',
+      'Like EU261, UK261 exempts airlines from paying compensation.svg if the disruption was caused by extraordinary circumstances that could not have been avoided even if all reasonable measures had been taken. These include severe weather, political instability, security risks, air traffic control restrictions, and unexpected flight safety shortcomings. However, the airline must still provide care and assistance during the disruption.',
   },
   {
     question: 'How soon after a disruption should I file a UK261 claim?',
@@ -21,7 +21,7 @@ export const UK261_FAQS: FaqItem[] = [
   {
     question: 'Can I claim under both UK261 and EU261 for the same disruption?',
     answer:
-      "No, you cannot claim compensation twice for the same disruption. You need to determine which regulation applies to your specific journey. For flights between the UK and EU, either UK261 or EU261 will apply depending on the direction of travel and the airline's nationality.",
+      "No, you cannot claim compensation.svg twice for the same disruption. You need to determine which regulation applies to your specific journey. For flights between the UK and EU, either UK261 or EU261 will apply depending on the direction of travel and the airline's nationality.",
   },
 ];
 

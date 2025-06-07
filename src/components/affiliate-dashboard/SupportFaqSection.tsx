@@ -33,7 +33,7 @@ const faqs = [
   {
     question: 'How many referrals do I need to get paid?',
     answer:
-      "There's no minimum number of referrals required. What matters is reaching the €50 minimum payout threshold. Depending on the compensation amounts, this could be as few as 1-2 successful claims.",
+      "There's no minimum number of referrals required. What matters is reaching the €50 minimum payout threshold. Depending on the compensation.svg amounts, this could be as few as 1-2 successful claims.",
   },
   {
     question: 'How much commission do I earn per successful claim?',

@@ -17,7 +17,7 @@ const steps = [
   {
     title: 'Track and earn',
     description:
-      'Get paid for every successful compensation claim processed through SkyHelp.',
+      'Get paid for every successful compensation.svg claim processed through SkyHelp.',
     icon: <BadgeDollarSign className="h-10 w-10" />,
   },
 ];

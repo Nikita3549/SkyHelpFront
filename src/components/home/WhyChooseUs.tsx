@@ -124,8 +124,8 @@ const WhyChooseUs = () => {
 
             <div className="space-y-6">
               <div className="flex items-start">
-                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                  <Check className="h-4 w-4 text-green-500" />
+                <div className="flex-shrink-0 h-6 w-6 rounded-full  flex items-center justify-center mt-0.5">
+                  <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-800">Quick and easy</h4>
@@ -137,8 +137,8 @@ const WhyChooseUs = () => {
               </div>
 
               <div className="flex items-start">
-                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                  <Check className="h-4 w-4 text-green-500" />
+                <div className="flex-shrink-0 h-6 w-6 rounded-full  flex items-center justify-center mt-0.5">
+                  <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-800">
@@ -152,8 +152,8 @@ const WhyChooseUs = () => {
               </div>
 
               <div className="flex items-start">
-                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                  <Check className="h-4 w-4 text-green-500" />
+                <div className="flex-shrink-0 h-6 w-6 rounded-full  flex items-center justify-center mt-0.5">
+                  <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-800">
@@ -167,8 +167,8 @@ const WhyChooseUs = () => {
               </div>
 
               <div className="flex items-start">
-                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                  <Check className="h-4 w-4 text-green-500" />
+                <div className="flex-shrink-0 h-6 w-6 rounded-full  flex items-center justify-center mt-0.5">
+                  <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-800">Regular Updates</h4>
@@ -180,8 +180,8 @@ const WhyChooseUs = () => {
               </div>
 
               <div className="flex items-start">
-                <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                  <Check className="h-4 w-4 text-green-500" />
+                <div className="flex-shrink-0 h-6 w-6 rounded-full  flex items-center justify-center mt-0.5">
+                  <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
                   <h4 className="font-medium text-gray-800">Trusted Experts</h4>

@@ -17,21 +17,21 @@ const sampleBanners = [
     name: 'Flight Delays Banner (728x90)',
     description: 'Leaderboard banner for websites and blogs',
     preview: '/lovable-uploads/5f38c0aa-45f7-4d7f-94c8-a9b7889ec866.png',
-    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/728x90-flight-delays.png" alt="Get flight compensation with SkyHelp" width="728" height="90"/></a>',
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/728x90-flight-delays.png" alt="Get flight compensation.svg with SkyHelp" width="728" height="90"/></a>',
   },
   {
     id: 'banner-2',
     name: 'Flight Cancellation Banner (300x250)',
     description: 'Medium rectangle for sidebars',
     preview: '/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png',
-    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/300x250-cancellation.png" alt="Claim compensation for cancelled flights" width="300" height="250"/></a>',
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/300x250-cancellation.png" alt="Claim compensation.svg for cancelled flights" width="300" height="250"/></a>',
   },
   {
     id: 'banner-3',
     name: 'SkyHelp Promo (468x60)',
     description: 'Standard banner for header sections',
     preview: '/lovable-uploads/5b13fe1b-e415-4ceb-8e01-454b5a7b81c8.png',
-    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/468x60-clever-claim.png" alt="SkyHelp - Flight compensation made easy" width="468" height="60"/></a>',
+    code: '<a href="https://skyhelp.com/ref/user123"><img src="https://skyhelp.com/banners/468x60-clever-claim.png" alt="SkyHelp - Flight compensation.svg made easy" width="468" height="60"/></a>',
   },
 ];
 
@@ -39,7 +39,7 @@ const sampleTextContent = [
   {
     id: 'text-1',
     name: 'Blog Post Template',
-    description: 'Ready-to-use blog article about flight compensation',
+    description: 'Ready-to-use blog article about flight compensation.svg',
     content: `# How to Get Compensation for Flight Disruptions
 
 Did you know that you could be entitled to up to €600 in compensation for flight delays, cancellations, or overbookings? Under EU Regulation 261/2004, passengers have rights that many airlines don't readily inform them about.

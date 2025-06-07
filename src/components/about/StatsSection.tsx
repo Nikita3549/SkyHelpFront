@@ -16,7 +16,7 @@ const StatsSection = () => {
     {
       number: '2.7+',
       label: 'million',
-      description: 'passengers successfully paid compensation',
+      description: 'passengers successfully paid compensation.svg',
     },
     {
       number: '60+',

@@ -19,19 +19,22 @@ const DeniedBoardingCompensation = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'Overbooked Flight Compensation',
-      href: '/rights/overbooked-flight-compensation',
+      href: '/rights/overbooked-flight-compensation.svg',
     },
     {
       title: 'Cancelled Flight Compensation',
-      href: '/rights/cancelled-flight-compensation',
+      href: '/rights/cancelled-flight-compensation.svg',
     },
-    { title: 'Flight Compensation', href: '/rights/flight-compensation' },
+    { title: 'Flight Compensation', href: '/rights/flight-compensation.svg' },
   ];
 
   const tableOfContents = [
     { id: 'understanding', title: 'Understanding Denied Boarding' },
     { id: 'eligibility', title: 'When Are You Eligible for Compensation?' },
-    { id: 'compensation-amount', title: 'How Much Compensation Can You Get?' },
+    {
+      id: 'compensation.svg-amount',
+      title: 'How Much Compensation Can You Get?',
+    },
     {
       id: 'additional-rights',
       title: 'Additional Rights When Denied Boarding',

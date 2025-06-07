@@ -76,10 +76,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         ))}
 
         <div className="pt-4 border-t border-gray-200">
-          <div className="flex items-center justify-between px-3 py-2">
-            <span className="text-sm font-medium text-gray-700">Language</span>
-            <LanguageSelector />
-          </div>
+          {/*<div className="flex items-center justify-between px-3 py-2">*/}
+          {/*<span className="text-sm font-medium text-gray-700">Language</span>*/}
+          {/*<LanguageSelector />*/}
+          {/*</div>*/}
           <Button
             className="w-full mt-2 bg-primary hover:bg-primary/90"
             onClick={() => navigate(isAuthenticated ? '/dashboard' : '/login')}

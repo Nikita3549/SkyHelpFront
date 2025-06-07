@@ -9,9 +9,9 @@ const Stats = () => {
   const stats = [
     {
       value: '€600',
-      label: 'Maximum compensation per passenger',
+      label: 'Maximum compensation.svg per passenger',
       description:
-        'EU regulation 261/2004 entitles you to up to €600 compensation',
+        'EU regulation 261/2004 entitles you to up to €600 compensation.svg',
       icon: BanknoteIcon,
     },
     {
@@ -30,7 +30,7 @@ const Stats = () => {
     {
       value: '€2.8M',
       label: 'Recovered for our customers',
-      description: 'Helping passengers get the compensation they deserve',
+      description: 'Helping passengers get the compensation.svg they deserve',
       icon: PiggyBank,
     },
   ];

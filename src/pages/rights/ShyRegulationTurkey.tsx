@@ -17,12 +17,12 @@ const ShyRegulationTurkey = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'EU 261 Flight Compensation',
-      href: '/rights/flight-compensation',
+      href: '/rights/flight-compensation.svg',
     },
     { title: 'ANAC 400 Regulation', href: '/rights/anac-400-regulation' },
     {
       title: 'UK 261 Flight Compensation',
-      href: '/rights/uk-261-flight-compensation',
+      href: '/rights/uk-261-flight-compensation.svg',
     },
   ];
 
@@ -41,7 +41,7 @@ const ShyRegulationTurkey = () => {
     {
       question: 'What is the difference between SHY Regulation and EU261?',
       answer:
-        'While similar in structure, SHY Regulation offers lower compensation amounts (100-300 EUR vs. 250-600 EUR under EU261) and requires only 10 days notice for cancellations to avoid compensation (vs. 14 days under EU261). Technical issues are also more likely to be considered extraordinary circumstances under Turkish regulations.',
+        'While similar in structure, SHY Regulation offers lower compensation.svg amounts (100-300 EUR vs. 250-600 EUR under EU261) and requires only 10 days notice for cancellations to avoid compensation.svg (vs. 14 days under EU261). Technical issues are also more likely to be considered extraordinary circumstances under Turkish regulations.',
     },
     {
       question:
@@ -128,7 +128,7 @@ const ShyRegulationTurkey = () => {
             icon: <BanknoteIcon className="w-6 h-6" />,
             title: 'Financial Compensation',
             description:
-              'Provides standardized compensation amounts from 100 to 300 EUR based on flight distance, typically paid in Turkish lira.',
+              'Provides standardized compensation.svg amounts from 100 to 300 EUR based on flight distance, typically paid in Turkish lira.',
           },
         ]}
       />

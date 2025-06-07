@@ -49,7 +49,8 @@ const galleryImages = [
     alt: 'Claims Analytics Dashboard',
     title: 'Claims Analytics Dashboard',
     caption: 'Detailed Claims Analytics',
-    subcaption: 'Monitor claim status distribution and compensation by airline',
+    subcaption:
+      'Monitor claim status distribution and compensation.svg by airline',
   },
   {
     src: '/lovable-uploads/ad264c4c-e6f4-4084-b38a-ae8a7a9df2c8.png',

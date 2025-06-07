@@ -25,25 +25,25 @@ const FlightCompensation = () => {
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
     {
       title: 'Delayed Flight Compensation',
-      href: '/rights/delayed-flight-compensation',
+      href: '/rights/delayed-flight-compensation.svg',
     },
     {
       title: 'Cancelled Flight Compensation',
-      href: '/rights/cancelled-flight-compensation',
+      href: '/rights/cancelled-flight-compensation.svg',
     },
     {
       title: 'Denied Boarding Compensation',
-      href: '/rights/denied-boarding-compensation',
+      href: '/rights/denied-boarding-compensation.svg',
     },
     {
       title: 'Missed Connection Compensation',
-      href: '/rights/missed-connection-compensation',
+      href: '/rights/missed-connection-compensation.svg',
     },
   ];
 
   const tableOfContents = [
     { id: 'eu261', title: 'EU Regulation 261/2004 Explained' },
-    { id: 'compensation-amounts', title: 'Flight Compensation Amounts' },
+    { id: 'compensation.svg-amounts', title: 'Flight Compensation Amounts' },
     { id: 'eligibility', title: 'Who Can Claim Flight Compensation' },
     { id: 'disruption-types', title: 'Types of Flight Disruptions' },
     { id: 'claim-process', title: 'How to Claim Compensation' },
@@ -55,20 +55,20 @@ const FlightCompensation = () => {
   const faqs: FaqItem[] = [
     {
       question:
-        'Can I claim compensation for both a delayed and cancelled flight?',
+        'Can I claim compensation.svg for both a delayed and cancelled flight?',
       answer:
-        'No, you cannot claim twice for the same disrupted journey. EU261 entitles you to compensation once per disrupted journey, not for each individual issue that occurred. The compensation is calculated based on the total delay at your final destination, regardless of whether it was caused by a delay, cancellation, or combination of issues.',
+        'No, you cannot claim twice for the same disrupted journey. EU261 entitles you to compensation.svg once per disrupted journey, not for each individual issue that occurred. The compensation.svg is calculated based on the total delay at your final destination, regardless of whether it was caused by a delay, cancellation, or combination of issues.',
     },
     {
       question:
-        'Am I entitled to compensation if I was offered an alternative flight?',
+        'Am I entitled to compensation.svg if I was offered an alternative flight?',
       answer:
-        "Yes, you can still be entitled to compensation even if you accepted an alternative flight. The key factor is how much later you arrived at your final destination compared to your original schedule. If the replacement flight got you there 3+ hours late, you're likely eligible for compensation, even if you accepted the airline's alternative travel arrangements.",
+        "Yes, you can still be entitled to compensation.svg even if you accepted an alternative flight. The key factor is how much later you arrived at your final destination compared to your original schedule. If the replacement flight got you there 3+ hours late, you're likely eligible for compensation.svg, even if you accepted the airline's alternative travel arrangements.",
     },
     {
       question: 'What if I was rerouted through a different connecting city?',
       answer:
-        "Being rerouted through a different connecting city doesn't affect your right to compensation if you still arrived at your final destination 3+ hours late. The route taken is irrelevant for compensation purposes - only the delay at your final destination matters. If the airline got you there via a completely different path but still late, you maintain your right to compensation.",
+        "Being rerouted through a different connecting city doesn't affect your right to compensation.svg if you still arrived at your final destination 3+ hours late. The route taken is irrelevant for compensation.svg purposes - only the delay at your final destination matters. If the airline got you there via a completely different path but still late, you maintain your right to compensation.svg.",
     },
     {
       question: 'Can I claim if my flight was part of a package holiday?',
@@ -76,9 +76,9 @@ const FlightCompensation = () => {
         'Yes, flights that are part of package holidays are fully covered by EU261. You have the same rights as any other passenger. However, you may need to direct your claim to the tour operator rather than the airline, depending on your specific booking arrangements. The tour operator is responsible for assisting you with your claim against the airline.',
     },
     {
-      question: 'Do I need a lawyer to claim flight compensation?',
+      question: 'Do I need a lawyer to claim flight compensation.svg?',
       answer:
-        "No, you don't need a lawyer to claim flight compensation. You can submit a claim directly to the airline yourself. However, if the airline refuses to pay or ignores your claim, you might consider using a specialized flight compensation company like CleverClaim to handle your case. These services work on a no-win, no-fee basis and have expertise in dealing with resistant airlines.",
+        "No, you don't need a lawyer to claim flight compensation.svg. You can submit a claim directly to the airline yourself. However, if the airline refuses to pay or ignores your claim, you might consider using a specialized flight compensation.svg company like CleverClaim to handle.svg your case. These services work on a no-win, no-fee basis and have expertise in dealing with resistant airlines.",
     },
   ];
 
@@ -140,7 +140,7 @@ const FlightCompensation = () => {
       icon: <Clock className="w-5 h-5" />,
       title: '2. Calculate Entitlement',
       description:
-        'Check flight distance and delay duration to determine your potential compensation amount.',
+        'Check flight distance and delay duration to determine your potential compensation.svg amount.',
       className: 'bg-green-50',
     },
     {
@@ -458,7 +458,7 @@ const FlightCompensation = () => {
       <RightsCallToAction
         stats={{
           value: '€600',
-          label: 'Maximum compensation per passenger',
+          label: 'Maximum compensation.svg per passenger',
         }}
       />
 

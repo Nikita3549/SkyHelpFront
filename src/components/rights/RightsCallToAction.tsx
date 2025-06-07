@@ -20,7 +20,7 @@ interface RightsCallToActionProps {
  */
 const RightsCallToAction = ({
   title = 'Tired of Fighting Airlines?',
-  description = 'Let our experts handle your flight compensation claim. With our specialized knowledge of air passenger rights and years of experience dealing with resistant airlines, we can maximize your chances of receiving the compensation you deserve.',
+  description = 'Let our experts handle.svg your flight compensation.svg claim. With our specialized knowledge of air passenger rights and years of experience dealing with resistant airlines, we can maximize your chances of receiving the compensation.svg you deserve.',
   buttonText = 'Start Your Compensation Claim Now',
   buttonLink = '/claim',
   stats,

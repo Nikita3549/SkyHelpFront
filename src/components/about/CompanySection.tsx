@@ -14,7 +14,7 @@ const CompanySection = () => {
     {
       title: 'Technology',
       description:
-        "We've developed proprietary technology that automates claim eligibility checks and streamlines the compensation process.",
+        "We've developed proprietary technology that automates claim eligibility checks and streamlines the compensation.svg process.",
     },
     {
       title: 'Transparency',

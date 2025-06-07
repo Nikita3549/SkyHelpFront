@@ -30,14 +30,14 @@ import AnimatedButton from '@/components/ui-custom/AnimatedButton';
 const DelayedBaggageCompensation = () => {
   const relatedLinks = [
     { title: 'Air Passenger Rights', href: '/rights/air-passenger-rights' },
-    { title: 'Flight Compensation', href: '/rights/flight-compensation' },
+    { title: 'Flight Compensation', href: '/rights/flight-compensation.svg' },
     {
       title: 'Delayed Flight Compensation',
-      href: '/rights/delayed-flight-compensation',
+      href: '/rights/delayed-flight-compensation.svg',
     },
     {
       title: 'Cancelled Flight Compensation',
-      href: '/rights/cancelled-flight-compensation',
+      href: '/rights/cancelled-flight-compensation.svg',
     },
   ];
 
@@ -48,7 +48,10 @@ const DelayedBaggageCompensation = () => {
     },
     { id: 'baggage-issues', title: 'Types of Baggage Issues and Your Rights' },
     { id: 'steps', title: 'Steps to Take When Your Baggage is Mishandled' },
-    { id: 'compensation-claims', title: 'Maximizing Your Compensation Claim' },
+    {
+      id: 'compensation.svg-claims',
+      title: 'Maximizing Your Compensation Claim',
+    },
     { id: 'liability', title: 'Airline Liability Limitations' },
     { id: 'prevention', title: 'Tips for Preventing Baggage Issues' },
   ];

@@ -57,7 +57,7 @@ const ClaimDetailsSection = ({
   };
 
   const handleUpdateStatusClick = () => {
-    // This can be updated later if needed to handle specific status updates
+    // This can be updated later if needed to handle.svg specific status updates
     // For now, we'll just pass a function that can be implemented later
   };
 

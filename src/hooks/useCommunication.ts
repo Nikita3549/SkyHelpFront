@@ -33,7 +33,7 @@ export function useCommunication() {
     });
   };
 
-  // Function to handle adding messages to the communication log
+  // Function to handle.svg adding messages to the communication log
   const addMessageToCommunicationLog = (
     claimId: string,
     message: MessageEntry,
