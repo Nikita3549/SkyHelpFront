@@ -14,7 +14,7 @@ const Hero = () => {
       />
 
       <div className="flex justify-between flex-row z-[100] max-md:w-full">
-        <div className="w-2/5 h-[586px] min-w-[450px] max-md:w-full max-md:min-w-full max-md:h-full max-md:mr-0 mr-5 flex gap-8 flex-col">
+        <div className="w-[50%] h-[586px] min-w-[450px] max-md:w-full max-md:min-w-full max-md:h-full max-md:mr-0 mr-5 flex gap-8 flex-col">
           <Texts />
           <HeroForm />
         </div>

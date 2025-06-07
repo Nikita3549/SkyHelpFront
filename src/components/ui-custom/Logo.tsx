@@ -18,7 +18,7 @@ const Logo = ({ className, size = 'md', withLink = true }: LogoProps) => {
   const logo = (
     <div className={cn('flex items-center', className)}>
       <img
-        src="/lovable-uploads/3f1c5959-4782-4709-9550-0f3cb0a7581a.png"
+        src="/logo.png"
         alt="SkyHelp Logo"
         className={cn(sizeClasses[size])}
       />

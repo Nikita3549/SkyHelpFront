@@ -2,7 +2,7 @@ import React from 'react';
 
 function Ticket() {
   return (
-    <section className="py-16 px-10 bg-white max-md:hidden">
+    <section className="py-16 px-10 bg-white max-md:hidden ">
       <div className="rounded-[36px] w-full h-[434px] bg-[#3282f7]">
         <div className="flex flex-col justify-between w-[100px] ml-20 h-[434px] absolute">
           <div className="bg-white w-24 h-24 rounded-full relative top-[-50px]"></div>
@@ -21,11 +21,11 @@ function Ticket() {
           alt="background"
           className="absolute w-full h-full object-cover left-0"
         />
-        <div className="ml-[160px] mr-[80px] w-auto h-full">
+        <div className="ml-[160px] mr-[160px] w-auto h-full">
           <div className="w-full h-full">
             <div className="flex flex-col align-middle justify-between h-full">
               <div className="flex justify-between gap-8 mt-16">
-                <div>
+                <div className="w-1/4">
                   <h3 className="font-bold text-[36px] leading-[150%] text-white">
                     €600
                   </h3>
@@ -34,7 +34,7 @@ function Ticket() {
                     entitles you to up to €600 compensation
                   </p>
                 </div>
-                <div>
+                <div className="w-1/4">
                   <h3 className="font-bold text-[36px] leading-[150%] text-white">
                     €2.8M
                   </h3>
@@ -43,7 +43,7 @@ function Ticket() {
                     compensation they deserve
                   </p>
                 </div>
-                <div>
+                <div className="w-1/4">
                   <h3 className="font-bold text-[36px] leading-[150%] text-white">
                     AI
                   </h3>
@@ -52,7 +52,7 @@ function Ticket() {
                     claim in seconds, not days
                   </p>
                 </div>
-                <div>
+                <div className="w-1/4">
                   <h3 className="font-bold text-[36px] leading-[150%] text-white">
                     94%
                   </h3>
@@ -62,7 +62,7 @@ function Ticket() {
                   </p>
                 </div>
               </div>
-              <p className="font-bold whitespace-nowrap text-[20px] leading-[240%] tracking-[-0.01em] text-center text-white mb-4">
+              <p className="font-bold whitespace-nowrap text-[20px] leading-[240%] tracking-[-0.01em] text-center text-white mb-4 ml-4">
                 Based on our claims data from the past 3 years
               </p>
             </div>

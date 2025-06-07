@@ -37,7 +37,7 @@ const Testimonials = () => {
           >
             97% of Travelers Recommend{' '}
             <span className="text-[#3282f7]">Sky</span>
-            Claim
+            Help
           </motion.h2>
           {/*<motion.p*/}
           {/*  initial={{ opacity: 0 }}*/}

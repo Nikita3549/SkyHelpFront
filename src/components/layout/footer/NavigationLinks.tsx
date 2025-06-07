@@ -14,7 +14,7 @@ interface NavigationLinksProps {
 const NavigationLinks: React.FC<NavigationLinksProps> = ({ title, links }) => {
   return (
     <div>
-      <h3 className="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-4">
+      <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
         {title}
       </h3>
       <ul className="space-y-3">
@@ -23,7 +23,7 @@ const NavigationLinks: React.FC<NavigationLinksProps> = ({ title, links }) => {
             {item.href.startsWith('/') || item.href.includes('affiliate') ? (
               <Link
                 to={item.href}
-                className="text-gray-500 hover:text-primary text-sm transition-colors"
+                className="text-white font-medium hover:text-primary text-sm transition-colors"
               >
                 {item.name}
               </Link>

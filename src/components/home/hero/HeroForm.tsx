@@ -29,12 +29,13 @@ const HeroForm = () => {
     <div className="glass rounded-2xl p-6 h-56 max-md:h-auto max-md:max-w-full w-full md:p-8 shadow-xl">
       <div className="flex flex-col space-y-5">
         <div className="flex justify-between max-md:flex-col gap-3">
-          <div>
-            <div className="relative">
+          <div className="w-full">
+            <div className="relative w-full">
               <Input
                 type="text"
                 placeholder="Departure Airport"
-                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                style={{ borderRadius: '48px' }}
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded"
                 value={departureAirport}
                 onChange={(e) => setDepartureAirport(e.target.value)}
               />
@@ -42,11 +43,12 @@ const HeroForm = () => {
             </div>
           </div>
 
-          <div>
-            <div className="relative">
+          <div className="w-full">
+            <div className="relative w-full">
               <Input
                 type="text"
                 placeholder="Arrival Airport"
+                style={{ borderRadius: '48px' }}
                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
                 value={arrivalAirport}
                 onChange={(e) => setArrivalAirport(e.target.value)}
@@ -62,12 +64,13 @@ const HeroForm = () => {
             departureAirport,
             arrivalAirport,
           }}
+          style={{ borderRadius: '50px' }}
           className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-center"
         >
           Check Compensation
         </Link>
 
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-start gap-2">
           <span className="text-xs text-gray-500">or</span>
           <Button
             type="button"
@@ -76,7 +79,7 @@ const HeroForm = () => {
             onClick={handleBoardingPassCheck}
           >
             <Ticket className="h-4 w-4 text-blue-500 group-hover:text-blue-700" />
-            Fast check with boarding pass
+            <p className="underline">Fast check with boarding pass</p>
           </Button>
         </div>
       </div>

@@ -62,8 +62,22 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
-        <Route path="claim" element={<ClaimForm />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route
+          path="/claim"
+          element={
+            <ProtectedRoute requiredRole={[UserRole.CLIENT]}>
+              <ClaimForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="dashboard"
+          element={
+            <ProtectedRoute requiredRole={[UserRole.CLIENT]}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="admin"
           element={
@@ -72,7 +86,14 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="admin/users" element={<UserManagement />} />
+        <Route
+          path="admin/users"
+          element={
+            <ProtectedRoute requiredRole={[UserRole.ADMIN, UserRole.MODERATOR]}>
+              <UserManagement />
+            </ProtectedRoute>
+          }
+        />
         <Route path="contact" element={<Contact />} />
         <Route path="about" element={<AboutUs />} />
         <Route path="affiliate" element={<AffiliateProgram />} />

@@ -118,12 +118,17 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-white border-t border-gray-100">
+    <footer className="bg-white border-t border-gray-100 flex flex-col justify-center align-middle">
       {/* Airlines Logos Section */}
       <AirlinesSection airlines={airlines} />
 
-      <div className="container-custom">
-        <div className="py-12 md:py-16">
+      <div className="container-custom m-0 min-w-[100vw] bg-[#00122d] relative">
+        <img
+          src="/landing/ticket/background-earth.svg"
+          className="absolute left-0 max-h-[538px] min-w-full object-cover z-[10]"
+          alt="Earth background"
+        />
+        <div className="py-12 md:py-16 relative z-[11]">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <SocialLinks social={navigation.social} />
             <NavigationLinks title="Navigation" links={navigation.main} />
@@ -133,17 +138,17 @@ const Footer = () => {
         </div>
 
         {/* APRA Section */}
-        <div className="py-6 border-t border-gray-100">
+        <div className="py-6 ">
           <div className="flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-4">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-white">
               SkyHelp is a part of the Association of Passenger Rights Advocates
               (APRA) whose mission is to promote and protect passengers' rights
             </p>
           </div>
         </div>
 
-        <div className="py-6 border-t border-gray-100">
-          <p className="text-sm text-gray-400 text-center">
+        <div className="py-6 ">
+          <p className="text-sm text-white text-center">
             &copy; {new Date().getFullYear()} SkyHelp. All rights reserved.
           </p>
         </div>

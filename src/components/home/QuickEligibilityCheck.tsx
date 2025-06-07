@@ -33,9 +33,9 @@ const QuickEligibilityCheck = () => {
 
   return (
     <section className="bg-blue-50 py-14 relative overflow-hidden">
-      <div className="container-custom">
+      <div className="container-custom flex justify-center">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
+          <div className="text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
               Check Your Compensation Eligibility
             </h2>
@@ -47,7 +47,7 @@ const QuickEligibilityCheck = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-xl shadow-md p-6 md:p-8 relative"
+            className="bg-opacity-0 py-6 md:py-8 relative max-w-[630px]"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -58,7 +58,7 @@ const QuickEligibilityCheck = () => {
                     value={departureAirport}
                     onChange={(e) => setDepartureAirport(e.target.value)}
                     required
-                    className="w-full pl-10"
+                    className="w-full pl-10 rounded-[48px]"
                   />
                   <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 </div>
@@ -72,7 +72,7 @@ const QuickEligibilityCheck = () => {
                     value={arrivalAirport}
                     onChange={(e) => setArrivalAirport(e.target.value)}
                     required
-                    className="w-full pl-10"
+                    className="w-full pl-10 rounded-[48px]"
                   />
                   <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 rotate-90 text-gray-400" />
                 </div>
@@ -82,9 +82,9 @@ const QuickEligibilityCheck = () => {
             <div className="mt-6 text-center">
               <Button
                 type="submit"
-                className="px-6 py-3 h-auto rounded-full font-medium text-white bg-primary hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 w-full md:w-auto"
+                className="px-6 py-3 h-auto rounded-full font-medium text-white bg-primary hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 w-full "
               >
-                Check Compensation <ArrowRight className="ml-2 h-4 w-4" />
+                Check Now <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
 
@@ -97,51 +97,51 @@ const QuickEligibilityCheck = () => {
                 onClick={handleBoardingPassCheck}
               >
                 <Ticket className="h-5 w-5 text-blue-500 group-hover:text-blue-700" />
-                Fast check with boarding pass
+                <p className="underline">Fast check with boarding pass</p>
               </Button>
             </div>
 
-            <motion.div
-              className="absolute -top-10 -right-10 hidden md:block"
-              animate={{
-                y: [0, -12, 0],
-                rotate: [0, 15, 0],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                repeatType: 'reverse',
-              }}
-            >
-              <div className="bg-[#D3E4FD] rounded-full p-3 shadow-md">
-                <Plane size={30} strokeWidth={2} className="text-gray-800" />
-              </div>
-            </motion.div>
+            {/*<motion.div*/}
+            {/*  className="absolute -top-10 -right-10 hidden md:block"*/}
+            {/*  animate={{*/}
+            {/*    y: [0, -12, 0],*/}
+            {/*    rotate: [0, 15, 0],*/}
+            {/*  }}*/}
+            {/*  transition={{*/}
+            {/*    duration: 5,*/}
+            {/*    repeat: Infinity,*/}
+            {/*    repeatType: 'reverse',*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <div className="bg-[#D3E4FD] rounded-full p-3 shadow-md">*/}
+            {/*    <Plane size={30} strokeWidth={2} className="text-gray-800" />*/}
+            {/*  </div>*/}
+            {/*</motion.div>*/}
           </form>
         </div>
       </div>
 
-      <motion.div
-        className="absolute bottom-10 left-10 hidden lg:block"
-        animate={{
-          y: [0, -20, 0],
-          x: [0, 20, 0],
-          rotate: [0, -10, 0],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
-      >
-        <div className="bg-[#D3E4FD] rounded-full p-4 shadow-lg">
-          <Plane
-            size={50}
-            strokeWidth={1.5}
-            className="text-gray-800 rotate-180"
-          />
-        </div>
-      </motion.div>
+      {/*<motion.div*/}
+      {/*  className="absolute bottom-10 left-10 hidden lg:block"*/}
+      {/*  animate={{*/}
+      {/*    y: [0, -20, 0],*/}
+      {/*    x: [0, 20, 0],*/}
+      {/*    rotate: [0, -10, 0],*/}
+      {/*  }}*/}
+      {/*  transition={{*/}
+      {/*    duration: 10,*/}
+      {/*    repeat: Infinity,*/}
+      {/*    repeatType: 'reverse',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <div className="bg-[#D3E4FD] rounded-full p-4 shadow-lg">*/}
+      {/*    <Plane*/}
+      {/*      size={50}*/}
+      {/*      strokeWidth={1.5}*/}
+      {/*      className="text-gray-800 rotate-180"*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*</motion.div>*/}
     </section>
   );
 };

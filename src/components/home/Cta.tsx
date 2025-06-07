@@ -5,8 +5,13 @@ import { ChevronRight } from 'lucide-react';
 
 const Cta = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-primary/90 to-blue-600/90 text-white">
-      <div className="container-custom">
+    <section className="px-20 max-md:px-4 text-white relative">
+      <img
+        src="/landing/cta/background-earth.svg"
+        className="absolute left-0 min-h-full max-w-full object-cover z-[10]"
+        alt="Earth background"
+      />
+      <div className="container-custom py-20 bg-[#3282f7] rounded-[36px]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -26,7 +31,6 @@ const Cta = () => {
             className="inline-flex items-center px-8 py-4 rounded-full bg-white text-primary font-medium hover:bg-opacity-95 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-primary"
           >
             Start Your Claim Now
-            <ChevronRight className="ml-2 h-5 w-5" />
           </Link>
         </motion.div>
       </div>

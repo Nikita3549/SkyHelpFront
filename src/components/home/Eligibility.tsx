@@ -5,7 +5,12 @@ import { Check, AlertCircle } from 'lucide-react';
 const Eligibility = () => {
   return (
     <section className="h-auto bg-[#fff] px-20 py-16 relative max-md:px-4">
-      <div className="absolute z-[11] max-md:relative">
+      <img
+        src="/landing/background-earth.svg"
+        className="absolute bottom-12 left-0 min-h-full max-w-full object-cover z-[10]"
+        alt="Earth background"
+      />
+      <div className="absolute z-[21] max-md:relative">
         <h1 className="mb-3 font-bold text-[32px] leading-[150%] tracking-[-0.01em] text-black max-md:text-center">
           How Much is Your Legal <br />
           Compensation For Your Problem Flight?
@@ -30,11 +35,6 @@ const Eligibility = () => {
           compensation if your flight has been:
         </p>
       </div>
-      <img
-        src="/landing/background-earth.svg"
-        className="absolute bottom-12 left-0 min-h-full max-w-full object-cover z-[10]"
-        alt="Earth background"
-      />
       <div className="w-full h-[364px] max-md:h-auto max-md:py-8 flex justify-between relative z-[11] max-md:flex-col max-md:gap-4">
         <div className="flex flex-col mt-auto max-md:mt-0 max-md:items-center">
           <img src="/landing/plane.svg" alt="plane" className="w-14 h-14" />

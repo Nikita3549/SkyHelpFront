@@ -67,12 +67,12 @@ const Index = () => {
         'The time limit for filing claims varies by country. In most EU countries, you can claim for flights within the past 2-3 years. Some countries like the UK allow claims up to 6 years back.',
     },
     {
-      question: 'How does SkyClaim process my claim?',
+      question: 'How does SkyHelp process my claim?',
       answer:
         'We collect your flight details and verify eligibility. If eligible, we handle all communication with the airline, from submitting the initial claim to negotiating your compensation We keep you updated throughout the process, and once we receive the compensation, we transfer your share directly to your account.',
     },
     {
-      question: 'What does SkyClaim charge?',
+      question: 'What does SkyHelp charge?',
       answer:
         "We work on a no-win, no-fee basis. If we don't secure your compensation, you pay nothing. If we succeed, we take a 25% commission (plus VAT where applicable) from the compensation amount.",
     },
