@@ -56,7 +56,7 @@ const Layout = () => {
       {!isAffiliateDashboard && <Header />}
       <main
         className={`flex-grow ${
-          !isAffiliateDashboard ? (adjustPadding ? 'pt-[64px]' : 'pt-16') : ''
+          !isAffiliateDashboard ? (adjustPadding ? 'pt-[100px]' : 'pt-16') : ''
         }`}
       >
         <Outlet />
