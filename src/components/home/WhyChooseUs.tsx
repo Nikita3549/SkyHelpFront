@@ -14,9 +14,6 @@ const WhyChooseUs = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <span className="text-sm text-gray-500 uppercase tracking-wider">
-            Advantages
-          </span>
           <h2 className="text-3xl sm:text-4xl font-bold mt-2">
             Why People Choose <span className="text-primary">SkyHelp</span>?
           </h2>
@@ -29,9 +26,9 @@ const WhyChooseUs = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-white p-6 rounded-xl shadow-sm"
+            className="bg-white p-6 border border-[#f2f2f2] rounded-[24px]"
           >
-            <h3 className="text-xl font-medium text-gray-700 mb-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-6">
               Claim by Yourself
             </h3>
 
@@ -41,7 +38,7 @@ const WhyChooseUs = () => {
                   <X className="h-4 w-4 text-red-500" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">Complexity</h4>
+                  <h4 className="font-bold text-gray-800">Complexity</h4>
                   <p className="text-gray-600 mt-1">
                     Understanding the complex rules and regulations of flight
                     compensation can be overwhelming and confusing.
@@ -54,9 +51,7 @@ const WhyChooseUs = () => {
                   <X className="h-4 w-4 text-red-500" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">
-                    Lots of paperwork
-                  </h4>
+                  <h4 className="font-bold text-gray-800">Lots of paperwork</h4>
                   <p className="text-gray-600 mt-1">
                     Filling out forms and collecting evidence to support your
                     claim might be exhausting and time-consuming.
@@ -69,7 +64,7 @@ const WhyChooseUs = () => {
                   <X className="h-4 w-4 text-red-500" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">Risks</h4>
+                  <h4 className="font-bold text-gray-800">Risks</h4>
                   <p className="text-gray-600 mt-1">
                     You'll have to cover the legal fees yourself if your claim
                     goes to court.
@@ -82,7 +77,7 @@ const WhyChooseUs = () => {
                   <X className="h-4 w-4 text-red-500" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">
+                  <h4 className="font-bold text-gray-800">
                     Airline limitations
                   </h4>
                   <p className="text-gray-600 mt-1">
@@ -97,7 +92,7 @@ const WhyChooseUs = () => {
                   <X className="h-4 w-4 text-red-500" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">
+                  <h4 className="font-bold text-gray-800">
                     Lack of transparency
                   </h4>
                   <p className="text-gray-600 mt-1">
@@ -116,10 +111,10 @@ const WhyChooseUs = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-white p-6 rounded-xl shadow-sm border border-primary/10"
+            className="p-6 border border-[#f2f2f2] rounded-[24px] shadow-[0_4px_25px_0_rgba(0,0,0,0.15)] bg-white"
           >
-            <h3 className="text-xl font-medium text-primary mb-6">
-              Claim with SkyHelp
+            <h3 className="text-xl font-semibold text-[#111928] text-primary mb-6">
+              Claim with <span className="text-[#3282f7]">Sky</span>Help
             </h3>
 
             <div className="space-y-6">
@@ -128,7 +123,7 @@ const WhyChooseUs = () => {
                   <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">Quick and easy</h4>
+                  <h4 className="font-bold text-gray-800">Quick and easy</h4>
                   <p className="text-gray-600 mt-1">
                     No lengthy forms or tedious paperwork - submit your
                     compensation claim in just a couple of minutes!
@@ -141,9 +136,7 @@ const WhyChooseUs = () => {
                   <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">
-                    No financial risk
-                  </h4>
+                  <h4 className="font-bold text-gray-800">No financial risk</h4>
                   <p className="text-gray-600 mt-1">
                     SkyHelp covers all compensation recovery costs. You won't
                     have to pay if we don't win your case.
@@ -156,9 +149,7 @@ const WhyChooseUs = () => {
                   <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">
-                    Old flights claim
-                  </h4>
+                  <h4 className="font-bold text-gray-800">Old flights claim</h4>
                   <p className="text-gray-600 mt-1">
                     Depending on the regulations, you can claim compensation for
                     flights disrupted up to 3 years ago.
@@ -171,7 +162,7 @@ const WhyChooseUs = () => {
                   <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">Regular Updates</h4>
+                  <h4 className="font-bold text-gray-800">Regular Updates</h4>
                   <p className="text-gray-600 mt-1">
                     We'll update you on your claim's progress and address any
                     questions you may have along the way.
@@ -184,7 +175,7 @@ const WhyChooseUs = () => {
                   <img src="/landing/tick.svg" alt="tick" />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-medium text-gray-800">Trusted Experts</h4>
+                  <h4 className="font-bold text-gray-800">Trusted Experts</h4>
                   <p className="text-gray-600 mt-1">
                     Our legal experts will make sure each passenger gets the
                     compensation they deserve.
@@ -195,7 +186,7 @@ const WhyChooseUs = () => {
               <div className="mt-8">
                 <Link
                   to="/claim"
-                  className="w-full bg-primary text-white py-3 px-6 rounded-lg font-medium text-center inline-block hover:bg-primary/90 transition-colors"
+                  className="w-full bg-primary text-white py-3 px-6 rounded-[50px] font-medium text-center inline-block hover:bg-primary/90 transition-colors"
                 >
                   Claim Now
                 </Link>
