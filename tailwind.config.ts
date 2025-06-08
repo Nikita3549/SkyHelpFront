@@ -16,6 +16,7 @@ export default {
       screens: {
         '2xl': '1400px',
         'max-md': { max: '767px' },
+        'max-1230': { max: '1230' },
         'max-sm': { max: '639px' },
       },
     },

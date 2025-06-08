@@ -34,15 +34,31 @@ import { UserRole } from '@/contexts/AuthContext.tsx';
 import Login from '@/pages/Login.tsx';
 import Register from '@/pages/Register.tsx';
 import { Forgot } from '@/pages/Forgot.tsx';
+import { useEffect, useState } from 'react';
 
 const Layout = () => {
   const location = useLocation();
   const isAffiliateDashboard = location.pathname === '/affiliate/dashboard';
+  const [adjustPadding, setAdjustPadding] = useState(false);
+
+  function isTelegramWebView() {
+    return /Telegram/i.test(navigator.userAgent);
+  }
+
+  useEffect(() => {
+    if (isTelegramWebView()) {
+      setAdjustPadding(true);
+    }
+  }, []);
 
   return (
     <>
       {!isAffiliateDashboard && <Header />}
-      <main className={`flex-grow ${isAffiliateDashboard ? '' : 'pt-16'}`}>
+      <main
+        className={`flex-grow ${
+          !isAffiliateDashboard ? (adjustPadding ? 'pt-[64px]' : 'pt-16') : ''
+        }`}
+      >
         <Outlet />
       </main>
       {!isAffiliateDashboard && <Footer />}
