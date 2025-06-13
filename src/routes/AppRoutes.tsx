@@ -70,7 +70,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Маршруты вне Layout */}
-      <Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
+      {/*<Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />*/}
 
       {/* Маршруты с общим Layout */}
       <Route path="/" element={<Layout />}>
@@ -78,14 +78,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
-        <Route
-          path="/claim"
-          element={
-            <ProtectedRoute requiredRole={[UserRole.CLIENT]}>
-              <ClaimForm />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/claim" element={<ClaimForm />} />
         <Route
           path="dashboard"
           element={
@@ -112,11 +105,11 @@ const AppRoutes = () => {
         />
         <Route path="contact" element={<Contact />} />
         <Route path="about" element={<AboutUs />} />
-        <Route path="affiliate" element={<AffiliateProgram />} />
-        <Route path="affiliate/register" element={<AffiliateRegister />} />
-        <Route path="affiliate/login" element={<AffiliateLogin />} />
-        <Route path="legal-partnership" element={<LegalPartnership />} />
-        <Route path="b2b-partnership" element={<B2bPartnership />} />
+        {/*<Route path="affiliate" element={<AffiliateProgram />} />*/}
+        {/*<Route path="affiliate/register" element={<AffiliateRegister />} />*/}
+        {/*<Route path="affiliate/login" element={<AffiliateLogin />} />*/}
+        {/*<Route path="legal-partnership" element={<LegalPartnership />} />*/}
+        {/*<Route path="b2b-partnership" element={<B2bPartnership />} />*/}
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         <Route path="terms" element={<TermsOfService />} />
 
