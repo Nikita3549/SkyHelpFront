@@ -47,6 +47,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
+    "zod": "^3.25.64",
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^12.5.0",
     "html2pdf.js": "^0.10.1",
