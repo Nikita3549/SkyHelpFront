@@ -5,10 +5,13 @@ import { Check, Plane, Ticket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import AirportInput, { Airport } from '@/components/AirportInput.tsx';
 
 const HeroForm = () => {
-  const [departureAirport, setDepartureAirport] = useState('');
-  const [arrivalAirport, setArrivalAirport] = useState('');
+  const [departureAirport, setDepartureAirport] = useState<Airport | null>(
+    null,
+  );
+  const [arrivalAirport, setArrivalAirport] = useState<Airport | null>(null);
   const navigate = useNavigate();
 
   const handleBoardingPassCheck = () => {
@@ -31,30 +34,42 @@ const HeroForm = () => {
         <div className="flex justify-between max-md:flex-col gap-3">
           <div className="w-full">
             <div className="relative w-full">
-              <Input
-                type="text"
-                placeholder="Departure Airport"
-                style={{ borderRadius: '48px' }}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded"
-                value={departureAirport}
-                onChange={(e) => setDepartureAirport(e.target.value)}
+              {/*<Input*/}
+              {/*  type="text"*/}
+              {/*  placeholder="Departure Airport"*/}
+              {/*  style={{ borderRadius: '48px' }}*/}
+              {/*  className="w-full pl-10 pr-4 py-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded"*/}
+              {/*  value={departureAirport}*/}
+              {/*  onChange={(e) => setDepartureAirport(e.target.value)}*/}
+              {/*/>*/}
+              <AirportInput
+                setAirport={setDepartureAirport}
+                isDeparture={true}
+                isRounded={true}
+                placeHolder={'Departure Airport'}
               />
-              <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              {/*<Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />*/}
             </div>
           </div>
 
           <div className="w-full">
-            <div className="relative w-full">
-              <Input
-                type="text"
-                placeholder="Arrival Airport"
-                style={{ borderRadius: '48px' }}
-                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
-                value={arrivalAirport}
-                onChange={(e) => setArrivalAirport(e.target.value)}
-              />
-              <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 rotate-90 text-gray-400" />
-            </div>
+            {/*<div className="relative w-full">*/}
+            {/*  <Input*/}
+            {/*    type="text"*/}
+            {/*    placeholder="Arrival Airport"*/}
+            {/*    style={{ borderRadius: '48px' }}*/}
+            {/*    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50"*/}
+            {/*    value={arrivalAirport}*/}
+            {/*    onChange={(e) => setArrivalAirport(e.target.value)}*/}
+            {/*  />*/}
+            {/*  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 rotate-90 text-gray-400" />*/}
+            {/*</div>*/}
+            <AirportInput
+              setAirport={setArrivalAirport}
+              isDeparture={false}
+              isRounded={true}
+              placeHolder={'Arrival Airport'}
+            />
           </div>
         </div>
 
