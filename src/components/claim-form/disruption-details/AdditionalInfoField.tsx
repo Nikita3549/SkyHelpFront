@@ -1,50 +1,42 @@
-import React from 'react';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { disruptionDetailsSchema } from '@/components/claim-form/schemas';
+import { IClaimForm } from '../interfaces/claim-form.interface';
 
 interface AdditionalInfoFieldProps {
-  form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
+  newForm: IClaimForm;
+  setNewForm: (form: IClaimForm) => void;
 }
 
-const AdditionalInfoField: React.FC<AdditionalInfoFieldProps> = ({ form }) => {
+export const AdditionalInfoField: React.FC<AdditionalInfoFieldProps> = ({
+  newForm,
+  setNewForm,
+}) => {
   return (
-    <FormField
-      control={form.control}
-      name="additionalInfo"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-xl font-semibold text-black block mb-2">
-            Additional Information
-          </FormLabel>
-          <p className="text-gray-600 mb-3">
-            Please provide any additional details about the disruption that
-            might help with your claim.
-          </p>
-          <FormControl>
-            <Textarea
-              placeholder="Describe what happened during the disruption, any communications from the airline, and how it affected you..."
-              className="min-h-[150px] resize-y"
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
-          <p className="text-xs text-gray-500 mt-2">
-            Adding details specific to your experience can significantly
-            strengthen your claim.
-          </p>
-        </FormItem>
-      )}
-    />
+    <div className="space-y-2">
+      <label className="text-xl font-semibold text-black block">
+        Additional Information
+      </label>
+      <p className="text-gray-600">
+        Please provide any additional details about the disruption that might
+        help with your claim.
+      </p>
+      <Textarea
+        className="min-h-[150px] resize-y"
+        placeholder="Describe what happened during the disruption, any communications from the airline, and how it affected you..."
+        value={newForm.issue.additionalInfo ?? ''}
+        onChange={(e) =>
+          setNewForm({
+            ...newForm,
+            issue: {
+              ...newForm.issue,
+              additionalInfo: e.target.value,
+            },
+          })
+        }
+      />
+      <p className="text-xs text-gray-500 mt-2">
+        Adding details specific to your experience can significantly strengthen
+        your claim.
+      </p>
+    </div>
   );
 };
-
-export default AdditionalInfoField;

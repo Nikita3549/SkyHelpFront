@@ -1,40 +1,66 @@
 import React from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { Form } from '@/components/ui/form';
-import { signatureSchema } from '@/components/claim-form/schemas';
 import NavigationButtons from '@/components/claim-form/passenger-details/NavigationButtons';
 import SignatureField from '@/components/claim-form/signature/SignatureField';
 import TermsAgreementField from '@/components/claim-form/signature/TermsAgreementField';
 import InfoBox from '@/components/claim-form/signature/InfoBox';
 import { AnimationTransitions } from '@/components/claim-form/types';
+import { Button } from '@/components/ui/button.tsx';
+import { ArrowRight } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile.tsx';
+import { toast } from '@/components/ui/use-toast.ts';
+import { IClaimForm } from './interfaces/claim-form.interface';
 
 interface SignatureStepProps {
-  form: UseFormReturn<z.infer<typeof signatureSchema>>;
-  onSubmit: (data: z.infer<typeof signatureSchema>) => void;
   onBack: () => void;
   transitions: AnimationTransitions;
   formData?: any;
   claimId?: string;
+  newForm: IClaimForm;
+  setStep: (step: number) => void;
+}
+
+interface SignatureFormValues {
+  signature: string;
+  termsAgreed: boolean;
 }
 
 const SignatureStep: React.FC<SignatureStepProps> = ({
-  form,
-  onSubmit,
   onBack,
   transitions,
   formData,
   claimId,
+  newForm,
+  setStep,
 }) => {
-  const handleSubmit = form.handleSubmit(onSubmit);
+  const isMobile = useIsMobile();
+  const form = useForm<SignatureFormValues>({
+    defaultValues: {
+      signature: '',
+      termsAgreed: false,
+    },
+  });
 
-  // Determine if the Continue button should be disabled
+  const handleSubmit = form.handleSubmit((values) => {
+    if (!values.termsAgreed) {
+      toast({
+        title: 'Please Confirm',
+        description: 'Agree to the terms',
+        variant: 'destructive',
+      });
+      return;
+    }
+    console.log('Submitted values:', values);
+
+    setStep(4.9);
+  });
+
   const isSignatureEmpty = !form.watch('signature');
   const isTermsChecked = form.watch('termsAgreed');
   const isContinueDisabled = isSignatureEmpty || !isTermsChecked;
 
-  // Prepare claim data for the assignment agreement
   const claimData = {
     id: claimId || 'CLM' + Math.floor(100000 + Math.random() * 900000),
     customer:
@@ -61,29 +87,37 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
       <div>
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
           Almost done!
-        </h2>
-        <p className="text-lg text-gray-700 mb-4">
-          Great news! It looks like you're entitled to{' '}
-          <span className="text-blue-600 font-bold">€250</span> per person under
-          EC 261. To get the money you deserve, sign below.
-        </p>
+        </h2>{' '}
+        {newForm.state.amount == 0 ? (
+          <p className="text-lg text-gray-700 mb-4">
+            Good news! You may qualify for compensation under EC 261. To begin
+            the process, just sign below.
+          </p>
+        ) : (
+          <p className="text-lg text-gray-700 mb-4">
+            Great news! It looks like you're entitled to{' '}
+            <span className="text-blue-600 font-bold">
+              €{newForm.state.amount}
+            </span>{' '}
+            per person under EC 261. To get the money you deserve, sign below.
+          </p>
+        )}
       </div>
 
       <Form {...form}>
         <form onSubmit={handleSubmit} className="space-y-6">
           <SignatureField form={form} />
 
-          {/* Info box moved above terms agreement */}
           <InfoBox />
 
           <TermsAgreementField form={form} claimData={claimData} />
 
-          <NavigationButtons
-            onBack={onBack}
-            continueText="Continue"
-            isSubmitting={form.formState.isSubmitting}
-            isDisabled={isContinueDisabled}
-          />
+          <div className="flex justify-end">
+            <Button type="submit" className={isMobile ? 'w-full' : ''}>
+              Continue
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         </form>
       </Form>
     </motion.div>

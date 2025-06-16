@@ -7,9 +7,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { passengerDetailsSchema } from '@/components/claim-form/schemas';
 import { Phone, Info } from 'lucide-react';
 import {
   HoverCard,
@@ -17,9 +14,10 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import PhoneInput from './PhoneInput';
+import { UseFormReturn } from 'react-hook-form';
 
 interface PersonalInfoFieldsProps {
-  form: UseFormReturn<z.infer<typeof passengerDetailsSchema>>;
+  form: UseFormReturn<any>;
 }
 
 const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({ form }) => {

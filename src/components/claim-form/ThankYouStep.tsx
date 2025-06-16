@@ -59,9 +59,9 @@ const ThankYouStep: React.FC<ThankYouStepProps> = ({
         <h1 className="text-3xl font-bold text-blue-900 mb-4">
           Thank you, your claim has been submitted!
         </h1>
-        <p className="text-lg text-gray-700">
-          Your unique claim number is <strong>#{claimId}</strong>.
-        </p>
+        {/*<p className="text-lg text-gray-700">*/}
+        {/*  Your unique claim number is <strong>#{claimId}</strong>.*/}
+        {/*</p>*/}
       </div>
 
       <Card className="bg-blue-50 p-6">
@@ -140,23 +140,23 @@ const ThankYouStep: React.FC<ThankYouStepProps> = ({
         </div>
       </Card>
 
-      <div className="mt-8">
-        <p className="mb-3">
-          Feel free to copy your claim's link, save it, or bookmark it for
-          later:
-        </p>
-        <div className="flex">
-          <Input readOnly value={claimUrl} className="rounded-r-none" />
-          <Button onClick={handleCopy} className="rounded-l-none">
-            {copied ? (
-              <ClipboardCheck className="mr-2 h-4 w-4" />
-            ) : (
-              <Copy className="mr-2 h-4 w-4" />
-            )}
-            {copied ? 'Copied!' : 'Copy'}
-          </Button>
-        </div>
-      </div>
+      {/*<div className="mt-8">*/}
+      {/*  <p className="mb-3">*/}
+      {/*    Feel free to copy your claim's link, save it, or bookmark it for*/}
+      {/*    later:*/}
+      {/*  </p>*/}
+      {/*  <div className="flex">*/}
+      {/*    <Input readOnly value={claimUrl} className="rounded-r-none" />*/}
+      {/*    <Button onClick={handleCopy} className="rounded-l-none">*/}
+      {/*      {copied ? (*/}
+      {/*        <ClipboardCheck className="mr-2 h-4 w-4" />*/}
+      {/*      ) : (*/}
+      {/*        <Copy className="mr-2 h-4 w-4" />*/}
+      {/*      )}*/}
+      {/*      {copied ? 'Copied!' : 'Copy'}*/}
+      {/*    </Button>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
 
       <div className="bg-blue-50 p-4 rounded-lg flex items-start gap-2 mt-4">
         <Info className="text-blue-600 h-5 w-5 mt-0.5 flex-shrink-0" />

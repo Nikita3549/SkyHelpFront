@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useClaimFormState } from '@/hooks/useClaimFormState';
 import { useClaimFormHandlers } from '@/hooks/useClaimFormHandlers';
 import ClaimFormContent from '@/components/claim-form/ClaimFormContent';
 import { useSearchParams } from 'react-router-dom';
+import { IClaimForm } from '@/components/claim-form/interfaces/claim-form.interface.ts';
 
 const ClaimForm = () => {
   const [searchParams] = useSearchParams();
@@ -21,14 +22,15 @@ const ClaimForm = () => {
     preFilledArrivalAirport,
     preFilledFlightNumber,
     preFilledDepartureDate,
-    flightRouteForm,
-    flightDetailsForm,
-    passengerDetailsForm,
-    bookingReferenceForm,
-    signatureForm,
-    flightDocumentsForm,
-    disruptionDetailsForm,
-    paymentDetailsForm,
+    preFilledConnectingAirports,
+    // flightRouteForm,
+    // flightDetailsForm,
+    // passengerDetailsForm,
+    // bookingReferenceForm,
+    // signatureForm,
+    // flightDocumentsForm,
+    // disruptionDetailsForm,
+    // paymentDetailsForm,
     connectionFlights,
     setConnectionFlights,
     claimId,
@@ -43,9 +45,9 @@ const ClaimForm = () => {
     onSignatureSubmit,
     onFlightDocumentsSubmit,
     onPaymentDetailsSubmit,
+    onFlightRouteSubmit,
     skipPaymentDetails,
     proceedToNextStep,
-    onFlightRouteSubmit,
   } = useClaimFormHandlers({
     setFormData,
     formData,
@@ -55,7 +57,7 @@ const ClaimForm = () => {
   });
 
   // Get the disruption type from flight details form
-  const disruptionType = flightDetailsForm.watch('disruptionType');
+  // const disruptionType = flightDetailsForm.watch('disruptionType');
 
   // Check if we need to show the boarding pass upload component
   // Look in both URL parameters and location state
@@ -71,19 +73,76 @@ const ClaimForm = () => {
     transition: { duration: 0.3 },
   };
 
+  const [newForm, setNewForm] = useState<IClaimForm>({
+    id: null,
+    details: {
+      routes: [],
+      flightNumber: null,
+      date: null,
+      airline: null,
+      bookingRef: null,
+    },
+    state: {
+      amount: null,
+      status: null,
+      progress: [],
+    },
+    issue: {
+      volunteerDenial: false,
+      wasAlternativeFlightOffered: false,
+      additionalInfo: null,
+      airlineReason: null,
+      arrivalTimeDelayOfAlternativeHours: 0,
+      cancellationNoticeDays: null,
+      delay: null,
+      disruptionType: null,
+    },
+    customer: {
+      firstName: null,
+      lastName: null,
+      email: null,
+      state: null,
+      address: null,
+      phone: null,
+      secondAddress: null,
+      city: null,
+      postalCode: null,
+      country: null,
+      whatsapp: false,
+    },
+    meta: {
+      arrivalAirport: null,
+      departureAirport: null,
+      connectingFlights: [],
+      otherAirline: null,
+      flightId: null,
+      reasonProvided: null,
+    },
+    payment: {
+      email: null,
+      termsAgreed: null,
+      paymentMethod: null,
+      bankName: null,
+      accountName: null,
+      accountNumber: null,
+      iban: null,
+      paypalEmail: null,
+    },
+  });
+
   return (
     <ClaimFormContent
       step={step}
       setStep={setStep}
       showBoardingPassUpload={showBoardingPassUpload}
-      flightRouteForm={flightRouteForm}
-      flightDetailsForm={flightDetailsForm}
-      passengerDetailsForm={passengerDetailsForm}
-      bookingReferenceForm={bookingReferenceForm}
-      signatureForm={signatureForm}
-      flightDocumentsForm={flightDocumentsForm}
-      disruptionDetailsForm={disruptionDetailsForm}
-      paymentDetailsForm={paymentDetailsForm}
+      // flightRouteForm={flightRouteForm}
+      // flightDetailsForm={flightDetailsForm}
+      // passengerDetailsForm={passengerDetailsForm}
+      // bookingReferenceForm={bookingReferenceForm}
+      // signatureForm={signatureForm}
+      // flightDocumentsForm={flightDocumentsForm}
+      // disruptionDetailsForm={disruptionDetailsForm}
+      // paymentDetailsForm={paymentDetailsForm}
       connectionFlights={connectionFlights}
       setConnectionFlights={setConnectionFlights}
       onFlightRouteSubmit={onFlightRouteSubmit}
@@ -100,14 +159,17 @@ const ClaimForm = () => {
       isChecking={isChecking}
       isEligible={isEligible}
       transitions={transitions}
-      disruptionType={disruptionType}
+      // disruptionType={disruptionType}
       preFilledDepartureAirport={preFilledDepartureAirport}
       preFilledArrivalAirport={preFilledArrivalAirport}
       preFilledFlightNumber={preFilledFlightNumber}
       preFilledDepartureDate={preFilledDepartureDate}
+      preFilledConnectingFlights={preFilledConnectingAirports}
       locationState={location.state}
       claimId={claimId}
       formData={formData}
+      newForm={newForm}
+      setNewForm={setNewForm}
     />
   );
 };

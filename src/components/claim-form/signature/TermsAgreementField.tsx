@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
 import {
   FormControl,
   FormField,
@@ -8,13 +7,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
-import { signatureSchema } from '@/components/claim-form/schemas';
 import AssignmentAgreement from './AssignmentAgreement';
 import { ClaimData } from './agreement/documentUtils';
 import { LegalLinks } from './LegalLinks';
 
 interface TermsAgreementFieldProps {
-  form: UseFormReturn<z.infer<typeof signatureSchema>>;
+  form: UseFormReturn<any>;
   claimData?: ClaimData;
 }
 

@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
-import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
 
 // Schema and types
-import { flightDetailsSchema } from '@/components/claim-form/schemas';
 import { AnimationTransitions } from '@/components/claim-form/types';
 
 // Component imports
@@ -16,79 +12,204 @@ import EligibilityResult from './flight-details/EligibilityResult';
 import EligibilityResultModal from './flight-details/EligibilityResultModal';
 import ArrivalDelayQuestion from './flight-details/ArrivalDelayQuestion';
 import NotificationTimeQuestion from './flight-details/NotificationTimeQuestion';
-import VoluntaryDenialQuestion from './flight-details/VoluntaryDenialQuestion';
+import AlternativeFlightOfferedQuestion from './flight-details/AlternativeFlightOfferedQuestion.tsx';
+import { DisruptionType } from '@/components/claim-form/enums/disruption.ts';
+import { IClaimForm } from '@/components/claim-form/interfaces/claim-form.interface.ts';
+import AlternativeDaysQuestion from '@/components/claim-form/flight-details/AlternativeDaysQuestion.tsx';
+import { onDisruptionTypeSubmit } from '@/components/claim-form/flight-details/handleEligble.ts';
+import VolunteerQuestion from '@/components/claim-form/flight-details/VolunteerQuestion.tsx';
 
 interface DisruptionTypeStepProps {
-  form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
-  onSubmit: (data: z.infer<typeof flightDetailsSchema>) => void;
   isChecking: boolean;
   isEligible: boolean | null;
   onContinue: () => void;
   transitions: AnimationTransitions;
   onBack: () => void;
+  newForm: IClaimForm;
+  setNewForm: (form: IClaimForm) => void;
+  setStep: (step: number) => void;
 }
 
 const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
-  form,
-  onSubmit,
-  isChecking,
-  isEligible,
-  onContinue,
   transitions,
   onBack,
+  newForm,
+  setNewForm,
+  setStep,
 }) => {
+  console.log(newForm);
   const [showModal, setShowModal] = useState(false);
+  const [showNotificationTimeQuestion, setShowNotificationTimeQuestion] =
+    useState<boolean>(false);
+  const [showArrivalDelayQuestion, setShowArrivalDelayQuestion] =
+    useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [showAlternativeFlightOffered, setShowAlternativeFlightOffered] =
+    useState<boolean>(false);
+  const [showAlternativeLateHours, setShowAlternativeLateHours] =
+    useState<boolean>(false);
+  const [showVolunteerQuestion, setShowVolunteerQuestion] =
+    useState<boolean>(false);
+  const [isEligible, setIsEligible] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState<boolean>(false);
 
-  // Get the current values from the form
-  const disruptionType = form.watch('disruptionType');
-  const arrivalDelay = form.watch('arrivalDelay');
-  const notificationTime = form.watch('notificationTime');
-  const departureAirport = form.watch('departureAirport');
-  const arrivalAirport = form.watch('arrivalAirport');
+  const departureAirport = newForm.meta.departureAirport.name;
+  const arrivalAirport = newForm.meta.arrivalAirport.name;
 
-  // Check if a disruption type has been selected
-  const hasSelectedDisruptionType =
-    disruptionType !== undefined && disruptionType !== '';
+  const onContinue = () => {
+    const disruptionType = newForm.issue.disruptionType;
+    switch (disruptionType) {
+      case DisruptionType.missed_connection:
+        setNewForm({
+          ...newForm,
+          issue: {
+            ...newForm.issue,
+            delay: newForm.issue.delay,
+            volunteerDenial: null,
+            cancellationNoticeDays: null,
+            disruptionType: newForm.issue.disruptionType,
+            wasAlternativeFlightOffered: null,
+            arrivalTimeDelayOfAlternativeHours: null,
+          },
+        });
+        break;
 
-  // Check if we should show the arrival delay question
-  const showArrivalDelayQuestion =
-    hasSelectedDisruptionType &&
-    (disruptionType === 'delay' ||
-      disruptionType === 'cancellation' ||
-      disruptionType === 'denied_boarding');
+      case DisruptionType.cancellation:
+        setNewForm({
+          ...newForm,
+          issue: {
+            ...newForm.issue,
+            delay: null,
+            volunteerDenial: null,
+            cancellationNoticeDays: newForm.issue.cancellationNoticeDays,
+            disruptionType: newForm.issue.disruptionType,
+            wasAlternativeFlightOffered:
+              newForm.issue.wasAlternativeFlightOffered,
+            arrivalTimeDelayOfAlternativeHours: newForm.issue
+              .wasAlternativeFlightOffered
+              ? newForm.issue.arrivalTimeDelayOfAlternativeHours
+              : 0,
+          },
+        });
+        break;
 
-  // Check if we should show the notification time question
-  const showNotificationTimeQuestion =
-    disruptionType === 'cancellation' && arrivalDelay !== undefined;
+      case DisruptionType.delay:
+        setNewForm({
+          ...newForm,
+          issue: {
+            ...newForm.issue,
+            delay: newForm.issue.delay,
+            volunteerDenial: null,
+            cancellationNoticeDays: null,
+            disruptionType: newForm.issue.disruptionType,
+            wasAlternativeFlightOffered: null,
+            arrivalTimeDelayOfAlternativeHours: null,
+          },
+        });
+        break;
 
-  // Check if we should show the voluntary denial question
-  const showVoluntaryDenialQuestion =
-    disruptionType === 'denied_boarding' && arrivalDelay !== undefined;
-
-  // Handle form submission
-  const handleSubmit = (data: z.infer<typeof flightDetailsSchema>) => {
-    // Special case: If flight was cancelled with 14+ days notice, show the modal instead
-    if (
-      data.disruptionType === 'cancellation' &&
-      data.notificationTime === '14days_or_more'
-    ) {
-      setShowModal(true);
-    } else {
-      // Otherwise proceed with normal submission
-      onSubmit(data);
+      case DisruptionType.denied_boarding:
+        setNewForm({
+          ...newForm,
+          issue: {
+            ...newForm.issue,
+            delay: null,
+            volunteerDenial: newForm.issue.volunteerDenial,
+            cancellationNoticeDays: null,
+            disruptionType: newForm.issue.disruptionType,
+            wasAlternativeFlightOffered: null,
+            arrivalTimeDelayOfAlternativeHours: null,
+          },
+        });
+        break;
     }
+    setStep(3);
   };
 
-  // Special case for cancellations with 14+ days notice
-  const isCancellationWithSufficientNotice =
-    disruptionType === 'cancellation' && notificationTime === '14days_or_more';
+  useEffect(() => {
+    // setNewForm({
+    //   ...newForm,
+    //   issue: {
+    //     ...newForm.issue,
+    //     delay: null,
+    //     cancellationNoticeDays: null,
+    //     wasAlternativeFlightOffered: false,
+    //     arrivalTimeDelayOfAlternativeHours: 0,
+    //   },
+    // });
+    setShowNotificationTimeQuestion(
+      newForm.issue.disruptionType == DisruptionType.cancellation, //&& arrivalDelay !== ''
+    );
+    setShowArrivalDelayQuestion(
+      newForm.issue.disruptionType == DisruptionType.delay ||
+        newForm.issue.disruptionType == DisruptionType.missed_connection,
+    );
+    setShowAlternativeFlightOffered(
+      newForm.issue.disruptionType == DisruptionType.cancellation,
+    );
+    setShowVolunteerQuestion(
+      newForm.issue.disruptionType == DisruptionType.denied_boarding,
+    );
+  }, [newForm.issue.disruptionType]);
 
-  // Animation variants for the follow-up questions
+  useEffect(() => {
+    const disruptionType = newForm.issue.disruptionType;
+    const issue = newForm.issue;
+    setShowAlternativeLateHours(
+      newForm.issue.wasAlternativeFlightOffered &&
+        disruptionType == DisruptionType.cancellation,
+    );
+
+    switch (disruptionType) {
+      case DisruptionType.missed_connection:
+        setIsDisabled(!issue.delay);
+        break;
+
+      case DisruptionType.cancellation:
+        setIsDisabled(
+          !(
+            issue.wasAlternativeFlightOffered != null &&
+            issue.cancellationNoticeDays
+          ),
+        );
+        break;
+
+      case DisruptionType.delay:
+        setIsDisabled(!issue.delay);
+        break;
+
+      case DisruptionType.denied_boarding:
+        setIsDisabled(!(issue.volunteerDenial != null));
+        break;
+
+      default:
+        setIsDisabled(true);
+    }
+  }, [newForm.issue]);
+
+  const handleSubmit = () => {
+    const issue = newForm.issue;
+
+    setIsEligible(
+      onDisruptionTypeSubmit(
+        {
+          voluntaryDenial: false,
+          disruptionType: issue.disruptionType,
+          notificationTime: issue.cancellationNoticeDays,
+          arrivalDelay: issue.delay,
+        },
+        setIsChecking,
+      ),
+    );
+  };
+
   const followUpQuestionAnimations = {
     initial: { opacity: 0, height: 0, overflow: 'hidden' },
     animate: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
     exit: { opacity: 0, height: 0, transition: { duration: 0.2 } },
   };
+
+  useEffect(() => {}, [newForm.issue]);
 
   return (
     <motion.div
@@ -106,86 +227,108 @@ const DisruptionTypeStep: React.FC<DisruptionTypeStepProps> = ({
         </p>
       </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-          {/* Disruption type radio group component */}
-          <DisruptionTypeRadioGroup form={form} />
+      <DisruptionTypeRadioGroup newForm={newForm} setNewForm={setNewForm} />
 
-          {/* Animated follow-up questions that appear after selection */}
-          <AnimatePresence>
-            {showArrivalDelayQuestion && (
-              <motion.div
-                key="arrivalDelayQuestion"
-                {...followUpQuestionAnimations}
-              >
-                <ArrivalDelayQuestion form={form} />
-              </motion.div>
-            )}
+      <AnimatePresence>
+        {/*{showArrivalDelayQuestion && (*/}
+        {showArrivalDelayQuestion && (
+          <motion.div
+            key="arrivalDelayQuestion"
+            {...followUpQuestionAnimations}
+          >
+            <ArrivalDelayQuestion
+              // value={arrivalDelay}
+              // onChange={setArrivalDelay}
+              newForm={newForm}
+              setNewForm={setNewForm}
+            />
+          </motion.div>
+        )}
+        {/*)}*/}
 
-            {showNotificationTimeQuestion && (
-              <motion.div
-                key="notificationTimeQuestion"
-                {...followUpQuestionAnimations}
-              >
-                <NotificationTimeQuestion form={form} />
-              </motion.div>
-            )}
+        {showNotificationTimeQuestion && (
+          <motion.div
+            key="notificationTimeQuestion"
+            {...followUpQuestionAnimations}
+          >
+            <NotificationTimeQuestion
+              // value={notificationTime}
+              // onChange={setNotificationTime}
+              newForm={newForm}
+              setNewForm={setNewForm}
+            />
+          </motion.div>
+        )}
 
-            {showVoluntaryDenialQuestion && (
-              <motion.div
-                key="voluntaryDenialQuestion"
-                {...followUpQuestionAnimations}
-              >
-                <VoluntaryDenialQuestion form={form} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+        {showAlternativeFlightOffered && (
+          <motion.div
+            key="voluntaryDenialQuestion"
+            {...followUpQuestionAnimations}
+          >
+            <AlternativeFlightOfferedQuestion
+              // value={voluntaryDenial}
+              // onChange={setVoluntaryDenial}
+              newForm={newForm}
+              setNewForm={setNewForm}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-          <div className="pt-4 flex justify-between items-center">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onBack}
-              className="flex items-center"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Flight Details
-            </Button>
-
-            <Button
-              type="submit"
-              className="w-full sm:w-auto"
-              disabled={isChecking || !hasSelectedDisruptionType}
-            >
-              {isChecking ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Checking Eligibility
-                </>
-              ) : (
-                <>
-                  Check Eligibility
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
-      </Form>
-
-      {/* Regular eligibility result (non-modal) */}
-      {!isCancellationWithSufficientNotice && (
-        <EligibilityResult
-          isEligible={isEligible}
-          onContinue={onContinue}
-          disruptionType={disruptionType}
-          notificationTime={notificationTime}
-          departureAirport={departureAirport}
-          arrivalAirport={arrivalAirport}
-        />
+      {showAlternativeLateHours && (
+        <motion.div
+          key="voluntaryDenialQuestion"
+          {...followUpQuestionAnimations}
+        >
+          <AlternativeDaysQuestion newForm={newForm} setNewForm={setNewForm} />
+        </motion.div>
       )}
 
-      {/* Modal for cancellation with sufficient notice */}
+      {showVolunteerQuestion && (
+        <VolunteerQuestion newForm={newForm} setNewForm={setNewForm} />
+      )}
+
+      <div className="pt-4 flex justify-between items-center">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onBack}
+          className="flex items-center"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Flight Details
+        </Button>
+
+        <Button
+          type="button"
+          className="w-full sm:w-auto"
+          disabled={isChecking || isDisabled}
+          onClick={handleSubmit}
+        >
+          {isChecking ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Checking Eligibility
+            </>
+          ) : (
+            <>
+              Check Eligibility
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </>
+          )}
+        </Button>
+      </div>
+
+      <EligibilityResult
+        isEligible={isEligible}
+        onContinue={onContinue}
+        disruptionType={newForm.issue.disruptionType}
+        notificationTime={newForm.issue.cancellationNoticeDays}
+        departureAirport={departureAirport}
+        arrivalAirport={arrivalAirport}
+        isDisabled={isDisabled}
+      />
+
       <EligibilityResultModal
         open={showModal}
         onClose={() => setShowModal(false)}

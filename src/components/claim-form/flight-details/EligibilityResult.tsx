@@ -10,6 +10,7 @@ interface EligibilityResultProps {
   notificationTime?: string;
   departureAirport?: string;
   arrivalAirport?: string;
+  isDisabled: boolean;
 }
 
 const EligibilityResult: React.FC<EligibilityResultProps> = ({
@@ -19,6 +20,7 @@ const EligibilityResult: React.FC<EligibilityResultProps> = ({
   notificationTime,
   departureAirport,
   arrivalAirport,
+  isDisabled,
 }) => {
   if (isEligible === null) return null;
 
@@ -50,6 +52,7 @@ const EligibilityResult: React.FC<EligibilityResultProps> = ({
                 <div className="mt-4">
                   <Button
                     onClick={onContinue}
+                    disabled={isDisabled}
                     className="bg-green-600 hover:bg-green-700"
                   >
                     Continue with your claim
@@ -79,6 +82,7 @@ const EligibilityResult: React.FC<EligibilityResultProps> = ({
                 <div className="mt-4">
                   <Button
                     onClick={onContinue}
+                    disabled={isDisabled}
                     variant="outline"
                     className="border-yellow-300 text-yellow-700 hover:bg-yellow-100 hover:text-yellow-800 hover:border-yellow-400 focus:ring-yellow-500"
                   >

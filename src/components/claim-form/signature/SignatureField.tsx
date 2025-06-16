@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
 import {
   FormControl,
   FormField,
@@ -8,10 +7,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Signature } from 'lucide-react';
-import { signatureSchema } from '@/components/claim-form/schemas';
 
 interface SignatureFieldProps {
-  form: UseFormReturn<z.infer<typeof signatureSchema>>;
+  form: UseFormReturn<any>;
 }
 
 const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
@@ -33,7 +31,7 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
         setCtx(context);
       }
 
-      // Adjust canvas size to match parent container dimensions
+      // Adjust canvas size
       const resizeCanvas = () => {
         const container = canvas.parentElement;
         if (container) {
@@ -44,10 +42,7 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
 
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
-
-      return () => {
-        window.removeEventListener('resize', resizeCanvas);
-      };
+      return () => window.removeEventListener('resize', resizeCanvas);
     }
   }, []);
 
@@ -68,83 +63,49 @@ const SignatureField: React.FC<SignatureFieldProps> = ({ form }) => {
     }
   };
 
-  // Drawing functions
-  const startDrawing = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
-    setIsDrawing(true);
-    setIsEmpty(false);
+  const getCoords = (
+    e: React.MouseEvent | React.TouchEvent,
+  ): { x: number; y: number } | null => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return null;
 
-    if (ctx) {
-      ctx.beginPath();
-
-      // Get coordinates based on event type
-      let clientX, clientY;
-
-      if ('touches' in e) {
-        // Touch event
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (rect) {
-          clientX = e.touches[0].clientX - rect.left;
-          clientY = e.touches[0].clientY - rect.top;
-        }
-      } else {
-        // Mouse event
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (rect) {
-          clientX = e.clientX - rect.left;
-          clientY = e.clientY - rect.top;
-        }
-      }
-
-      if (clientX !== undefined && clientY !== undefined) {
-        ctx.moveTo(clientX, clientY);
-      }
+    if ('touches' in e) {
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top,
+      };
+    } else {
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
     }
   };
 
-  const draw = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
+  const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsDrawing(true);
+    setIsEmpty(false);
+
+    const coords = getCoords(e);
+    if (ctx && coords) {
+      ctx.beginPath();
+      ctx.moveTo(coords.x, coords.y);
+    }
+  };
+
+  const draw = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDrawing) return;
-
-    if (ctx) {
-      // Get coordinates based on event type
-      let clientX, clientY;
-
-      if ('touches' in e) {
-        // Touch event
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (rect) {
-          clientX = e.touches[0].clientX - rect.left;
-          clientY = e.touches[0].clientY - rect.top;
-        }
-      } else {
-        // Mouse event
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (rect) {
-          clientX = e.clientX - rect.left;
-          clientY = e.clientY - rect.top;
-        }
-      }
-
-      if (clientX !== undefined && clientY !== undefined) {
-        ctx.lineTo(clientX, clientY);
-        ctx.stroke();
-      }
+    const coords = getCoords(e);
+    if (ctx && coords) {
+      ctx.lineTo(coords.x, coords.y);
+      ctx.stroke();
     }
   };
 
   const endDrawing = () => {
     if (isDrawing) {
       setIsDrawing(false);
-      if (ctx) {
-        ctx.closePath();
-      }
+      if (ctx) ctx.closePath();
       saveSignature();
     }
   };

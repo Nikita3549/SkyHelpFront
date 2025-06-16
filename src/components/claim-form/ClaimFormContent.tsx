@@ -6,19 +6,21 @@ import ClaimFormTimeline from '@/components/claim-form/ClaimFormTimeline';
 import StepRenderer from '@/components/claim-form/StepRenderer';
 import { AnimationTransitions } from '@/components/claim-form/types';
 import { UseFormReturn } from 'react-hook-form';
+import { Airport } from '@/components/AirportInput.tsx';
+import { IClaimForm } from '@/components/claim-form/interfaces/claim-form.interface.ts';
 
 interface ClaimFormContentProps {
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   showBoardingPassUpload: boolean;
-  flightRouteForm: UseFormReturn<any>;
-  flightDetailsForm: UseFormReturn<any>;
-  passengerDetailsForm: UseFormReturn<any>;
-  bookingReferenceForm: UseFormReturn<any>;
-  disruptionDetailsForm: UseFormReturn<any>;
-  paymentDetailsForm: UseFormReturn<any>;
-  signatureForm: UseFormReturn<any>;
-  flightDocumentsForm: UseFormReturn<any>;
+  // flightRouteForm: UseFormReturn<any>;
+  // flightDetailsForm: UseFormReturn<any>;
+  // passengerDetailsForm: UseFormReturn<any>;
+  // bookingReferenceForm: UseFormReturn<any>;
+  // disruptionDetailsForm: UseFormReturn<any>;
+  // paymentDetailsForm: UseFormReturn<any>;
+  // signatureForm: UseFormReturn<any>;
+  // flightDocumentsForm: UseFormReturn<any>;
   connectionFlights: string[];
   setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
   onFlightRouteSubmit: (data: any) => void;
@@ -35,28 +37,31 @@ interface ClaimFormContentProps {
   isChecking: boolean;
   isEligible: boolean | null;
   transitions: AnimationTransitions;
-  disruptionType: string;
-  preFilledDepartureAirport: string;
-  preFilledArrivalAirport: string;
+  // disruptionType: string;
+  preFilledDepartureAirport: Airport;
+  preFilledArrivalAirport: Airport;
+  preFilledConnectingFlights: Airport[];
   preFilledFlightNumber: string;
   preFilledDepartureDate: string;
   locationState: any;
   claimId?: string;
   formData?: any;
+  newForm: IClaimForm;
+  setNewForm: (value: IClaimForm) => void;
 }
 
 const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   step,
   setStep,
   showBoardingPassUpload,
-  flightRouteForm,
-  flightDetailsForm,
-  passengerDetailsForm,
-  bookingReferenceForm,
-  disruptionDetailsForm,
-  paymentDetailsForm,
-  signatureForm,
-  flightDocumentsForm,
+  // flightRouteForm,
+  // flightDetailsForm,
+  // passengerDetailsForm,
+  // bookingReferenceForm,
+  // disruptionDetailsForm,
+  // paymentDetailsForm,
+  // signatureForm,
+  // flightDocumentsForm,
   connectionFlights,
   setConnectionFlights,
   onFlightRouteSubmit,
@@ -73,14 +78,17 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
   isChecking,
   isEligible,
   transitions,
-  disruptionType,
+  // disruptionType,
   preFilledDepartureAirport,
   preFilledArrivalAirport,
   preFilledFlightNumber,
   preFilledDepartureDate,
+  preFilledConnectingFlights,
   locationState,
   claimId,
-  formData,
+  // formData,
+  newForm,
+  setNewForm,
 }) => {
   const isMobile = useIsMobile();
 
@@ -109,26 +117,27 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
               />
             )}
             <PreFilledValuesSyncer
-              form={flightDetailsForm}
-              flightRouteForm={flightRouteForm}
               preFilledDepartureAirport={preFilledDepartureAirport}
               preFilledArrivalAirport={preFilledArrivalAirport}
               preFilledFlightNumber={preFilledFlightNumber}
               preFilledDepartureDate={preFilledDepartureDate}
+              preFilledConnectingFlights={preFilledConnectingFlights}
               locationState={locationState}
+              newForm={newForm}
+              setNewForm={setNewForm}
             />
             <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
               <StepRenderer
                 step={step}
                 showBoardingPassUpload={showBoardingPassUpload}
-                flightRouteForm={flightRouteForm}
-                flightDetailsForm={flightDetailsForm}
-                passengerDetailsForm={passengerDetailsForm}
-                bookingReferenceForm={bookingReferenceForm}
-                disruptionDetailsForm={disruptionDetailsForm}
-                paymentDetailsForm={paymentDetailsForm}
-                signatureForm={signatureForm}
-                flightDocumentsForm={flightDocumentsForm}
+                // flightRouteForm={flightRouteForm}
+                // flightDetailsForm={flightDetailsForm}
+                // passengerDetailsForm={passengerDetailsForm}
+                // bookingReferenceForm={bookingReferenceForm}
+                // disruptionDetailsForm={disruptionDetailsForm}
+                // paymentDetailsForm={paymentDetailsForm}
+                // signatureForm={signatureForm}
+                // flightDocumentsForm={flightDocumentsForm}
                 connectionFlights={connectionFlights}
                 setConnectionFlights={setConnectionFlights}
                 onFlightRouteSubmit={onFlightRouteSubmit}
@@ -146,9 +155,11 @@ const ClaimFormContent: React.FC<ClaimFormContentProps> = ({
                 isChecking={isChecking}
                 isEligible={isEligible}
                 transitions={transitions}
-                disruptionType={disruptionType}
+                // disruptionType={disruptionType}
                 claimId={claimId}
-                formData={formData}
+                // formData={formData}
+                newForm={newForm}
+                setNewForm={setNewForm}
               />
             </div>
           </div>

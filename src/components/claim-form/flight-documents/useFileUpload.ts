@@ -2,13 +2,11 @@ import { useState, useCallback } from 'react';
 import { toast } from 'sonner';
 
 export interface UseFileUploadProps {
-  form: any;
   allowedFileTypes?: string[];
   maxFileSize?: number;
 }
 
 export const useFileUpload = ({
-  form,
   allowedFileTypes = [
     'application/pdf',
     'application/msword',
@@ -48,25 +46,22 @@ export const useFileUpload = ({
     setIsDragging(false);
   }, []);
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(false);
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
 
-      const files = Array.from(e.dataTransfer.files);
-      if (files.length === 0) return;
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length === 0) return;
 
-      const validFiles = files.filter(validateFile);
-      if (validFiles.length === 0) return;
+    const validFiles = files.filter(validateFile);
+    if (validFiles.length === 0) return;
 
-      const currentFiles = form.getValues('documents') || [];
-      form.setValue('documents', [...currentFiles, ...validFiles], {
-        shouldValidate: true,
-      });
-    },
-    [form],
-  );
+    // const currentFiles = form.getValues('documents') || [];
+    // form.setValue('documents', [...currentFiles, ...validFiles], {
+    //   shouldValidate: true,
+    // });
+  }, []);
 
   const handleFileInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,25 +71,22 @@ export const useFileUpload = ({
       const validFiles = files.filter(validateFile);
       if (validFiles.length === 0) return;
 
-      const currentFiles = form.getValues('documents') || [];
-      form.setValue('documents', [...currentFiles, ...validFiles], {
-        shouldValidate: true,
-      });
+      // const currentFiles = form.getValues('documents') || [];
+      // form.setValue('documents', [...currentFiles, ...validFiles], {
+      //   shouldValidate: true,
+      // });
 
       // Reset the input so the same file can be selected again if needed
       e.target.value = '';
     },
-    [form],
+    [],
   );
 
-  const removeFile = useCallback(
-    (index: number) => {
-      const currentFiles = [...form.getValues('documents')];
-      currentFiles.splice(index, 1);
-      form.setValue('documents', currentFiles, { shouldValidate: true });
-    },
-    [form],
-  );
+  const removeFile = useCallback((index: number) => {
+    // const currentFiles = [...form.getValues('documents')];
+    // currentFiles.splice(index, 1);
+    // form.setValue('documents', currentFiles, { shouldValidate: true });
+  }, []);
 
   return {
     isDragging,

@@ -1,32 +1,40 @@
 import React from 'react';
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-} from '@/components/ui/form';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Plus, X } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { flightDetailsSchema } from '@/components/claim-form/schemas';
+import { IClaimForm } from '@/components/claim-form/interfaces/claim-form.interface.ts';
+import AirportInput, { Airport } from '@/components/AirportInput.tsx';
 
 interface ConnectingFlightsFormProps {
-  form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
   connectionFlights: string[];
   setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
+  newForm: IClaimForm;
+  setNewForm: (value: IClaimForm) => void;
 }
 
 const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
-  form,
   connectionFlights,
   setConnectionFlights,
+  newForm,
+  setNewForm,
 }) => {
-  const connectingFlightsValue = form.watch('connectingFlights');
+  // const connectingFlightsValue = form.watch('connectingFlights');
 
   const handleAddConnectionFlight = () => {
     setConnectionFlights([...connectionFlights, '']);
+  };
+
+  const handleAddConnectingFlight = (airport: Airport, index: number) => {
+    if (airport) {
+      newForm.meta.connectingFlights.splice(index, 0, airport);
+      setNewForm(newForm);
+
+      console.log(newForm);
+    } else {
+      newForm.meta.connectingFlights.splice(index, 1);
+    }
   };
 
   const handleConnectionAirportChange = (index: number, value: string) => {
@@ -35,16 +43,19 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
     setConnectionFlights(newConnectionFlights);
 
     // Update the form value
-    form.setValue(
-      'connectionAirports',
-      newConnectionFlights.filter((airport) => airport.trim() !== ''),
-    );
+    // form.setValue(
+    //   'connectionAirports',
+    //   newConnectionFlights.filter((airport) => airport.trim() !== ''),
+    // );
 
     // Reset problematic flight segment if connection airports change
-    form.setValue('problematicFlightSegment', '');
+    // form.setValue('problematicFlightSegment', '');
   };
 
   const handleRemoveConnectionFlight = (index: number) => {
+    if (index == 0) {
+      return;
+    }
     const newConnectionFlights = [...connectionFlights];
     newConnectionFlights.splice(index, 1);
 
@@ -55,19 +66,24 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
 
     setConnectionFlights(newConnectionFlights);
 
+    newForm.meta.connectingFlights.splice(index, 1);
+    setNewForm(newForm);
+
+    console.log(newForm);
+
     // Update the form value
-    form.setValue(
-      'connectionAirports',
-      newConnectionFlights.filter((airport) => airport.trim() !== ''),
-    );
-
-    // Reset problematic flight segment if connection airports change
-    form.setValue('problematicFlightSegment', '');
+    // form.setValue(
+    //   'connectionAirports',
+    //   newConnectionFlights.filter((airport) => airport.trim() !== ''),
+    // );
+    //
+    // // Reset problematic flight segment if connection airports change
+    // form.setValue('problematicFlightSegment', '');
   };
-
-  if (connectingFlightsValue !== 'yes') {
-    return null;
-  }
+  //
+  // if (connectingFlightsValue !== 'yes') {
+  //   return null;
+  // }
 
   return (
     <div className="space-y-6 border border-input rounded-md p-4 mt-6">
@@ -77,17 +93,17 @@ const ConnectingFlightsForm: React.FC<ConnectingFlightsFormProps> = ({
 
       {connectionFlights.map((airport, index) => (
         <div key={index} className="space-y-2">
-          <FormLabel className="text-sm font-medium">
-            {index + 1}. City or airport name
-          </FormLabel>
+          {/*<FormLabel className="text-sm font-medium">*/}
+          <p className="mb-2">{index + 1}. City or airport name</p>
+          {/*</FormLabel>*/}
           <div className="relative">
-            <Input
-              placeholder="e.g. London or LHR"
-              value={airport}
-              onChange={(e) =>
-                handleConnectionAirportChange(index, e.target.value)
-              }
-              className="w-full pr-10"
+            <AirportInput
+              setAirport={(airport: Airport) => {
+                handleAddConnectingFlight(airport, index);
+              }}
+              placeHolder="Airport"
+              isDeparture={true}
+              preFilled={newForm.meta.connectingFlights[index] || null}
             />
             <Button
               type="button"

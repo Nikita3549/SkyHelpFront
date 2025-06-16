@@ -1,48 +1,81 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Form } from '@/components/ui/form';
-import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { disruptionDetailsSchema } from '@/components/claim-form/schemas';
 import { AnimationTransitions } from '@/components/claim-form/types';
 import NavigationButtons from './passenger-details/NavigationButtons';
 import ReasonProvidedQuestion from './disruption-details/ReasonProvidedQuestion';
 import AirlineReasonQuestion from './disruption-details/AirlineReasonQuestion';
-import AdditionalInfoField from './disruption-details/AdditionalInfoField';
+import { AdditionalInfoField } from './disruption-details/AdditionalInfoField';
 import DisclaimerBox from './disruption-details/DisclaimerBox';
 import { Card, CardContent } from '@/components/ui/card';
+import { IClaimForm } from '@/components/claim-form/interfaces/claim-form.interface.ts';
+import { ReasonProvided } from '@/components/claim-form/enums/reason-provided.enum.ts';
+import api from '@/api/axios.ts';
+import { ICreateClaim } from '@/components/claim-form/interfaces/create-claim.interface.ts';
+import { toast } from '@/components/ui/use-toast.ts';
+import { AxiosResponse } from 'axios';
+import { DisruptionType } from '@/components/claim-form/enums/disruption.ts';
+import { AirlineReason } from '@/components/claim-form/enums/airline-reason.enum.ts';
 
 interface DisruptionDetailsStepProps {
-  form: UseFormReturn<z.infer<typeof disruptionDetailsSchema>>;
-  onSubmit: (data: z.infer<typeof disruptionDetailsSchema>) => void;
   onBack: () => void;
   transitions: AnimationTransitions;
-  disruptionType: string;
+  newForm: IClaimForm;
+  setNewForm: (form: IClaimForm) => void;
+  setStep: (step: number) => void;
 }
 
 const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
-  form,
-  onSubmit,
   onBack,
   transitions,
-  disruptionType,
+  newForm,
+  setNewForm,
+  setStep,
 }) => {
-  const reasonProvided = form.watch('reasonProvided');
+  const [reasonProvided, setReasonProvided] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const handleNext = (e: React.FormEvent) => {
+    e.preventDefault();
+    const issue = newForm.issue;
 
-  const getDisruptionTypeLabel = () => {
-    switch (disruptionType) {
-      case 'delay':
-        return 'flight delay';
-      case 'cancellation':
-        return 'flight cancellation';
-      case 'denied_boarding':
-        return 'denied boarding';
-      case 'missed_connection':
-        return 'missed connection';
-      default:
-        return 'flight disruption';
-    }
+    setLoading(true);
+    api
+      .post(`/claims/${newForm.meta.flightId}/compensation`, {
+        delayHours: issue.delay || null,
+        cancellationNoticeDays: issue.cancellationNoticeDays || null,
+        wasDeniedBoarding:
+          issue.disruptionType == DisruptionType.denied_boarding,
+        wasAlternativeFlightOffered: issue.wasAlternativeFlightOffered || false,
+        arrivalTimeDelayOfAlternative:
+          issue.arrivalTimeDelayOfAlternativeHours || 0,
+        wasDisruptionDuoExtraordinaryCircumstances:
+          issue.airlineReason == AirlineReason.weather ||
+          issue.airlineReason == AirlineReason.strike,
+      })
+      .then((res: AxiosResponse) => {
+        setNewForm({
+          ...newForm,
+          state: {
+            ...newForm.state,
+            amount: res.data.compensation,
+          },
+        });
+        setStep(4);
+      })
+      .catch((e) => {
+        toast({
+          title: 'Unexpected error',
+          description: 'Please try again',
+          variant: 'destructive',
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  useEffect(() => {
+    setReasonProvided(newForm.meta.reasonProvided == ReasonProvided.yes);
+  }, [newForm.meta.reasonProvided]);
 
   return (
     <motion.div
@@ -57,40 +90,44 @@ const DisruptionDetailsStep: React.FC<DisruptionDetailsStepProps> = ({
           Disruption Details
         </h2>
         <p className="text-gray-600">
-          Please tell us more about your {getDisruptionTypeLabel()} experience
-          to help strengthen your claim.
+          Please tell us more about your disruption experience to help
+          strengthen your claim.
         </p>
       </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="space-y-8">
-            <Card>
+      <form onSubmit={handleNext} className="space-y-8">
+        <div className="space-y-8">
+          <Card>
+            <CardContent className="p-6">
+              <ReasonProvidedQuestion
+                newForm={newForm}
+                setNewForm={setNewForm}
+              />
+            </CardContent>
+          </Card>
+
+          {reasonProvided && (
+            <Card className="animate-fade-in">
               <CardContent className="p-6">
-                <ReasonProvidedQuestion form={form} />
+                <AirlineReasonQuestion
+                  newForm={newForm}
+                  setNewForm={setNewForm}
+                />
               </CardContent>
             </Card>
+          )}
 
-            {reasonProvided === 'yes' && (
-              <Card className="animate-fade-in">
-                <CardContent className="p-6">
-                  <AirlineReasonQuestion form={form} />
-                </CardContent>
-              </Card>
-            )}
+          <Card>
+            <CardContent className="p-6">
+              <AdditionalInfoField newForm={newForm} setNewForm={setNewForm} />
+            </CardContent>
+          </Card>
 
-            <Card>
-              <CardContent className="p-6">
-                <AdditionalInfoField form={form} />
-              </CardContent>
-            </Card>
+          <DisclaimerBox />
+        </div>
 
-            <DisclaimerBox />
-          </div>
-
-          <NavigationButtons onBack={onBack} />
-        </form>
-      </Form>
+        <NavigationButtons onBack={onBack} isSubmitting={loading} />
+      </form>
     </motion.div>
   );
 };

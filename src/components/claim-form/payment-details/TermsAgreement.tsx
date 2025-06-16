@@ -7,11 +7,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { paymentDetailsSchema } from '@/components/claim-form/schemas';
 
 interface TermsAgreementProps {
-  form: UseFormReturn<z.infer<typeof paymentDetailsSchema>>;
+  form: UseFormReturn<any>;
 }
 
 const TermsAgreement: React.FC<TermsAgreementProps> = ({ form }) => {
@@ -25,8 +23,8 @@ const TermsAgreement: React.FC<TermsAgreementProps> = ({ form }) => {
             <div className="mt-1">
               <input
                 type="checkbox"
-                checked={field.value}
-                onChange={field.onChange}
+                checked={field.value || false}
+                onChange={(e) => field.onChange(e.target.checked)}
                 className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
               />
             </div>

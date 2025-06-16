@@ -8,11 +8,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { paymentDetailsSchema } from '@/components/claim-form/schemas';
 
 interface WiseFieldsProps {
-  form: UseFormReturn<z.infer<typeof paymentDetailsSchema>>;
+  form: UseFormReturn<any>; // или тип твоей формы
 }
 
 const WiseFields: React.FC<WiseFieldsProps> = ({ form }) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 // Component imports
@@ -15,18 +15,26 @@ import FlightDocumentsStep from '@/components/claim-form/FlightDocumentsStep';
 import ThankYouStep from '@/components/claim-form/ThankYouStep';
 import { AnimationTransitions } from '@/components/claim-form/types';
 import { useBoardingPassUpload } from '@/hooks/useBoardingPassUpload';
+import ClaimForm from '@/pages/ClaimForm.tsx';
+import { IClaimForm } from '@/components/claim-form/interfaces/claim-form.interface.ts';
+import { DisruptionType } from '@/components/claim-form/enums/disruption.ts';
+import { CancellationNotice } from '@/components/claim-form/enums/cancellation.enum.ts';
+import { AirlineReason } from '@/components/claim-form/enums/airline-reason.enum.ts';
+import { ReasonProvided } from '@/components/claim-form/enums/reason-provided.enum.ts';
+import { ClaimStatus } from '@/components/claim-form/enums/claim-status.enum.ts';
+import { ProgressStatus } from '@/components/claim-form/enums/progress-status.enum.ts';
 
 interface StepRendererProps {
   step: number;
   showBoardingPassUpload: boolean;
-  flightRouteForm: UseFormReturn<any>;
-  flightDetailsForm: UseFormReturn<any>;
-  passengerDetailsForm: UseFormReturn<any>;
-  bookingReferenceForm: UseFormReturn<any>;
-  disruptionDetailsForm: UseFormReturn<any>;
-  paymentDetailsForm: UseFormReturn<any>;
-  signatureForm: UseFormReturn<any>;
-  flightDocumentsForm: UseFormReturn<any>;
+  // flightRouteForm: UseFormReturn<any>;
+  // flightDetailsForm: UseFormReturn<any>;
+  // passengerDetailsForm: UseFormReturn<any>;
+  // bookingReferenceForm: UseFormReturn<any>;
+  // disruptionDetailsForm: UseFormReturn<any>;
+  // paymentDetailsForm: UseFormReturn<any>;
+  // signatureForm: UseFormReturn<any>;
+  // flightDocumentsForm: UseFormReturn<any>;
   connectionFlights: string[];
   setConnectionFlights: React.Dispatch<React.SetStateAction<string[]>>;
   onFlightRouteSubmit: (data: any) => void;
@@ -44,22 +52,25 @@ interface StepRendererProps {
   isChecking: boolean;
   isEligible: boolean | null;
   transitions: AnimationTransitions;
-  disruptionType: string;
+  // disruptionType: string;
   claimId?: string;
-  formData?: any;
+  // formData?: any;
+  newForm: IClaimForm;
+  setNewForm: (value: IClaimForm) => void;
 }
 
 const StepRenderer: React.FC<StepRendererProps> = ({
   step,
+
   showBoardingPassUpload,
-  flightRouteForm,
-  flightDetailsForm,
-  passengerDetailsForm,
-  bookingReferenceForm,
-  disruptionDetailsForm,
-  paymentDetailsForm,
-  signatureForm,
-  flightDocumentsForm,
+  // flightRouteForm,
+  // flightDetailsForm,
+  // passengerDetailsForm,
+  // bookingReferenceForm,
+  // disruptionDetailsForm,
+  // paymentDetailsForm,
+  // signatureForm,
+  // flightDocumentsForm,
   connectionFlights,
   setConnectionFlights,
   onFlightRouteSubmit,
@@ -77,108 +88,347 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   isChecking,
   isEligible,
   transitions,
-  disruptionType,
+  // disruptionType,
   claimId,
-  formData,
+  // formData,
+  newForm,
+  setNewForm,
 }) => {
   // Use the boarding pass upload hook
-  const { handleBoardingPassSubmit } = useBoardingPassUpload({
-    flightDetailsForm,
-    setStep,
-  });
+  // const { handleBoardingPassSubmit } = useBoardingPassUpload({
+  //   flightDetailsForm,
+  //   setStep,
+  // });
 
   // Get airline name from flightDetailsForm
-  const airlineName = flightDetailsForm.watch('airline');
+  // const airlineName = flightDetailsForm.watch('airline');
 
   // Show boarding pass upload component if showBoardingPassUpload is true and step is 0 or 1
-  if (showBoardingPassUpload && step < 2) {
-    return (
-      <BoardingPassUpload
-        onContinue={handleBoardingPassSubmit}
-        transitions={transitions}
-      />
-    );
-  }
+  // if (showBoardingPassUpload && step < 2) {
+  //   return (
+  //     <BoardingPassUpload
+  //       onContinue={handleBoardingPassSubmit}
+  //       transitions={transitions}
+  //     />
+  //   );
+  // }
+
+  // MOCK
+  const mockOneRoutes = () => {
+    setStep(5);
+    setNewForm({
+      customer: {
+        firstName: 'test',
+        lastName: 'test',
+        email: 'test@gmail.com',
+        phone: '123414',
+        address: 'test',
+        secondAddress: 'test',
+        city: 'test',
+        postalCode: 'test',
+        state: 'test',
+        country: 'BY',
+        whatsapp: false,
+      },
+      details: {
+        airline: {
+          icao: 'DLH',
+          name: 'Lufthansa',
+          country: 'Germany',
+          city: 'Frankfurt',
+        },
+        date: new Date(25, 3, 25),
+        flightNumber: 'LH460',
+        bookingRef: null,
+        routes: [
+          {
+            arrivalAirport: {
+              icao: 'KMIA',
+              city: 'Miami',
+              name: 'Miami International Airport',
+              country: 'US',
+            },
+            departureAirport: {
+              icao: 'EDDM',
+              city: 'Munich',
+              name: 'Munich International Airport',
+              country: 'DE',
+            },
+            troubled: true,
+          },
+        ],
+      },
+      id: 'cmby2fik10000rbiwu9mbq6av',
+      issue: {
+        volunteerDenial: false,
+        wasAlternativeFlightOffered: true,
+        additionalInfo: 'additional info',
+        airlineReason: AirlineReason.weather,
+        arrivalTimeDelayOfAlternativeHours: 2,
+        cancellationNoticeDays: CancellationNotice.less_than_14days,
+        delay: null,
+        disruptionType: DisruptionType.cancellation,
+      },
+      meta: {
+        arrivalAirport: {
+          icao: 'KMIA',
+          city: 'Miami',
+          name: 'Epps Airpark',
+          country: 'Miami International Airport',
+        },
+        departureAirport: {
+          icao: 'EDDM',
+          city: 'Munich',
+          name: 'Munich International Airport',
+          country: 'DE',
+        },
+        connectingFlights: [],
+        otherAirline: {
+          icao: 'DLH',
+          name: 'Lufthansa',
+          country: 'Germany',
+          city: 'Frankfurt',
+        },
+        flightId: '3a0ce5f6',
+        reasonProvided: ReasonProvided.yes,
+      },
+      payment: {
+        email: null,
+        termsAgreed: null,
+        paymentMethod: null,
+        bankName: null,
+        accountName: null,
+        accountNumber: null,
+        iban: null,
+        paypalEmail: null,
+      },
+      state: {
+        amount: 600,
+        status: ClaimStatus.IN_PROGRESS,
+        progress: [
+          {
+            claimStateId: 'cmby2fik20006rbiwwis0dzz2',
+            description: 'Claim has been submitted and received',
+            endAt: null,
+            id: 'cmby2fik20007rbiw9g9ixs3f',
+            status: ProgressStatus.IN_PROCESS,
+            title: 'Claim Received',
+          },
+          {
+            claimStateId: 'cmby2fik20006rbiwwis0dzz2',
+            description: 'All required documents have been verified',
+            endAt: null,
+            id: 'cmby2fik30008rbiw6ik7hwi3',
+            status: ProgressStatus.IN_PROCESS,
+            title: 'Documents Verified',
+          },
+          {
+            claimStateId: 'cmby2fik20006rbiwwis0dzz2',
+            description: 'Airline has been contacted regarding the claim',
+            endAt: null,
+            id: 'cmby2fik30009rbiwl6okkz3e',
+            status: ProgressStatus.IN_PROCESS,
+            title: 'Airline Contacted',
+          },
+          {
+            claimStateId: 'cmby2fik20006rbiwwis0dzz2',
+            description: "Waiting for airline's final response",
+            endAt: null,
+            id: 'cmby2fik3000arbiwh6sapzwu',
+            status: ProgressStatus.IN_PROCESS,
+            title: 'Awaiting Response',
+          },
+          {
+            claimStateId: 'cmby2fik20006rbiwwis0dzz2',
+            description:
+              'Compensation has been approved and is pending payment',
+            endAt: null,
+            id: 'cmby2fik3000brbiwimnndswo',
+            status: ProgressStatus.IN_PROCESS,
+            title: 'Compensation Pending',
+          },
+          {
+            claimStateId: 'cmby2fik20006rbiwwis0dzz2',
+            description: 'Compensation has been paid',
+            endAt: null,
+            id: 'cmby2fik3000crbiwvoahh8gf',
+            status: ProgressStatus.IN_PROCESS,
+            title: 'Claim Completed',
+          },
+        ],
+      },
+    });
+  };
+  // const mockTwoRoutes = () => {
+  //   setStep(2);
+  //   setNewForm({
+  //     customer: null,
+  //     details: {
+  //       airline: null,
+  //       date: null,
+  //       flightNumber: null,
+  //       routes: [
+  //         {
+  //           arrivalAirport: {
+  //             icao: 'LEBL',
+  //             city: 'Barcelona',
+  //             name: 'Barcelona International Airport',
+  //             country: 'ES',
+  //           },
+  //           departureAirport: {
+  //             icao: '14MI',
+  //             city: 'Dutton',
+  //             name: 'East-West Paris Airport',
+  //             country: 'US',
+  //           },
+  //           troubled: false,
+  //         },
+  //         {
+  //           arrivalAirport: {
+  //             icao: 'EDNS',
+  //             city: 'Schwabmunchen',
+  //             name: 'Schwabmunchen Airport',
+  //             country: 'DE',
+  //           },
+  //           departureAirport: {
+  //             icao: 'LEBL',
+  //             city: 'Barcelona',
+  //             name: 'Barcelona International Airport',
+  //             country: 'ES',
+  //           },
+  //           troubled: false,
+  //         },
+  //       ],
+  //     },
+  //     id: null,
+  //     issue: null,
+  //     meta: {
+  //       arrivalAirport: {
+  //         icao: 'EDNS',
+  //         city: 'Schwabmunchen',
+  //         name: 'Schwabmunchen Airport',
+  //         country: 'DE',
+  //       },
+  //       connectingFlights: [
+  //         {
+  //           icao: 'LEBL',
+  //           city: 'Barcelona',
+  //           name: 'Barcelona International Airport',
+  //           country: 'ES',
+  //         },
+  //       ],
+  //       departureAirport: {
+  //         icao: '14MI',
+  //         city: 'Dutton',
+  //         name: 'East-West Paris Airport',
+  //         country: 'US',
+  //       },
+  //       otherAirline: null,
+  //       flightId: null,
+  //       reasonProvided: null,
+  //     },
+  //     state: null,
+  //   });
+  // };
+
+  useEffect(() => {
+    // mockOneRoutes();
+  }, []);
 
   switch (step) {
     case 1:
       return (
         <FlightRouteStep
-          form={flightRouteForm}
-          onSubmit={onFlightRouteSubmit}
+          // onSubmit={onFlightRouteSubmit}
           transitions={transitions}
           connectionFlights={connectionFlights}
           setConnectionFlights={setConnectionFlights}
-          flightDetailsForm={flightDetailsForm}
+          // flightDetailsForm={flightDetailsForm}
+          newForm={newForm}
+          setNewForm={setNewForm}
+          setStep={setStep}
         />
       );
     case 2:
       return (
         <FlightDetailsStep
-          form={flightDetailsForm}
-          onSubmit={onFlightDetailsSubmit}
+          // onSubmit={onFlightDetailsSubmit}
           transitions={transitions}
           onBack={() => setStep(1)}
           connectionFlights={connectionFlights}
           setConnectionFlights={setConnectionFlights}
+          setStep={setStep}
+          newForm={newForm}
+          setNewForm={setNewForm}
         />
       );
     case 2.5:
       return (
         <DisruptionTypeStep
-          form={flightDetailsForm}
-          onSubmit={onDisruptionTypeSubmit}
+          // onSubmit={onDisruptionTypeSubmit}
           isChecking={isChecking}
           isEligible={isEligible}
           onContinue={proceedToNextStep}
           transitions={transitions}
           onBack={() => setStep(2)}
+          setStep={setStep}
+          newForm={newForm}
+          setNewForm={setNewForm}
         />
       );
     case 3:
       return (
         <DisruptionDetailsStep
-          form={disruptionDetailsForm}
-          onSubmit={onDisruptionDetailsSubmit}
+          // onSubmit={onDisruptionDetailsSubmit}
           onBack={() => setStep(2.5)}
           transitions={transitions}
-          disruptionType={disruptionType}
+          newForm={newForm}
+          setNewForm={setNewForm}
+          setStep={setStep}
+          // disruptionType={disruptionType}
         />
       );
     case 4:
       return (
         <PassengerDetailsStep
-          form={passengerDetailsForm}
-          onSubmit={onPassengerDetailsSubmit}
-          onBack={() => setStep(3)}
+          setStep={setStep}
+          newForm={newForm}
+          setNewForm={setNewForm}
+          // onSubmit={onPassengerDetailsSubmit}
+          // onBack={() => setStep(3)}
           transitions={transitions}
+          // newForm={newForm}
+          // setNewForm={setNewForm}
         />
       );
     case 4.5:
       return (
         <BookingReferenceStep
-          form={bookingReferenceForm}
-          onSubmit={onBookingReferenceSubmit}
-          onBack={() => setStep(4)}
+          // onSubmit={onBookingReferenceSubmit}
           transitions={transitions}
+          newForm={newForm}
+          setNewForm={setNewForm}
+          setStep={setStep}
         />
       );
     case 4.8:
       return (
         <SignatureStep
-          form={signatureForm}
-          onSubmit={onSignatureSubmit}
+          // onSubmit={onSignatureSubmit}
           onBack={() => setStep(4.5)}
           transitions={transitions}
-          formData={formData}
           claimId={claimId}
+          newForm={newForm}
+          setStep={setStep}
         />
       );
     case 4.9:
       return (
         <FlightDocumentsStep
-          form={flightDocumentsForm}
-          onSubmit={onFlightDocumentsSubmit}
+          newForm={newForm}
+          setNewForm={setNewForm}
+          setStep={setStep}
+          // onSubmit={onFlightDocumentsSubmit}
           onBack={() => setStep(4.8)}
           transitions={transitions}
         />
@@ -186,11 +436,13 @@ const StepRenderer: React.FC<StepRendererProps> = ({
     case 5:
       return (
         <PaymentDetailsStep
-          form={paymentDetailsForm}
-          onSubmit={onPaymentDetailsSubmit}
+          // onSubmit={onPaymentDetailsSubmit}
           onBack={() => setStep(4.9)}
           transitions={transitions}
           onSkip={skipPaymentDetails}
+          newForm={newForm}
+          setNewForm={setNewForm}
+          setStep={() => setStep(6)}
         />
       );
     case 6:
@@ -198,7 +450,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
         <ThankYouStep
           transitions={transitions}
           claimId={claimId || '5786537'}
-          airlineName={airlineName || 'the airline'}
+          airlineName={newForm.details.airline.name || 'airline'}
         />
       );
     default:

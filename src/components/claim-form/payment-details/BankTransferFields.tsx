@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from '@/components/ui/input';
 import {
   FormControl,
   FormField,
@@ -6,13 +7,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { paymentDetailsSchema } from '@/components/claim-form/schemas';
 
 interface BankTransferFieldsProps {
-  form: UseFormReturn<z.infer<typeof paymentDetailsSchema>>;
+  form: UseFormReturn<any>;
 }
 
 const BankTransferFields: React.FC<BankTransferFieldsProps> = ({ form }) => {

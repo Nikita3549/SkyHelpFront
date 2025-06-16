@@ -1,33 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { passengerDetailsSchema } from '@/components/claim-form/schemas';
 import { MessageSquare } from 'lucide-react';
 import CountrySelect from './CountrySelect';
 
 interface AddressFieldsProps {
-  form: UseFormReturn<z.infer<typeof passengerDetailsSchema>>;
+  form: UseFormReturn<any>;
 }
 
 const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
-  // When country changes, update the phone field if needed
   const handleCountryChange = (value: string) => {
-    // First update the country field
     form.setValue('country', value, { shouldValidate: true });
-
-    // We'll let the PhoneInput component handle.svg the phone number update
-    // since it already watches for country changes in its useEffect
   };
 
   return (
@@ -110,7 +103,10 @@ const AddressFields: React.FC<AddressFieldsProps> = ({ form }) => {
             <FormLabel>Country</FormLabel>
             <CountrySelect
               value={field.value}
-              onValueChange={handleCountryChange}
+              onValueChange={(value) => {
+                field.onChange(value);
+                handleCountryChange(value);
+              }}
             />
             <FormMessage />
           </FormItem>

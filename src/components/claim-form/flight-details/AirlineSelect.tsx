@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+
 import {
   Select,
   SelectContent,
@@ -13,55 +7,58 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { flightDetailsSchema } from '@/components/claim-form/schemas';
+import { Airline } from '@/components/claim-form/flight-details/interfaces/Airline.interface.ts';
 
-// List of airlines moved from FlightDetailsStep
-export const airlines = [
-  { value: 'ryanair', label: 'Ryanair' },
-  { value: 'easyjet', label: 'EasyJet' },
-  { value: 'ba', label: 'British Airways' },
-  { value: 'lufthansa', label: 'Lufthansa' },
-  { value: 'airfrance', label: 'Air France' },
-  { value: 'klm', label: 'KLM' },
-  { value: 'iberia', label: 'Iberia' },
-  { value: 'vueling', label: 'Vueling' },
-  { value: 'wizz', label: 'Wizz Air' },
-  { value: 'norwegian', label: 'Norwegian' },
-  { value: 'other', label: 'Other' },
+export const airlines: Airline[] = [
+  { icao: 'RYR', name: 'Ryanair', country: 'Ireland', city: 'Dublin' },
+  { icao: 'EZY', name: 'EasyJet', country: 'United Kingdom', city: 'London' },
+  {
+    icao: 'BAW',
+    name: 'British Airways',
+    country: 'United Kingdom',
+    city: 'London',
+  },
+  { icao: 'DLH', name: 'Lufthansa', country: 'Germany', city: 'Frankfurt' },
+  { icao: 'AFR', name: 'Air France', country: 'France', city: 'Paris' },
+  { icao: 'KLM', name: 'KLM', country: 'Netherlands', city: 'Amsterdam' },
+  { icao: 'IBE', name: 'Iberia', country: 'Spain', city: 'Madrid' },
+  { icao: 'VLG', name: 'Vueling', country: 'Spain', city: 'Barcelona' },
+  { icao: 'WZZ', name: 'Wizz Air', country: 'Hungary', city: 'Budapest' },
+  { icao: 'NAX', name: 'Norwegian', country: 'Norway', city: 'Oslo' },
+  { icao: '-', name: 'Other', country: 'Unknown', city: 'Unknown' },
 ];
 
 interface AirlineSelectProps {
-  form: UseFormReturn<z.infer<typeof flightDetailsSchema>>;
+  airline: Airline | null;
+  setAirline: (value: Airline) => void;
 }
 
-const AirlineSelect: React.FC<AirlineSelectProps> = ({ form }) => {
+const AirlineSelect: React.FC<AirlineSelectProps> = ({
+  airline,
+  setAirline,
+}) => {
   return (
-    <FormField
-      control={form.control}
-      name="airline"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Airline</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
-            <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder="Select airline" />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {airlines.map((airline) => (
-                <SelectItem key={airline.value} value={airline.value}>
-                  {airline.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <div className="space-y-2 w-full" style={{ margin: '0' }}>
+      <label className="text-sm font-medium">Airline</label>
+      <Select
+        onValueChange={(icao) => {
+          const selected = airlines.find((a) => a.icao === icao);
+          if (selected) setAirline(selected);
+        }}
+        value={airline?.icao ?? ''}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Select airline" />
+        </SelectTrigger>
+        <SelectContent>
+          {airlines.map((a) => (
+            <SelectItem key={a.icao} value={a.icao}>
+              {a.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };
 

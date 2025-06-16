@@ -26,20 +26,20 @@ const PaymentNavigationButtons: React.FC<PaymentNavigationButtonsProps> = ({
 
   return (
     <div
-      className={`pt-4 flex ${isMobile ? 'flex-col gap-3' : 'justify-between items-center'}`}
+      className={`pt-4 flex ${isMobile ? 'flex-col gap-3' : 'justify-between items-center'} w-full`}
     >
-      <Button
-        type="button"
-        variant="outline"
-        onClick={handleBack}
-        className={`flex items-center ${isMobile ? 'w-full justify-center' : ''}`}
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back
-      </Button>
+      {/*<Button*/}
+      {/*  type="button"*/}
+      {/*  variant="outline"*/}
+      {/*  onClick={handleBack}*/}
+      {/*  className={`flex items-center ${isMobile ? 'w-full justify-center' : ''}`}*/}
+      {/*>*/}
+      {/*  <ArrowLeft className="mr-2 h-4 w-4" />*/}
+      {/*  Back*/}
+      {/*</Button>*/}
 
       <div
-        className={`flex ${isMobile ? 'w-full flex-col' : 'gap-3'} ${isMobile ? 'gap-3' : ''}`}
+        className={`flex ${isMobile ? 'w-full flex-col' : 'gap-3 ml-auto'} ${isMobile ? 'gap-3' : ''}`}
       >
         <Button
           type="button"
