@@ -145,7 +145,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
                 <AirportInput
                   setAirport={setDepartureAirport}
                   isDeparture={true}
-                  placeHolder={'e.g. Paris'}
+                  placeHolder={'e.g. JFK'}
                   preFilled={departureAirport}
                 />
               </div>
@@ -159,7 +159,7 @@ const FlightRouteStep: React.FC<FlightRouteStepProps> = ({
             <div>
               <AirportInput
                 setAirport={setArrivalAirport}
-                placeHolder="e.g. Barcelona"
+                placeHolder="e.g. LAX"
                 isDeparture={false}
                 preFilled={arrivalAirport}
               />
