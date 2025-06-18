@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Plane } from 'lucide-react';
 import { io, Socket } from 'socket.io-client';
-import { getToken } from '@/utils/auth.ts';
+import { debounce } from 'lodash';
 
 export interface Airport {
   name: string;
@@ -31,13 +31,8 @@ const AirportInput: React.FC<Props> = ({
   const [airportOptions, setAirportOptions] = useState<Airport[]>([]);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [ws, setWs] = useState<Socket>();
-
-  useEffect(() => {
-    if (preFilled) {
-      setInput(`${preFilled.name} (${preFilled.icao})`);
-    }
-  }, [preFilled]);
+  const [ws, setWs] = useState<Socket | null>(null);
+  const debouncedLookupRef = useRef<((q: string) => void) | null>(null);
 
   useEffect(() => {
     const socket = io(`${import.meta.env.VITE_WS_HOST}/airports`, {
@@ -57,6 +52,32 @@ const AirportInput: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
+    if (!ws) return;
+
+    const debounced = debounce((query: string) => {
+      if (query.trim().length < 2) return;
+
+      setLoading(true);
+      ws.emit('lookupAirportCode', { name: query }, (ackData: Airport[]) => {
+        setAirportOptions(ackData);
+        setLoading(false);
+      });
+    }, 400);
+
+    debouncedLookupRef.current = debounced;
+
+    return () => {
+      debounced.cancel();
+    };
+  }, [ws]);
+
+  useEffect(() => {
+    if (preFilled) {
+      setInput(`${preFilled.name} (${preFilled.icao})`);
+    }
+  }, [preFilled]);
+
+  useEffect(() => {
     setAirportOptions([]);
   }, []);
 
@@ -73,32 +94,15 @@ const AirportInput: React.FC<Props> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const sendQuery = (query: string) => {
-    setLoading(true);
-    if (query.trim().length >= 1) {
-      ws.emit('lookupAirportCode', { name: query }, (ackData: Airport[]) => {
-        setAirportOptions(
-          ackData.map((a) => ({
-            icao: a.icao,
-            city: a.city,
-            name: a.name,
-            country: a.country,
-          })),
-        );
-        setLoading(false);
-      });
-    } else {
-      setAirportOptions([]);
-      setLoading(false);
-    }
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInput(value);
     setAirport(null);
-    sendQuery(value);
     setShowDropdown(true);
+
+    if (debouncedLookupRef.current) {
+      debouncedLookupRef.current(value);
+    }
   };
 
   const handleSelect = (airport: Airport) => {
