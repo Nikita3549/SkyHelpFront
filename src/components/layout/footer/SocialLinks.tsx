@@ -9,7 +9,8 @@ interface SocialLinksProps {
 const SocialLinks: React.FC<SocialLinksProps> = ({ social }) => {
   return (
     <div className="space-y-6">
-      <Logo size="lg" withLink={false} />
+      {/*<Logo size="lg" withLink={false} />*/}
+      <img src={'/footer/logo.png'} className="h-12" />
       <p className="text-white font-medium text-sm max-w-xs">
         Helping air passengers get the <br />
         compensation they deserve when

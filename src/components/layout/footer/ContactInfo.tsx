@@ -14,7 +14,7 @@ const ContactInfo: React.FC = () => {
             href="mailto:support@skyhelp.md"
             className="text-sm text-white hover:text-primary transition-colors"
           >
-            support@skyhelp.md
+            contact@skyhelp.md
           </a>
         </li>
         <li className="flex items-start">
@@ -29,11 +29,11 @@ const ContactInfo: React.FC = () => {
         <li className="flex items-start">
           <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
           <span className="text-sm text-white">
-            bd.mosova 16
+            Strada Mitropolit Gavriil
             <br />
-            Suite 567
+            Bănulescu-Bodoni 59,
             <br />
-            London, UK
+            Chișinău
           </span>
         </li>
       </ul>
