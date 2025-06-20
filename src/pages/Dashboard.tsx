@@ -133,7 +133,7 @@ const Dashboard = () => {
           </p>
           <a
             href="/"
-            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition"
+            className="inline-block bg-[#0080ff] text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-blue-600 transition"
           >
             Back to homepage
           </a>

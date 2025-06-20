@@ -14,6 +14,7 @@ interface VerifyEmailProps {
   setIsVerifyEmail: (value: boolean) => void;
   loading: boolean;
   isForgot: boolean;
+  setIsForgot: (value: boolean) => void;
 }
 
 export function VerifyEmail({
@@ -22,6 +23,7 @@ export function VerifyEmail({
   setIsVerifyEmail,
   loading,
   isForgot,
+  setIsForgot,
 }: VerifyEmailProps) {
   const [code, setCode] = useState<string[]>(Array(6).fill(''));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -116,6 +118,9 @@ export function VerifyEmail({
         type="button"
         onClick={() =>
           (() => {
+            if (isForgot) {
+              setIsForgot(false);
+            }
             setIsVerifyEmail(false);
           })()
         }

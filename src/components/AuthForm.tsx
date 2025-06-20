@@ -39,7 +39,7 @@ export default function AuthForm({ formType, setShowElements }: AuthFormProps) {
   const [isForgot, setIsForgot] = useState<boolean>(false);
 
   const setIsVerifyEmail = (value: boolean) => {
-    setIsForgot(false);
+    // setIsForgot(false);
     _setIsVerifyEmail(value);
     setShowElements(!value);
   };
@@ -140,6 +140,7 @@ export default function AuthForm({ formType, setShowElements }: AuthFormProps) {
         setIsVerifyEmail={setIsVerifyEmail}
         loading={loading}
         isForgot={isForgot}
+        setIsForgot={setIsForgot}
       />
     );
   }
