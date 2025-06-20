@@ -14,6 +14,7 @@ import { toast } from '@/components/ui/use-toast.ts';
 import { IClaimForm } from './interfaces/claim-form.interface';
 import api from '@/api/axios.ts';
 import { useClaimJwt } from '@/hooks/useClaimJwt.ts';
+import { useSearchParams } from 'react-router-dom';
 import { Spinner } from '@/components/Spinner.tsx';
 
 interface SignatureStepProps {
@@ -39,6 +40,8 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
 }) => {
   const [iframeUrl, setIframeUrl] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [searchParams] = useSearchParams();
+  const claimType = searchParams.get('test');
   const isMobile = useIsMobile();
   const { getClaimJwt } = useClaimJwt();
   const claimId = 'cmc3wd5f10000rbpzo5vqs1ep'; //newForm.id
@@ -53,7 +56,10 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
     setLoading(true);
     const res = await api
       .post('/docusign/url/generate', {
-        jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbUlkIjoiY21jM3dkNWYxMDAwMHJicHpvNXZxczFlcCIsImlhdCI6MTc1MDM2ODc1OCwiZXhwIjoxNzUyMDk2NzU4fQ.gE4uNrW-KrL-bcgjJbkGdH4z2TlCdP9MeIqNsjAEi8I', // || getClaimJwt(),
+        jwt:
+          claimType == 'docusign'
+            ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbUlkIjoiY21jM3dkNWYxMDAwMHJicHpvNXZxczFlcCIsImlhdCI6MTc1MDM2ODc1OCwiZXhwIjoxNzUyMDk2NzU4fQ.gE4uNrW-KrL-bcgjJbkGdH4z2TlCdP9MeIqNsjAEi8I'
+            : getClaimJwt(),
         claimId, // || newForm.id,
       })
       .catch((e) => {
