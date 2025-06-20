@@ -35,7 +35,7 @@ import Login from '@/pages/Login.tsx';
 import Register from '@/pages/Register.tsx';
 import { Forgot } from '@/pages/Forgot.tsx';
 import { useEffect, useState } from 'react';
-// import ThankYouPage from '@/pages/ThankYou.tsx';
+import ThankYouPage from '@/pages/ThankYou.tsx';
 
 const Layout = () => {
   const location = useLocation();
@@ -72,7 +72,7 @@ const AppRoutes = () => {
     <Routes>
       {/* Маршруты вне Layout */}
       <Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
-      {/*<Route path="/thankyou" element={<ThankYouPage />} />*/}
+      <Route path="/thankyou" element={<ThankYouPage />} />
 
       {/* Маршруты с общим Layout */}
       <Route path="/" element={<Layout />}>
