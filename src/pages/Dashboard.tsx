@@ -1,119 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, LoaderCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ClaimsList from '@/components/dashboard/ClaimsList';
 import ClaimDetails from '@/components/dashboard/ClaimDetails';
-
-// Sample claims data
-const claims = [
-  {
-    id: 'CLM-1234',
-    airline: 'Lufthansa',
-    flightNumber: 'LH1234',
-    departureDate: '2023-11-15',
-    route: 'London (LHR) to Frankfurt (FRA)',
-    status: 'in_progress',
-    statusText: 'In Progress',
-    compensation: '€400',
-    progress: 60,
-    lastUpdate: '2023-12-10',
-    estimatedCompletion: '2024-01-20',
-    disruptionType: 'delay',
-    passengerName: 'John Smith',
-    documents: [
-      { name: 'Boarding Pass', status: 'uploaded' },
-      { name: 'Flight Ticket', status: 'uploaded' },
-      { name: 'ID Document', status: 'requested' },
-    ],
-    messages: [
-      {
-        date: '2023-12-10',
-        content:
-          "We've submitted your claim to Lufthansa and are awaiting their response.",
-        isFromTeam: true,
-      },
-      {
-        date: '2023-12-05',
-        content:
-          "Your claim has been reviewed and is valid for compensation.svg. We'll now contact the airline.",
-        isFromTeam: true,
-      },
-    ],
-  },
-  {
-    id: 'CLM-5678',
-    airline: 'British Airways',
-    flightNumber: 'BA2160',
-    departureDate: '2023-10-20',
-    route: 'Madrid (MAD) to London (LHR)',
-    status: 'completed',
-    statusText: 'Completed',
-    compensation: '€250',
-    progress: 100,
-    lastUpdate: '2023-11-30',
-    paymentDate: '2023-11-30',
-    disruptionType: 'cancellation',
-    passengerName: 'Sarah Johnson',
-    documents: [
-      { name: 'Boarding Pass', status: 'uploaded' },
-      { name: 'Flight Ticket', status: 'uploaded' },
-      { name: 'ID Document', status: 'uploaded' },
-    ],
-    messages: [
-      {
-        date: '2023-11-30',
-        content:
-          'Your compensation.svg of €250 has been transferred to your account. Thank you for using our service!',
-        isFromTeam: true,
-      },
-      {
-        date: '2023-11-25',
-        content:
-          'Good news! British Airways has approved your claim and agreed to pay compensation.svg.',
-        isFromTeam: true,
-      },
-    ],
-  },
-  {
-    id: 'CLM-9012',
-    airline: 'Ryanair',
-    flightNumber: 'FR8012',
-    departureDate: '2023-12-05',
-    route: 'Barcelona (BCN) to Paris (ORY)',
-    status: 'review',
-    statusText: 'Under Review',
-    compensation: '€250 (estimated)',
-    progress: 30,
-    lastUpdate: '2023-12-12',
-    estimatedCompletion: '2024-02-15',
-    disruptionType: 'denied_boarding',
-    passengerName: 'Michael Brown',
-    documents: [
-      { name: 'Boarding Pass', status: 'uploaded' },
-      { name: 'Flight Ticket', status: 'requested' },
-      { name: 'ID Document', status: 'requested' },
-    ],
-    messages: [
-      {
-        date: '2023-12-12',
-        content:
-          'We need your flight ticket to proceed with the claim. Please upload it as soon as possible.',
-        isFromTeam: true,
-      },
-      {
-        date: '2023-12-08',
-        content:
-          'Your claim has been received and is currently under initial review.',
-        isFromTeam: true,
-      },
-    ],
-  },
-];
+import { useDashboardClaims } from '@/hooks/useDashboardClaims.ts';
+import api from '@/api/axios.ts';
 
 const Dashboard = () => {
-  const [selectedClaimId, setSelectedClaimId] = useState(claims[0].id);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { claims, setClaims } = useDashboardClaims(setLoading);
+  const [selectedClaimId, setSelectedClaimId] = useState('');
   const [messageText, setMessageText] = useState('');
   const selectedClaim = claims.find((claim) => claim.id === selectedClaimId);
 
@@ -123,10 +21,61 @@ const Dashboard = () => {
     // In a real app, this would open a message compose UI
   };
 
+  useEffect(() => {
+    console.log(claims.length != 0);
+    setSelectedClaimId(claims.length != 0 ? claims[0].id : '');
+  }, [claims]);
+
   // Function to upload document
-  const uploadDocument = () => {
-    console.log('Document upload triggered');
-    // In a real app, this would open a file upload UI
+  const uploadDocument = async () => {
+    try {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.pdf,.jpg,.jpeg,.png';
+
+      input.onchange = async () => {
+        if (!input.files || input.files.length === 0) return;
+
+        const formData = new FormData();
+        Array.from(input.files).forEach((file) => {
+          formData.append('documents', file);
+        });
+
+        const res = await api.post(
+          `/claims/${selectedClaim.id}/upload`,
+          formData,
+        );
+
+        if (res.status != 201) {
+          console.error('Upload failed');
+          return;
+        }
+
+        setClaims(
+          claims.map((c) => {
+            if (c.id != selectedClaim.id) {
+              return c;
+            }
+            return {
+              ...c,
+              documents: [
+                ...c.documents,
+                {
+                  id: '',
+                  status: 'uploaded',
+                  name: input.files[0].name,
+                },
+              ],
+            };
+          }),
+        );
+        console.log('Upload successful:');
+      };
+
+      input.click();
+    } catch (error) {
+      console.error('Unexpected error:', error);
+    }
   };
 
   // Function to contact support
@@ -157,9 +106,41 @@ const Dashboard = () => {
 
     setMessageText('');
 
-    // Show success feedback
     console.log('Message sent successfully');
   };
+  if (loading) {
+    return (
+      <div className="w-full min-h-[90vh] flex justify-center align-middle">
+        <LoaderCircle
+          className="animate-spin mt-auto mb-auto"
+          color="#2563eb"
+          size={100}
+        />
+      </div>
+    );
+  }
+
+  if (claims.length == 0) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 px-4">
+        <div className="rounded-2xl bg-white p-8 shadow-xl max-w-md w-full text-center">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+            No available claims
+          </h1>
+          <p className="text-gray-600 mb-6">
+            It looks like there are no claims available for you at the moment.
+            If you believe this is a mistake, please contact our support team.
+          </p>
+          <a
+            href="/"
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition"
+          >
+            Back to homepage
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-12 md:py-20 min-h-screen bg-gradient-to-b from-gray-50 to-white">

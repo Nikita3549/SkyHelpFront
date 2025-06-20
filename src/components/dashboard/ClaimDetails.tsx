@@ -14,31 +14,10 @@ import MessageWritingZone from './MessageWritingZone';
 import OverviewTab from './OverviewTab';
 import DocumentsTab from './DocumentsTab';
 import MessagesTab from './MessagesTab';
-interface Claim {
-  id: string;
-  airline: string;
-  flightNumber: string;
-  departureDate: string;
-  route: string;
-  status: string;
-  statusText: string;
-  compensation: string;
-  progress: number;
-  lastUpdate: string;
-  estimatedCompletion?: string;
-  paymentDate?: string;
-  documents: Array<{
-    name: string;
-    status: string;
-  }>;
-  messages: Array<{
-    date: string;
-    content: string;
-    isFromTeam: boolean;
-  }>;
-}
+import { IClaim } from '@/components/claim-form/interfaces/claims.interface.ts';
+
 interface ClaimDetailsProps {
-  claim: Claim;
+  claim: IClaim;
   messageText: string;
   onMessageChange: (text: string) => void;
   onSendMessage: () => void;
@@ -76,7 +55,7 @@ const ClaimDetails = ({
           <div className="flex justify-between items-start">
             <div>
               <CardTitle className="flex items-center">
-                Claim {claim.id}
+                Claim #{claim.id}
                 <StatusBadge status={claim.status} className="ml-3" />
               </CardTitle>
             </div>
@@ -88,7 +67,7 @@ const ClaimDetails = ({
             <TabsList className="mx-6 mb-2">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
-              <TabsTrigger value="messages">Messages</TabsTrigger>
+              {/*<TabsTrigger value="messages">Messages</TabsTrigger>*/}
             </TabsList>
 
             <TabsContent value="overview" className="px-6 pt-2 pb-6">
@@ -106,12 +85,12 @@ const ClaimDetails = ({
               />
             </TabsContent>
 
-            <TabsContent value="messages" className="p-6 pt-2">
-              <MessagesTab
-                messages={claim.messages}
-                onGenerateNewMessage={onGenerateNewMessage}
-              />
-            </TabsContent>
+            {/*<TabsContent value="messages" className="p-6 pt-2">*/}
+            {/*  <MessagesTab*/}
+            {/*    messages={claim.messages}*/}
+            {/*    onGenerateNewMessage={onGenerateNewMessage}*/}
+            {/*  />*/}
+            {/*</TabsContent>*/}
           </Tabs>
         </CardContent>
 

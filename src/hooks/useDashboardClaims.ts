@@ -26,12 +26,14 @@ export const useDashboardClaims = (setLoading: (value: boolean) => void) => {
             route: `${backClaim.details.routes[0].DepartureAirport.name} (${backClaim.details.routes[0].DepartureAirport.icao}) to ${backClaim.details.routes[0].ArrivalAirport.name} (${backClaim.details.routes[0].ArrivalAirport.icao})`,
             status: backClaim.state.status as ClaimStatus,
             statusText: 'status text',
-            compensation: backClaim.state.amount.toString(),
+            compensation: `€${backClaim.state.amount.toString()}`,
             progress:
               completedSteps.length == 0
                 ? 0
-                : (backClaim.state.progress.length / completedSteps.length) *
-                  100,
+                : +(
+                    (completedSteps.length / backClaim.state.progress.length) *
+                    100
+                  ).toFixed(0),
             lastUpdate: backClaim.updatedAt,
             estimatedCompletion: 'estimated completion',
             disruptionType: backClaim.issue.disruptionType as DisruptionType,

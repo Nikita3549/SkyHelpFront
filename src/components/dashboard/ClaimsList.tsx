@@ -10,26 +10,10 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { Plane } from 'lucide-react';
 import StatusBadge from './StatusBadge';
-
-interface Claim {
-  id: string;
-  airline: string;
-  flightNumber: string;
-  departureDate: string;
-  route: string;
-  status: string;
-  statusText: string;
-  compensation: string;
-  progress: number;
-  lastUpdate: string;
-  estimatedCompletion?: string;
-  paymentDate?: string;
-  documents: Array<{ name: string; status: string }>;
-  messages: Array<{ date: string; content: string; isFromTeam: boolean }>;
-}
+import { IClaim } from '@/components/claim-form/interfaces/claims.interface.ts';
 
 interface ClaimsListProps {
-  claims: Claim[];
+  claims: IClaim[];
   selectedClaimId: string;
   onClaimSelect: (claimId: string) => void;
 }

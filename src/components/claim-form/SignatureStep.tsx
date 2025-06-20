@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { Form } from '@/components/ui/form';
@@ -8,10 +8,13 @@ import TermsAgreementField from '@/components/claim-form/signature/TermsAgreemen
 import InfoBox from '@/components/claim-form/signature/InfoBox';
 import { AnimationTransitions } from '@/components/claim-form/types';
 import { Button } from '@/components/ui/button.tsx';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Loader, LoaderCircle } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile.tsx';
 import { toast } from '@/components/ui/use-toast.ts';
 import { IClaimForm } from './interfaces/claim-form.interface';
+import api from '@/api/axios.ts';
+import { useClaimJwt } from '@/hooks/useClaimJwt.ts';
+import { Spinner } from '@/components/Spinner.tsx';
 
 interface SignatureStepProps {
   onBack: () => void;
@@ -31,11 +34,14 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
   onBack,
   transitions,
   formData,
-  claimId,
   newForm,
   setStep,
 }) => {
+  const [iframeUrl, setIframeUrl] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const isMobile = useIsMobile();
+  const { getClaimJwt } = useClaimJwt();
+  const claimId = 'cmc3wd5f10000rbpzo5vqs1ep'; //newForm.id
   const form = useForm<SignatureFormValues>({
     defaultValues: {
       signature: '',
@@ -43,7 +49,28 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
     },
   });
 
-  const handleSubmit = form.handleSubmit((values) => {
+  const handleGetIframeUrl = async () => {
+    setLoading(true);
+    const res = await api
+      .post('/docusign/url/generate', {
+        jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbUlkIjoiY21jM3dkNWYxMDAwMHJicHpvNXZxczFlcCIsImlhdCI6MTc1MDM2ODc1OCwiZXhwIjoxNzUyMDk2NzU4fQ.gE4uNrW-KrL-bcgjJbkGdH4z2TlCdP9MeIqNsjAEi8I', // || getClaimJwt(),
+        claimId, // || newForm.id,
+      })
+      .catch((e) => {
+        throw e;
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    setIframeUrl(res.data.url);
+  };
+
+  useEffect(() => {
+    handleGetIframeUrl();
+  }, []);
+
+  const handleSubmit = form.handleSubmit(async (values) => {
     if (!values.termsAgreed) {
       toast({
         title: 'Please Confirm',
@@ -52,6 +79,18 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
       });
       return;
     }
+
+    const res = await api.get(`/docusign/${claimId}/is-signed`);
+
+    if (!res.data.isSigned) {
+      toast({
+        title: 'Please Sign',
+        description: 'Sign a document or wait a few seconds',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     console.log('Submitted values:', values);
 
     setStep(4.9);
@@ -62,18 +101,12 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
   const isContinueDisabled = isSignatureEmpty || !isTermsChecked;
 
   const claimData = {
-    id: claimId || 'CLM' + Math.floor(100000 + Math.random() * 900000),
-    customer:
-      formData?.passengerDetails?.firstName &&
-      formData?.passengerDetails?.lastName
-        ? `${formData.passengerDetails.firstName} ${formData.passengerDetails.lastName}`
-        : '',
-    address: formData?.passengerDetails?.address
-      ? `${formData.passengerDetails.address}, ${formData.passengerDetails.city}, ${formData.passengerDetails.postalCode}, ${formData.passengerDetails.country}`
-      : '',
-    airline: formData?.flightDetails?.airline || '',
-    flightnumber: formData?.flightDetails?.flightNumber || '',
-    date: formData?.flightDetails?.departureDate || '',
+    id: newForm.id,
+    customer: newForm.customer.firstName + ' ' + newForm.customer.lastName,
+    address: newForm.customer.address,
+    airline: newForm.details.airline.name,
+    flightnumber: newForm.details.flightNumber,
+    date: newForm.details.date.toISOString().slice(0, 10),
   };
 
   return (
@@ -106,7 +139,21 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
 
       <Form {...form}>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <SignatureField form={form} />
+          {/*<SignatureField form={form} />*/}
+          <div className="w-full h-[70vh] flex justify-center align-middle">
+            {loading ? (
+              <LoaderCircle
+                className="animate-spin mt-auto mb-auto"
+                color="#2563eb"
+                size={64}
+              />
+            ) : (
+              <iframe
+                className="w-full h-full rounded-3xl"
+                src={iframeUrl}
+              ></iframe>
+            )}
+          </div>
 
           <InfoBox />
 

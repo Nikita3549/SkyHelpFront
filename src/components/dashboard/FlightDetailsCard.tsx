@@ -46,7 +46,7 @@ const FlightDetailsCard = ({ claim }: FlightDetailsCardProps) => {
           <span className="text-sm font-medium">{claim.airline}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-sm text-gray-500">Route</span>
+          <span className="text-sm text-gray-500 pr-8">Route</span>
           <span className="text-sm font-medium">{claim.route}</span>
         </div>
         <div className="flex justify-between">

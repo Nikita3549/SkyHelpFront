@@ -18,9 +18,7 @@ const DocumentsTab = ({ documents, onUploadDocument }: DocumentsTabProps) => {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-medium text-gray-500 mb-4">
-          Required Documents
-        </h3>
+        <h3 className="text-sm font-medium text-gray-500 mb-4">Documents</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {documents.map((doc, index) => (
             <Card key={index} className="overflow-hidden">
@@ -60,6 +58,15 @@ const DocumentsTab = ({ documents, onUploadDocument }: DocumentsTabProps) => {
           ))}
         </div>
       </div>
+      <Button
+        onClick={onUploadDocument}
+        size="sm"
+        className="w-full"
+        variant="outline"
+      >
+        <Upload className="h-3 w-full mr-1" />
+        Upload
+      </Button>
 
       <div>
         <h3 className="text-sm font-medium text-gray-500 mb-4">

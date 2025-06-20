@@ -23,6 +23,7 @@ import { AirlineReason } from '@/components/claim-form/enums/airline-reason.enum
 import { ReasonProvided } from '@/components/claim-form/enums/reason-provided.enum.ts';
 import { ClaimStatus } from '@/components/claim-form/enums/claim-status.enum.ts';
 import { ProgressStatus } from '@/components/claim-form/enums/progress-status.enum.ts';
+import { useSearchParams } from 'react-router-dom';
 
 interface StepRendererProps {
   step: number;
@@ -94,6 +95,8 @@ const StepRenderer: React.FC<StepRendererProps> = ({
   newForm,
   setNewForm,
 }) => {
+  const [searchParams] = useSearchParams();
+  const claimType = searchParams.get('test');
   // Use the boarding pass upload hook
   // const { handleBoardingPassSubmit } = useBoardingPassUpload({
   //   flightDetailsForm,
@@ -115,14 +118,14 @@ const StepRenderer: React.FC<StepRendererProps> = ({
 
   // MOCK
   const mockOneRoutes = () => {
-    setStep(5);
+    setStep(4.8);
     setNewForm({
       customer: {
-        firstName: 'test',
-        lastName: 'test',
+        firstName: 'John',
+        lastName: 'Doe',
         email: 'test@gmail.com',
         phone: '123414',
-        address: 'test',
+        address: '123 Main St',
         secondAddress: 'test',
         city: 'test',
         postalCode: 'test',
@@ -137,8 +140,8 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           country: 'Germany',
           city: 'Frankfurt',
         },
-        date: new Date(25, 3, 25),
-        flightNumber: 'LH460',
+        date: new Date(2025, 6, 20),
+        flightNumber: 'AF123',
         bookingRef: null,
         routes: [
           {
@@ -158,7 +161,7 @@ const StepRenderer: React.FC<StepRendererProps> = ({
           },
         ],
       },
-      id: 'cmby2fik10000rbiwu9mbq6av',
+      id: 'cmc3f3qzl0000rb33zkvb3trz',
       issue: {
         volunteerDenial: false,
         wasAlternativeFlightOffered: true,
@@ -259,80 +262,11 @@ const StepRenderer: React.FC<StepRendererProps> = ({
       },
     });
   };
-  // const mockTwoRoutes = () => {
-  //   setStep(2);
-  //   setNewForm({
-  //     customer: null,
-  //     details: {
-  //       airline: null,
-  //       date: null,
-  //       flightNumber: null,
-  //       routes: [
-  //         {
-  //           arrivalAirport: {
-  //             icao: 'LEBL',
-  //             city: 'Barcelona',
-  //             name: 'Barcelona International Airport',
-  //             country: 'ES',
-  //           },
-  //           departureAirport: {
-  //             icao: '14MI',
-  //             city: 'Dutton',
-  //             name: 'East-West Paris Airport',
-  //             country: 'US',
-  //           },
-  //           troubled: false,
-  //         },
-  //         {
-  //           arrivalAirport: {
-  //             icao: 'EDNS',
-  //             city: 'Schwabmunchen',
-  //             name: 'Schwabmunchen Airport',
-  //             country: 'DE',
-  //           },
-  //           departureAirport: {
-  //             icao: 'LEBL',
-  //             city: 'Barcelona',
-  //             name: 'Barcelona International Airport',
-  //             country: 'ES',
-  //           },
-  //           troubled: false,
-  //         },
-  //       ],
-  //     },
-  //     id: null,
-  //     issue: null,
-  //     meta: {
-  //       arrivalAirport: {
-  //         icao: 'EDNS',
-  //         city: 'Schwabmunchen',
-  //         name: 'Schwabmunchen Airport',
-  //         country: 'DE',
-  //       },
-  //       connectingFlights: [
-  //         {
-  //           icao: 'LEBL',
-  //           city: 'Barcelona',
-  //           name: 'Barcelona International Airport',
-  //           country: 'ES',
-  //         },
-  //       ],
-  //       departureAirport: {
-  //         icao: '14MI',
-  //         city: 'Dutton',
-  //         name: 'East-West Paris Airport',
-  //         country: 'US',
-  //       },
-  //       otherAirline: null,
-  //       flightId: null,
-  //       reasonProvided: null,
-  //     },
-  //     state: null,
-  //   });
-  // };
 
   useEffect(() => {
-    // mockOneRoutes();
+    if (claimType == 'docusign') {
+      mockOneRoutes();
+    }
   }, []);
 
   switch (step) {
