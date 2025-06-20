@@ -44,7 +44,8 @@ const SignatureStep: React.FC<SignatureStepProps> = ({
   const claimType = searchParams.get('test');
   const isMobile = useIsMobile();
   const { getClaimJwt } = useClaimJwt();
-  const claimId = 'cmc3wd5f10000rbpzo5vqs1ep'; //newForm.id
+  const claimId =
+    claimType == 'docusign' ? 'cmc3wd5f10000rbpzo5vqs1ep' : newForm.id;
   const form = useForm<SignatureFormValues>({
     defaultValues: {
       signature: '',
