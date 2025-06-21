@@ -28,10 +28,11 @@ export const useDashboardClaims = (setLoading: (value: boolean) => void) => {
             statusText: 'status text',
             compensation: `€${backClaim.state.amount.toString()}`,
             progress:
-              completedSteps.length == 0
+              completedSteps.length <= 1
                 ? 0
                 : +(
-                    (completedSteps.length / backClaim.state.progress.length) *
+                    (completedSteps.length / backClaim.state.progress.length -
+                      1) *
                     100
                   ).toFixed(0),
             lastUpdate: backClaim.updatedAt,
