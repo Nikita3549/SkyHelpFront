@@ -46,9 +46,9 @@ const UsersList = ({
 }: UsersListProps) => {
   const getRoleBadgeColor = (role: string | undefined) => {
     switch (role) {
-      case 'admin':
+      case 'ADMIN':
         return 'bg-red-100 text-red-800';
-      case 'moderator':
+      case 'MODERATOR':
         return 'bg-blue-100 text-blue-800';
       default:
         return 'bg-gray-100 text-gray-800';
@@ -102,16 +102,16 @@ const UsersList = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Roles</SelectItem>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="moderator">Moderator</SelectItem>
-              <SelectItem value="user">User</SelectItem>
+              <SelectItem value="ADMIN">Admin</SelectItem>
+              <SelectItem value="MODERATOR">Moderator</SelectItem>
+              <SelectItem value="CLIENT">Client</SelectItem>
             </SelectContent>
           </Select>
 
-          <Button className="flex items-center space-x-2">
-            <UserPlus className="h-4 w-4" />
-            <span>Invite User</span>
-          </Button>
+          {/*<Button className="flex items-center space-x-2">*/}
+          {/*  <UserPlus className="h-4 w-4" />*/}
+          {/*  <span>Invite User</span>*/}
+          {/*</Button>*/}
         </div>
       </div>
 
@@ -173,22 +173,22 @@ const UsersList = ({
                       >
                         <Edit2 className="h-4 w-4" />
                       </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => onUserSelect(user)}>
-                            View Details
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>Reset Password</DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
-                            Deactivate Account
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      {/*<DropdownMenu>*/}
+                      {/*  <DropdownMenuTrigger asChild>*/}
+                      {/*    <Button variant="ghost" size="sm">*/}
+                      {/*      <MoreHorizontal className="h-4 w-4" />*/}
+                      {/*    </Button>*/}
+                      {/*  </DropdownMenuTrigger>*/}
+                      {/*  <DropdownMenuContent align="end">*/}
+                      {/*    <DropdownMenuItem onClick={() => onUserSelect(user)}>*/}
+                      {/*      View Details*/}
+                      {/*    </DropdownMenuItem>*/}
+                      {/*    <DropdownMenuItem>Reset Password</DropdownMenuItem>*/}
+                      {/*    <DropdownMenuItem className="text-red-600">*/}
+                      {/*      Deactivate Account*/}
+                      {/*    </DropdownMenuItem>*/}
+                      {/*  </DropdownMenuContent>*/}
+                      {/*</DropdownMenu>*/}
                     </div>
                   </TableCell>
                 </TableRow>

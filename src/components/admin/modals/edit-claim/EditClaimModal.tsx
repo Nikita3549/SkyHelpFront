@@ -14,6 +14,7 @@ import TabsContainer from './TabsContainer';
 import { EmailData } from '../NotEligibleModal';
 import NotEligibleModal from '../NotEligibleModal';
 import { MessageEntry } from '@/hooks/useClaimsOperations';
+import { IClaimUpdate } from '@/components/claim-form/interfaces/claim-update.interface.ts';
 
 type EditClaimModalProps = {
   isOpen: boolean;
@@ -37,52 +38,10 @@ const EditClaimModal = ({
     setLocalClaim(claim);
   }, [claim]);
 
-  const handleSendEmail = () => {
-    // Log the email to communication history
-    const currentDate = new Date().toISOString();
-    const emailEntry: MessageEntry = {
-      date: currentDate,
-      type: 'email',
-      direction: 'outgoing',
-      subject: 'Email from Support',
-      body: 'This is a placeholder for an email sent from the support team.',
-      status: 'sent',
-    };
-
-    // Add this email to communication log
-    let communicationLog = [];
-    try {
-      if (localClaim.communicationlog) {
-        communicationLog = JSON.parse(localClaim.communicationlog);
-      }
-    } catch (e) {
-      console.error('Error parsing communication log', e);
-    }
-
-    communicationLog.push(emailEntry);
-
-    // Update local claim and submit
-    const updatedClaim = {
-      ...localClaim,
-      communicationlog: JSON.stringify(communicationLog),
-    };
-
-    setLocalClaim(updatedClaim);
-
-    // Submit updated claim with new communication log
-    if (onSubmit) {
-      onSubmit(updatedClaim);
-    }
-
-    toast.success('Email sent successfully', {
-      description: `Notification email sent to ${localClaim.customer}`,
-    });
-  };
+  const handleSendEmail = () => {};
 
   const handleUpdateStatus = () => {
-    toast.success('Status updated', {
-      description: `Claim ${localClaim.id} status has been updated`,
-    });
+    setLocalClaim(localClaim);
   };
 
   const handleEdit = () => {
@@ -164,22 +123,22 @@ const EditClaimModal = ({
   };
 
   const handleUpdateClaim = (updates: Partial<Claim>) => {
-    const updatedClaim = {
-      ...localClaim,
-      ...updates,
-      lastupdated: new Date().toISOString().split('T')[0],
-    };
-
-    setLocalClaim(updatedClaim);
-
-    if (onSubmit) {
-      onSubmit(updatedClaim);
-    }
+    // const updatedClaim = {
+    //   ...localClaim,
+    //   ...updates,
+    //   lastupdated: new Date().toISOString().split('T')[0],
+    // };
+    //
+    // setLocalClaim(updatedClaim);
+    //
+    // if (onSubmit) {
+    //   onSubmit(updatedClaim);
+    // }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
+      <DialogContent className="min-w-[90vw] max-h-[90vh] overflow-auto">
         <DialogHeader className="flex flex-row items-center justify-between">
           <div>
             <DialogTitle className="text-xl font-semibold">

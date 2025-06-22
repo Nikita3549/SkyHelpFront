@@ -18,43 +18,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-const recentActivities = [
-  {
-    id: 1,
-    action: 'Claim submitted',
-    claimId: 'CLM-1007',
-    user: 'David Wilson',
-    time: 'Today, 09:45 AM',
-  },
-  {
-    id: 2,
-    action: 'Airline responded',
-    claimId: 'CLM-1002',
-    user: 'System',
-    time: 'Today, 08:30 AM',
-  },
-  {
-    id: 3,
-    action: 'Payment processed',
-    claimId: 'CLM-1004',
-    user: 'Admin',
-    time: 'Yesterday, 05:20 PM',
-  },
-  {
-    id: 4,
-    action: 'Documents verified',
-    claimId: 'CLM-1001',
-    user: 'Admin',
-    time: 'Yesterday, 02:15 PM',
-  },
-  {
-    id: 5,
-    action: 'Claim rejected',
-    claimId: 'CLM-1005',
-    user: 'System',
-    time: '2 days ago, 11:30 AM',
-  },
-];
+const recentActivities = [];
 
 const RecentActivity = () => {
   return (
@@ -69,7 +33,10 @@ const RecentActivity = () => {
           <CardTitle className="text-lg">Recent Activity</CardTitle>
           <CardDescription>Latest claim updates and activities</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 min-h-80 flex align-middle">
+          <div className="w-full min-h-full text-center my-auto text-gray-500">
+            Will be added soon...
+          </div>
           {recentActivities.map((activity) => (
             <div
               key={activity.id}

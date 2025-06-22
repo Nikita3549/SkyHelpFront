@@ -13,6 +13,8 @@ export type Claim = {
   customer: string;
   email: string;
   airline: string;
+  bookingRef: string;
+  airlineIcao: string;
   flightnumber: string;
   date: string;
   status:
@@ -39,4 +41,22 @@ export type Claim = {
   paymentdetails?: any;
   communicationlog?: string; // Field for storing communication history (emails and messages)
   progressSteps?: string; // Field for storing claim progress steps as JSON string
+  documents: {
+    id: string;
+    title: string;
+    status: string;
+  }[];
+  routes: {
+    id: string;
+    troubled: boolean;
+    ArrivalAirport: {
+      icao: string;
+      name: string;
+    };
+    DepartureAirport: {
+      icao: string;
+      name: string;
+    };
+  }[];
+  progresses: any[];
 };

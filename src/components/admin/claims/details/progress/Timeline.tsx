@@ -29,23 +29,25 @@ const Timeline: React.FC<TimelineProps> = ({
 }) => {
   return (
     <div className="space-y-0">
-      {steps.map((step, index) => (
-        <TimelineStep
-          key={step.id}
-          step={step}
-          index={index}
-          totalSteps={steps.length}
-          onToggleComplete={onToggleComplete}
-          onEditStep={onEditStep}
-          onSaveEdit={onSaveEdit}
-          onCancelEdit={onCancelEdit}
-          onDateChange={onDateChange}
-          editingStep={editingStep}
-          editingField={editingField}
-          editValue={editValue}
-          setEditValue={setEditValue}
-        />
-      ))}
+      {steps
+        .sort((a, b) => a.order - b.order)
+        .map((step, index) => (
+          <TimelineStep
+            key={step.id}
+            step={step}
+            index={index}
+            totalSteps={steps.length}
+            onToggleComplete={onToggleComplete}
+            onEditStep={onEditStep}
+            onSaveEdit={onSaveEdit}
+            onCancelEdit={onCancelEdit}
+            onDateChange={onDateChange}
+            editingStep={editingStep}
+            editingField={editingField}
+            editValue={editValue}
+            setEditValue={setEditValue}
+          />
+        ))}
     </div>
   );
 };

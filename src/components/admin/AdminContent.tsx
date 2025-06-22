@@ -53,10 +53,14 @@ const AdminContent = ({
         </motion.div>
 
         <Tabs defaultValue="dashboard">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="claims">Claims Management</TabsTrigger>
-            <TabsTrigger value="communications">Communications</TabsTrigger>
+          <TabsList className="flex justify-between gap-2 w-full mb-8 px-2">
+            <TabsTrigger className="w-full" value="dashboard">
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger className="w-full" value="claims">
+              Claims Management
+            </TabsTrigger>
+            {/*<TabsTrigger value="communications">Communications</TabsTrigger>*/}
           </TabsList>
 
           <TabsContent value="dashboard">

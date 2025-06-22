@@ -5,6 +5,10 @@ import { Claim } from '@/lib/supabase';
 type IssueDetailsCardProps = {
   claim: Claim;
 };
+function normalize(str: string): string {
+  if (!str) return str;
+  return str[0].toUpperCase() + str.slice(1).replace('_', ' ');
+}
 
 const IssueDetailsCard = ({ claim }: IssueDetailsCardProps) => {
   return (
@@ -16,12 +20,16 @@ const IssueDetailsCard = ({ claim }: IssueDetailsCardProps) => {
       <div className="space-y-3">
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Flight Issue:</span>
-          <span className="font-medium">{claim?.flightissue || 'N/A'}</span>
+          <span className="font-medium">
+            {`${claim?.flightissue ? normalize(claim?.flightissue) : 'N/A'}`}
+          </span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Reason Given by Airline:</span>
           <span className="font-medium">
-            {claim?.reasongivenbyairline || 'N/A'}
+            {claim?.reasongivenbyairline
+              ? normalize(claim?.reasongivenbyairline)
+              : 'N/A'}
           </span>
         </div>
         <div className="flex flex-col text-sm mb-2">

@@ -17,14 +17,14 @@ const ActionButtons = ({
 }: ActionButtonsProps) => {
   return (
     <div className="flex flex-wrap gap-2 justify-end">
-      <Button
-        variant="outline"
-        onClick={onSendEmail}
-        className="flex items-center"
-      >
-        <Mail className="mr-2 h-4 w-4" />
-        Send Email
-      </Button>
+      {/*<Button*/}
+      {/*  variant="outline"*/}
+      {/*  onClick={onSendEmail}*/}
+      {/*  className="flex items-center"*/}
+      {/*>*/}
+      {/*  <Mail className="mr-2 h-4 w-4" />*/}
+      {/*  Send Email*/}
+      {/*</Button>*/}
       <Button
         variant="outline"
         onClick={onUpdateStatus}

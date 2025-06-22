@@ -13,7 +13,7 @@ export function formatPaymentDetails(claim: Claim | undefined): string {
   if (claim.paymentmethod === 'bank_transfer') {
     return [
       `Bank: ${details.bankName || 'N/A'}`,
-      `Account Holder: ${details.accountHolderName || 'N/A'}`,
+      `Account Holder: ${details.accountName || 'N/A'}`,
       `IBAN: ${details.iban || 'N/A'}`,
       details.accountNumber ? `Account Number: ${details.accountNumber}` : '',
     ]
@@ -23,8 +23,8 @@ export function formatPaymentDetails(claim: Claim | undefined): string {
     return `PayPal Email: ${details.paypalEmail || 'N/A'}`;
   } else if (claim.paymentmethod === 'wise') {
     return [
-      `Account Holder: ${details.accountHolderName || 'N/A'}`,
-      `IBAN/Account: ${details.ibanOrAccount || 'N/A'}`,
+      `Account Holder: ${details.accountName || 'N/A'}`,
+      `IBAN/Account: ${details.iban || 'N/A'}`,
       `Email: ${details.email || 'N/A'}`,
     ]
       .filter(Boolean)

@@ -20,6 +20,8 @@ import { Button } from '@/components/ui/button';
 import { FileText, Search } from 'lucide-react';
 import { Claim } from '@/lib/supabase';
 import EditClaimModal from '@/components/admin/EditClaimModal';
+import api from '@/api/axios';
+import { IClaimBackend } from '@/components/claim-form/interfaces/claim-back.interface.ts';
 
 interface UserClaimsSectionProps {
   userId: string;
@@ -40,97 +42,52 @@ const UserClaimsSection = ({ userId, userEmail }: UserClaimsSectionProps) => {
       setError(null);
 
       try {
-        // In a real application, you would fetch from the API
-        // Here we're using mock data and filtering by user email
-        await new Promise((resolve) => setTimeout(resolve, 800)); // Simulate API delay
-
-        // For this mock version, we'll fetch all claims and filter to the user's email
-        // Enhanced mock data with more details to match the design reference
-        let mockClaims = [
-          {
-            id: 'CLM-1234',
-            customer: 'John Doe',
-            email: 'john.doe@example.com',
-            airline: 'Lufthansa',
-            flightnumber: 'LH1234',
-            date: '10.03.2025',
-            status: 'rejected',
-            stage: 'processing',
-            amount: '€400',
-            lastupdated: '25.03.2025',
-            created_at: '2023-11-15T00:00:00+00:00',
-            phone: '+491234567890',
-            address: '123 Main St, Berlin, Germany',
-            departureairport: 'Munich (MUC)',
-            arrivalairport: 'London (LHR)',
-            flightissue: 'Cancellation',
-            reasongivenbyairline: 'Technical issues',
-            additionalinformation:
-              'Flight was cancelled 2 hours before departure with no alternative offered.',
-            paymentmethod: 'bank_transfer',
-            paymentdetails: {
-              bankName: 'Deutsche Bank',
-              accountHolderName: 'John Doe',
-              iban: 'DE89370400440532013000',
-            },
-          },
-          {
-            id: 'CLM-5678',
-            customer: 'Jane Smith',
-            email: 'jane.smith@example.com',
-            airline: 'British Airways',
-            flightnumber: 'BA2160',
-            date: '20.10.2022',
-            status: 'completed',
-            stage: 'completed',
-            amount: '€250',
-            lastupdated: '25.03.2025',
-            created_at: '2023-10-20T00:00:00+00:00',
-            phone: '+441234567890',
-            address: '456 High Street, London, UK',
-            departureairport: 'London (LHR)',
-            arrivalairport: 'Madrid (MAD)',
-            flightissue: 'Delay',
-            reasongivenbyairline: 'Air traffic control',
-            additionalinformation: 'Flight was delayed for 4 hours.',
-            paymentmethod: 'paypal',
-            paymentdetails: {
-              paypalEmail: 'jane.smith@example.com',
-            },
-          },
-          {
-            id: 'CLM-9012',
-            customer: 'Mike Brown',
-            email: 'mike.brown@example.com',
-            airline: 'Ryanair',
-            flightnumber: 'FR8012',
-            date: '11.03.2025',
-            status: 'in_progress',
-            stage: 'initial_review',
-            amount: '€250 (estimated)',
-            lastupdated: '25.03.2025',
-            created_at: '2023-12-05T00:00:00+00:00',
-            phone: '+44555123456',
-            address: '789 Park Lane, Birmingham, UK',
-            departureairport: 'Barcelona (BCN)',
-            arrivalairport: 'Paris (ORY)',
-            flightissue: 'Delay',
-            reasongivenbyairline: 'Airport congestion',
-            additionalinformation: 'Waiting for more details from airline',
-            paymentmethod: 'wise',
-            paymentdetails: {
-              accountHolderName: 'Mike Brown',
-              ibanOrAccount: 'MD20339429034',
-              email: 'mike.brown@example.com',
-            },
-          },
-        ] as Claim[];
-
-        // Filter claims for the specific user by email
-        // In a real application, you'd query by user ID instead
-        const userClaims = mockClaims.filter(
-          (claim) => claim.email === userEmail,
+        const res = await api.get<IClaimBackend[]>(
+          `/claims/admin/all?page=1&userId=${userId}`,
         );
+
+        const userClaims = res.data.map((c) => ({
+          id: c.id,
+          customer: `${c.customer.firstName} ${c.customer.lastName}`,
+          email: c.customer.email,
+          bookingRef: c.details.bookingRef,
+          airline: c.details.airlines.name,
+          flightnumber: c.details.flightNumber,
+          date: c.details.date.slice(0, 10),
+          status: c.state.status.toLowerCase() as
+            | 'completed'
+            | 'rejected'
+            | 'in_progress'
+            | 'pending'
+            | 'escalated'
+            | 'not_eligible',
+          stage: 'processing',
+          amount: `€${c.state.amount}`,
+          lastupdated: c.updatedAt.slice(0, 10),
+          created_at: c.createdAt,
+          phone: c.customer.phone,
+          address: c.customer.address,
+          departureairport: '-',
+          arrivalairport: '-',
+          flightissue: c.issue.disruptionType,
+          reasongivenbyairline: c.issue.airlineReason,
+          additionalinformation: c.issue.additionalInfo,
+          paymentmethod: '-',
+          paymentdetails: {
+            bankName: '-',
+            accountHolderName: '-',
+            iban: '-',
+          },
+          routes: c.details.routes,
+          documents: c.documents.map((d) => ({
+            ...d,
+            title: d.name,
+            status: 'uploaded',
+          })),
+          airlineIcao: c.details.airlines.icao,
+          progresses: c.state.progress,
+        }));
+
         setClaims(userClaims);
       } catch (err) {
         console.error('Error fetching user claims:', err);
@@ -174,7 +131,7 @@ const UserClaimsSection = ({ userId, userEmail }: UserClaimsSectionProps) => {
         <CardHeader>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex items-center mb-2">
                 <FileText className="h-5 w-5 mr-2" />
                 Claims History
               </CardTitle>
@@ -238,7 +195,7 @@ const UserClaimsSection = ({ userId, userEmail }: UserClaimsSectionProps) => {
                     <TableHead>Date</TableHead>
                     <TableHead>Amount</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    {/*<TableHead className="text-right">Actions</TableHead>*/}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -260,15 +217,15 @@ const UserClaimsSection = ({ userId, userEmail }: UserClaimsSectionProps) => {
                           {claim.status.replace('_', ' ')}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleViewClaimDetails(claim)}
-                        >
-                          View Details
-                        </Button>
-                      </TableCell>
+                      {/*<TableCell className="text-right">*/}
+                      {/*  <Button*/}
+                      {/*    variant="ghost"*/}
+                      {/*    size="sm"*/}
+                      {/*    onClick={() => handleViewClaimDetails(claim)}*/}
+                      {/*  >*/}
+                      {/*    View Details*/}
+                      {/*  </Button>*/}
+                      {/*</TableCell>*/}
                     </TableRow>
                   ))}
                 </TableBody>

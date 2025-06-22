@@ -19,6 +19,9 @@ import NotEligibleModal from '../modals/NotEligibleModal';
 import ClaimProgressManager, {
   type ClaimStep,
 } from './details/ClaimProgressManager';
+import { Button } from '@/components/ui/button.tsx';
+import { Edit } from 'lucide-react';
+import DocumentsTab from '@/components/admin/claims/DocumentsTab.tsx';
 
 type ClaimDetailsSectionProps = {
   selectedClaim: string | null;
@@ -90,14 +93,14 @@ const ClaimDetailsSection = ({
   const handleUpdateProgress = (steps: ClaimStep[]) => {
     const updatedClaim = {
       ...claim,
-      progressSteps: JSON.stringify(steps),
+      progressSteps: steps,
       lastupdated: new Date().toISOString().split('T')[0],
     };
 
     // Update the claim with new progress steps
     handleUpdateStatus(selectedClaim, claim.status, undefined, {
       sendEmail: false,
-      progressSteps: JSON.stringify(steps),
+      progressSteps: steps,
     });
 
     toast.success('Claim progress updated', {
@@ -124,11 +127,17 @@ const ClaimDetailsSection = ({
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid grid-cols-4 mb-4">
-              <TabsTrigger value="details">Claim Details</TabsTrigger>
-              <TabsTrigger value="communication">Communication</TabsTrigger>
-              <TabsTrigger value="progress">Progress</TabsTrigger>
-              <TabsTrigger value="documents">Documents</TabsTrigger>
+            <TabsList className="flex justify-between gap-2 px-2 mb-4">
+              <TabsTrigger className="w-full" value="details">
+                Claim Details
+              </TabsTrigger>
+              {/*<TabsTrigger className="w-full" value="communication">Communication</TabsTrigger>*/}
+              <TabsTrigger className="w-full" value="progress">
+                Progress
+              </TabsTrigger>
+              <TabsTrigger className="w-full" value="documents">
+                Documents
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="details" className="space-y-6">
@@ -147,12 +156,14 @@ const ClaimDetailsSection = ({
 
               <Separator className="my-6" />
 
-              <ActionButtons
-                onSendEmail={handleSendEmailClick}
-                onUpdateStatus={handleUpdateStatusClick}
-                onEdit={handleEditClick}
-                onMarkNotEligible={handleMarkAsNotEligible}
-              />
+              <Button
+                variant="outline"
+                onClick={handleEditClick}
+                className="flex items-center ml-auto"
+              >
+                <Edit className="mr-2 h-4 w-4" />
+                Edit Claim
+              </Button>
             </TabsContent>
 
             <TabsContent value="communication" className="mt-6">
@@ -168,7 +179,10 @@ const ClaimDetailsSection = ({
 
             <TabsContent value="documents" className="mt-6">
               <div className="p-4 text-center text-gray-500">
-                Document management features will be added soon.
+                <DocumentsTab
+                  documents={(claim as any).documents}
+                  claim={claim}
+                />
               </div>
             </TabsContent>
           </Tabs>

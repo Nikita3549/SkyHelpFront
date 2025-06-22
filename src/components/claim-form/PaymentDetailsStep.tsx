@@ -126,7 +126,7 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
           return;
         }
         payment.accountName = data.accountName;
-        payment.accountNumber = data.accountNumber;
+        payment.iban = data.iban;
         payment.email = data.email;
         break;
       default:
@@ -146,6 +146,7 @@ const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({
         ...newForm,
         payment: {
           ...payment,
+          paymentMethod: data.paymentMethod,
         },
       },
     );

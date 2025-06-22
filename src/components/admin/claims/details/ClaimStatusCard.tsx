@@ -20,16 +20,8 @@ const ClaimStatusCard = ({ claim }: ClaimStatusCardProps) => {
           <StatusBadge status={claim?.status || ''} />
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-500">Stage:</span>
-          <span className="font-medium">
-            {claim?.stage
-              ?.replace('_', ' ')
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-          </span>
-        </div>
-        <div className="flex justify-between text-sm">
           <span className="text-gray-500">Amount:</span>
-          <span className="font-medium">{claim?.amount}</span>
+          <span className="font-medium">€{claim?.amount}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Last Updated:</span>

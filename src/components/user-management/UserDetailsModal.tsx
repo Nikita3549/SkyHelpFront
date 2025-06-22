@@ -14,6 +14,7 @@ import UserRolesSection from './UserRolesSection';
 import UserActivitySection from './UserActivitySection';
 import UserClaimsSection from './UserClaimsSection';
 import type { User } from '@/pages/UserManagement';
+import api from '@/api/axios.ts';
 
 interface UserDetailsModalProps {
   isOpen: boolean;
@@ -31,15 +32,18 @@ const UserDetailsModal = ({
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleDeactivateUser = async () => {
-    if (!confirm(`Are you sure you want to deactivate ${user.email}?`)) {
-      return;
-    }
+    // if (!confirm(`Are you sure you want to deactivate ${user.email}?`)) {
+    //   return;
+    // }
 
     setIsUpdating(true);
 
     try {
       // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await api.put('/auth/status', {
+        isActive: false,
+        userUuid: user.id,
+      });
 
       toast({
         title: 'User Deactivated',
@@ -64,8 +68,10 @@ const UserDetailsModal = ({
     setIsUpdating(true);
 
     try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await api.put('/auth/status', {
+        isActive: true,
+        userUuid: user.id,
+      });
 
       toast({
         title: 'User Reactivated',
@@ -88,25 +94,25 @@ const UserDetailsModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[1000px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>User Details</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="profile" className="mt-4">
+        <Tabs defaultValue="roles" className="mt-4">
           <TabsList className="w-full mb-6">
-            <TabsTrigger value="profile" className="flex-1">
-              Profile
-            </TabsTrigger>
+            {/*<TabsTrigger value="profile" className="flex-1">*/}
+            {/*  Profile*/}
+            {/*</TabsTrigger>*/}
             <TabsTrigger value="roles" className="flex-1">
               Roles & Permissions
             </TabsTrigger>
             <TabsTrigger value="claims" className="flex-1">
               Claims
             </TabsTrigger>
-            <TabsTrigger value="activity" className="flex-1">
-              Activity
-            </TabsTrigger>
+            {/*<TabsTrigger value="activity" className="flex-1">*/}
+            {/*  Activity*/}
+            {/*</TabsTrigger>*/}
           </TabsList>
 
           <TabsContent value="profile">

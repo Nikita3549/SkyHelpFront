@@ -46,16 +46,41 @@ const FlightInfoCard = ({ claim }: FlightInfoCardProps) => {
           <span className="text-gray-500">Date:</span>
           <span className="font-medium">{formatFlightDate(claim?.date)}</span>
         </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-500">Departure:</span>
-          <span className="font-medium">
-            {claim?.departureairport || 'N/A'}
-          </span>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-500">Arrival:</span>
-          <span className="font-medium">{claim?.arrivalairport || 'N/A'}</span>
-        </div>
+        {/*<div className="flex justify-between text-sm">*/}
+        {/*  <span className="text-gray-500">Departure:</span>*/}
+        {/*  <span className="font-medium">*/}
+        {/*    {claim?.departureairport || 'N/A'}*/}
+        {/*  </span>*/}
+        {/*</div>*/}
+        {/*<div className="flex justify-between text-sm">*/}
+        {/*  <span className="text-gray-500">Arrival:</span>*/}
+        {/*  <span className="font-medium">{claim?.arrivalairport || 'N/A'}</span>*/}
+        {/*</div>*/}
+      </div>
+      <div className="flex justify-between text-sm mt-1">
+        <span className="text-gray-500">Flights:</span>
+      </div>
+      <div className="flex flex-col">
+        {claim.routes.map((route) => {
+          return (
+            <div className="flex text-sm">
+              <span className="font-medium whitespace-nowrap">
+                {route?.DepartureAirport.name || 'N/A'}(
+                {route?.DepartureAirport.icao})
+              </span>
+              <span className="mx-1">to</span>
+              <span className="font-medium whitespace-nowrap">
+                {route.ArrivalAirport.name || 'N/A'}(
+                {route?.ArrivalAirport.icao})
+              </span>
+              {route.troubled && claim.routes.length > 1 && (
+                <span className="font-medium text-red-600 whitespace-nowrap">
+                  (troubled)
+                </span>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

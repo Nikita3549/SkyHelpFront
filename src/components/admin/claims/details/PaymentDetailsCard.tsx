@@ -7,7 +7,13 @@ type PaymentDetailsCardProps = {
   claim: Claim;
 };
 
+function normalize(str: string): string {
+  if (!str) return str;
+  return str[0].toUpperCase() + str.slice(1).replace('_', ' ');
+}
+
 const PaymentDetailsCard = ({ claim }: PaymentDetailsCardProps) => {
+  console.log(claim?.paymentmethod);
   return (
     <div>
       <h3 className="text-sm font-medium text-gray-500 mb-2 flex items-center">
@@ -18,9 +24,7 @@ const PaymentDetailsCard = ({ claim }: PaymentDetailsCardProps) => {
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Payment Method:</span>
           <span className="font-medium">
-            {(claim?.paymentmethod || 'N/A')
-              .replace('_', ' ')
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
+            {normalize(claim?.paymentmethod) || 'N/A'}
           </span>
         </div>
         <div className="flex flex-col text-sm">

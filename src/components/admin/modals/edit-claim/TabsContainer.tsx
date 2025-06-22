@@ -33,10 +33,10 @@ const TabsContainer = ({
       className="w-full mt-4"
     >
       <TabsList className="grid w-full grid-cols-4">
-        <TabsTrigger value="details">Claim Details</TabsTrigger>
-        <TabsTrigger value="communication">Communication</TabsTrigger>
-        <TabsTrigger value="progress">Progress</TabsTrigger>
-        <TabsTrigger value="documents">Documents</TabsTrigger>
+        {/*<TabsTrigger value="details">Claim Details</TabsTrigger>*/}
+        {/*<TabsTrigger value="communication">Communication</TabsTrigger>*/}
+        {/*<TabsTrigger value="progress">Progress</TabsTrigger>*/}
+        {/*<TabsTrigger value="documents">Documents</TabsTrigger>*/}
       </TabsList>
 
       <TabsContent value="details" className="mt-6">

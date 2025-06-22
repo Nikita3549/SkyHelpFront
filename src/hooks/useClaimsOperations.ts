@@ -29,39 +29,7 @@ export function useClaimsOperations() {
 
   const isLoading = false;
   const error = false;
-  const claimsData: Claim[] = [
-    {
-      id: 'CLM582394',
-      customer: 'John Doe',
-      email: 'john.doe@example.com',
-      airline: 'Lufthansa',
-      flightnumber: 'LH2034',
-      date: '2025-05-14',
-      status: 'in_progress',
-      stage: 'Awaiting airline response',
-      amount: '400',
-      lastupdated: '2025-06-18T14:30:00Z',
-      created_at: '2025-05-15T09:12:00Z',
-      phone: '+491234567890',
-      address: 'Bismarckstraße 10, 60325 Frankfurt, Germany',
-      numberofpassengers: '2',
-      departureairport: 'Frankfurt Airport (FRA)',
-      arrivalairport: 'Barcelona El Prat (BCN)',
-      flightissue: 'Delayed arrival over 3 hours',
-      reasongivenbyairline: 'Operational reasons',
-      additionalinformation:
-        'Flight was initially scheduled at 10:00 but departed at 13:30.',
-      paymentmethod: 'Bank transfer',
-      paymentdetails: {
-        accountName: 'John Doe',
-        iban: 'DE89370400440532013000',
-        bankName: 'Deutsche Bank',
-      },
-      communicationlog:
-        '2025-05-20: Email sent to airline\n2025-06-01: Follow-up call',
-      progressSteps: 'Claim submitted → Under review → Sent to airline',
-    },
-  ];
+  const claimsData: Claim[] = [];
 
   const { handleExportClaims } = useClaimExport();
   const { handleUpdateStatus } = useStatusManagement();

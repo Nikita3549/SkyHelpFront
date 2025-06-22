@@ -4,6 +4,7 @@ import { toast } from '@/components/ui/use-toast';
 import UsersList from '@/components/user-management/UsersList';
 import UserDetailsModal from '@/components/user-management/UserDetailsModal';
 import LoadingSpinner from '@/components/user-management/LoadingSpinner';
+import api from '@/api/axios.ts';
 
 export type User = {
   id: string;
@@ -82,6 +83,23 @@ const mockUsers: User[] = [
   },
 ];
 
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  MODERATOR = 'MODERATOR',
+  CLIENT = 'CLIENT',
+}
+
+interface IBackUserData {
+  id: string;
+  email: string;
+  name: string;
+  secondName: string;
+  role: UserRole;
+  isActive: boolean;
+  lastSign: string;
+  createdAt: string;
+}
+
 const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -97,9 +115,22 @@ const UserManagement = () => {
 
     try {
       // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await api.get<IBackUserData[]>('/user');
 
-      setUsers(mockUsers);
+      const users = res.data.map((u) => ({
+        id: u.id,
+        email: u.email,
+        created_at: u.createdAt,
+        last_sign_in_at: u.lastSign,
+        user_metadata: {
+          name: `${u.name} ${u.secondName}`,
+          avatar_url: null,
+        },
+        role: u.role,
+        status: (u.isActive ? 'ACTIVE' : 'INACTIVE') as 'ACTIVE' | 'INACTIVE',
+      }));
+
+      setUsers(users);
     } catch (err: any) {
       console.error('Error fetching users:', err);
       setError('Failed to fetch users. Please try again later.');

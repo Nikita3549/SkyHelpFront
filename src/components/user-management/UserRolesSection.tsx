@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { Separator } from '@/components/ui/separator';
 import type { User } from '@/pages/UserManagement';
+import api from '@/api/axios.ts';
 
 interface UserRolesSectionProps {
   user: User;
@@ -19,7 +20,7 @@ interface UserRolesSectionProps {
 }
 
 const UserRolesSection = ({ user, onUserUpdate }: UserRolesSectionProps) => {
-  const [selectedRole, setSelectedRole] = useState(user.role || 'user');
+  const [selectedRole, setSelectedRole] = useState(user.role || 'CLIENT');
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleRoleChange = async () => {
@@ -35,7 +36,10 @@ const UserRolesSection = ({ user, onUserUpdate }: UserRolesSectionProps) => {
 
     try {
       // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await api.put('/auth/role', {
+        newRole: selectedRole,
+        userUuid: user.id,
+      });
 
       toast({
         title: 'Role Updated',
@@ -70,12 +74,12 @@ const UserRolesSection = ({ user, onUserUpdate }: UserRolesSectionProps) => {
         <RadioGroup
           value={selectedRole}
           onValueChange={setSelectedRole}
-          className="space-y-4"
+          className="space-y-4 max-w-[650px]"
         >
           <div className="flex items-start space-x-3 border border-gray-200 p-4 rounded-md">
-            <RadioGroupItem value="admin" id="admin" className="mt-1" />
+            <RadioGroupItem value="ADMIN" id="ADMIN" className="mt-1" />
             <div>
-              <Label htmlFor="admin" className="font-semibold">
+              <Label htmlFor="ADMIN" className="font-semibold">
                 Administrator
               </Label>
               <p className="text-sm text-gray-500">
@@ -86,9 +90,9 @@ const UserRolesSection = ({ user, onUserUpdate }: UserRolesSectionProps) => {
           </div>
 
           <div className="flex items-start space-x-3 border border-gray-200 p-4 rounded-md">
-            <RadioGroupItem value="moderator" id="moderator" className="mt-1" />
+            <RadioGroupItem value="MODERATOR" id="MODERATOR" className="mt-1" />
             <div>
-              <Label htmlFor="moderator" className="font-semibold">
+              <Label htmlFor="MODERATOR" className="font-semibold">
                 Moderator
               </Label>
               <p className="text-sm text-gray-500">
@@ -99,10 +103,10 @@ const UserRolesSection = ({ user, onUserUpdate }: UserRolesSectionProps) => {
           </div>
 
           <div className="flex items-start space-x-3 border border-gray-200 p-4 rounded-md">
-            <RadioGroupItem value="user" id="user" className="mt-1" />
+            <RadioGroupItem value="CLIENT" id="CLIENT" className="mt-1" />
             <div>
-              <Label htmlFor="user" className="font-semibold">
-                Standard User
+              <Label htmlFor="CLIENT" className="font-semibold">
+                Standard Client
               </Label>
               <p className="text-sm text-gray-500">
                 Basic access for submitting and managing their own claims.

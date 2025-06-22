@@ -11,53 +11,9 @@ import {
 } from '@/components/ui/collapsible';
 import Timeline from './progress/Timeline';
 import { ClaimStep } from './progress/types';
+import api from '@/api/axios.ts';
 
 export type { ClaimStep };
-
-const DEFAULT_CLAIM_STEPS: ClaimStep[] = [
-  {
-    id: 'step1',
-    title: 'Claim Received',
-    description: 'Claim has been submitted and received',
-    date: null,
-    completed: false,
-  },
-  {
-    id: 'step2',
-    title: 'Documents Verified',
-    description: 'All required documents have been verified',
-    date: null,
-    completed: false,
-  },
-  {
-    id: 'step3',
-    title: 'Airline Contacted',
-    description: 'Airline has been contacted regarding the claim',
-    date: null,
-    completed: false,
-  },
-  {
-    id: 'step4',
-    title: 'Awaiting Response',
-    description: "Waiting for airline's final response",
-    date: null,
-    completed: false,
-  },
-  {
-    id: 'step5',
-    title: 'Compensation Pending',
-    description: 'Compensation has been approved and is pending payment',
-    date: null,
-    completed: false,
-  },
-  {
-    id: 'step6',
-    title: 'Claim Completed',
-    description: 'Compensation has been paid',
-    date: null,
-    completed: false,
-  },
-];
 
 type ClaimProgressManagerProps = {
   claim: Claim;
@@ -66,21 +22,39 @@ type ClaimProgressManagerProps = {
 
 const ClaimProgressManager: React.FC<ClaimProgressManagerProps> = ({
   claim,
-  onUpdateProgress,
 }) => {
   // Initialize steps from claim or use defaults
-  const initialSteps = React.useMemo(() => {
-    try {
-      if (claim.progressSteps) {
-        return JSON.parse(claim.progressSteps as string) as ClaimStep[];
-      }
-    } catch (e) {
-      console.error('Error parsing progress steps', e);
-    }
-    return DEFAULT_CLAIM_STEPS;
-  }, [claim]);
 
-  const [steps, setSteps] = useState<ClaimStep[]>(initialSteps);
+  const progress = (claim as any).progresses.map((p) => ({
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    date: p.endAt,
+    completed: p.status == 'COMPLETED',
+  }));
+  // const initialSteps = React.useMemo(() => {
+  //   try {
+  //     if (claim.progressSteps) {
+  //       return JSON.parse(claim.progressSteps as string) as ClaimStep[];
+  //     }
+  //   } catch (e) {
+  //     console.error('Error parsing progress steps', e);
+  //   }
+  //   return progress;
+  // }, [claim]);
+
+  const onUpdateProgress = async (stepId: string, steps: ClaimStep[]) => {
+    const step = steps.find((s) => s.id == stepId);
+
+    await api.put(`/claims/progress/${stepId}/`, {
+      title: step.title,
+      description: step.description,
+      endAt: step.date,
+      status: step.completed ? 'COMPLETED' : 'IN_PROCESS',
+    });
+  };
+
+  const [steps, setSteps] = useState<ClaimStep[]>(progress);
   const [editingStep, setEditingStep] = useState<string | null>(null);
   const [editingField, setEditingField] = useState<
     'title' | 'description' | null
@@ -95,16 +69,13 @@ const ClaimProgressManager: React.FC<ClaimProgressManagerProps> = ({
         return {
           ...step,
           completed,
-          date:
-            completed && !step.date
-              ? new Date().toISOString().split('T')[0]
-              : step.date,
+          date: new Date().toISOString(),
         };
       }
       return step;
     });
     setSteps(updatedSteps);
-    onUpdateProgress(updatedSteps);
+    onUpdateProgress(stepId, updatedSteps);
   };
 
   const handleEditStep = (step: ClaimStep, field: 'title' | 'description') => {
@@ -130,7 +101,7 @@ const ClaimProgressManager: React.FC<ClaimProgressManagerProps> = ({
     setEditingStep(null);
     setEditingField(null);
     setEditValue('');
-    onUpdateProgress(updatedSteps);
+    onUpdateProgress(editingStep, updatedSteps);
   };
 
   const handleCancelEdit = () => {
@@ -144,13 +115,13 @@ const ClaimProgressManager: React.FC<ClaimProgressManagerProps> = ({
       if (step.id === stepId) {
         return {
           ...step,
-          date: date ? format(date, 'yyyy-MM-dd') : null,
+          date: date.toISOString(),
         };
       }
       return step;
     });
     setSteps(updatedSteps);
-    onUpdateProgress(updatedSteps);
+    onUpdateProgress(stepId, updatedSteps);
   };
 
   return (
