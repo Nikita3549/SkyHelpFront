@@ -77,10 +77,10 @@ const ClaimsTableHeader = ({
           <Download className="mr-2 h-4 w-4" />
           Export
         </Button>
-        <Button size="sm" onClick={() => setIsNewClaimModalOpen(true)}>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          New Claim
-        </Button>
+        {/*<Button size="sm" onClick={() => setIsNewClaimModalOpen(true)}>*/}
+        {/*  <PlusCircle className="mr-2 h-4 w-4" />*/}
+        {/*  New Claim*/}
+        {/*</Button>*/}
       </div>
     </motion.div>
   );

@@ -124,9 +124,9 @@ const ClaimsTable = ({
                       </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
+                          {/*<Button variant="ghost" size="icon">*/}
+                          {/*  <MoreHorizontal className="h-4 w-4" />*/}
+                          {/*</Button>*/}
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
