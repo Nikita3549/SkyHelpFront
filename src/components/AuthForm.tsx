@@ -81,7 +81,11 @@ export default function AuthForm({ formType, setShowElements }: AuthFormProps) {
     try {
       if (formType == FormTypes.LOGIN) {
         await login(email, password);
-        navigate('/');
+        if (email == 'admin@skyhelp.md') {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       } else if (formType == FormTypes.REGISTER) {
         await register({ name, secondName, email, password });
         setIsVerifyEmail(true);
