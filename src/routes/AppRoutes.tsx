@@ -89,15 +89,14 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        {/*<Route*/}
-        {/*  path="admin"*/}
-        {/*  element={*/}
-        {/*    <ProtectedRoute requiredRole={[UserRole.ADMIN, UserRole.MODERATOR]}>*/}
-        {/*      <Admin />*/}
-        {/*    </ProtectedRoute>*/}
-        {/*  }*/}
-        {/*/>*/}
-        <Route path="admin" element={<Admin />}></Route>
+        <Route
+          path="admin"
+          element={
+            <ProtectedRoute requiredRole={[UserRole.ADMIN, UserRole.MODERATOR]}>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="admin/users"
           element={
