@@ -4,15 +4,17 @@ import { useIsMobile } from '@/hooks/use-mobile.tsx';
 function Rate() {
   return (
     <div className="flex flex-col max-md:items-center gap-5">
-      <div className="flex flex-wrap items-center gap-2 font-sans font-bold text-sm leading-[1.5] tracking-[-0.02em] text-black">
-        <p>Excellent</p>
-        <img
-          src="/landing/rate.svg"
-          alt="rate"
-          className="h-[1em] inline-block"
-        />
-        <p className="whitespace-nowrap">2228 reviews on Trustpilot</p>
-      </div>
+      {!useIsMobile() && (
+        <div className="flex flex-wrap items-center gap-2 font-sans font-bold text-sm leading-[1.5] tracking-[-0.02em] text-black">
+          <p>Excellent</p>
+          <img
+            src="/landing/rate.svg"
+            alt="rate"
+            className="h-[1em] inline-block"
+          />
+          <p className="whitespace-nowrap">2228 reviews on Trustpilot</p>
+        </div>
+      )}
 
       <h1 className="font-bold text-6xl max-md:text-4xl leading-[112%] tracking-[0em] max-md:text-center text-black">
         Get up to <span className="text-[#3282f7]">€600</span> for your delayed
