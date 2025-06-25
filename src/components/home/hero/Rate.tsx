@@ -16,7 +16,7 @@ function Rate() {
         </div>
       )}
 
-      <h1 className="font-bold text-6xl max-md:text-4xl leading-[112%] tracking-[0em] max-md:text-center text-black">
+      <h1 className="font-bold text-6xl max-md:text-4xl leading-[112%] tracking-[0em] max-md:text-center text-black max-md:mt-4">
         Get up to <span className="text-[#3282f7]">€600</span> for your delayed
         flight
       </h1>
