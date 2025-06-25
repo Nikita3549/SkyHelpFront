@@ -17,6 +17,7 @@ interface Props {
   placeHolder: string;
   isRounded?: boolean;
   preFilled?: Airport;
+  isColoredBorder?: boolean;
 }
 
 const AirportInput: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const AirportInput: React.FC<Props> = ({
   placeHolder,
   isRounded = false,
   preFilled = null,
+  isColoredBorder = false,
 }) => {
   const [input, setInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -120,7 +122,7 @@ const AirportInput: React.FC<Props> = ({
       </span>
       <Input
         type="text"
-        className={`w-full pl-10 ${isRounded ? 'rounded-[48px]' : ''}`}
+        className={`w-full pl-10 ${isRounded ? 'rounded-[48px]' : ''} ${isColoredBorder ? 'border border-[#3282f7]' : ''}`}
         value={input}
         onChange={handleChange}
         placeholder={placeHolder}

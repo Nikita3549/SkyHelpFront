@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, AlertCircle } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile.tsx';
 
 const Eligibility = () => {
   return (
@@ -35,8 +36,8 @@ const Eligibility = () => {
           compensation if your flight has been:
         </p>
       </div>
-      <div className="w-full h-[364px] max-md:h-auto max-md:py-8 flex justify-between relative z-[11] max-md:flex-col max-md:gap-4">
-        <div className="flex flex-col mt-auto max-md:mt-0 max-md:items-center">
+      <div className="w-full h-[364px] max-md:h-auto max-md:py-8 flex justify-between relative z-[11] max-md:flex-col max-md:gap-8">
+        <div className="flex flex-col mt-auto max-md:mt-0 max-md:max-w-[200px]">
           <img src="/landing/plane.svg" alt="plane" className="w-14 h-14" />
           <p className="mt-6 font-extrabold text-[24px] leading-[100%] tracking-[-0.01em] text-[#3282f7]">
             €250
@@ -48,7 +49,7 @@ const Eligibility = () => {
             Flights up to 1,500 km
           </p>
         </div>
-        <div className="flex flex-col mt-auto mb-auto relative top-[68px] left-8 max-md:top-0 max-md:left-0 max-md:items-center">
+        <div className="flex flex-col mt-auto mb-auto relative top-[68px] left-8 max-md:top-0 max-md:left-0 max-md:mx-auto max-md:max-w-[200px]">
           <img src="/landing/plane-2.svg" alt="plane" className="w-14 h-14" />
           <p className="mt-6 font-extrabold text-[24px] leading-[100%] tracking-[-0.01em] text-[#3282f7]">
             €400
@@ -56,11 +57,11 @@ const Eligibility = () => {
           <h6 className="mt-7 font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
             Medium Distance
           </h6>
-          <p className="mt-4 font-normal text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939] max-md:text-center">
+          <p className="mt-4 font-normal text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
             Flights between 1,500 km and 3,500 km
           </p>
         </div>
-        <div className="flex flex-col relative top-24 max-md:top-0 max-md:items-center">
+        <div className="flex flex-col relative top-24 max-md:top-0 max-md:ml-auto max-md:max-w-[200px]">
           <img src="/landing/plane-3.svg" alt="plane" className="w-14 h-14" />
           <p className="mt-6 font-extrabold text-[24px] leading-[100%] tracking-[-0.01em] text-[#3282f7]">
             €600
@@ -77,75 +78,143 @@ const Eligibility = () => {
         <h1 className="font-bold text-[32px] leading-[150%] tracking-[-0.01em] text-center text-black">
           When Are You Eligible For Compensation?
         </h1>
-        <div className="flex mt-12 justify-between px-4 gap-10">
-          <div className="flex flex-col">
-            <div className="flex align-top">
-              <img
-                src="/landing/tick.svg"
-                alt="tick"
-                className="w-[20px] h-[20px] mt-[2px]"
-              />
-              <div className="ml-2">
+        {useIsMobile() ? (
+          <div className="w-full flex flex-col py-12 gap-8">
+            <div className="flex flex-col align-middle justify-center px-8">
+              <div className="flex justify-center align-middle">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px] mr-1"
+                />
                 <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
                   Delayed by more than 3 hours
                 </p>
-                <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
-                  If you reached your final destination with a delay of more
-                  than 3 hours.
-                </p>
               </div>
+              <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] text-center mt-3 text-[#393939]">
+                If you reached your final destination with a delay of more than
+                3 hours.
+              </p>
             </div>
-            <div className="flex align-top mt-8">
-              <img
-                src="/landing/tick.svg"
-                alt="tick"
-                className="w-[20px] h-[20px] mt-[2px]"
-              />
-              <div className="ml-2">
+            <div className="flex flex-col align-middle justify-center px-8">
+              <div className="flex justify-center align-middle">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px] mr-1"
+                />
                 <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
                   Cancelled without notice
                 </p>
-                <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
-                  If your flight was cancelled less than 14 days before
-                  departure
-                </p>
               </div>
+              <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] text-center mt-3 text-[#393939]">
+                If your flight was cancelled less than 14 days before departure
+              </p>
             </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex align-top">
-              <img
-                src="/landing/tick.svg"
-                alt="tick"
-                className="w-[20px] h-[20px] mt-[2px]"
-              />
-              <div className="ml-2">
+            <div className="flex flex-col align-middle justify-center px-8">
+              <div className="flex justify-center align-middle">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px] mr-1"
+                />
                 <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
                   Denied boarding
                 </p>
-                <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
-                  If you were involuntarily denied boarding due to overbooking.
-                </p>
               </div>
+              <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] text-center mt-3 text-[#393939]">
+                If you were involuntarily denied boarding due to overbooking.
+              </p>
             </div>
-            <div className="flex align-top mt-8">
-              <img
-                src="/landing/tick.svg"
-                alt="tick"
-                className="w-[20px] h-[20px] mt-[2px]"
-              />
-              <div className="ml-2">
+            <div className="flex flex-col align-middle justify-center px-8">
+              <div className="flex justify-center align-middle">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px] mr-1"
+                />
                 <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
                   Missed connection
                 </p>
-                <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
-                  If you missed a connecting flight due to a delay in your first
-                  flight.
-                </p>
+              </div>
+              <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] text-center mt-3 text-[#393939]">
+                If you missed a connecting flight due to a delay in your first
+                flight.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex mt-12 justify-between px-4 gap-10">
+            <div className="flex flex-col">
+              <div className="flex align-top">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px]"
+                />
+                <div className="ml-2">
+                  <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
+                    Delayed by more than 3 hours
+                  </p>
+                  <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
+                    If you reached your final destination with a delay of more
+                    than 3 hours.
+                  </p>
+                </div>
+              </div>
+              <div className="flex align-top mt-8">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px]"
+                />
+                <div className="ml-2">
+                  <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
+                    Cancelled without notice
+                  </p>
+                  <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
+                    If your flight was cancelled less than 14 days before
+                    departure
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="flex align-top">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px]"
+                />
+                <div className="ml-2">
+                  <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
+                    Denied boarding
+                  </p>
+                  <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
+                    If you were involuntarily denied boarding due to
+                    overbooking.
+                  </p>
+                </div>
+              </div>
+              <div className="flex align-top mt-8">
+                <img
+                  src="/landing/tick.svg"
+                  alt="tick"
+                  className="w-[20px] h-[20px] mt-[2px]"
+                />
+                <div className="ml-2">
+                  <p className="font-bold text-[16px] leading-[150%] tracking-[-0.02em] text-[#393939]">
+                    Missed connection
+                  </p>
+                  <p className="font-normal text-[16px] leading-[150%] tracking-[-0.02em] mt-2">
+                    If you missed a connecting flight due to a delay in your
+                    first flight.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <p className="font-normal text-[14px] leading-[171%] tracking-[-0.02em] text-center text-[#393939] mt-12">
           Note: 'Extraordinary circumstances' such as severe weather conditions
           or security risks may exempt airlines from paying compensation.

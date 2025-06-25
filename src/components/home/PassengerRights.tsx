@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile.tsx';
 
 const PassengerRights = () => {
   // Animation variants
@@ -14,6 +15,8 @@ const PassengerRights = () => {
       },
     },
   };
+
+  const isMobile = useIsMobile();
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -62,9 +65,18 @@ const PassengerRights = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
+          {isMobile && (
+            <Shield
+              className="text-primary w-12 h-12 mx-auto mb-4"
+              fill="currentColor"
+              stroke="none"
+            />
+          )}
           <div className="flex items-center justify-center mb-3">
-            <Shield className="text-primary w-8 h-8 mr-2" />
-            <h2 className="text-3xl font-bold">We protect your rights</h2>
+            {!isMobile && <Shield className="text-primary w-8 h-8 mr-2" />}
+            <h2 className="text-3xl font-bold max-md:text-[32px]">
+              We protect your rights
+            </h2>
           </div>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Our expertise covers various international regulations to ensure you

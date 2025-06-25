@@ -8,15 +8,15 @@ interface SocialLinksProps {
 
 const SocialLinks: React.FC<SocialLinksProps> = ({ social }) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-md:flex max-md:flex-col max-md:align-middle max-md:justify-center">
       {/*<Logo size="lg" withLink={false} />*/}
-      <img src={'/footer/logo.png'} className="h-12" />
-      <p className="text-white font-medium text-sm max-w-xs">
+      <img src={'/footer/logo.png'} className="h-12 object-contain" />
+      <p className="text-white font-medium text-sm max-w-xs max-md:text-center max-md:min-w-full">
         Helping air passengers get the <br />
         compensation they deserve when
         <br /> flights are delayed or canceled.
       </p>
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 max-md:justify-center">
         {social.map((item) => (
           <a
             key={item.name}

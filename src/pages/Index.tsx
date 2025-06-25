@@ -11,12 +11,14 @@ import Faq from '@/components/home/Faq';
 import Cta from '@/components/home/Cta';
 import PassengerRights from '@/components/home/PassengerRights';
 import Ticket from '@/components/home/Ticket.tsx';
+import { useIsMobile } from '@/hooks/use-mobile.tsx';
 
 const Index = () => {
   // Create refs for scroll targets
   const howItWorksRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   // Handle hash navigation on load and when location changes
   useEffect(() => {

@@ -125,11 +125,11 @@ const Footer = () => {
       <div className="container-custom m-0 min-w-[100vw] bg-[#00122d] relative">
         <img
           src="/landing/ticket/background-earth.svg"
-          className="absolute left-0 max-h-[538px] min-w-full object-cover z-[10]"
+          className="absolute left-0 max-h-[538px] min-w-full object-cover z-[10] max-md:h-full max-md:object-cover max-md:min-h-full"
           alt="Earth background"
         />
         <div className="py-12 md:py-16 relative z-[11]">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-md:gap-12">
             <SocialLinks social={navigation.social} />
             <NavigationLinks title="Navigation" links={navigation.main} />
             <NavigationLinks title="Company" links={navigation.company} />

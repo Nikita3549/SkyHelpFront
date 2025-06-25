@@ -1,6 +1,13 @@
 /* Add Inter font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
+.gradient-border {
+  border-radius: 32px;
+  background:
+          linear-gradient(#e6f0ff, #e6f0ff) padding-box,
+          linear-gradient(135deg, #7f00ff, #00c6ff) border-box;
+  border: 2px solid transparent;
+  position: relative;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

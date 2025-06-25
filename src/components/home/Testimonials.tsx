@@ -1,6 +1,27 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+
+const reviews = [
+  {
+    name: 'Sophie Martinez',
+    initials: 'SM',
+    avatar: '/lovable-uploads/d64dd295-d77e-402c-9f5e-d9c765ccd0e5.png',
+    text: "The airline cancelled my flight just a day before departure. I submitted my claim with SkyHelp and received €600 compensation without any hassle. I'm very impressed!",
+  },
+  {
+    name: 'James Davis',
+    initials: 'JD',
+    avatar: '/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png',
+    text: 'My flight was delayed by 4 hours due to a technical issue. SkyHelp handled everything and I received €400 compensation within 6 weeks. Excellent service!',
+  },
+  {
+    name: 'Alexander Kruger',
+    initials: 'AK',
+    avatar: '/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png',
+    text: 'I was denied boarding due to overbooking. The airline initially refused my claim, but SkyHelp managed to get me €400 in compensation after appealing. Great persistence!',
+  },
+];
 
 const Testimonials = () => {
   // Animation variants for staggered animations
@@ -15,6 +36,27 @@ const Testimonials = () => {
     },
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollToIndex = (index: number) => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const child = container.children[index] as HTMLElement;
+    if (child) {
+      container.scrollTo({ left: child.offsetLeft, behavior: 'smooth' });
+      setActiveIndex(index);
+    }
+  };
+
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+    const scrollLeft = containerRef.current.scrollLeft;
+    const width = containerRef.current.offsetWidth;
+    const newIndex = Math.round(scrollLeft / width);
+    setActiveIndex(newIndex);
+  };
+
   const item = {
     hidden: { y: 20, opacity: 0 },
     show: {
@@ -25,7 +67,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-20 px-20 bg-white">
+    <section className="py-20 px-20 max-md:px-4 bg-white">
       <div className="container-custom">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.h2
@@ -60,216 +102,55 @@ const Testimonials = () => {
             </h6>
           </div>
         </div>
-
-        {/*  <motion.div*/}
-        {/*    initial="hidden"*/}
-        {/*    whileInView="show"*/}
-        {/*    viewport={{ once: true }}*/}
-        {/*    variants={container}*/}
-        {/*    className="grid grid-cols-1 md:grid-cols-3 gap-8"*/}
-        {/*  >*/}
-        {/*    <motion.div*/}
-        {/*      variants={item}*/}
-        {/*      className="glass rounded-xl p-6 shadow-lg"*/}
-        {/*    >*/}
-        {/*      <div className="flex items-center mb-4">*/}
-        {/*        <Avatar className="h-12 w-12 border-2 border-primary/10">*/}
-        {/*          <AvatarImage*/}
-        {/*            src="/lovable-uploads/d64dd295-d77e-402c-9f5e-d9c765ccd0e5.png"*/}
-        {/*            alt="Sophie Martinez"*/}
-        {/*          />*/}
-        {/*          <AvatarFallback className="bg-blue-100 text-primary font-medium">*/}
-        {/*            SM*/}
-        {/*          </AvatarFallback>*/}
-        {/*        </Avatar>*/}
-        {/*        <div className="ml-3">*/}
-        {/*          <h4 className="font-medium">Sophie Martinez</h4>*/}
-        {/*          <p className="text-sm text-gray-500">Berlin to Madrid</p>*/}
-        {/*        </div>*/}
-        {/*      </div>*/}
-        {/*      <p className="text-gray-600">*/}
-        {/*        "The airline cancelled my flight just a day before departure. I*/}
-        {/*        submitted my claim with SkyHelp and received €600 compensation*/}
-        {/*        without any hassle. I'm very impressed!"*/}
-        {/*      </p>*/}
-        {/*      <div className="mt-4 flex text-primary">*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*      </div>*/}
-        {/*    </motion.div>*/}
-
-        {/*    <motion.div*/}
-        {/*      variants={item}*/}
-        {/*      className="glass rounded-xl p-6 shadow-lg"*/}
-        {/*    >*/}
-        {/*      <div className="flex items-center mb-4">*/}
-        {/*        <Avatar className="h-12 w-12 border-2 border-primary/10">*/}
-        {/*          <AvatarImage*/}
-        {/*            src="/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png"*/}
-        {/*            alt="James Davis"*/}
-        {/*          />*/}
-        {/*          <AvatarFallback className="bg-blue-100 text-primary font-medium">*/}
-        {/*            JD*/}
-        {/*          </AvatarFallback>*/}
-        {/*        </Avatar>*/}
-        {/*        <div className="ml-3">*/}
-        {/*          <h4 className="font-medium">James Davis</h4>*/}
-        {/*          <p className="text-sm text-gray-500">London to Rome</p>*/}
-        {/*        </div>*/}
-        {/*      </div>*/}
-        {/*      <p className="text-gray-600">*/}
-        {/*        "My flight was delayed by 4 hours due to a technical issue.*/}
-        {/*        SkyHelp handled everything and I received €400 compensation within*/}
-        {/*        6 weeks. Excellent service!"*/}
-        {/*      </p>*/}
-        {/*      <div className="mt-4 flex text-primary">*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*      </div>*/}
-        {/*    </motion.div>*/}
-
-        {/*    <motion.div*/}
-        {/*      variants={item}*/}
-        {/*      className="glass rounded-xl p-6 shadow-lg"*/}
-        {/*    >*/}
-        {/*      <div className="flex items-center mb-4">*/}
-        {/*        <Avatar className="h-12 w-12 border-2 border-primary/10">*/}
-        {/*          <AvatarImage*/}
-        {/*            src="/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png"*/}
-        {/*            alt="Alexander Kruger"*/}
-        {/*          />*/}
-        {/*          <AvatarFallback className="bg-blue-100 text-primary font-medium">*/}
-        {/*            AK*/}
-        {/*          </AvatarFallback>*/}
-        {/*        </Avatar>*/}
-        {/*        <div className="ml-3">*/}
-        {/*          <h4 className="font-medium">Alexander Kruger</h4>*/}
-        {/*          <p className="text-sm text-gray-500">Paris to Stockholm</p>*/}
-        {/*        </div>*/}
-        {/*      </div>*/}
-        {/*      <p className="text-gray-600">*/}
-        {/*        "I was denied boarding due to overbooking. The airline initially*/}
-        {/*        refused my claim, but SkyHelp managed to get me €400 in*/}
-        {/*        compensation after appealing. Great persistence!"*/}
-        {/*      </p>*/}
-        {/*      <div className="mt-4 flex text-primary">*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">*/}
-        {/*          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />*/}
-        {/*        </svg>*/}
-        {/*      </div>*/}
-        {/*    </motion.div>*/}
-        {/*  </motion.div>*/}
       </div>
-      <div className="flex justify-between max-md:flex-col">
-        <div className="w-1/4 flex flex-col items-center gap-2 justify-center max-md:w-full max-md:mb-8">
-          <Avatar className="h-16 w-16 border-2 border-primary/10">
-            <AvatarImage
-              src="/lovable-uploads/d64dd295-d77e-402c-9f5e-d9c765ccd0e5.png"
-              alt="Sophie Martinez"
-            />
-            <AvatarFallback className="bg-blue-100 text-primary font-medium">
-              SM
-            </AvatarFallback>
-          </Avatar>
-          <h4 className="font-extrabold text-[16px] leading-[150%] tracking-[-0.02em] text-center text-black">
-            Sophie Martinez
-          </h4>
-          <img
-            alt="rate"
-            src="/landing/rate.svg"
-            className="w-[126px] h-[24px]"
-          />
-          <p className="font-normal text-[14px] leading-[171%] tracking-[-0.02em] text-center text-black">
-            "The airline cancelled my flight just a day before departure. I
-            submitted my claim with SkyHelp and received €600 compensation
-            without any hassle. I'm very impressed!"
-          </p>
+      <div>
+        <div
+          ref={containerRef}
+          onScroll={handleScroll}
+          className="flex justify-between max-md:overflow-x-auto max-md:flex-nowrap max-md:gap-4 max-md:px-4 max-md:-mx-4 max-md:pb-4 max-md:scroll-smooth max-md:snap-x max-md:snap-mandatory"
+        >
+          {reviews.map((review, i) => (
+            <div
+              key={i}
+              className="w-1/4 flex-shrink-0 flex flex-col items-center gap-2 justify-center max-md:w-full max-md:min-w-full max-md:snap-center"
+            >
+              <div className="h-16 w-16 border-2 border-primary/10 rounded-full overflow-hidden bg-blue-100 flex items-center justify-center text-primary font-medium text-xl">
+                {review.avatar ? (
+                  <img
+                    src={review.avatar}
+                    alt={review.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  review.initials
+                )}
+              </div>
+              <h4 className="font-extrabold text-[16px] leading-[150%] tracking-[-0.02em] text-center text-black">
+                {review.name}
+              </h4>
+              <img
+                alt="rate"
+                src="/landing/rate.svg"
+                className="w-[126px] h-[24px]"
+              />
+              <p className="font-normal text-[14px] leading-[171%] tracking-[-0.02em] text-center text-black px-2">
+                “{review.text}”
+              </p>
+            </div>
+          ))}
         </div>
-        <div className="w-1/4 flex flex-col items-center gap-2 justify-center max-md:w-full max-md:mb-8">
-          <Avatar className="h-16 w-16 border-2 border-primary/10">
-            <AvatarImage
-              src="/lovable-uploads/8dc3d82b-1ecd-4560-83cf-8abbcc702f88.png"
-              alt="James Davis"
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center gap-2 mt-4 md:hidden">
+          {reviews.map((_, i) => (
+            <button
+              key={i}
+              className={`w-3 h-3 rounded-full ${
+                activeIndex === i ? 'bg-blue-600' : 'border border-blue-600'
+              }`}
+              onClick={() => scrollToIndex(i)}
             />
-            <AvatarFallback className="bg-blue-100 text-primary font-medium">
-              JD
-            </AvatarFallback>
-          </Avatar>
-          <h4 className="font-extrabold text-[16px] leading-[150%] tracking-[-0.02em] text-center text-black">
-            James Davis
-          </h4>
-          <img
-            alt="rate"
-            src="/landing/rate.svg"
-            className="w-[126px] h-[24px]"
-          />
-          <p className="font-normal text-[14px] leading-[171%] tracking-[-0.02em] text-center text-black">
-            "My flight was delayed by 4 hours due to a technical issue. SkyHelp
-            handled everything and I received €400 compensation within 6 weeks.
-            Excellent service!"
-          </p>
-        </div>
-        <div className="w-1/4 flex flex-col items-center gap-2 justify-center max-md:w-full max-md:mb-8">
-          <Avatar className="h-16 w-16 border-2 border-primary/10">
-            <AvatarImage
-              src="/lovable-uploads/bf73855a-db1a-427a-a4ec-334b6150eb21.png"
-              alt="Alexander Kruger"
-            />
-            <AvatarFallback className="bg-blue-100 text-primary font-medium">
-              AK
-            </AvatarFallback>
-          </Avatar>
-          <h4 className="font-extrabold text-[16px] leading-[150%] tracking-[-0.02em] text-center text-black">
-            Alexander Kruger
-          </h4>
-          <img
-            alt="rate"
-            src="/landing/rate.svg"
-            className="w-[126px] h-[24px]"
-          />
-          <p className="font-normal text-[14px] leading-[171%] tracking-[-0.02em] text-center text-black">
-            "I was denied boarding due to overbooking. The airline initially
-            refused my claim, but SkyHelp managed to get me €400 in compensation
-            after appealing. Great persistence!"
-          </p>
+          ))}
         </div>
       </div>
     </section>

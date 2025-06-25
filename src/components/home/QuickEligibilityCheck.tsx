@@ -36,10 +36,10 @@ const QuickEligibilityCheck = () => {
       <div className="container-custom flex justify-center">
         <div className="max-w-4xl mx-auto">
           <div className="text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 max-md:text-[32px] max-md:leading-[150%]">
               Check Your Compensation Eligibility
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 max-md:mt-8">
               Enter your flight details below to quickly check if you're
               eligible for compensation
             </p>
@@ -88,7 +88,7 @@ const QuickEligibilityCheck = () => {
               </Button>
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="mt-4 flex items-center justify-center gap-2 max-md:mt-16">
               <span className="text-gray-500">or</span>
               <Button
                 type="button"

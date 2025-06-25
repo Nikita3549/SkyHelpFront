@@ -3,20 +3,45 @@ import { Plane } from 'lucide-react';
 import HeroTitle from './hero/HeroTitle';
 import HeroForm from './hero/HeroForm';
 import Texts from '@/components/home/hero/Rate.tsx';
+import { useIsMobile } from '@/hooks/use-mobile.tsx';
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gradient-to-br from-white to-blue-50 px-4 md:px-8 lg:px-20 z-[1] max-md:top-[-50px]">
-      <img
-        src="/landing/background-earth.svg"
-        className="absolute top-20 left-0 min-h-full max-w-full object-cover z-[10]"
-        alt="Earth background"
-      />
+      {useIsMobile() ? (
+        <img
+          alt="back"
+          src="/landing/mobile/background.svg"
+          className="absolute top-20 left-0 min-h-full max-w-full object-cover z-[10]"
+        />
+      ) : (
+        <img
+          src="/landing/background-earth.svg"
+          className="absolute top-20 left-0 min-h-full max-w-full object-cover z-[10]"
+          alt="Earth background"
+        />
+      )}
 
       <div className="flex justify-between flex-row z-[100] max-md:w-full">
         <div className="w-[50%] h-[586px] min-w-[450px] max-md:w-full max-md:min-w-full max-md:h-full max-md:mr-0 mr-5 flex gap-8 flex-col">
           <Texts />
           <HeroForm />
+          {useIsMobile() && (
+            <div className="flex justify-center align-middle max-md:flex-col gap-3.5 mt-4">
+              <div className="h-6 flex gap-2 justify-center">
+                <img src="/landing/tick.svg" alt="tick" />
+                <p className="font-normal text-[16px] leading-[150%] text-black">
+                  Claim old flights up to 3 years
+                </p>
+              </div>
+              <div className="h-6 flex gap-2 justify-center">
+                <img src="/landing/tick.svg" alt="tick" />
+                <p className="font-normal text-[16px] leading-[150%] text-black">
+                  Quick and free eligibility check
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="hidden md:block w-1/3 h-[650px] border-[8px] border-[#e5e5e5] rounded-full overflow-hidden box-border relative top-[-50px]">

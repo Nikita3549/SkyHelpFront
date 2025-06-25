@@ -14,12 +14,12 @@ interface NavigationLinksProps {
 const NavigationLinks: React.FC<NavigationLinksProps> = ({ title, links }) => {
   return (
     <div>
-      <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
+      <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 max-md:text-center">
         {title}
       </h3>
-      <ul className="space-y-3">
+      <ul className="space-y-3 max-md:flex max-md:flex-col max-md:align-middle max-md:justify-center">
         {links.map((item) => (
-          <li key={item.name}>
+          <li key={item.name} className="max-md:text-center">
             {item.href.startsWith('/') || item.href.includes('affiliate') ? (
               <Link
                 to={item.href}
