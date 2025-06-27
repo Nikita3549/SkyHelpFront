@@ -13,7 +13,7 @@ export function Forgot() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="relative w-full max-w-md max-md:max-w-full ml-7 mr-7"
+        className="relative w-full max-w-md max-md:max-w-full ml-7 mr-7 mb-40"
       >
         <div className="glass rounded-2xl p-6 w-full md:p-8 shadow-xl">
           <div className="flex w-full flex-col space-y-5">

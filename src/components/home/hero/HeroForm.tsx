@@ -31,7 +31,7 @@ const HeroForm = () => {
     //   transition={{ duration: 0.6, delay: 0.2 }}
     //   className="relative"
     // >
-    <div className="relative overflow-hidden rounded-2xl w-full">
+    <div className="relative max-md:overflow-hidden rounded-2xl w-full">
       <div
         className={`glass rounded-2xl p-6 h-56 max-md:h-auto max-md:max-w-full w-full md:p-8 shadow-xl max-md:bg-[#e6f0ff] max-md:shadow-[0_4px_10px_0_rgba(0,0,0,0.05)] ${useIsMobile() ? 'gradient-border relative' : ''}`}
       >
